@@ -1,0 +1,495 @@
+\documentclass[11pt]{SRJresearch}
+\author{Seth R.~Johnson}
+\date{\today}
+\title{Thermal radiative transport: basic stuff}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Thermal radiative transport equations}
+
+\subsection{Full, multi-D}
+The thermal radiative transport (TRT) equations consist of two coupled partial
+differential equations.
+\begin{subequations} \label{eqs:fullTRT}
+The first describes the behavior of the radiation field, where photons stream,
+are absorbed, and are emitted by the material or an extraneous source:
+\begin{equation} \label{eq:fullTransport}
+  \frac{1}{c} \pder{}{t} I + \vec{\Omega} \vd \del I +\sigma I
+  = \sigma B + \frac{Q}{4\pi} \,.
+\end{equation}
+The second equation describes an energy balance in the material, where energy
+is gained by absorption of radiation and is lost by thermal emission into the
+radiation field:
+\begin{equation} \label{eq:fullMaterial}
+  \pder{U_m}{t} = \int_{0}^{\infty}  \int_{4\pi} \sigma\left[ I -
+  B \right] \! \ud \Omega\ud \nu \,.
+\end{equation}
+\end{subequations}
+The unknowns $I$ and $T$ require appropriate initial conditions, and $I$ needs
+boundary conditions for all $t$.
+
+The material energy $U_m$ is related to the unknown temperature $T$ by the
+specific heat capacity:
+\begin{equation} \label{eq:heatCapacity}
+  U_m(T) = \int_{0}^{T} c_v(T') \ud T'\,.
+\end{equation}
+(If $c_v$ is a constant, then $U_m(T) = c_v T$; otherwise,
+Eq.~\eqref{eq:heatCapacity} adds another source of nonlinearity to an already
+strongly nonlinear problem.)
+
+The notation and omitted parameters in Eqs.~\eqref{eqs:fullTRT} are:
+\begin{alignat*}{2}
+  I &= I(\vec{x}, \vec{\Omega}, \nu, t) &&= \text{the angle-dependent
+  radiation intensity,}
+  \\
+  \sigma &= \sigma(\vec{x}, \nu, T) &&= \text{the absorption opacity,} 
+  \\
+  Q &= Q(\vec{x}, \nu) &&= \text{an extraneous isotropic source with units
+  [energy]/([length]$^3$-[time]),}
+  \\
+  B &= B(\nu, T) &&= \text{the Planck function,}
+  \\
+  U_m &= U_m(\vec{x}, T) &&= \text{the material energy density,}
+  \\
+  c_v &= c_v(\vec{x}, T) &&= \text{the specific heat capacity of a material,}
+  \\
+  T &= T(\vec{x}, t) &&= \text{the temperature of the material, and}
+  \\
+  c& &&= \text{the speed of light.}
+\end{alignat*}
+Often in the Monte Carlo community, the Planck function $B$ is decomposed into
+an emissive intensity and a normalized, frequency-dependent shape function:
+\begin{equation*}
+  B(\nu, T) \equiv a c T^4 \frac{b}{4\pi}
+\end{equation*}
+where $\int_{0}^{\infty} b(\nu,T) \ud \nu=1$ for any $T$, and $a$ is the
+Stefan--Boltzmann radiation constant.
+
+If we define the Planck-weighted averaged opacity
+\begin{equation} \label{eq:planckCrossSection}
+  \sigma_P(T) = \frac{\int_{0}^{\infty} \sigma(\nu, T) B(\nu,T) \ud
+  \nu}{\int_{0}^{\infty}B(\nu, T) \ud T}
+  = \int_{0}^{\infty} \sigma(\nu, T) b(\nu, T) \ud \nu
+\end{equation}
+then Eq.~\eqref{eq:fullMaterial} can be rewritten
+\begin{equation} \label{eq:fullMaterialSimplified}
+  \pder{U_m}{t} = \int_{0}^{\infty} \sigma  \int_{4\pi} I \ud \Omega\ud \nu -
+  \sigma_P ac T^4 \,.
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Intensity}
+The intensity is a scalar quantity in a seven-dimensional phase space:
+\begin{equation*}
+  I(\vec{x}, \vec{\Omega}, \nu, t)= [h \nu] \psi(\vec{x}, \vec{\Omega}, \nu, t)
+  = [h\nu] [c\, n(\vec{x}, \vec{\Omega}, \nu, t)]
+\end{equation*}
+where $h \nu$ is the quantum of energy in a photon with frequency
+$\nu$, $\psi(\vec{x}, \vec{\Omega}, \nu, t)$ is (in neutron transport
+terminology) the angular flux, and
+\begin{equation*}
+  n(\vec{x}, \vec{\Omega}, \nu, t) \ud V \ud \Omega \ud \nu
+  = \topbox{the number of photons 
+  in the differential volume $\ud V$ about $\vec{x}$,
+  traveling in directions $\ud \Omega$ about $\vec{\Omega}$,
+  with frequencies inside $\ud \nu$ about $\nu$,
+ % in $(\ud V, \ud \Omega, \ud \nu)$
+ % about $(\vec{x}, \vec{\Omega}, \nu)$
+ at time $t$.}
+\end{equation*}
+The units of the photon density $n$ and the intensity $I$ are
+\begin{align*}
+  n &:
+  \frac{\text{[\#]}}{[\text{length}]^3 [\text{solid angle}] [\text{freqency}]}
+  &
+  I &:
+  \frac{\text{[energy][length]/[time]}}{[\text{length}]^3 [\text{solid
+  angle}] [\text{freqency}]} \,.
+\end{align*}
+
+The time-dependent radiation energy---the amount of energy
+in the radiation per unit volume---is the scalar quantity (with units
+[energy]/[length]$^3$)
+\begin{subequations} \label{eqs:fancyMoments}
+\begin{equation} \label{eq:energyDensity}
+  \RadEn(\vec{x}, t) = \frac{1}{c} \int_{0}^{\infty} \int_{4\pi} I(\vec{x},
+  \vec{\Omega}, \nu, t) \ud \Omega \ud \nu \,.
+\end{equation}
+The energy flux (which, in neutron transport lingo, is known as the
+``current'', and is not the scalar flux) is the vector quantity
+\begin{equation} \label{eq:energyFlux}
+  \vec{F}(\vec{x}, t) = \int_{0}^{\infty}  \int_{4\pi}  \vec{\Omega}\, I(\vec{x},
+  \vec{\Omega}, \nu, t) \ud \Omega \ud \nu \,.
+\end{equation}
+\end{subequations}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Conservation of energy}
+The zeroth moment of the transport equation describes the conservation of
+energy in the radiation field. Operating on Eq.~\eqref{eq:fullTransport} by
+$\int_{0}^{\infty} \int_{4\pi} (\cdot) \ud \Omega \ud \nu$,
+\begin{equation*}
+  \frac{1}{c}\pder{}{t} \int_{0}^{\infty} \int_{4\pi}  I \ud \nu
+  + \del \vd \int_{0}^{\infty} \int_{4\pi} \vec{\Omega}  I \ud \Omega \ud \nu
+  + \int_{0}^{\infty} \sigma \int_{4\pi} I \ud \Omega \ud \nu
+  = a c T^4 \int_{0}^{\infty} \sigma b \ud \nu + \int_{0}^{\infty} Q \ud \nu
+\end{equation*}
+Substituting Eqs.~\eqref{eqs:fancyMoments}, and the Planck-averaged opacity,
+this is:
+\begin{equation}\label{eq:fullConservation}
+  \pder{}{t}\RadEn(\vec{x}, t)
+  + \del \vd \vec{F}(\vec{x}, t)
+  + \int_{0}^{\infty} \sigma \int_{4\pi} I \ud \Omega \ud \nu
+  = \sigma_P a c T^4  + \int_{0}^{\infty} Q \ud \nu \,.
+\end{equation}
+Rearranging this is merely a balance equation:
+\begin{align*}
+  \left[ \pder{}{t}\RadEn(\vec{x}, t) \right]
+  &= 
+  - \left[ \del \vd \vec{F}(\vec{x}, t) \right]
+  - \left[ \int_{0}^{\infty} \sigma \int_{4\pi} I \ud \Omega \ud \nu \right]
+  + \left[ \sigma_P a c T^4 \right]
+  + \left[ \int_{0}^{\infty} Q \ud \nu \right]
+  \\
+  \left[\parbox[c]{12em}{\raggedleft Time rate of change in
+  radiation energy} \right]
+  &= {}-{}[\text{Net outleakage rate}]- [\text{Absorption rate}]
+  \\
+  &\hphantom{ {}={}} + [\text{Emission rate from material}]
+  \\
+  &\hphantom{ {}={}} + [\text{Emission rate from extraneous source}] \,.
+\end{align*}
+
+If we add this balance equation to the material energy balance equation
+Eq.~\eqref{eq:fullMaterialSimplified}, the material absorption and emission
+terms cancel,
+\begin{equation*}
+  \pder{}{t} \left[ U_m(\vec{x}, t) + \RadEn(\vec{x}, t)  \right]
+  = - \left[ \del \vd \vec{F}(\vec{x}, t) \right]
++ \left[ \int_{0}^{\infty} Q (\vec{x}, t) \ud \nu \right] 
+\end{equation*} 
+The only way for energy to enter or leave a differential volume is to cross the
+boundary or to be born from an extraneous source.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Material energy}
+The material energy density represents how much heat a material has stored.
+Absorption increases the value, and emission decreases it: see
+Eq.~\eqref{eq:fullMaterialSimplified}. For a given material, is strictly a
+function of temperature (which, of course, is a function of time and space)
+determined by an intrinsic quantity known as the specific heat capacity:
+\begin{subequations} \label{eqs:materialU}
+\begin{equation} \label{eq:matEnergyDens}
+  U_m(T) = \int_{0}^{T} c_v(T') \ud T' \,.
+\end{equation}
+The specific heat capacity $c_v(T)$ is the amount of energy per unit
+volume needed to change the material's temperature.
+
+The ``equilibrium radiation energy density'' of any material at a certain
+temperature is 
+\begin{equation} \label{eq:radEnergyDens}
+  U_r(T) = aT^4 = \frac{1}{c} \int_{4\pi} \int_{0}^{\infty}B(\nu, T) \ud
+  \nu \ud \Omega \,,
+\end{equation}
+and $U_r = \RadEn$ in a steady-state infinite homogeneous medium (where $I =
+B$).
+\end{subequations}
+It is important to note that, although $U_r$'s name may seem to imply that it
+is related to the radiation field in any given problem, $U_r$ is strictly a
+property of the material's temperature. In fact, it is essentially a shorthand
+for the $T^4$ source term.
+
+The quantity $U_r$ and its name are best explained by considering
+an infinite, homogeneous, steady-state problem without external sources.
+In this situation, the transport equation Eq.~\eqref{eq:fullTransport}
+simplifies to
+\begin{align*}
+  0 + 0 +\sigma I( \vec{\Omega}, \nu, t) &= \sigma a c T^4 \frac{b(\nu)}{4\pi} + 0 \,.
+  \\ 
+  \intertext{Dividing by $\sigma c$ and integrating over all frequencies and
+  angles, we can substitute Eq.~\eqref{eq:energyDensity}:}
+  \frac{1}{c} \int_{0}^{\infty} \int_{4\pi} I( \vec{\Omega}, \nu, t) \ud \Omega \ud \nu
+  &=  a T^4 \int_{4\pi} \frac{1}{4\pi} \ud \Omega\int_{0}^{\infty} b(\nu) \ud \nu
+  \\
+\RadEn &=  U_r \,.
+\end{align*}
+Thus, at a steady-state equilibrium, the energy density of the radiation
+$\RadEn$ is identically equal to the material's equilibrium radiation
+energy density $U_r$.
+
+Often, because the material energy equation
+Eq.~\eqref{eq:fullMaterialSimplified} contains the derivative of material
+energy rather than temperature, a parameter $\beta$ is defined as a function
+of Eqs.~\eqref{eqs:materialU}:
+\begin{equation} \label{eq:beta}
+  \beta(T) = \pder{U_r}{U_m} 
+  = \pder{U_r}{T} \Bigg/ \pder{U_m}{T}
+  = \frac{4 a T^3}{c_v(T)} \,.
+\end{equation}
+The time rate of change in the material energy is, by the chain rule,
+\begin{equation*}
+  \pder{U_m}{t} = \pder{U_m}{U_r} \pder{U_r}{t}
+  = \frac{1}{ \beta(T)}\left[ a \pder{}{t} T^4 \right] \,.
+\end{equation*}
+Then, the material energy equation, Eq.~\eqref{eq:fullMaterialSimplified}, can
+be written just as a function of temperature:
+\begin{equation} \label{eq:betaMaterial}
+  \frac{1}{\beta(T)}  \pder{}{t}\left[ a T^4 \right]
+  = \int_{0}^{\infty} \sigma  \int_{4\pi} I \ud \Omega\ud \nu -
+  \sigma_P ac T^4 \,.
+\end{equation}
+The functional dependence of $c_v(T)$ for a material is always known, so
+$\beta(T)$ is always known. However, because $T = T(\vec{x},t)$ is a
+time-dependent variable, this material energy equation is
+nonlinear%
+\footnote{Eq.~\eqref{eq:betaMaterial} can actually be linear for a
+contrived scenario \cite{Pom1979,Su1997}. When $c_v(T)$ is proportional to
+$T^3$, then $\beta$ becomes a constant, and (if $\sigma$ is independent of
+temperature) the TRT equations become linear in $T^4$.
+}.
+
+The material energy's change as a function can also be explicitly written as a
+function of temperature by using the chain rule:
+\begin{equation*}
+  \pder{U_m}{t} = \pder{U_m}{T} \pder{T}{t}
+  = c_v(T) \pder{T}{t}
+\end{equation*}
+so Eq.~\eqref{eq:fullMaterialSimplified} can be written in yet another way, 
+\begin{equation} \label{eq:cvdTdtMaterial}
+  c_v(T) \pder{T}{t}
+  = \int_{0}^{\infty} \sigma  \int_{4\pi} I \ud \Omega\ud \nu -
+  \sigma_P ac T^4 \,.
+\end{equation}
+
+%\subsection{Heat capacity models}<++>
+%Saha heat capacity model:
+%\begin{gather*}
+%    c_v(T) = 1 + \alpha (T + 0.3) \frac{\partial \alpha}{\partial T}
+%    \\
+%    \alpha = \tfrac12 e^{-0.3/T} \left( \sqrt{1+4 e^{0.3/T}} - 1 \right) 
+%    \f]    
+%\\
+%\frac{\partial \alpha}{\partial T} = \frac{0.3}{T^2} \left( \alpha -
+%\frac{1}{\sqrt{1+4e^{0.3/T}}} \right)
+%\end{gather*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Simplifications}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Planar geometry}
+If all the material properties are dependent only on a single Cartesian
+dimension $x$, then the intensity
+and temperature distributions will also depend only on $x$. The intensity will
+also be independent of the azimuthal direction $\omega$ and will thus be a
+function only of the cosine to the $x$ axis, $\mu \in [-1,1]$. Then, we define
+the ``slab geometry'' intensity to be the full, three-dimensional intensity
+integrated over the unimportant azimuthal variable:
+\begin{equation*}
+  I(x, \mu, \nu, t) = \int_{0}^{2\pi} I(\vec{x}, \vec{\Omega}, \nu, t) \ud
+  \omega = 2\pi I(\vec{x}, \vec{\Omega}, \nu, t) \,.
+\end{equation*}
+Then, also operating on Eq.~\eqref{eq:fullTransport} by $\int_{0}^{2\pi}
+(\cdot)  \ud \omega$, the planar-geometry, frequency-dependent transport
+equation becomes
+\begin{subequations} \label{eqs:freqonedTRT}
+\begin{equation} \label{eq:freqonedTransport}
+  \frac{1}{c} \pder{}{t} I + \mu\pder{}{x} I +\sigma I
+  = \sigma a c T^4 \frac{b}{2} + \frac{Q}{2}
+\end{equation}
+where $I=I(x, \mu, \nu, t)$ is the new, one-dimensional intensity. The material
+energy equation, Eq.~\eqref{eq:fullMaterialSimplified}, is then (with the new,
+one-dimensional intensity) just
+\begin{equation} \label{eq:freqonedMaterial}
+  \pder{U_m}{t} = \int_{0}^{\infty} \sigma  \int_{-1}^{1} I \ud \mu \ud \nu -
+  \sigma_P ac T^4 
+\end{equation}
+\end{subequations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Gray}
+The gray, frequency-independent TRT equations are derived by integrating the
+transport equation Eq.~\eqref{eq:fullTransport} over all frequency:
+\begin{equation*}
+  \frac{1}{c} \pder{}{t} \int_{0}^{\infty} I \ud \nu
+  + \vec{\Omega} \vd \del \int_{0}^{\infty}  I \ud \nu +
+  \int_{0}^{\infty} \sigma I \ud \nu
+  = \frac{a c T^4}{4\pi} \int_{0}^{\infty}  \sigma b  \ud \nu
+  + \frac{1}{4\pi} \int_{0}^{\infty} Q \ud \nu
+\end{equation*}
+Using the definition of the Planck-averaged opacity, letting the
+frequency-integrated intensity be
+\begin{equation*}
+  \hat I(\vec{x}, \vec{\Omega}, t) = \int_{0}^{\infty}  I(\vec{x},
+  \vec{\Omega}, \nu, t) \ud \nu \,,
+\end{equation*}
+%defining a frequency-averaged opacity \marginpar{Is this right? Do we have to
+%integrate over angles?}
+%\begin{equation*}
+%  \hat \sigma = \frac{\int_{0}^{\infty} \sigma I \ud
+%  \nu}{\int_{0}^{\infty} I \ud \nu} =  \frac{\int_{0}^{\infty} \sigma I \ud
+%  \nu}{\hat I} \,,
+%\end{equation*}
+and using the frequency-integrated source $\hat Q$, the transport
+equation becomes
+\begin{equation} \label{eq:fullGrayTransport}
+  \frac{1}{c} \pder{}{t} \hat I
+  + \vec{\Omega} \vd \del \hat I +
+ \int_{0}^{\infty} \sigma I \ud \nu
+  = \sigma_P \frac{a c T^4}{4\pi} 
+  + \frac{\hat Q}{4\pi} \,.
+\end{equation}
+
+The angle-dependent quantity $\int_{0}^{\infty} \sigma I \ud \nu$ cannot be
+known without an exact solution to the full transport equation (i.e.,
+knowledge of the full, frequency-dependent intensity). The ubiquitous closure
+is to
+assume a frequency-independent $\hat \sigma$, which is usually based on some
+\emph{a priori} approximation to the intensity used to calculate a weighted
+integral of $\sigma(\nu)$. (In an emission-dominated problem, it is appropriate
+to assume that the intensity will be Planckian, which gives $\hat \sigma
+\approx \sigma_P$; in a diffusive problem, the Rosseland-averaged opacity $\hat
+\sigma \approx \sigma_R$ is better).
+
+The gray transport equation is then
+\begin{equation} \label{eq:fullGrayTransport}
+  \frac{1}{c} \pder{}{t} \hat I
+  + \vec{\Omega} \vd \del \hat I +
+ \hat \sigma \hat I
+  = \frac{a c T^4}{4\pi} 
+  + \frac{\hat Q}{4\pi} \,.
+\end{equation}
+
+TODO: material energy equation with $\hat \sigma$. Also reformulate in terms of
+$I - B$, describe/look up Rosseland and Planck.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Gray planar geometry}
+Integrating over both frequency and azimuthal angle, as in the previous two
+subsections, the gray, planar geometry TRT equations are the radiation
+transport equation:
+\begin{subequations} \label{eqs:onedTRTgray}
+\begin{equation} \label{eq:onedTransportgray}
+  \frac{1}{c} \pder{}{t} I + \mu\pder{}{x} I +\sigma I
+  = \frac{\sigma a c T^4}{2} + \frac{Q}{2}
+\end{equation}
+where $I=I(x, \mu, t)$ is the one-dimensional, gray intensity; and the material
+energy equation:
+\begin{equation} \label{eq:onedMaterialgray}
+  \pder{U_m}{t} = \sigma \left[ \int_{-1}^{1} I \ud \mu - ac T^4 \right] \,.
+\end{equation}
+\end{subequations}
+If the cross-sections of a problem are truly frequency-independent
+($\sigma(\nu) = \sigma$), then $\sigma_P = \sigma$, and for a planar-geometry
+problem the above equations are exact.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Low-order equations}
+
+\subsection{Energy conservation}
+The angular moments of the gray, slab-geometry intensity are defined as
+\begin{equation*}
+  I_m(x) = \int_{-1}^{1} \mu^m I \ud \mu \,.
+\end{equation*}
+Expressed as moments, the current [Eq.~\eqref{eq:energyFlux}] is $F(x) =
+I_1(x)$, and the energy
+density [Eq.~\eqref{eq:energyDensity}] is $\RadEn(x) = I_0(x) / c$.
+
+As we did for the full transport equation in Eq.~\eqref{eq:fullConservation},
+we operate on the one-D gray equation [Eq.~\eqref{eq:onedTransportgray}] by
+$\int_{-1}^{1} (\cdot) \ud \mu$:
+\begin{align*}
+  \frac{1}{c} \pder{}{t} \int_{-1}^{1} I \ud \mu
+  + \pder{}{x} \int_{-1}^{1}\mu I  \ud \mu 
+  +\sigma \int_{-1}^{1} I \ud \mu 
+  &= \sigma a c T^4 + Q
+  \\
+  \frac{1}{c} \pder{}{t} I_0
+  + \pder{}{x} I_1
+  +\sigma(T) I_0
+  &= \sigma a c T^4 + Q \,.
+\end{align*}
+Adding to the material energy Eq.~\eqref{eq:onedMaterialgray}
+\begin{equation*}
+  \frac{1}{c} \pder{}{t} I_0
+  + \pder{U_m}{t}
+  = \left[ \sigma a c T^4 + Q
+  - \pder{}{x} I_1
+  - \sigma I_0\right]
+  + \left[ \sigma I_0 - \sigma ac T^4 \right]
+\end{equation*}
+which gives the conservation equation
+\begin{equation} \label{eq:loConservation}
+   \pder{}{t} \left[ \frac{I_0(x,t)}{c} + U_m(x,t) \right]
+   = Q(x,t) - \pder{}{x} I_1(x,t) \,.
+\end{equation}
+
+Integrating over a single time step by operating on
+Eq.~\eqref{eq:loConservation} by $\int_{t_n}^{t_{n+1}} (\cdot) \ud t$, if we
+don't care about spatial discretization:
+\begin{equation*}
+  \left[ \frac{I_0(x,t_{n+1})}{c} + U_m(x,t_{n+1}) \right]
+ - \left[ \frac{I_0(x,t_{n})}{c} + U_m(x,t_{n}) \right]
+   = \int_{t_n}^{t_{n+1}} Q(x,t) \ud t - \pder{}{x}\int_{t_n}^{t_{n+1}}  I_1(x,t) \ud t\,.
+\end{equation*}
+This balance equation states that the energy in some differential volume at the
+end of the time step minus the energy at the beginning is equal to the energy
+added by the source over the time step, minus 
+
+If we consider both a time step $[t_n, t_{n+1}]$ and a spatial
+cell $[x_k, x_{k+1}]$, we operate on Eq.~\eqref{eq:loConservation} with
+$\int_{x_k}^{x_{k+1}} \int_{t_n}^{t_{n+1}} (\cdot) \ud t \ud x$:
+\begin{multline*}
+  \frac{1}{c} \int_{x_k}^{x_{k+1}} I_0(x, t_{n+1}) \ud x
+  - \frac{1}{c} \int_{x_k}^{x_{k+1}} I_0(x, t_{n}) \ud x
+  + \int_{x_k}^{x_{k+1}} U_m(x, t_{n+1}) \ud x
+  - \int_{x_k}^{x_{k+1}} U_m(x, t_{n}) \ud x
+\\
+= \int_{x_k}^{x_{k+1}} \int_{t_n}^{t_{n+1}} Q(x,t) \ud t \ud x
+- \int_{t_n}^{t_{n+1}} I_1(x_{k+1}, t) \ud t + \int_{t_n}^{t_{n+1}} I_1(x_{k},
+t) \ud t \,,
+\end{multline*}
+or
+\begin{multline*}
+  [\text{Radiation energy in cell at end}] 
+  - [\text{Radiation energy in cell at beginning}] 
+  \\
+  + [\text{Material energy in cell at end}] 
+  - [\text{Material energy in cell at beginning}]
+  \\
+  = 
+  [\text{Energy added to the cell from the source over the time step}]
+  \\
+ - [\text{Net leakage to the right over the time step}] 
+ + [\text{Net leakage from the left over the time step}] \,.
+\end{multline*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Formulation}
+The material energy equation can also be rewritten (see
+Eq.~\eqref{eq:cvdTdtMaterial}) as
+\begin{equation} \label{eq:loCvMaterial}
+  c_v(T)  \pder{T}{t}
+  = \sigma I_0 - \sigma ac T^4 \,.
+\end{equation}
+
+The zeroth moment of Eq.~\eqref{eq:onedTransportgray} is
+\begin{subequations} \label{eqs:loMoments}
+\begin{equation} \label{eq:loZeroth}
+  \frac{1}{c} \pder{}{t} I_0(x,t)
+  + \pder{}{x} I_1(x,t)
+  +\sigma(T(x,t)) I_0(x,t)
+  = \sigma(T(x,t)) a c [T(x,t)]^4 + Q(x,t) \,,
+\end{equation}
+and the first moment of Eq.~\eqref{eq:onedTransportgray} is
+\begin{equation} \label{eq:loFirst}
+  \frac{1}{c} \pder{}{t} I_1(x,t)
+  + \pder{}{x} I_2(x,t)
+  +\sigma(T(x,t)) I_1(x,t)
+  = 0 \,.
+\end{equation}
+\end{subequations}
+
+The second moment of the angular intensity is unknown. The variable Eddington
+factor \cite{Ols2000} is defined by this second moment as
+\begin{equation} \label{eq:eddington}
+  \Eddington(x,t) \equiv \frac{I_2(x,t)}{I_0(x,t)} \,.
+\end{equation}
+It is bounded in $[0,1]$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{ans}
+\bibliography{SRJall}
+\end{document}
