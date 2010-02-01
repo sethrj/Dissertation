@@ -1,0 +1,50 @@
+\documentclass[11pt]{SRJresearch}
+\author{Seth R.~Johnson}
+\date{\today}
+\title{Summary of work and ideas}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/01/28}
+\subsection{Summary of week's work}
+I began with understanding Larsen's anisotropic diffusion method
+\cite{Lar2009c}: what approximations he made, what approximations he didn't
+make, etc. My conclusion is that he is a magician.
+
+The first thing I went to was the fully time-dependent integral transport
+equation \cite{Pri2010}. I played around with it and tried to see what would
+happen if we try to look at an infinite medium in a small temporal range about
+the current time. 
+
+I implemented a 2-D version of my mesh code, and it works great. I also
+implemented output for VisIt with Silo, and managed to get a contour plot with
+Matplotlib.
+
+\subsection{Ideas this week}
+If we look at the exact time-dependent problem first, what are the
+qualifications for being ``diffusive''?  What are the approximations that lead
+to diffusion from the regular transport equation? Densmore's asymptotic paper
+\cite{Den2004} gives a good summary: the speed of light is fast ($c \to
+c/\eps$), opacities are large ($\sigma \to \sigma/\eps$), and small amounts of
+absorption result in large changes in temperature ($c_v \to \eps c_v$). Do we
+have to make all these approximations when deriving the TRT AD method?
+
+We need to look at the scattering ratio $f$, opacity $\sigma$, current
+$\vec{J}$, and scalar flux $\phi$ as a function of time near a Marshak wave.
+What assumptions can we make about these functions and their derivatives with
+respect to space and time? They usually have strong spatial gradients, and they
+basically always change quickly with respect to time.
+
+It is very unlikely that extra terms from the first moment can show in the
+zeroth moment without the potential for negative answers.
+
+If I come up with a time-dependent current term, or whatever, we need to see if
+$\tpder{\vec{J}}t$ is zero.
+
+
+\subsection{To do}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{amsalpha}
+\bibliography{SRJall}
+\end{document}

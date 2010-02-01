@@ -1,0 +1,132 @@
+\documentclass[11pt]{SRJresearch}
+\author{Seth R.~Johnson}
+\date{\today}
+\title{General transport}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transport equations and moments}
+The well-known time-dependent transport equation is
+\begin{subequations} \label{eqs:generalTransport}
+\begin{multline} \label{eq:generalPsiTransport}
+  \frac{1}{v} \pder{\psi}{t}(\vec{x}, \vec{\Omega}, E, t)
+  + \vec{\Omega}\vd \del \psi(\vec{x}, \vec{\Omega}, E, t)
+  + \Sigma_t(\vec{x}, E, t) \psi (\vec{x}, \vec{\Omega}, E, t)
+\\
+= \int_{0}^{\infty} \int_{4\pi} \Sigma_s(  \vec{\Omega}' \vd
+\vec{\Omega}, E' \to E, t) \psi(\vec{x}, \vec{\Omega}', E', t) \ud \Omega' \ud E'
++ \frac{1}{4\pi} Q(\vec{x}, E, t)\,,
+\end{multline}
+for $x \in V$, $0 < E < \infty$, $0 \le t < \infty$, and $\vec{\Omega} \in
+4\pi$;
+with the boundary condition
+\begin{equation} \label{eq:generalPsiBc}
+ \psi(\vec{x}, \vec{\Omega}, E, t) =\psi^b(\vec{x}, \vec{\Omega}, E, t) \,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0,\ 0 < E < \infty,
+ 0 \le t < \infty
+\end{equation}
+and the initial condition
+\begin{equation} \label{eq:generalPsiIc}
+ \psi(\vec{x}, \vec{\Omega}, E, 0) =\psi^i(\vec{x}, \vec{\Omega}, E, t) \,,
+ \quad \vec{x} \in V, \ \vec{\Omega} \in 4\pi,\ 0 < E < \infty\,.
+\end{equation}
+\end{subequations}
+
+\subsection{Moments}
+The angular moments of the transport equation are very useful. The zeroth
+angular moment is the result of integrating
+Eq.~\eqref{eq:generalPsiTransport} over all angles:
+\begin{multline*}
+  \frac{1}{v} \pder{}{t}\int_{4\pi} \psi(\vec{x}, \vec{\Omega}, E, t) \ud \Omega
+  + \del \vd \int_{4\pi} \vec{\Omega}\psi(\vec{x}, \vec{\Omega}, E, t) \ud \Omega
+  + \Sigma_t(\vec{x}, E, t) \int_{4\pi} \psi (\vec{x}, \vec{\Omega}, E, t)   \ud \Omega
+\\
+= \int_{0}^{\infty} \int_{4\pi}
+\int_{4\pi} \Sigma_s(  \vec{\Omega}' \vd \vec{\Omega}, E' \to E, t) \ud \Omega
+\psi(\vec{x}, \vec{\Omega}', E', t) \ud \Omega' \ud E'
++ \frac{1}{4\pi} Q(\vec{x}, E, t)\int_{4\pi}  \ud \Omega\,.
+\end{multline*}
+Ubiquitously in nuclear engineering, the zeroth angular moment of $\psi$ is
+known as the ``scalar flux'':
+\begin{subequations} \label{eqs:generalMomentDefinitions}
+  \begin{equation} \label{eq:generalMomentPhi}
+  \phi(\vec{x}, E, t) 
+  \equiv \int_{4\pi} \psi(\vec{x}, \vec{\Omega}, E, t) \ud \Omega\,.
+  \end{equation}
+The ``current'' is a vector quantity, the first angular moment of $\psi$:
+\begin{equation} \label{eq:generalMomentJ}
+  \vec{J}(\vec{x}, E, t)
+  \equiv \int_{4\pi} \vec{\Omega}\psi(\vec{x}, \vec{\Omega}, E, t) \ud \Omega\,.
+\end{equation}
+\end{subequations}
+With these definitions, and applying some tricks to the scattering integral, the
+zeroth moment of Eq.~\eqref{eq:generalPsiTransport} is
+\begin{equation} \label{eq:generalZerothMoment}
+  \frac{1}{v} \pder{\phi}{t} (\vec{x}, E, t)
+  + \del \vd \vec{J}(\vec{x}, E, t)
+  + \Sigma_t(\vec{x}, E, t) \phi(\vec{x}, E, t)
+= \int_{0}^{\infty} \Sigma_{s0}(\vec{x}, E' \to E, t) 
+\phi(\vec{x}, E', t) \ud E'
++ Q(\vec{x}, E, t)\,.
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Integral transport}
+In the context of integral transport, the right hand side of
+Eq.~\eqref{eq:generalPsiTransport} is rewritten to be a space-, angle-, energy-,
+and time-dependent source $\hat Q$, which itself
+depends on the solution $\psi$:
+\begin{equation*}
+  \frac{1}{v} \pder{\psi}{t}(\vec{x}, \vec{\Omega}, E, t)
+  + \vec{\Omega}\vd \psi(\vec{x}, \vec{\Omega}, E, t)
+  + \Sigma_t(\vec{x}, E, t) \psi (\vec{x}, \vec{\Omega}, E, t)
+=  \hat Q(\vec{x}, \vec{\Omega}, E, t) \,.
+\end{equation*}
+
+It is possible to invert this equation exactly, assuming a known $Q$
+\cite{Pri2010}. The exact result for the angular flux is
+\begin{subequations} \label{eqs:integralAngularFlux}
+  \begin{equation} \label{eq:integralAngularFluxFull}
+  \begin{split}
+    \psi(\vec{x}, \vec{\Omega}, E, t)
+    &=
+    \psi^b(\vec{x}_b, \vec{\Omega}, E, t - \norm{\vec{x} - \vec{x}_b}/v)
+    \eexp^{ -\tau(\vec{x}, \vec{x}_b, \vec{\Omega}, E, t)}
+    U(vt - \norm{\vec{x} - \vec{x}_b})
+    \\
+    &\qquad + \psi^i( \vec{x} - vt \vec{\Omega}, \vec{\Omega}, E)
+    \eexp^{ -\tau(\vec{x}, \vec{x}- vt \vec{\Omega}, \vec{\Omega}, E, t)}
+    U( \norm{\vec{x} - \vec{x}_b} - vt)
+    \\
+    &\qquad +  \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s, \vec{\Omega}, E, t)}
+    \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, E, t-s/v) \ud s\,.
+  \end{split}
+  \end{equation}
+  Here, $U(\zeta)$ is the heaviside function, unity for $\zeta \ge 0$ and zero
+  otherwise. The optical thickness of the medium between points $\vec{x}$ and
+  $\vec{x}'$ along direction $\vec{\Omega}$ is 
+  \begin{equation} \label{eq:fullTauDefinition}
+    \tau(\vec{x}, \vec{x}', \vec{\Omega}, E, t) = \int_{0}^{\norm{\vec{x} -
+    \vec{x}'}} \Sigma_t(\vec{x}-s\vec{\Omega}, E, t-s/v) \ud s \,.
+  \end{equation}
+  The point $\vec{x}_b$ is defined as the point on the boundary that,
+  following direction $\vec{\Omega}$, intersects point $\vec{x}$. In other
+  words, $\vec{x}_b = \vec{x} - d \vec{\Omega}$ where $d$ is positive.
+\end{subequations}
+It is possible to reformulate the last integral in
+Eq.~\eqref{eq:integralAngularFluxFull} to be a volume integral:
+\begin{equation*}
+  \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s, \vec{\Omega}, E, t)}
+    \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, E, t-s/v) \ud s
+    = \int_{V} \hat Q(\vec{x}', \vec{\Omega}', E, t-\norm{\vec{x} - \vec{x}'}/v)
+    \frac{\eexp^{-\tau(\vec{x}, \vec{x}', \vec{\Omega}, E, t) }}
+    {\norm{\vec{x} - \vec{x}'}^2}
+    \delta(\vec{\Omega} - \vec{\Omega}') \ud V'
+\end{equation*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{ans}
+\bibliography{SRJall}
+\end{document}
