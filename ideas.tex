@@ -5,6 +5,14 @@
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This document is supposed to give some organization to my research. Too often,
+ideas and thoughts will get lost amidst a cascade of scratch paper.
+Additionally, it is too easy to forget what one has accomplished on a
+month-to-month basis, and it is too easy to accomplish little without proper
+motivation.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{2010/01/28}
 \subsection{Summary of week's work}
 I began with understanding Larsen's anisotropic diffusion method
@@ -21,29 +29,56 @@ implemented output for VisIt with Silo, and managed to get a contour plot with
 Matplotlib.
 
 \subsection{Ideas this week}
+\begin{enumerate}
+  \item 
 If we look at the exact time-dependent problem first, what are the
 qualifications for being ``diffusive''?  What are the approximations that lead
-to diffusion from the regular transport equation? Densmore's asymptotic paper
-\cite{Den2004} gives a good summary: the speed of light is fast ($c \to
-c/\eps$), opacities are large ($\sigma \to \sigma/\eps$), and small amounts of
-absorption result in large changes in temperature ($c_v \to \eps c_v$). Do we
-have to make all these approximations when deriving the TRT AD method?
+to diffusion from the regular transport equation?
+Do we have to make all the same approximations when deriving the TRT AD method?
 
+  \item 
 We need to look at the scattering ratio $f$, opacity $\sigma$, current
 $\vec{J}$, and scalar flux $\phi$ as a function of time near a Marshak wave.
 What assumptions can we make about these functions and their derivatives with
 respect to space and time? They usually have strong spatial gradients, and they
 basically always change quickly with respect to time.
 
+  \item 
 It is very unlikely that extra terms from the first moment can show in the
 zeroth moment without the potential for negative answers.
 
+  \item 
 If I come up with a time-dependent current term, or whatever, we need to see if
 $\tpder{\vec{J}}t$ is zero.
-
+\end{enumerate}
 
 \subsection{To do}
+\begin{itemize}
+  \item Taylor series-ing stuff with the time-dependent method
 
+  \item Time-dependent linear infinite medium setup
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/02/04}
+
+\subsection{Old business}
+
+\subsection{Summary of week's work}
+Starting work on 2D diffusion solver. I'll need to use CG or something rather
+than the direct inversion that was done in the tridiagonal 1D case.
+
+\subsection{Ideas this week}
+\begin{enumerate}
+\item Can we somehow make diffusion ``flux-limiting'' by modifying the transport
+problem that gives us $D$?
+
+\item What are the proper transport boundary conditions with the modified $D$?
+  Are they calculated by considering the terms dropped in the integral
+  transport equation?
+
+\end{enumerate}
+
+\subsection{To do}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{amsalpha}
 \bibliography{SRJall}

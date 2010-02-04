@@ -1,0 +1,48 @@
+\documentclass[11pt]{SRJresearch}
+\author{Seth R.~Johnson}
+\date{\today}
+\title{Facts}
+
+\begin{document}
+
+Fact 1: Larsen is a magician. Do not meddle in the affairs of transport
+wizards, for they are subtle and quick to look at you like you're an idiot.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{General transport}
+
+\subsection{Flux limiters}
+
+For the angular flux $\psi(\vec{\Omega}) \ge 0$, and $\norm{\vec{\Omega}} = 1$,
+with the current defined as
+\begin{equation*}
+  \vec{J} \equiv \int_{4\pi} \vec{\Omega} \psi\ud \Omega \,,
+\end{equation*}
+then
+\begin{equation*}
+  \norm{\vec{J}} = \norm{\int_{4\pi} \vec{\Omega} \psi\ud \Omega }
+  \le \int_{4\pi} \norm{\vec{\Omega} } \abs{\psi(\vec{\Omega})} \ud \Omega 
+  = \int_{4\pi} [1] \psi(\vec{\Omega}) \ud \Omega 
+  = \phi
+\end{equation*}
+so
+\begin{equation*}
+  \frac{ \norm{\vec{J}} }{\phi} \le 1\,.
+\end{equation*}
+This limit is pretty easy to satisfy in a steady-state problem; however,
+time-dependent diffusion problems can exceed the limit.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Time-dependent transport}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{TRT}
+
+\subsection{Asymptotic diffusion limit}
+The approximations made for diffusion are, from \cite{Den2004}:
+the speed of light is fast ($c \to c/\eps$),
+opacities are large ($\sigma \to \sigma/\eps$),
+and small amounts of absorption result in large changes in temperature ($c_v
+  \to \eps c_v$).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{amsalpha}
+\bibliography{SRJall}
+\end{document}
