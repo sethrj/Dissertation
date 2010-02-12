@@ -13,7 +13,7 @@ The well-known time-dependent transport equation is
   + \vec{\Omega}\vd \del \psi(\vec{x}, \vec{\Omega}, E, t)
   + \Sigma_t(\vec{x}, E, t) \psi (\vec{x}, \vec{\Omega}, E, t)
 \\
-= \int_{0}^{\infty} \int_{4\pi} \Sigma_s(  \vec{\Omega}' \vd
+= \int_{0}^{\infty} \int_{4\pi} \Sigma_s( \vec{x}, \vec{\Omega}' \vd
 \vec{\Omega}, E' \to E, t) \psi(\vec{x}, \vec{\Omega}', E', t) \ud \Omega' \ud E'
 + \frac{1}{4\pi} Q(\vec{x}, E, t)\,,
 \end{multline}
@@ -42,7 +42,7 @@ Eq.~\eqref{eq:generalPsiTransport} over all angles:
   + \Sigma_t(\vec{x}, E, t) \int_{4\pi} \psi (\vec{x}, \vec{\Omega}, E, t)   \ud \Omega
 \\
 = \int_{0}^{\infty} \int_{4\pi}
-\int_{4\pi} \Sigma_s(  \vec{\Omega}' \vd \vec{\Omega}, E' \to E, t) \ud \Omega
+\int_{4\pi} \Sigma_s( \vec{x}, \vec{\Omega}' \vd \vec{\Omega}, E' \to E, t) \ud \Omega
 \psi(\vec{x}, \vec{\Omega}', E', t) \ud \Omega' \ud E'
 + \frac{1}{4\pi} Q(\vec{x}, E, t)\int_{4\pi}  \ud \Omega\,.
 \end{multline*}

@@ -65,7 +65,8 @@ $\tpder{\vec{J}}t$ is zero.
 
 \subsection{Summary of week's work}
 Starting work on 2D diffusion solver. I'll need to use CG or something rather
-than the direct inversion that was done in the tridiagonal 1D case.
+than the direct inversion that was done in the tridiagonal 1D case. I also
+spent a lot of time with the class I'm taking
 
 \subsection{Ideas this week}
 \begin{enumerate}
@@ -79,6 +80,35 @@ problem that gives us $D$?
 \end{enumerate}
 
 \subsection{To do}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/02/11}
+
+\subsection{Summary of week's work}
+I basically spent the whole time deriving the boundary conditions.
+I learned a lot in the process, but it's not clear that what I got is right.
+
+\subsection{Ideas this week}
+\begin{enumerate}
+\item 
+  Since Larsen derived the method in a different way (using integration by
+  parts rather than the ``probability density function'' interpretation),
+  shouldn't it be possible to stick the time derivatives in there? (They'd pop
+  out along with the boundary conditions, I think). We might be able to treat
+  the problem with an initial layer analysis to match the problem at the end
+  of long time steps.
+
+\item
+  As part of the boundary layer analysis, it was clear that the right thing to
+  do in the derivation is to leave in \emph{all} the terms in $\psi$,
+  discarding them only when calculating the diffusion coefficient in the
+  interior. The other terms are important near the boundary but unimportant
+  ($O(\epsilon)$) away from it.
+
+\end{enumerate}
+
+\subsection{To do}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{amsalpha}
 \bibliography{SRJall}
