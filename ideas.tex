@@ -3,6 +3,7 @@
 \date{\today}
 \title{Summary of work and ideas}
 
+\newcommand{\pyrev}[1]{\textsf{PyTRT} revision \texttt{#1}}
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This document is supposed to give some organization to my research. Too often,
@@ -61,12 +62,12 @@ $\tpder{\vec{J}}t$ is zero.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{2010/02/04}
 
-\subsection{Old business}
-
 \subsection{Summary of week's work}
-Starting work on 2D diffusion solver. I'll need to use CG or something rather
+In preparation for 2D diffusion solver, completed Silo output routines for
+visualization. I'll need to use
+CG or something rather
 than the direct inversion that was done in the tridiagonal 1D case. I also
-spent a lot of time with the class I'm taking
+spent a lot of time with the class I'm taking.
 
 \subsection{Ideas this week}
 \begin{enumerate}
@@ -79,14 +80,20 @@ problem that gives us $D$?
 
 \end{enumerate}
 
-\subsection{To do}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{2010/02/11}
 
 \subsection{Summary of week's work}
 I basically spent the whole time deriving the boundary conditions.
 I learned a lot in the process, but it's not clear that what I got is right.
+The closest thing I got to a true boundary condition is:
+\begin{equation*}
+  J^-(\vec{x}_b) = \tfrac14 \phi(\vec{x}_b)
+\end{equation*}
+
+Using some ridiculous asymptotic analysis stuff which I'm not sure is right, I
+also calculated a requirement for the \emph{derivative} of the half-angle flux
+near the boundary.
 
 \subsection{Ideas this week}
 \begin{enumerate}
@@ -107,7 +114,224 @@ I learned a lot in the process, but it's not clear that what I got is right.
 
 \end{enumerate}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/02/18}
+
+\subsection{Summary of week's work}
+Implemented 2D cell-centered diffusion. Rewrote 1D cell-centered diffusion,
+re-benchmarked, and fixed boundary conditions. Added zero-flux boundary
+condition in case our derivation is right.
+
+\subsection{Ideas this week}
+\begin{enumerate}
+  \item Should we compare against SP$_3$, which is actually sort of
+    transport-like?
+\end{enumerate}
+
 \subsection{To do}
+Boundary conditions, clarification on $D$-calculating transport problem, 1D
+adjoint transport if necessary, 2D 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/02/25}
+
+\subsection{Summary of week's work}
+Transitioning toward full 2D transport with SN; reorganized library and added
+boundary faces, and BC manager (as well as that clever functor code) etc.
+
+\subsection{Ideas this week}
+None to speak of.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/03/04}
+
+\subsection{Summary of week's work}
+Working on transport solvers still.
+
+\subsection{Ideas this week}
+None to speak of.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/03/11}
+
+\subsection{Summary of week's work}
+Wrote tensor/vector output to VisIT. Have transport solver kind of working, in
+certain situations.
+
+\subsection{Ideas this week}
+In deriving discretized equations for the anisotropic diffusion tensor, I
+realized that the net current across a face needs special attention. In regular
+diffusion, considering leakage to the right of a cell, it's
+\begin{equation*}
+  \vec{n} \vd \vec{J} = - D(\vec{x}) \vec{n} \vd \del \phi(\vec{x}) 
+  = -D \pder{\phi}{x}
+\end{equation*}
+which is calculated from the left as
+\begin{equation*}
+  (\vec{n} \vd \vec{J})^- = -D_{ij} \frac{\phi_{i+1/2,j} -
+  \phi_{ij}}{\Delta_{x,i} /2} \,.
+\end{equation*}
+
+However, in anisotropic diffusion, it's 
+\begin{equation*}
+  \vec{n} \vd \vec{J} = - \vec{n} \mat{D} \del \phi(\vec{x}) 
+  = -
+  \begin{bmatrix} 1 & 0 \end{bmatrix}
+  \begin{bmatrix}
+    D_{xx} & D_{xy} \\ 
+    D_{yx} & D_{yy}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \pder{\phi}{x} \\
+    \pder{\phi}{y}
+  \end{bmatrix}
+  = - D_{xx} \pder{\phi}{x} - D_{xy} \pder{\phi}{y}
+\end{equation*}
+However, with cell-centered diffusion, you don't consider vertical variations
+in $\phi$ when looking at the right face. So we're going to have to use some
+sort of stencil to approximate $\tpder{\phi}{y}$ along that vertical face.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/03/18}
+
+\subsection{Summary of week's work}
+Talked to Will (Dima Anistratov's student) about quasidiffusion. His thesis
+\cite{Wie2009} stores fluxes and currents on cell faces in addition to cell
+centers, which we'd like to avoid.
+
+\subsection{Ideas this week}
+I just realized that the previously published work in anisotropic diffusion
+\emph{only} considered analytic solutions and only for the $D_{xx}$ and
+$D_{xy}$ components.
+
+For the dog leg problem, I have plotted (Fig.~\ref{fig:offdiagFrac}) the
+relative importance of the off-diagonal terms:
+\begin{equation*}
+  \frac{\abs{D_{xy}}}{\text{max}(D_{xx}, D_{yy})} \,.
+\end{equation*}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=4in]{ideas_include/dogleg_offdiag_frac}
+  \caption{Fractional importance of off-diagonal terms}
+  \label{fig:offdiagFrac}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/03/25}
+
+\subsection{Summary of week's work}
+Implemented a bunch of 2D/flatland Monte Carlo code. Did other fooling around
+stuff with the Git repository and such. Got a copy of orthogonal-mesh
+quasidiffusion derivation \cite{Val2002}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/04/01}
+
+\subsection{Summary of week's work}
+Added Russian roulette combing to IMC code.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/04/22}
+
+\subsection{Summary of week's work}
+Fellowship application, UQ project, etc. They're all finished now. I also
+worked on IMC stuff: it seems that my code has some problems. Su Olson doesn't
+converge as I crank down the time step; full clip Russian roulette was the
+source of some of the error. Generally, although I can't be sure, energy isn't
+traveling as far as it should as quickly as it should. This looks like it was a
+regression since \pyrev{698d1a0b}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2010/04/29}
+
+\subsection{Summary of week's work}
+
+\subsubsection{Benchmark problem}
+Looked up benchmark for radiation streaming problem \cite{Ack1989}. It probably
+won't be useful because it's purely absorbing and streaming: that's a problem
+for diffusion.
+
+\subsubsection{Discretization}
+Worked on anisotropic diffusion discretization. Gol'din's method
+\cite{Val2002} is actually the same as regular cell-centered diffusion in 1D.
+Rather than approximating the derivative $\tpder\phi x$, it approximates the
+half-cell-average current.
+
+We had earlier talked about how to calculate the transverse derivative term;
+Larsen thought it would make sense, in the conservation of current term on the
+boundary, to require that the ``top'' flux on the left is equal to the ``top''
+flux on the right, in order that on that whole face, there could be a kink in
+the flux along the $x$ axis but no discontinuity along the $y$. (If both
+$\tpder \phi y$ and $\tpder \phi x$ are discontinuous along the face, then
+$\phi$ will be discontinuous somewhere on the face.) After playing around with
+it, I'm not convinced we should try to require that $\phi_{T-} = \phi_{T+}$. It
+looks like there aren't enough degrees of freedom to do it; plus, there are
+other ways that the ``continuity'' of the flux is violated even in the regular
+cell-centered discretization (think of how $\tpder \phi x|_{i,j} \ne \tpder \phi
+x|_{i,j+1}$).
+
+\subsubsection{Anisotropic diffusion coefficients and code}
+Worked on Larsen--Trahan channel problem. Previously, we had found that a
+line-out of $D_{yy}$ wasn't showing the right coefficients in the middle of the
+channel (they were too low). I surmised that the angular quadrature set wasn't
+fine enough, because only the very steepest angles would be able to see the
+infinite height of the channel. Today, I wrote a Python script to use a
+standard numerical integration method to calculate the diffusion coefficients.
+I also added the option to change the high-quality integration to a coarse
+midpoint Riemann sum, which would be equivalent to a coarse-angle transport
+sweep. Fig.~\ref{fig:anisotropicCalculated} shows the actual
+transport-calculated coefficients (\pyrev{2e8d536c}) for
+a cell width of 0.25, with an 8-angle-per-quadrant flatland quadrature set.
+Fig.~\ref{fig:anisotropicAnalyticCoarse} shows the values calculated from the
+analytic expressions given in \cite{Lar2009c} using the coarse integration.
+(The angular integration and grid spacing are both chosen to match the
+transport grid.) Clearly, they are pretty damn close. Refining the number of
+points used in the Riemann sum causes the values to grow closer to the exact
+value. Fig.~\ref{fig:anisotropicChannelConvergence} shows how increasing the
+number of angles brings the answer closer to the true value. Using 128
+azimuthal angles per quadrant still leaves a 10\% error in the diffusion
+coefficient.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3in]{ideas_include/anisotropic_calculated}
+  \caption{Line-out of anisotropic diffusion coefficients in the channel
+  problem, at $y=50$.}
+  \label{fig:anisotropicCalculated}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3in]{ideas_include/anisotropic_analytic_coarse}
+  \caption{Analytic diffusion coefficients, calculated using a midpoint Riemann
+  sum with 16 points in $(0,\pi)$.}
+  \label{fig:anisotropicAnalyticCoarse}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3in]{ideas_include/anisotropic_channel_convergence}
+  \caption{Convergence of $D_{yy}(0.125)$ as the number of ``angles per
+  quadrant'' in the Riemann sum increases.}
+  \label{fig:anisotropicChannelConvergence}
+\end{figure}
+
+\subsection{Ideas this week}
+\begin{enumerate}
+  \item Will this discretization be diagonally dominant, symmetric, positive,
+    \ldots? What about after applying boundary conditions? CG only works on SPD
+    matrices, if I remember correctly\ldots
+
+  \item How well will the method work if our transport problem (that calculates
+    the anisotropic diffusion coefficients) is coarser than our diffusion grid?
+    Are there some problems where it might be advantageous to have the grid on
+    the diffusion problem be finer than the anisotropic diffusion coefficients?
+\end{enumerate}
+
+\subsection{To do}
+\begin{itemize}
+  \item Finish implementing anisotropic diffusion
+  \item Compare solutions of transport-calculated coefficients to
+    analytic-calculated coefficients
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{amsalpha}
