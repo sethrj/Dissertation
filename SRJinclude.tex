@@ -1,1 +1,108 @@
-/Users/seth/Documents/Compositions/SRJinclude.tex
+%%% INCLUDE FILE FOR DEFINITIONS
+%%% These may require various packages.
+
+% Shortcuts in regular text
+\newcommand{\degs}{\ensuremath{^\circ}}
+\newcommand{\EE}[1]{\ensuremath{\times 10^{#1}}}
+\newcommand{\ttimes}{\ensuremath{{}\times{}}}
+\newcommand{\cclicense}{%
+  \smash{\raisebox{-0.45ex}{%
+  \setlength{\unitlength}{1em}%
+  \begin{picture}(1,1)%
+    \put(0.5,0.5){\circle{1}}
+    \put(0.5,0.5){\hbox to 0pt{\hss\raisebox{-.45ex}{\tiny\textsf{CC}}\hss}}
+  \end{picture}%
+  }}%
+  \hskip -1em%
+  \href{http://creativecommons.org/licenses/by-nc-sa/3.0/}%
+  {\ \hskip 1em \textsf{BY-NC-SA}}%
+}
+
+\newcommand{\horizsep}{{\par\noindent\centering\rule[.25ex]{.75\columnwidth}{2pt}\par}}
+% Research
+\newcommand{\SN}{S$_N$}%{S$_\text{N}$}%{$S_N$}%
+\newcommand{\PN}{P$_N$}%{P$_\text{N}$}%{$P_N$}%
+\newcommand{\CN}{Crank--Nicolson} %Yes, it's Nic not Nich
+\newcommand{\Eddington}{\mathcal{E}} %whatever symbol I decided for Eddington
+\newcommand{\RadEn}{E} %whatever symbol I decide for radiation energy
+\newcommand{\Sigmatr}{\Sigma_{\mathit{tr}}}
+
+% Program names
+\newcommand{\cpp}{\textsf{C\raisebox{0.2ex}{++}}}
+
+% General math shortcuts
+\newcommand{\ud}{\mathop{}\!\mathrm{d}}
+\newcommand{\pder}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\oder}[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\newcommand{\tpder}[2]{{\partial #1}/{\partial #2}} %inlined
+\newcommand{\toder}[2]{{\mathrm{d} #1}/{\mathrm{d} #2}} %inlined
+\newcommand{\lra}{ \quad \Longrightarrow \quad }
+\newcommand{\eexp}{\mathop{}\!\mathrm{e}} % upright ``e'' for exponent
+\newcommand{\expp}[1]{\exp\!\left( {#1} \right)} % exp with parentheses
+\newcommand{\qeq}{\stackrel{\mathrm{?}}{=}}
+
+% Probability
+\newcommand{\expectation}[1]{\mathop{}\!\mathrm{E}\!\left[ #1 \right]}
+\DeclareMathOperator{\Var}{Var} % variance
+
+% Asymptotic analysis
+\DeclareMathOperator{\Ei}{Ei} % Exponential function
+\newcommand{\lapl}[1]{\mathcal{L}[{#1}]} %laplace
+
+%change the Re and Im operators from fancy curly letters
+\DeclareMathOperator{\MathOpRe}{Re}
+\renewcommand{\Re}{\MathOpRe}
+\DeclareMathOperator{\MathOpIm}{Im}
+\renewcommand{\Im}{\MathOpIm}
+
+%imaginary ``i'' , upright 'i' or \imath
+\newcommand{\iimag}{\mathrm{i}}
+
+% Finite differences
+\newcommand{\hot}{\text{h.o.t.}}
+\newcommand{\inv}{^{-1}}
+
+% Numerical Linear Algebra
+\newcommand{\conj}{^{\ast}} % complex conjugate (transpose)
+\newcommand{\norm}[1]{\left\| #1 \right\|} % double pipe
+\newcommand{\abs}[1]{\left| #1 \right|} % single pipe
+\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator{\fl}{fl}
+
+\DeclareMathOperator{\acosh}{arccosh} 
+
+% Define a command to write a nice-looking element, e.g. 4,2 He
+\newcommand{\elem}[3]{\ensuremath{{}^{{#1}}_{{#2}}\mathrm{{#3}}}}
+
+% Vector definitions
+\newcommand{\mat}[1]{\mathbf{#1}} %matrix is bold upright
+\renewcommand{\vec}[1]{\bm{#1}} %vector is bold italic
+\newcommand{\op}[1]{\mathsf{#1}} % ``operator'' is sans serif
+
+\newcommand{\vd}{\bm{\cdot}} % slightly bold vector dot
+\newcommand{\del}{\vec{\nabla}} % gradient (Del) is bold
+
+%\newcommand{\abr}[1]{\langle {#1} \rangle}
+\newcommand{\abr}[1]{\left\langle {#1} \right\rangle} % angle brackets for avg.
+
+%% topbox is useful in extended definitions of math terms inside an align
+\newcommand{\topbox}[2][0.6]{\parbox[t]{#1\columnwidth}{\raggedright{}#2}}
+
+% commands to make text in math mode appear as zero-width (better-looking
+% integrals/sums, e.g.)
+% from mathmode.pdf page 74, or Alexander R. Perlis ``A complement to \smash,
+% \llap, and \rlap''
+
+\def\mathllap{\mathpalette\mathllapinternal}
+	\def\mathllapinternal#1#2{%
+	\llap{$\mathsurround=0pt#1{#2}$}%
+}
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}%
+\def\mathclap{\mathpalette\mathclapinternal}%
+\def\mathclapinternal#1#2{%
+	\clap{$\mathsurround=0pt#1{#2}$}%
+}
+\def\mathrlap{\mathpalette\mathrlapinternal}%
+\def\mathrlapinternal#1#2{%
+	\rlap{$\mathsurround=0pt#1{#2}$}%
+}
