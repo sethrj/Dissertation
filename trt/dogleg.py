@@ -9,7 +9,7 @@ pytrt.print_loading_info()
 
 import pytrt.mesh_twod as meshlib
 from pytrt.twod_tools import Rect
-from pytrt.trt_tools import ImcSolver, TrtManager
+from pytrt.trt_tools import ImcSolver, TrtManager, TrtSiloWriter
 from pytrt.td_tools import EventManager
 from pytrt.mc_tools import McPlotter
 
@@ -108,51 +108,14 @@ def imc_solver():
     "Run the simulation"
     manager = TrtDoglegManager()
 
-    mattemp = [ manager.ic_material ]
-    mcplotter = McPlotter( ("census",) )
+    mcplotter = McPlotter()
+    writer = TrtSiloWriter( manager, ("mattemp", "opacities", "radtemp",
+    "current", "eddington") )
 
     solver = ImcSolver( manager, imc )
-
-    sigma_a = meshlib.CellFieldFloat( manager.mesh )
-    sigma_es = meshlib.CellFieldFloat( manager.mesh )
-
-    radtemp = meshlib.CellFieldFloat( manager.mesh )
-    current = meshlib.CellFieldVector( manager.mesh )
-    eddington = meshlib.CellFieldTensor( manager.mesh )
-
-    writer = meshlib.SiloWriter( "%s%04d.silo" % (manager.name, 0) )
-    writer.write( manager.mesh, "mesh" )
-    writer.write( manager.ic_material, "mattemp" )
-    writer.write( manager.ic_radiation, "radtemp" )
-    writer.write( current, "current" )
-    writer.write( eddington, "eddington" )
-
-    solver.get_opacities( sigma_a, sigma_es )
-    writer.write( sigma_a, "sigma")
-    writer.write( sigma_es, "sigma_es")
-    writer.suspend()
-
-    for (time, solution) in solver:
-        ti = solver.time_index
-
-        mcplotter.update( time, solution )
-
-        #if ti in (1,2,5,10,20,50,100,150,200,250,300,350,400):
-        if ti % 10 == 0:
-            writer.newTimeStep("%s%04d.silo" % (manager.name, ti), ti, time)
-            writer.write( manager.mesh, "mesh" )
-            writer.write( solution.getTemperature(), "mattemp" )
-
-            solution.getMoments( radtemp, current, eddington )
-            writer.write( radtemp, "radtemp" )
-            writer.write( current, "current" )
-            writer.write( eddington, "eddington" )
-
-            solver.get_opacities( sigma_a, sigma_es )
-            writer.write( sigma_a, "sigma")
-            writer.write( sigma_es, "sigma_es")
-
-            writer.suspend()
+    solver.add_callback( writer, 10 )
+    solver.add_callback( mcplotter, 1 )
+    solver.solve()
 
 #******************************************************************************#
 if __name__ == '__main__':
