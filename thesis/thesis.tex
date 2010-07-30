@@ -5,13 +5,17 @@
 \SetMathAlphabet{\mathcal}{normal}{OMS}{xmdcmsy}{m}{n}%revert calligraphy math
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % extra packages and shortcuts
+\usepackage{bm}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{microtype}
+%\usepackage{microtype}
 \usepackage{booktabs} % \toprule, \midrule, \bottomrule
 \usepackage[pdftex]{graphicx}
 \usepackage[width=.75\textwidth,font=small,labelfont=bf]{caption}
 \input{../SRJinclude.tex}
+
+% New paragraph before lists only in thesis
+\newcommand{\prelistpar}{\par}
 
 % float setup
 \renewcommand\floatpagefraction{.70}
@@ -33,9 +37,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \includeonly{%
 introduction,%
-spatial_disc,%
+ssFormulation,%
+ssResults,%
+ltdFormulation,%
+ltdResults,%
+trtFormulation,%
+trtResults,%
 conclusion,%
-trtadapter,%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -91,11 +99,16 @@ trtadapter,%
 
 % note that chapter markers MUST go inside the ``include''-d file
 \include{introduction}
-\include{spatial_disc}
+%\include{ssFormulation}
+%\include{ssResults}
+%\include{ltdFormulation}
+%\include{ltdFormulation}
+\include{trtFormulation}
+%\include{trtResults}
 \include{conclusion}
 
-\appendix
-\include{trtadapter}
+%\appendix
+%\include{trtadapter}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAPHY
