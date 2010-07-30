@@ -1,0 +1,111 @@
+\documentclass[12pt, letterpaper]{umthesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% font choice
+\usepackage{fourier}
+\SetMathAlphabet{\mathcal}{normal}{OMS}{xmdcmsy}{m}{n}%revert calligraphy math
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% extra packages and shortcuts
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage{booktabs} % \toprule, \midrule, \bottomrule
+\usepackage[pdftex]{graphicx}
+\usepackage[width=.75\textwidth,font=small,labelfont=bf]{caption}
+\input{../SRJinclude.tex}
+
+% float setup
+\renewcommand\floatpagefraction{.70}
+\renewcommand\topfraction{.95}
+\renewcommand\bottomfraction{.95}
+\renewcommand\textfraction{.1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Seth R.~Johnson}
+\title{A Physics-Based Anisotropic Diffusion Method for Thermal Radiative Transport}
+
+\program{Nuclear Engineering and Radiological Sciences}
+\degree{Doctor of Philosophy}
+\chaircommitteemember{Edward W.~Larsen}{Professor}
+\committeemember{William R.~Martin}{Professor}
+\committeemember{Thomas J.~Downar}{Professor}
+\committeemember{Katsuyo S.~Thornton}{Professor}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\includeonly{%
+introduction,%
+spatial_disc,%
+conclusion,%
+trtadapter,%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FRONT MATTER
+\frontmatter
+
+\maketitle
+
+% ABSTRACT
+\begin{finalabstract}
+  This paper presents a [synonym for new] method for [sciency verb] the [noun
+  few people have every heard of]. Using [something you didn't invent],
+  the [property] was measured to be [number]$\pm$[number] [units].
+  Results show [sexy adjective] agreement with theoretical predictions and
+  significant improvement over previous efforts by [Loser], et al. The work
+  presented here has profound implications for future studies of [buzzword] and
+  may one day help solve to problem of [supreme sociological concern].
+\end{finalabstract}
+\makecopyright
+
+\begin{frontispiece}
+  This is an optional quotation.\\
+  ---Seth R.~Johnson
+\end{frontispiece}
+
+\begin{dedication}
+  to my parents, Ayn Rand and God
+\end{dedication}
+
+\begin{acknowledgments}
+  Thanks to all my friends. They were the greatest ever.
+\end{acknowledgments}
+
+%\begin{preface}
+%  before reading this, you should know\dots
+%\end{preface}
+
+% list of contents, etc
+\tableofcontents
+\listoftables
+\listoffigures
+\listofappendices
+
+% % the optional normal abstract is formatted the same as preface and acknowledgements,
+% % and is listed in the table of contents
+% \begin{abstract}
+% \end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAIN MATTER
+\mainmatter
+
+% note that chapter markers MUST go inside the ``include''-d file
+\include{introduction}
+\include{spatial_disc}
+\include{conclusion}
+
+\appendix
+\include{trtadapter}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAPHY
+\backmatter
+\bibliographystyle{amsalpha}
+\bibliography{../SRJall}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% OPTIONAL INDEX
+%\phantomsection %makes sure it points to the right page
+%\addtocontents{toc}{chapter}{Index}
+%\printindex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
