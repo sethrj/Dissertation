@@ -4,10 +4,38 @@
 \chapter{Thermal radiative transfer derivations}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Thermal radiative transfer (TRT) is the nonlinear process describing the
+dominant form of energy movement in a very hot material, such as the interior
+of a star or the
+target of a laser fusion experiment. A full representation of the physics in
+those high-energy-density regimes often includes the consideration of moving
+relativistic materials, different electron and ion temperatures, photon
+scattering, and thermal conduction in the material \cite{Mih1984}. However,
+much theoretical work in the field neglects these complex phenomena by
+\prelistpar
+\begin{itemize}
+  \item working in a fixed medium, disregarding material advection;
+  \item assuming local thermodynamic equilibrium (LTE), which uses a single
+    material temperature;
+  \item neglecting photon scattering, which VERIFY THIS tends to be small for
+    very hot materials; and
+  \item neglecting thermal conduction, since energy transfer is dominated by
+    radiative transfer in the temperature regimes we consider.
+\end{itemize}
+
+A further simplification often used for methods development is the ``gray''
+approximation to the frequency dependence. Analogous to the one-group
+approximation for neutron transport, the full transport equation is integrated
+over all frequencies, and the opacities are averaged with some \emph{a priori}
+weighting function. The commonly used Rosseland mean satisfies a radiation
+diffusion equation found in an asymptotic analysis of the thermal radiative
+transfer equations \cite{Lar1983a} and is therefore the best choice for a
+method that resembles diffusion.
+
 \section{TRT equations}
-Start with the gray TRT equations:
+After the simplifications, the equations 
 \begin{subequations} \label{eqs:fullGrayTRT}
-the radiation transport equation,
+the radiative transfer equation,
 \begin{equation} \label{eq:fullGrayTransport}
   \frac{1}{c} \pder{I}{t}
   + \vec{\Omega} \vd \del I +
@@ -289,15 +317,16 @@ initial material energy density $U_m^n$, the solution process follows.
     and the effective scattering cross section $\left(1 - f^n\right) \sigma^n$.
     If using a diffusion method to approximate the transport solution, the
     absorption cross sections and diffusion coefficients must be recalculated.
-  \item Solve the linear transport problem for $\psi^{n+1}$. The new radiation
+  \item Solve the linear transport problem for $\psi^{n+1}=I^{n+1}$. The new
+    radiation
     temperature can optionally be calculated:
     \begin{equation*}
-      a T_\text{rad}^4 = \frac{1}{c} \int_{4\pi} \psi
+      a (T_\text{rad}^{n+1})^4 = \frac{1}{c} \int_{4\pi} I^{n+1}
       \ud \Omega
       \lra
-      T_\text{rad}^4 = \frac{1}{ac} \phi
+      (T_\text{rad}^{n+1})^4 = \frac{1}{ac} \phi^{n+1}
       \lra
-      T_\text{rad}(\vec{x}) = \left[ \frac{\phi(\vec{x})}{ac} \right]^{1/4}\,.
+      T_\text{rad}^{n+1}(\vec{x}) = \left[ \frac{\phi^{n+1}(\vec{x})}{ac} \right]^{1/4}\,.
     \end{equation*}
   \item Update the material temperature. From Eq.~\eqref{eq:urNPlusOne}
     we can calculate the linearized estimate of $U_r^{n+1}$:
@@ -312,7 +341,7 @@ initial material energy density $U_m^n$, the solution process follows.
     \begin{equation}\label{eq:matenConservationUpdate2}
       U_m^{n+1} =  U_m^n + f^n \sigma^n \Delta_t^n \left[ \phi^{n+1} - c U_r^n \right] \,.
     \end{equation}
-    [This form could also be arrived at by integrating
+    [This form can also be derived by integrating
     Eq.~\eqref{eq:fullGrayMaterial} over a time step after making the
     approximation $\sigma(T) \approx \sigma(T^n)$.]
 \end{enumerate}
