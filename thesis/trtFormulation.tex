@@ -5,9 +5,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Thermal radiative transfer (TRT) is the nonlinear process describing the
-dominant form of energy movement in a very hot material, such as the interior
+dominant form of energy transfer in a very hot material, such as the interior
 of a star or the
-target of a laser fusion experiment. A full representation of the physics in
+target of a laser fusion experiment. The equations describing TRT are
+time-dependent, contain strong nonlinearities, and reside in a large phase
+space. These difficulties make TRT the subject of significant work in methods
+development.
+
+A full representation of the physics in
 those high-energy-density regimes often includes the consideration of moving
 relativistic materials, different electron and ion temperatures, photon
 scattering, and thermal conduction in the material \cite{Mih1984}. However,
@@ -259,7 +264,7 @@ scattering,
   + \vec{\Omega} \vd \del \psi^{n+1}
  + \Sigma_t \psi^{n+1}
  = \frac{1}{4\pi} \int_{4\pi} \psi^{n+1}\ud \Omega
-  + \frac{1}{4\pi} q^n \,,
+  + \frac{1}{4\pi} q \,,
 \end{equation*}
 we find equivalences between the two:
 \begin{alignat*}{2}
@@ -270,7 +275,7 @@ we find equivalences between the two:
   \left(1 - f^n\right) \sigma^n &\leftrightarrow \Sigma_s &&= \text{the scattering cross
   section,} 
   \\
-  f^n \sigma^n c U_r^n + c Q^n &\leftrightarrow q^n &&= \text{the isotropic source for time
+  f^n \sigma^n c U_r^n + c Q^n &\leftrightarrow q &&= \text{the isotropic source for time
   step $n$,}
   \\
   v   &\leftrightarrow c &&= \text{the particle velocity.}
