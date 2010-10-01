@@ -1,10 +1,20 @@
 \documentclass{beamer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{bm}
-\input{SRJinclude.tex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{microtype}
+\usepackage{booktabs} % \toprule, \midrule, \bottomrule
+\input{../SRJinclude.tex}
+\newcommand{\Dtens}{\mat{D}}
+\definecolor{lightgray}{gray}{0.85}
+\newcommand{\notebox}[1]{\hspace{.1\columnwidth}\colorbox{lightgray}{\parbox{0.8\columnwidth}{\small
+#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usetheme{AnnArbor} %Madrid
 \usecolortheme{seahorse}
+\usefonttheme[onlymath]{serif}
 \setbeamercolor*{frametitle}{use=structure,bg=structure.fg!20!white}
 \setbeamercolor*{frametitle right}{use=structure,bg=structure.fg!20!white}
 \setbeamertemplate{navigation symbols}{\insertframenavigationsymbol}
@@ -15,7 +25,7 @@
 Transfer}
 %\subtitle{}
 
-\author[Seth~R.~Johnson]{Seth~R.~Johnson}
+\author[Seth~R.~Johnson]{Seth~R.~Johnson (and EWL?)}
 
 \institute[UMich]{
 University of Michigan, Ann Arbor
@@ -32,15 +42,6 @@ University of Michigan, Ann Arbor
 %
 \hypersetup{colorlinks=true,linkcolor=black}
 
-%%% extra packages and shortcuts
-\usepackage{bm}
-\usepackage{amsmath}
-\usepackage{amssymb}
-%\usepackage{microtype}
-\usepackage{booktabs} % \toprule, \midrule, \bottomrule
-\input{../SRJinclude.tex}
-%%%
-
 % only show section headings in table of contents
 \setcounter{tocdepth}{1}
 
@@ -53,7 +54,7 @@ University of Michigan, Ann Arbor
 \begin{frame}
 \titlepage
 \begin{center}
-  \includegraphics[width=0.2\textwidth]../figures/umlogo}
+  \includegraphics[width=0.2\textwidth]{../figures/umlogo}
 \end{center}
 \end{frame}
 
@@ -61,11 +62,203 @@ University of Michigan, Ann Arbor
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Motivation}
+  \frametitle{Thermal radiative transfer}
+  Applications in high energy density physics
   \begin{itemize}
+    \item Astrophysics, both stellar and strategic
+    \item Inertial confinement fusion
+    \item CRASH (Center for RAdiative Shock Hydrodynamics) program: ``Assessment
+          of Predictive Capability''
+  \end{itemize}
+  Difficulties in solving:
+  \begin{itemize}
+    \item High dimensionality of solution phase space $(\vec{x}, \vec{\Omega},
+      h\nu, t)$
+    \item Highly nonlinear coupled partial differential equations for radiation
+      field $I(\vec{x}, \vec{\Omega}, h\nu, t)$ and material energy $U_m(\vec{x}, t)$
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Motivation}
+\begin{center}
+  \includegraphics[width=3in]{../figures/fidelity}
+\end{center}
+% also, storage requirements
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Previous work}
+  \begin{itemize}
+    \item Steady-state VHTR-like problem with analytically calculated
+      coefficients \cite{Lar2009c}
+    \item Non-local tensor diffusion \cite{Mor2007}, no further development or
+      analysis in literature
   \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theory}
+\subsection{Time-dependent linear anisotropic diffusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Summary in advance}
+  \begin{enumerate}
+    \item Make assumptions about weakness of derivatives and moments of angular
+      flux $\psi(\vec{x}, \vec{\Omega}, t)$: non-rigorous $O(1)$, $O(\epsilon)$.
+    \item Substitute the particle conservation equation (zeroth moment of
+      Boltzmann equation) into the integral equation for time-dependent angular
+      flux.
+    \item Apply Taylor series to non-local $\phi$ to get an approximate
+      expression for $\psi(\vec{x}, \vec{\Omega}, t)$ as a function of
+      $\phi(\vec{x}, t)$ and other problem-dependent quantities.
+      Discard $O(\epsilon^2)$ and higher terms.
+    \item Take first moment of this approximate $\psi$ to get
+      $\vec{J}(\vec{x}, t)$
+  \end{enumerate}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  Boltzmann transport equation:
+  \begin{multline} \label{eq:shortBoltzmannTd}
+    \pder{\psi}{t}(\vec{x}, \vec{\Omega}, t) + \vec{\Omega} \vd \del
+    \psi(\vec{x}, \vec{\Omega}, t) + \Sigma_t (\vec{x}) \psi(\vec{x},
+    \vec{\Omega}, t) \\ =
+    \frac{1}{4\pi} \left[ \Sigma_s (\vec{x}) \phi(\vec{x}, t) + Q(\vec{x}, t) \right]
+  \end{multline}
+  Particle conservation by integrating over angles $\int_{4\pi} (\cdot) \ud
+  \Omega$:
+  \begin{equation} \label{eq:shortConservationTd}
+    \pder{\phi}{t}(\vec{x}, t) + \del \vd \vec{J}(\vec{x}, t)
+    + \Sigma_t (\vec{x}) \phi(\vec{x}, t) =
+   \Sigma_s (\vec{x}) \phi(\vec{x}, t) + Q(\vec{x}, t)
+  \end{equation}
+
+  \begin{block}{Asymptotic importance ansatz}
+    \begin{align*}
+      \psi &= O(\textcolor{blue}{1}) & \Sigma_t &= O(\textcolor{blue}{1}) \\
+      \del \psi &= O(\textcolor{blue}{\epsilon}) &
+      \pder{\psi}{t} &= O(\textcolor{blue}{\epsilon}) &
+      \int_{4\pi} \vec{\Omega} \psi\ud \Omega &= O(\textcolor{blue}{\epsilon})
+    \end{align*}
+  \end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  Integral time-dependent transport equation \cite{Pri2010}, neglecting
+  boundary and initial conditions:
+  \begin{equation} \label{eq:integralAngularFluxShortened}
+    \psi(\vec{x}, \vec{\Omega}, t) = 
+    \int_{0}^{\infty}
+    \eexp^{ - \int_{0}^{s} \Sigma_t(\vec{x}-s'\vec{\Omega}) \ud s'}
+    \frac{1}{4\pi}
+    \left[ \Sigma_s \phi + Q \right]_{(\vec{x} - s \vec{\Omega}, t-s/v)}
+    \ud s
+  \end{equation}
+  Substituting left hand side of conservation equation,
+  Eq.~\eqref{eq:shortConservationTd}:
+  \begin{align*}
+    \psi(\vec{x}, \vec{\Omega}, t) &= 
+    \frac{1}{4\pi} \int_{0}^{\infty}
+    \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
+       \left[ \pder{\phi}{t} + \del \vd \vec{J}
+    + \Sigma_t \phi\right]_{(\vec{x} - s \vec{\Omega}, t-s/v)}
+    \ud s
+    \\
+    \begin{split}
+    &= 
+    \frac{1}{4\pi} \int_{0}^{\infty} \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
+    \pder{\phi}{t}(\vec{x} - s \vec{\Omega}, t-s/v) \ud s
+    \\&\qquad + 
+    \frac{1}{4\pi} \int_{0}^{\infty} \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
+    \del \vd \vec{J}(\vec{x} - s \vec{\Omega}, t-s/v) \ud s
+    \\&\qquad +
+    \frac{1}{4\pi} \int_{0}^{\infty} \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
+    \Sigma_t(\vec{x} - s \vec{\Omega}) \phi(\vec{x} - s \vec{\Omega}, t-s/v)
+    \ud s
+    \end{split}
+    \\
+    &= A + B + C = O(\textcolor{blue}{\epsilon}) +
+    O(\textcolor{blue}{\epsilon^2}) + O(\textcolor{blue}{1})
+  \end{align*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  Taylor series expansion of nonlocal unknowns:
+  \begin{align*}
+    f(\vec{x} - s \vec{\Omega}, t-s/v)
+    &\sim
+    f(\vec{x}, t) - s \vec{\Omega} \vd \del f(\vec{x}, t)
+    - s\frac{1}{v} \pder{f}{t}(\vec{x}, t) + \cdots
+    \\
+    &= f(\vec{x}, t) - s \left[ \vec{\Omega} \vd \del
+    + \frac{1}{v} \pder{}{t} \right] f(\vec{x}, t) + \cdots
+    \\
+    &= O(\textcolor{blue}{1}) +
+    O(\textcolor{blue}{\epsilon}) + \cdots
+  \end{align*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Semi-implicit radiative transfer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Thermal radiative transfer equations}
+\begin{subequations} \label{eqs:fullGrayTRT}
+Radiative transfer equation:
+\begin{equation} \label{eq:fullGrayTransport}
+  \frac{1}{c} \pder{I}{t}
+  + \vec{\Omega} \vd \del I + \textcolor{red}{\sigma} I
+  = \frac{\textcolor{red}{\sigma} ac\textcolor{red}{T^4}}{4\pi} 
+  + \frac{c Q}{4\pi} \,,
+\end{equation}
+Material energy balance equation:
+\begin{equation} \label{eq:fullGrayMaterial}
+  \frac{1}{\textcolor{red}{c_v}}\pder{T}{t} = \textcolor{red}{\sigma} \int_{4\pi}  I \ud
+  \Omega - \textcolor{red}{\sigma} ac\textcolor{red}{T^4}
+  \,.
+\end{equation}
+\end{subequations}
+\notebox{\textcolor{red}{Red} quantities are temperature-dependent and couple
+the material energy to the radiation field.}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Summary}
+  \begin{itemize}
+    \item Applied transport-calculated coefficients to arbitrary steady-state
+      problems
+    \item Devised and implemented method to account for diffusion in
+      non-orthogonal directions
+    \item Time-dependent blah blah
+    \item Thermal radiative transport blah blah
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Future work}
+  \begin{itemize}
+    \item Improved time-dependent behavior, with wave propagation speed of $c$
+    \item Boundary conditions for both anisotropic diffusion problem and
+      purely absorbing transport problem
+    \item Improve performance by reducing time spent in transport sweeps
+      \begin{itemize}
+        \item Evaluate $\Dtens$ on coarser grid, since they are smooth
+        \item Advanced quadrature set for \emph{a priori} problem geometry
+      \end{itemize}
+    \item Quantify the penalty of omitting the $D^{xy}$ terms for various
+      problems, or find more effective discretization scheme
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{References}
+\bibliographystyle{amsalpha}
+\bibliography{../SRJall}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %	This material is based upon work supported under a National Science
 %	Foundation Graduate Research Fellowship. Any opinions, findings, conclusions
