@@ -10,6 +10,7 @@
 \definecolor{lightgray}{gray}{0.85}
 \newcommand{\notebox}[1]{\hspace{.1\columnwidth}\colorbox{lightgray}{\parbox{0.8\columnwidth}{\small
 #1}}}
+\newcommand{\epsiloncolor}[1]{\textcolor{blue}{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usetheme{AnnArbor} %Madrid
@@ -30,7 +31,7 @@ Transfer}
 \institute[UMich]{
 University of Michigan, Ann Arbor
 }
-\date[10/X/2010]{October X, 2010}
+\date[11/3/2010]{November 3, 2010}
 
 %\AtBeginSection[]
 %{
@@ -63,9 +64,11 @@ University of Michigan, Ann Arbor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Thermal radiative transfer}
-  Applications in high energy density physics
+  Radiation $T^4$ is the dominant heat transfer process
+
+  Applications in high energy density physics:
   \begin{itemize}
-    \item Astrophysics, both stellar and strategic
+    \item Stellar astrophysics, strategic astrophysics
     \item Inertial confinement fusion
     \item CRASH (Center for RAdiative Shock Hydrodynamics) program: ``Assessment
           of Predictive Capability''
@@ -120,7 +123,7 @@ University of Michigan, Ann Arbor
 \begin{frame}
   Boltzmann transport equation:
   \begin{multline} \label{eq:shortBoltzmannTd}
-    \pder{\psi}{t}(\vec{x}, \vec{\Omega}, t) + \vec{\Omega} \vd \del
+    \frac1v \pder{\psi}{t}(\vec{x}, \vec{\Omega}, t) + \vec{\Omega} \vd \del
     \psi(\vec{x}, \vec{\Omega}, t) + \Sigma_t (\vec{x}) \psi(\vec{x},
     \vec{\Omega}, t) \\ =
     \frac{1}{4\pi} \left[ \Sigma_s (\vec{x}) \phi(\vec{x}, t) + Q(\vec{x}, t) \right]
@@ -128,17 +131,17 @@ University of Michigan, Ann Arbor
   Particle conservation by integrating over angles $\int_{4\pi} (\cdot) \ud
   \Omega$:
   \begin{equation} \label{eq:shortConservationTd}
-    \pder{\phi}{t}(\vec{x}, t) + \del \vd \vec{J}(\vec{x}, t)
+    \frac1v\pder{\phi}{t}(\vec{x}, t) + \del \vd \vec{J}(\vec{x}, t)
     + \Sigma_t (\vec{x}) \phi(\vec{x}, t) =
    \Sigma_s (\vec{x}) \phi(\vec{x}, t) + Q(\vec{x}, t)
   \end{equation}
 
   \begin{block}{Asymptotic importance ansatz}
     \begin{align*}
-      \psi &= O(\textcolor{blue}{1}) & \Sigma_t &= O(\textcolor{blue}{1}) \\
-      \del \psi &= O(\textcolor{blue}{\epsilon}) &
-      \pder{\psi}{t} &= O(\textcolor{blue}{\epsilon}) &
-      \int_{4\pi} \vec{\Omega} \psi\ud \Omega &= O(\textcolor{blue}{\epsilon})
+      \psi &= O(\epsiloncolor{1}) & \Sigma_t &= O(\epsiloncolor{1}) \\
+      \del \psi &= O(\epsiloncolor{\epsilon}) &
+      \frac1v\pder{\psi}{t} &= O(\epsiloncolor{\epsilon}) &
+      \int_{4\pi} \vec{\Omega} \psi\ud \Omega &= O(\epsiloncolor{\epsilon})
     \end{align*}
   \end{block}
 \end{frame}
@@ -160,14 +163,14 @@ University of Michigan, Ann Arbor
     \psi(\vec{x}, \vec{\Omega}, t) &= 
     \frac{1}{4\pi} \int_{0}^{\infty}
     \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
-       \left[ \pder{\phi}{t} + \del \vd \vec{J}
+       \left[ \frac1v\pder{\phi}{t} + \del \vd \vec{J}
     + \Sigma_t \phi\right]_{(\vec{x} - s \vec{\Omega}, t-s/v)}
     \ud s
     \\
     \begin{split}
     &= 
     \frac{1}{4\pi} \int_{0}^{\infty} \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
-    \pder{\phi}{t}(\vec{x} - s \vec{\Omega}, t-s/v) \ud s
+    \frac1v\pder{\phi}{t}(\vec{x} - s \vec{\Omega}, t-s/v) \ud s
     \\&\qquad + 
     \frac{1}{4\pi} \int_{0}^{\infty} \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
     \del \vd \vec{J}(\vec{x} - s \vec{\Omega}, t-s/v) \ud s
@@ -177,8 +180,10 @@ University of Michigan, Ann Arbor
     \ud s
     \end{split}
     \\
-    &= A + B + C = O(\textcolor{blue}{\epsilon}) +
-    O(\textcolor{blue}{\epsilon^2}) + O(\textcolor{blue}{1})
+    &=
+    \underbrace{A}_{O(\epsilon)} + 
+    \underbrace{B}_{O(\epsilon^2)} + 
+    \underbrace{C}_{O(1)}
   \end{align*}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,9 +198,37 @@ University of Michigan, Ann Arbor
     &= f(\vec{x}, t) - s \left[ \vec{\Omega} \vd \del
     + \frac{1}{v} \pder{}{t} \right] f(\vec{x}, t) + \cdots
     \\
-    &= O(\textcolor{blue}{1}) +
-    O(\textcolor{blue}{\epsilon}) + \cdots
+    &= O(\epsiloncolor{1}) +
+    O(\epsiloncolor{\epsilon}) + \cdots
   \end{align*}
+
+  Derivative along streaming direction:
+  \begin{align*}
+    \oder{}{s} f(\vec{x} - s \vec{\Omega}, t-s/v)
+    &=  \oder{}{s} f(x_i - s \Omega_i, t-s/v)
+    = \oder{}{s} f(x_1',x_2',x_3',t')
+    \\
+    &= \sum_{i=1}^{3}
+    \pder{x_i'}{s}\pder{x_i}{x_i'} \pder{f}{x_i}
+    + \pder{t'}{s}\pder{t}{t'} \pder{f}{t}
+    \\
+    &= \sum_{i=1}^{3} [- \Omega_i][1]\pder{f}{x_i} 
+    + \left( -\frac{1}{v} \right)  \pder{f}{t}
+    \\
+    &= \left[ -\vec{\Omega} \vd \del f - \pder{f}{t} \right]_{(\vec{x} - s
+    \vec{\Omega}, t-s/v)}
+  \end{align*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Properties of anisotropic diffusion}
+  \begin{itemize}
+    \item
+    \item $\Dtens$ are continuous in $\vec{x}$, so anisotropic solution $\phi$
+      has continuous first derivatives
+    \item Despite smaller cross sections in void regions, propagation speed is
+      still infinite
+  \end{itemize}<++>
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Semi-implicit radiative transfer}
@@ -243,7 +276,8 @@ the material energy to the radiation field.}
       purely absorbing transport problem
     \item Improve performance by reducing time spent in transport sweeps
       \begin{itemize}
-        \item Evaluate $\Dtens$ on coarser grid, since they are smooth
+        \item Evaluate $\Dtens$ on coarser spatial grid, since they are smooth
+        \item Update $\Dtens$ less frequently
         \item Advanced quadrature set for \emph{a priori} problem geometry
       \end{itemize}
     \item Quantify the penalty of omitting the $D^{xy}$ terms for various

@@ -1,0 +1,164 @@
+% !TEX root = _individual/trtAnisotropicDerivation.tex
+
+\newcommand{\epsiloncolor}[1]{#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Anisotropic diffusion for TRT}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The radiation field in TRT is described by a Boltzmann transport equation:
+\begin{equation}\label{eq:fullGrayTransport2}
+  \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
+  + \vec{\Omega} \vd \del I(\vec{x}, \vec{\Omega}, t) +
+ \sigma(\vec{x}, t) I(\vec{x}, \vec{\Omega}, t)
+  = \frac{\sigma(\vec{x}, t) a c [T(\vec{x},t)]^4}{4\pi} 
+  + \frac{c Q(\vec{x},t)}{4\pi} \,, \qquad \vec{x} \in V, \ \vec{\Omega} \in
+  4\pi, \ t >= 0.
+\end{equation}
+It has boundary conditions
+\begin{alignat*}{3}
+  I(\vec{x}, \vec{\Omega}, t) &= I^b(\vec{x}, \vec{\Omega}, t) \,, &\qquad&
+  \vec{x} \in \partial V, \  \vec{\Omega}\vd \vec{n} < 0, \ t > 0,
+  \\
+  \intertext{and an initial condition}
+  I(\vec{x}, \vec{\Omega}, 0) &= I^i(\vec{x}, \vec{\Omega}) \,, &&
+  \vec{x} \in V,\ \vec{\Omega} \in 4\pi.
+\end{alignat*}
+The time-dependence of the opacity results from its explicit dependence on
+the material temperature, $\sigma = \sigma(\vec{x}, T[\vec{x},t])$.
+
+Taking the first moment of Eq.~\eqref{eq:fullGrayTransport2} gives a
+conservation statement for the radiation:
+\begin{equation} \label{eq:grayTransportZeroth}
+  \frac{1}{c} \pder{\phi}{t}(\vec{x}, t)
+  +\del \vd \vec{F}(\vec{x}, t) +
+ \sigma(\vec{x}, t) \phi(\vec{x}, t)
+  = \sigma(\vec{x}, t) a c [T(\vec{x},t)]^4
+  + c Q(\vec{x},t)
+\end{equation}
+where $\phi$ is the zeroth moment of the radiative intensity (so $\phi/c$ is
+the energy density of the radiation field), and the radiation flux $\vec{F}$ is
+the first moment of $I$.
+
+If the right hand side of Eq.~\eqref{eq:fullGrayTransport2} is treated as a known
+time-dependent quantity, the integrodifferential Boltzmann equation can be
+transformed to an integral transport equation by considering sources and
+attenuation along the characteristic ray that passes through the point
+$\vec{x}$ along $\vec{\Omega}$ \cite{Pri2010}. Including the initial and
+boundary conditions, the integral transport equation is
+\begin{subequations} \label{eqs:integralTrtAngularFlux}
+  \begin{equation} \label{eq:integralTrtAngularFluxFull}
+  \begin{split}
+    I(\vec{x}, \vec{\Omega}, t)
+    &=
+    I^b(\vec{x}_b, \vec{\Omega}, t - \norm{\vec{x} - \vec{x}_b}/c)
+    \eexp^{ -\tau(\vec{x}, \vec{x}_b, \vec{\Omega}, t)}
+    U(c t - \norm{\vec{x} - \vec{x}_b})
+    \\
+    &\qquad + I^i( \vec{x} - c t \vec{\Omega}, \vec{\Omega})
+    \eexp^{ -\tau(\vec{x}, \vec{x}- c t \vec{\Omega}, \vec{\Omega}, t)}
+    U( \norm{\vec{x} - \vec{x}_b} - c t)
+    \\
+    &\qquad +  \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t-s/c) \ud s\,.
+  \end{split}
+  \end{equation}
+  Here, $U(\zeta)$ is the heaviside function, unity for $\zeta \ge 0$ and zero
+  otherwise. It effectively selects whether the initial condition or the
+  boundary condition is used along a characteristic ray, depending on the
+  travel time to the boundary.
+
+  The ``known'' source $\hat Q$ is evaluated along the characteristic ray and
+  is defined by the right hand side in Eq.~\eqref{eq:fullGrayTransport2},
+  \begin{equation} \label{eq:integralTrtSource}
+    \hat Q(\vec{x}, \vec{\Omega}, t) =  \frac{\sigma(\vec{x}, t) a c
+    [T(\vec{x},t)]^4}{4\pi} + \frac{c Q(\vec{x},t)}{4\pi}\,.
+  \end{equation}
+  The optical thickness of the medium between points $\vec{x}$ and
+  $\vec{x}'$ along direction $\vec{\Omega}$ is 
+  \begin{equation} \label{eq:integralTrtTauDefinition}
+    \tau(\vec{x}, \vec{x}', \vec{\Omega}, t) = \int_{0}^{\norm{\vec{x} -
+    \vec{x}'}} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s' \,.
+  \end{equation}
+  The point $\vec{x}_b$ is defined as the point on the boundary that,
+  following direction $\vec{\Omega}$, intersects point $\vec{x}$. In other
+  words, some geometry-dependent positive value of $d$ satisfies $\vec{x}_b =
+  \vec{x} - d \vec{\Omega}$.
+\end{subequations}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anisotropic diffusion derivation in interior}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Far from the problem's boundaries, $\norm{\vec{x} - \vec{x}_b} \sim \infty$,
+and the optical thickness $\tau$ is very large, so only an exponentially small
+approximation is made by discarding the $I^b$ term and writing the line
+integral's upper limit as $\infty$. If $t\gg 0$, temporally distant from the
+initial condition, then the term with $I^i$ is also small because of the large
+number of mean free paths between $\vec{x}$ and $\vec{x} - c t$. It too may
+therefore be neglected in the spatiotemporal interior.
+
+Now, Eq.~\eqref{eq:integralTrtAngularFluxFull} is, with only a small
+approximation in the interior,
+\begin{equation*}
+    I(\vec{x}, \vec{\Omega}, t)
+    = \int_{0}^{\infty}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \left[ \frac{\sigma a c T^4}{4\pi} + \frac{c Q}{4\pi} \right]_{(\vec{x} - s
+    \vec{\Omega}, t-s/c)} \ud s\,.
+\end{equation*}
+The quantity in brackets is just the right-hand side of the conservation
+equation~\eqref{eq:grayTransportZeroth}. Replacing it with the left-hand
+side,
+\begin{equation*}
+    I(\vec{x}, \vec{\Omega}, t)
+    = \int_{0}^{\infty}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \left[ \frac{1}{c} \pder{\phi}{t} +\del \vd \vec{F} + \sigma \phi
+    \right]_{(\vec{x} - s \vec{\Omega}, t-s/c)} \ud s\,.
+\end{equation*}
+
+To expand and simplify the integral, it is necessary to make an ansatz about
+the strength of the derivatives and moments are in
+Eq.~\eqref{eq:fullGrayTransport2}:
+\begin{align*}
+  \psi &= O(\epsiloncolor{1}), &
+  \Sigma_t &= O(\epsiloncolor{1}), &
+  \del \psi &= O(\epsiloncolor{\epsilon}), &
+  \frac1v\pder{\psi}{t} &= O(\epsiloncolor{\epsilon}), &
+  \int_{4\pi} \vec{\Omega} \psi\ud \Omega &= O(\epsiloncolor{\epsilon}).
+\end{align*}
+This set of assumptions differs from the standard asymptotic diffusion
+derivation, where only the physics ($c$, $\sigma$, $c_v$) are scaled, and the
+strength of the derivatives result naturally from the asymptotic matching.
+
+To expand the 
+\begin{align*}
+  f(\vec{x} - s \vec{\Omega}, t-s/c)
+  &\sim
+  f(\vec{x}, t) - s \vec{\Omega} \vd \del f(\vec{x}, t)
+  - s\frac{1}{c} \pder{f}{t}(\vec{x}, t) + \cdots
+  \\
+  &= f(\vec{x}, t) - s \left[ \vec{\Omega} \vd \del
+  + \frac{1}{c} \pder{}{t} \right] f(\vec{x}, t) + \cdots
+  \\
+  &= O(\epsiloncolor{1}) +
+  O(\epsiloncolor{\epsilon}) + \cdots
+\end{align*}
+
+Derivative along streaming direction:
+\begin{align*}
+  \oder{}{s} f(\vec{x} - s \vec{\Omega}, t-s/v)
+  &=  \oder{}{s} f(x_i - s \Omega_i, t-s/v)
+  = \oder{}{s} f(x_1',x_2',x_3',t')
+  \\
+  &= \sum_{i=1}^{3}
+  \pder{x_i'}{s}\pder{x_i}{x_i'} \pder{f}{x_i}
+  + \pder{t'}{s}\pder{t}{t'} \pder{f}{t}
+  \\
+  &= \sum_{i=1}^{3} [- \Omega_i][1]\pder{f}{x_i} 
+  + \left( -\frac{1}{v} \right)  \pder{f}{t}
+  \\
+  &= \left[ -\vec{\Omega} \vd \del f - \pder{f}{t} \right]_{(\vec{x} - s
+  \vec{\Omega}, t-s/v)}
+\end{align*}
+
+
