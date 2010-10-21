@@ -130,7 +130,9 @@ This set of assumptions differs from the standard asymptotic diffusion
 derivation, where only the physics ($c$, $\sigma$, $c_v$) are scaled, and the
 strength of the derivatives result naturally from the asymptotic matching.
 
-To expand the 
+A Taylor series about the local point $(\vec{x}, t)$ expands the nonlocal
+unknowns. Since the derivatives were assumed to be small, each term
+is an increasing power in $\epsilon$:
 \begin{align*}
   f(\vec{x} - s \vec{\Omega}, t-s/c)
   &\sim
@@ -144,10 +146,10 @@ To expand the
   O(\epsiloncolor{\epsilon}) + \cdots
 \end{align*}
 
-Derivative along streaming direction:
+The derivative along the streaming direction is just
 \begin{align*}
-  \oder{}{s} f(\vec{x} - s \vec{\Omega}, t-s/v)
-  &=  \oder{}{s} f(x_i - s \Omega_i, t-s/v)
+  \oder{}{s} f(\vec{x} - s \vec{\Omega}, t-s/c)
+  &=  \oder{}{s} f(x_i - s \Omega_i, t-s/c)
   = \oder{}{s} f(x_1',x_2',x_3',t')
   \\
   &= \sum_{i=1}^{3}
@@ -155,10 +157,10 @@ Derivative along streaming direction:
   + \pder{t'}{s}\pder{t}{t'} \pder{f}{t}
   \\
   &= \sum_{i=1}^{3} [- \Omega_i][1]\pder{f}{x_i} 
-  + \left( -\frac{1}{v} \right)  \pder{f}{t}
+  + \left[ -\frac{1}{c} \right]  \pder{f}{t}
   \\
   &= \left[ -\vec{\Omega} \vd \del f - \pder{f}{t} \right]_{(\vec{x} - s
-  \vec{\Omega}, t-s/v)}
+  \vec{\Omega}, t-s/c)}
 \end{align*}
 
 
