@@ -96,57 +96,116 @@ initial condition, then the term with $I^i$ is also small because of the large
 number of mean free paths between $\vec{x}$ and $\vec{x} - c t$. It too may
 therefore be neglected in the spatiotemporal interior.
 
-Now, Eq.~\eqref{eq:integralTrtAngularFluxFull} is, with only a small
+Discarding those boundary terms and substituting $\hat Q$, Eq.~\eqref{eq:integralTrtAngularFluxFull} is, with only a small
 approximation in the interior,
 \begin{equation*}
     I(\vec{x}, \vec{\Omega}, t)
-    = \int_{0}^{\infty}
+    = \frac{1}{4\pi}\int_{0}^{\infty}
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
-    \left[ \frac{\sigma a c T^4}{4\pi} + \frac{c Q}{4\pi} \right]_{(\vec{x} - s
+    \left[ \sigma a c T^4 + c Q \right]_{(\vec{x} - s
     \vec{\Omega}, t-s/c)} \ud s\,.
 \end{equation*}
 The quantity in brackets is just the right-hand side of the conservation
 equation~\eqref{eq:grayTransportZeroth}. Replacing it with the left-hand
 side,
-\begin{equation*}
+\begin{equation}\label{eq:integralTrtLhs}
     I(\vec{x}, \vec{\Omega}, t)
-    = \int_{0}^{\infty}
+    = \frac{1}{4\pi}\int_{0}^{\infty}
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
     \left[ \frac{1}{c} \pder{\phi}{t} +\del \vd \vec{F} + \sigma \phi
     \right]_{(\vec{x} - s \vec{\Omega}, t-s/c)} \ud s\,.
-\end{equation*}
+\end{equation}
 
 To expand and simplify the integral, it is necessary to make an ansatz about
 the strength of the derivatives and moments are in
 Eq.~\eqref{eq:fullGrayTransport2}:
 \begin{align*}
-  \psi &= O(\epsiloncolor{1}), &
-  \Sigma_t &= O(\epsiloncolor{1}), &
-  \del \psi &= O(\epsiloncolor{\epsilon}), &
-  \frac1v\pder{\psi}{t} &= O(\epsiloncolor{\epsilon}), &
-  \int_{4\pi} \vec{\Omega} \psi\ud \Omega &= O(\epsiloncolor{\epsilon}).
+  I &= O(\epsiloncolor{1}), &
+  \sigma &= O(\epsiloncolor{1}), &
+  \del I &= O(\epsiloncolor{\epsilon}), &
+  \frac1c\pder{I}{t} &= O(\epsiloncolor{\epsilon}), &
+  \int_{4\pi} \vec{\Omega} I\ud \Omega &= O(\epsiloncolor{\epsilon}).
 \end{align*}
 This set of assumptions differs from the standard asymptotic diffusion
 derivation, where only the physics ($c$, $\sigma$, $c_v$) are scaled, and the
 strength of the derivatives result naturally from the asymptotic matching.
 
-A Taylor series about the local point $(\vec{x}, t)$ expands the nonlocal
-unknowns. Since the derivatives were assumed to be small, each term
-is an increasing power in $\epsilon$:
+We consider each term in Eq.~\eqref{eq:integralTrtLhs},
 \begin{align*}
-  f(\vec{x} - s \vec{\Omega}, t-s/c)
-  &\sim
-  f(\vec{x}, t) - s \vec{\Omega} \vd \del f(\vec{x}, t)
-  - s\frac{1}{c} \pder{f}{t}(\vec{x}, t) + \cdots
-  \\
-  &= f(\vec{x}, t) - s \left[ \vec{\Omega} \vd \del
-  + \frac{1}{c} \pder{}{t} \right] f(\vec{x}, t) + \cdots
-  \\
-  &= O(\epsiloncolor{1}) +
-  O(\epsiloncolor{\epsilon}) + \cdots
+    \begin{split}
+    I(\vec{x}, \vec{\Omega}, t)
+    &=
+    \frac{1}{4\pi}\int_{0}^{\infty}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \sigma(\vec{x} - s \vec{\Omega}, t-s/c)
+    \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+    \ud s
+    \\
+    &\quad+ \frac{1}{4\pi}\frac{1}{c} \pder{}{t} \int_{0}^{\infty}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+    \ud s
+    \\
+    &\quad+ \frac{1}{4\pi}\del \vd \int_{0}^{\infty}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \vec{F}(\vec{x} - s \vec{\Omega}, t-s/c)
+    \ud s
+    \end{split}
+    \\
+    &= \frac{1}{4\pi}(A + B + C)
+    \\
+    &= O(\epsiloncolor{1}) + O(\epsiloncolor{\epsilon})+
+    O(\epsiloncolor{\epsilon^2})\,.
 \end{align*}
+To begin, we discard $C$, which is $O(\epsilon^2)$.
 
-The derivative along the streaming direction is just
+Next, we consider $A$ by recognizing that, by the fundamental theorem of
+calculus,
+\begin{align*}
+  \lefteqn{\eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+  \sigma(\vec{x} - s \vec{\Omega}, t-s/c)}\qquad&
+  \\
+  &= \sigma(\vec{x} - s \vec{\Omega}, t-s/c) \expp{ -\int_{0}^{s}
+  \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
+  \\
+  &= -\oder{}{s}
+    \expp{ -\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}\,.
+\end{align*}
+Using the chain rule, $A$ is evaluated:
+\begin{align*}
+  A &= 
+  -\frac{1}{4\pi}\int_{0}^{\infty}
+  \oder{}{s}
+    \expp{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
+  \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+  \ud s
+  \\
+    \begin{split}
+  &=-\frac{1}{4\pi} \Bigg[ 
+\expp{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'} 
+\phi(\vec{x} - s \vec{\Omega}, t-s/c) \Bigg|_{0}^{\infty}
+\\
+&\qquad\qquad- \int_{0}^{\infty} \expp{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
+\oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\ud s
+  \Bigg]
+    \end{split}
+  \\
+  &=-\frac{1}{4\pi} \Bigg[ 
+0 -  
+\eexp^0 \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+- \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+\oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\ud s
+  \Bigg]
+  \\
+ &=\frac{1}{4\pi}\phi(\vec{x} - s \vec{\Omega}, t-s/c)
++ \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+\oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\ud s
+\end{align*}
+The derivative along the streaming direction works out to be the streaming plus
+time derivative operator:
 \begin{align*}
   \oder{}{s} f(\vec{x} - s \vec{\Omega}, t-s/c)
   &=  \oder{}{s} f(x_i - s \Omega_i, t-s/c)
@@ -159,8 +218,53 @@ The derivative along the streaming direction is just
   &= \sum_{i=1}^{3} [- \Omega_i][1]\pder{f}{x_i} 
   + \left[ -\frac{1}{c} \right]  \pder{f}{t}
   \\
-  &= \left[ -\vec{\Omega} \vd \del f - \pder{f}{t} \right]_{(\vec{x} - s
-  \vec{\Omega}, t-s/c)}
+  &= \left[ -\vec{\Omega} \vd \del - \pder{}{t} \right]
+    f(\vec{x} - s \vec{\Omega}, t-s/c)
+\end{align*}
+Applying this to $\oder{}{s}\phi$ in the $A$ term,
+\begin{equation*}
+A = \frac{1}{4\pi}\phi(\vec{x} - s \vec{\Omega}, t-s/c)
++ \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+\left[ -\vec{\Omega} \vd \del - \pder{}{t} \right] \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\ud s
+\end{equation*}
+Next, a Taylor series about the local point $(\vec{x}, t)$ expands the
+nonlocal unknown $\phi$. Since the derivatives were assumed to be small, each
+term is an increasing power in $\epsilon$:
+\begin{align*}
+  f(\vec{x} - s \vec{\Omega}, t-s/c)
+  &\sim
+  f(\vec{x}, t) - s \vec{\Omega} \vd \del f(\vec{x}, t)
+  - s\frac{1}{c} \pder{f}{t}(\vec{x}, t) + \cdots
+  \\
+  &= f(\vec{x}, t) - s \left[ \vec{\Omega} \vd \del
+  + \frac{1}{c} \pder{}{t} \right] f(\vec{x}, t) + \cdots
+  \\
+  &= O(\epsiloncolor{1}) +
+  O(\epsiloncolor{\epsilon}) + \cdots
+\end{align*}
+With the Taylor series approximation to $\phi$, keeping only the leading order
+term,
+\begin{align*}
+A &= \frac{1}{4\pi}\phi(\vec{x} - s \vec{\Omega}, t-s/c)
++ \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+\left[ -\vec{\Omega} \vd \del - \pder{}{t} \right][\phi(\vec{x}, t)]
+\ud s
+\\
+&= \frac{1}{4\pi}\phi(\vec{x} - s \vec{\Omega}, t-s/c)
+- \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+\ud s
+\left[ \vec{\Omega} \vd \del + \pder{}{t} \right]\phi(\vec{x}, t)
 \end{align*}
 
+A slightly different Taylor series allows the expansion of the $\sigma$ term
+embedded inside $\tau$:
+\begin{align*}
+  f(\vec{x} - s \vec{\Omega}, t-s/c)
+  &\sim
+  f(\vec{x} - s \vec{\Omega}, t)
+  - s\frac{1}{c} \pder{f}{t}(\vec{x}, t) + \cdots
+  \\
+  &= O(\epsiloncolor{1}) + O(\epsiloncolor{\epsilon}) + \cdots
+\end{align*}
 

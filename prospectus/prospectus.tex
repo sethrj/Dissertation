@@ -13,8 +13,27 @@
 \newcommand{\epsiloncolor}[1]{\textcolor{blue}{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usetheme{AnnArbor} %Madrid
+%\usetheme{Madrid}
+\usetheme{AnnArbor}
+
+%\makeatletter
+%\mode<presentation>
+%
+%\newif\ifbeamer@secheader
+%\beamer@secheaderfalse
+%
+%\DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
+%\ProcessOptionsBeamer
+%
+%\usecolortheme{whale}
+%\usecolortheme{orchid}
+%\useinnertheme[shadow]{rounded}
+%\useoutertheme{infolines}
+%
+%\makeatother
+
 \usecolortheme{seahorse}
+\usecolortheme{orchid}
 \usefonttheme[onlymath]{serif}
 \setbeamercolor*{frametitle}{use=structure,bg=structure.fg!20!white}
 \setbeamercolor*{frametitle right}{use=structure,bg=structure.fg!20!white}
@@ -95,7 +114,8 @@ University of Michigan, Ann Arbor
   \begin{itemize}
     \item Steady-state VHTR-like problem with analytically calculated
       coefficients \cite{Lar2009c}
-    \item Non-local tensor diffusion \cite{Mor2007}, no further development or
+    \item Non-local tensor diffusion \cite{Mor2007} for steady-state
+      radiative transfer, no further development or
       analysis in literature
   \end{itemize}
 \end{frame}
@@ -253,6 +273,40 @@ Material energy balance equation:
 \notebox{\textcolor{red}{Red} quantities are temperature-dependent and couple
 the material energy to the radiation field.}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Another subsection I guess}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Summary of approximations}
+  \begin{block}{Thermal radiative transfer equations}
+    \begin{itemize}
+      \item Assume weak gradients and angular moments for $I$
+      \item Neglect boundary and initial conditions
+      \item Semi-implicit approximation for the nonlinearities
+    \end{itemize}
+  \end{block}
+  \begin{columns}[t]
+    \begin{column}{.48\textwidth}
+  \begin{block}{AD equation}
+    \begin{itemize}
+      \item Cell-centered finite difference spatial approximation
+      \item Discard $D^{xy}$ and $D^{yx}$
+    \end{itemize}
+  \end{block}
+    \end{column}
+    \begin{column}{.48\textwidth}
+  \begin{block}{$\Dtens$ transport equation}
+    \begin{itemize}
+      \item Discrete ordinates angular approximation
+      \item Diamond difference spatial approximation
+    \end{itemize}
+  \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+\subsection{Time-dependent linear anisotropic diffusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
