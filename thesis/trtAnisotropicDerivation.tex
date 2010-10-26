@@ -25,7 +25,7 @@ It has boundary conditions
 The time-dependence of the opacity results from its explicit dependence on
 the material temperature, $\sigma = \sigma(\vec{x}, T[\vec{x},t])$.
 
-Taking the first moment of Eq.~\eqref{eq:fullGrayTransport2} gives a
+Taking the zeroth angular moment of Eq.~\eqref{eq:fullGrayTransport2} gives a
 conservation statement for the radiation:
 \begin{equation} \label{eq:grayTransportZeroth}
   \frac{1}{c} \pder{\phi}{t}(\vec{x}, t)
@@ -152,7 +152,7 @@ We consider each term in Eq.~\eqref{eq:integralTrtLhs},
     \ud s
     \end{split}
     \\
-    &= \frac{1}{4\pi}(A + B + C)
+    &= A + B + C
     \\
     &= O(\epsiloncolor{1}) + O(\epsiloncolor{\epsilon})+
     O(\epsiloncolor{\epsilon^2})\,.
@@ -193,13 +193,13 @@ Using the chain rule, $A$ is evaluated:
   \\
   &=-\frac{1}{4\pi} \Bigg[ 
 0 -  
-\eexp^0 \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\eexp^0 \phi(\vec{x}, t)
 - \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
 \oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
 \ud s
   \Bigg]
   \\
- &=\frac{1}{4\pi}\phi(\vec{x} - s \vec{\Omega}, t-s/c)
+ &=\frac{1}{4\pi}\phi(\vec{x}, t)
 + \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
 \oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
 \ud s
@@ -223,7 +223,7 @@ time derivative operator:
 \end{align*}
 Applying this to $\oder{}{s}\phi$ in the $A$ term,
 \begin{equation*}
-A = \frac{1}{4\pi}\phi(\vec{x} - s \vec{\Omega}, t-s/c)
+A = \frac{1}{4\pi}\phi(\vec{x}, t)
 + \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
 \left[ -\vec{\Omega} \vd \del - \pder{}{t} \right] \phi(\vec{x} - s \vec{\Omega}, t-s/c)
 \ud s
@@ -246,12 +246,12 @@ term is an increasing power in $\epsilon$:
 With the Taylor series approximation to $\phi$, keeping only the leading order
 term,
 \begin{align*}
-A &= \frac{1}{4\pi}\phi(\vec{x} - s \vec{\Omega}, t-s/c)
+A &= \frac{1}{4\pi}\phi(\vec{x}, t)
 + \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
 \left[ -\vec{\Omega} \vd \del - \pder{}{t} \right][\phi(\vec{x}, t)]
 \ud s
 \\
-&= \frac{1}{4\pi}\phi(\vec{x} - s \vec{\Omega}, t-s/c)
+&= \frac{1}{4\pi}\phi(\vec{x}, t)
 - \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
 \ud s
 \left[ \vec{\Omega} \vd \del + \pder{}{t} \right]\phi(\vec{x}, t)
@@ -267,4 +267,84 @@ embedded inside $\tau$:
   \\
   &= O(\epsiloncolor{1}) + O(\epsiloncolor{\epsilon}) + \cdots
 \end{align*}
+so
+\begin{align*}
+  \tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)
+  &=  \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'
+  \\
+  &\sim \int_{0}^{s} [\sigma(\vec{x}-s'\vec{\Omega}, t)-s\frac{1}{c}
+  \pder{\sigma}{t}(\vec{x}, t)] \ud s'
+  \\
+  &\sim \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t) \ud s'\,.
+\end{align*}
+This approximation is good if the speed of light $c$ is large or the opacities
+vary slowly. It obviates the expense of storing the opacities at all
+prior points in time.
 
+With these approximations, the $\sigma I$ term in the integral expression for
+$I$ in Eq.~\eqref{eq:integralTrtLhs} is
+\begin{equation*}
+  A \sim \frac{1}{4\pi}\phi(\vec{x}, t)
+- \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t) \ud s'}
+\ud s
+\left[ \vec{\Omega} \vd \del + \pder{}{t} \right]\phi(\vec{x}, t)
+=  O(\epsiloncolor{1}) + O(\epsiloncolor{\epsilon})
+\end{equation*}
+Applying the same two Taylor series approximations to the $\frac1c\pder It$
+term gives:
+\begin{align*}
+  B &=
+  \frac{1}{4\pi}\frac{1}{c} \pder{}{t} \int_{0}^{\infty}
+  \eexp^{ -\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
+  \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+  \ud s
+\\
+  &\sim
+  \frac{1}{4\pi}\frac{1}{c} \pder{}{t} \int_{0}^{\infty}
+  \expp{ -\int_{0}^{s} \left[ \sigma(\vec{x}-s'\vec{\Omega}, t) +
+  O(\epsiloncolor{\epsilon}) \right]}
+  \left[ \phi(\vec{x} - s \vec{\Omega}, t-s/c) + O(\epsiloncolor{\epsilon}) \right]
+  \ud s
+\\
+&= \frac{1}{4\pi} \int_{0}^{\infty}
+  \eexp^{ -\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega},t) \ud s'}
+ \frac{1}{c} \pder{}{t} \phi(\vec{x} - s \vec{\Omega}, t)
+  \ud s
+  + O(\epsiloncolor{\epsilon})\,.
+\end{align*}
+
+With the Taylor series approximations that allow the $O(\epsilon^2)$ terms to
+be neglected, Eq.~\eqref{eq:integralTrtLhs} is
+\begin{align*}
+  I(\vec{x}, \vec{\Omega}, t) 
+  &\sim A + B + O(\epsiloncolor{\epsilon^2}) 
+  \\
+  \begin{split}
+  &= \frac{1}{4\pi}\phi(\vec{x}, t)
+- \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{-\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t) \ud s'}
+\ud s
+\left[ \vec{\Omega} \vd \del\phi(\vec{x}, t) + \pder{}{t}\phi(\vec{x}, t)
+\right]
+\\
+&\qquad+ \frac{1}{4\pi} \int_{0}^{\infty}
+  \eexp^{ -\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega},t) \ud s'}
+ \frac{1}{c} \pder{}{t} \phi(\vec{x} - s \vec{\Omega}, t)
+  \ud s
+  \end{split}
+  \\
+  &= \frac{1}{4\pi}\phi(\vec{x}, t)
+  + \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{-\int_{0}^{s}
+  \sigma(\vec{x}-s'\vec{\Omega}, t) \ud s'} \ud s \left[ - \vec{\Omega} \vd
+  \del\phi(\vec{x}, t) - \pder{}{t}\phi(\vec{x}, t)
+  + \pder{}{t}\phi(\vec{x}, t)
+  \right]
+  \\
+  &= \frac{1}{4\pi}\phi(\vec{x}, t)
+  - \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{-\int_{0}^{s}
+  \sigma(\vec{x}-s'\vec{\Omega}, t) \ud s'} \ud s \,
+  \vec{\Omega} \vd \del\phi(\vec{x}, t)
+  \\
+  &= O(1) + O(\epsiloncolor{\epsilon})
+\end{align*}
+The time derivatives have canceled out, leaving an isotropic leading order
+term and an angle-dependent 

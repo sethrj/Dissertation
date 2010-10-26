@@ -13,25 +13,7 @@
 \newcommand{\epsiloncolor}[1]{\textcolor{blue}{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\usetheme{Madrid}
 \usetheme{AnnArbor}
-
-%\makeatletter
-%\mode<presentation>
-%
-%\newif\ifbeamer@secheader
-%\beamer@secheaderfalse
-%
-%\DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
-%\ProcessOptionsBeamer
-%
-%\usecolortheme{whale}
-%\usecolortheme{orchid}
-%\useinnertheme[shadow]{rounded}
-%\useoutertheme{infolines}
-%
-%\makeatother
-
 \usecolortheme{seahorse}
 \usecolortheme{orchid}
 \usefonttheme[onlymath]{serif}
@@ -127,41 +109,46 @@ University of Michigan, Ann Arbor
   \frametitle{Summary in advance}
   \begin{enumerate}
     \item Make assumptions about weakness of derivatives and moments of angular
-      flux $\psi(\vec{x}, \vec{\Omega}, t)$: non-rigorous $O(1)$, $O(\epsilon)$.
+      flux $I(\vec{x}, \vec{\Omega}, t)$. % non-rigorous $O(1)$, $O(\epsilon)$
     \item Substitute the particle conservation equation (zeroth moment of
-      Boltzmann equation) into the integral equation for time-dependent angular
-      flux.
+      Boltzmann equation) into the integral equation for time-dependent
+      intensity.
     \item Apply Taylor series to non-local $\phi$ to get an approximate
-      expression for $\psi(\vec{x}, \vec{\Omega}, t)$ as a function of
+      expression for $I(\vec{x}, \vec{\Omega}, t)$ as a function of
       $\phi(\vec{x}, t)$ and other problem-dependent quantities.
       Discard $O(\epsilon^2)$ and higher terms.
-    \item Take first moment of this approximate $\psi$ to get
-      $\vec{J}(\vec{x}, t)$
+    \item Take first moment of this approximate $I$ to get
+      $\vec{F}(\vec{x}, t)$.
   \end{enumerate}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   Boltzmann transport equation:
-  \begin{multline} \label{eq:shortBoltzmannTd}
-    \frac1v \pder{\psi}{t}(\vec{x}, \vec{\Omega}, t) + \vec{\Omega} \vd \del
-    \psi(\vec{x}, \vec{\Omega}, t) + \Sigma_t (\vec{x}) \psi(\vec{x},
-    \vec{\Omega}, t) \\ =
-    \frac{1}{4\pi} \left[ \Sigma_s (\vec{x}) \phi(\vec{x}, t) + Q(\vec{x}, t) \right]
+  \begin{multline} \label{eq:fullGrayTransport2}
+  \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
+  + \vec{\Omega} \vd \del I(\vec{x}, \vec{\Omega}, t) +
+ \sigma(\vec{x}, t) I(\vec{x}, \vec{\Omega}, t)
+  \\= \frac{\sigma(\vec{x}, t) a c [T(\vec{x},t)]^4}{4\pi} 
+  + \frac{c Q(\vec{x},t)}{4\pi}
+  %\,, \qquad \vec{x} \in V, \ \vec{\Omega} \in 4\pi, \ t >= 0.
   \end{multline}
-  Particle conservation by integrating over angles $\int_{4\pi} (\cdot) \ud
+  Radiation energy conservation by integrating over angles $\int_{4\pi} (\cdot) \ud
   \Omega$:
-  \begin{equation} \label{eq:shortConservationTd}
-    \frac1v\pder{\phi}{t}(\vec{x}, t) + \del \vd \vec{J}(\vec{x}, t)
-    + \Sigma_t (\vec{x}) \phi(\vec{x}, t) =
-   \Sigma_s (\vec{x}) \phi(\vec{x}, t) + Q(\vec{x}, t)
+  \begin{equation} \label{eq:grayTransportZeroth}
+  \frac{1}{c} \pder{\phi}{t}(\vec{x}, t)
+  +\del \vd \vec{F}(\vec{x}, t) +
+ \sigma(\vec{x}, t) \phi(\vec{x}, t)
+  = \sigma(\vec{x}, t) a c [T(\vec{x},t)]^4
+  + c Q(\vec{x},t)
   \end{equation}
 
   \begin{block}{Asymptotic importance ansatz}
     \begin{align*}
-      \psi &= O(\epsiloncolor{1}) & \Sigma_t &= O(\epsiloncolor{1}) \\
-      \del \psi &= O(\epsiloncolor{\epsilon}) &
-      \frac1v\pder{\psi}{t} &= O(\epsiloncolor{\epsilon}) &
-      \int_{4\pi} \vec{\Omega} \psi\ud \Omega &= O(\epsiloncolor{\epsilon})
+  I &= O(\epsiloncolor{1}), &
+  \sigma &= O(\epsiloncolor{1}), \\
+  \del I &= O(\epsiloncolor{\epsilon}), &
+  \frac1c\pder{I}{t} &= O(\epsiloncolor{\epsilon}), &
+  \int_{4\pi} \vec{\Omega} I\ud \Omega &= O(\epsiloncolor{\epsilon}).
     \end{align*}
   \end{block}
 \end{frame}
@@ -170,40 +157,33 @@ University of Michigan, Ann Arbor
   Integral time-dependent transport equation \cite{Pri2010}, neglecting
   boundary and initial conditions:
   \begin{equation} \label{eq:integralAngularFluxShortened}
-    \psi(\vec{x}, \vec{\Omega}, t) = 
-    \int_{0}^{\infty}
-    \eexp^{ - \int_{0}^{s} \Sigma_t(\vec{x}-s'\vec{\Omega}) \ud s'}
-    \frac{1}{4\pi}
-    \left[ \Sigma_s \phi + Q \right]_{(\vec{x} - s \vec{\Omega}, t-s/v)}
-    \ud s
+    I(\vec{x}, \vec{\Omega}, t)
+    = \int_{0}^{\infty}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \left[ \frac{\sigma a c T^4}{4\pi} + \frac{c Q}{4\pi} \right]_{(\vec{x} - s
+    \vec{\Omega}, t-s/c)} \ud s
   \end{equation}
-  Substituting left hand side of conservation equation,
-  Eq.~\eqref{eq:shortConservationTd}:
+  where the optical thickness from $(\vec{x},t)$ to the boundary along
+  $\vec{\Omega}$ is
+  \begin{equation} \label{eq:integralTrtTauDefinition}
+    \tau(\vec{x}, \vec{x}', \vec{\Omega}, t) = \int_{0}^{\norm{\vec{x} -
+    \vec{x}'}} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s' \,.
+  \end{equation}
+  Substituting left hand side of conservation
+  equation~\eqref{eq:grayTransportZeroth}:
   \begin{align*}
-    \psi(\vec{x}, \vec{\Omega}, t) &= 
-    \frac{1}{4\pi} \int_{0}^{\infty}
-    \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
-       \left[ \frac1v\pder{\phi}{t} + \del \vd \vec{J}
-    + \Sigma_t \phi\right]_{(\vec{x} - s \vec{\Omega}, t-s/v)}
-    \ud s
+    I(\vec{x}, \vec{\Omega}, t)
+    &= \frac{1}{4\pi} \int_{0}^{\infty}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \left[ \sigma a c T^4 + cQ \right]_{(\vec{x} - s \vec{\Omega}, t-s/c)} \ud s
     \\
-    \begin{split}
-    &= 
-    \frac{1}{4\pi} \int_{0}^{\infty} \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
-    \frac1v\pder{\phi}{t}(\vec{x} - s \vec{\Omega}, t-s/v) \ud s
-    \\&\qquad + 
-    \frac{1}{4\pi} \int_{0}^{\infty} \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
-    \del \vd \vec{J}(\vec{x} - s \vec{\Omega}, t-s/v) \ud s
-    \\&\qquad +
-    \frac{1}{4\pi} \int_{0}^{\infty} \eexp^{ - \tau(\vec{x},\vec{\Omega},s)}
-    \Sigma_t(\vec{x} - s \vec{\Omega}) \phi(\vec{x} - s \vec{\Omega}, t-s/v)
-    \ud s
-    \end{split}
-    \\
-    &=
-    \underbrace{A}_{O(\epsilon)} + 
-    \underbrace{B}_{O(\epsilon^2)} + 
-    \underbrace{C}_{O(1)}
+    &= \frac{1}{4\pi}\int_{0}^{\infty}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+    \Bigg[
+    \underbrace{\sigma \phi\vphantom{\frac1c}}_{O(1)}
+    + \underbrace{\frac{1}{c} \pder{\phi}{t}}_{O(\epsilon)}
+    + \underbrace{\del \vd \vec{F}\vphantom{\frac1c}}_{O(\epsilon^2)}
+    \Bigg]_{(\vec{x} - s \vec{\Omega}, t-s/c)} \ud s
   \end{align*}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -242,13 +222,16 @@ University of Michigan, Ann Arbor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Properties of anisotropic diffusion}
+  The diffusion tensor $\Dtens(\vec{x},t)$: 
   \begin{itemize}
-    \item
-    \item $\Dtens$ are continuous in $\vec{x}$, so anisotropic solution $\phi$
+    \item Reduces to $\mat{I}/3\sigma$ for infinite homogeneous
+      medium, which gives standard diffusion solution
+    \item Has a smaller magnitude across a channel than along it
+    \item Does not ``blow up'' in void regions
+    \item Is continuous in $\vec{x}$, so the anisotropic solution $\phi$
       has continuous first derivatives
-    \item Despite smaller cross sections in void regions, propagation speed is
-      still infinite
-  \end{itemize}<++>
+  \end{itemize}
+  %The transport problem used to calculate $\Dtens$:
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Semi-implicit radiative transfer}
