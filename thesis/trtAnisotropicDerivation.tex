@@ -171,7 +171,7 @@ calculus,
   &= -\oder{}{s}
     \expp{ -\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}\,.
 \end{align*}
-Using the chain rule, $A$ is evaluated:
+Integration by parts lets $A$ be evaluated:
 \begin{align*}
   A &= 
   -\frac{1}{4\pi}\int_{0}^{\infty}
@@ -191,13 +191,13 @@ Using the chain rule, $A$ is evaluated:
   \Bigg]
     \end{split}
   \\
-  &=-\frac{1}{4\pi} \Bigg[ 
+  &=-\frac{1}{4\pi} \bigg[ 
 0 -  
 \eexp^0 \phi(\vec{x}, t)
 - \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
 \oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
 \ud s
-  \Bigg]
+  \bigg]
   \\
  &=\frac{1}{4\pi}\phi(\vec{x}, t)
 + \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
@@ -263,7 +263,7 @@ embedded inside $\tau$:
   f(\vec{x} - s \vec{\Omega}, t-s/c)
   &\sim
   f(\vec{x} - s \vec{\Omega}, t)
-  - s\frac{1}{c} \pder{f}{t}(\vec{x}, t) + \cdots
+  - s\frac{1}{c} \pder{f}{t}(\vec{x} - s \vec{\Omega}, t) + \cdots
   \\
   &= O(\epsiloncolor{1}) + O(\epsiloncolor{\epsilon}) + \cdots
 \end{align*}

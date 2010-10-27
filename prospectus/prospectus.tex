@@ -22,7 +22,7 @@
 \setbeamertemplate{navigation symbols}{\insertframenavigationsymbol}
 \setbeamertemplate{caption}[numbered]
 
-\title[Prospectus]%
+\title[Thesis Prospectus]%
 {A Physics-Based Anisotropic Diffusion Method for Thermal Radiative
 Transfer}
 %\subtitle{}
@@ -119,11 +119,12 @@ University of Michigan, Ann Arbor
       Discard $O(\epsilon^2)$ and higher terms.
     \item Take first moment of this approximate $I$ to get
       $\vec{F}(\vec{x}, t)$.
+    \item Apply semi-implicit temporal approximation to TRT equations
   \end{enumerate}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  Boltzmann transport equation:
+  Gray Boltzmann transport equation:
   \begin{multline} \label{eq:fullGrayTransport2}
   \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
   + \vec{\Omega} \vd \del I(\vec{x}, \vec{\Omega}, t) +
@@ -171,53 +172,173 @@ University of Michigan, Ann Arbor
   \end{equation}
   Substituting left hand side of conservation
   equation~\eqref{eq:grayTransportZeroth}:
-  \begin{align*}
+  \begin{align}
     I(\vec{x}, \vec{\Omega}, t)
     &= \frac{1}{4\pi} \int_{0}^{\infty}
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
     \left[ \sigma a c T^4 + cQ \right]_{(\vec{x} - s \vec{\Omega}, t-s/c)} \ud s
-    \\
+    \nonumber\\
     &= \frac{1}{4\pi}\int_{0}^{\infty}
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
-    \Bigg[
+    \bigg[
     \underbrace{\sigma \phi\vphantom{\frac1c}}_{O(1)}
     + \underbrace{\frac{1}{c} \pder{\phi}{t}}_{O(\epsilon)}
     + \underbrace{\del \vd \vec{F}\vphantom{\frac1c}}_{O(\epsilon^2)}
-    \Bigg]_{(\vec{x} - s \vec{\Omega}, t-s/c)} \ud s
+    \bigg]_{(\vec{x} - s \vec{\Omega}, t-s/c)} \ud s
+    \label{eq:integralTrtRhs}
+  \end{align}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}%{The first component of $I$}
+%\begin{align*}
+%  \lefteqn{\eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+%  \sigma(\vec{x} - s \vec{\Omega}, t-s/c)}\qquad&
+%  \\
+%  &= \sigma(\vec{x} - s \vec{\Omega}, t-s/c) \expp{ -\int_{0}^{s}
+%  \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
+%  \\
+%  &= -\oder{}{s}
+%    \expp{ -\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
+%\end{align*}
+\begin{align*}
+\lefteqn{\frac{1}{4\pi}\int_{0}^{\infty} \eexp^{ -\int_{0}^{s}
+  \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'} \sigma(\vec{x} - s \vec{\Omega}, t-s/c)
+\phi(\vec{x} - s \vec{\Omega}, t-s/c) \ud s}\qquad&
+\\ 
+\intertext{Fundamental theorem of calculus:}
+&=\frac{1}{4\pi}\int_{0}^{\infty} \left( - \oder{}{s} \eexp^{ -\int_{0}^{s}
+  \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}\right)
+\phi(\vec{x} - s \vec{\Omega}, t-s/c) \ud s
+\\
+\intertext{Integration by parts with $u=\phi(\vec{x} - s \vec{\Omega}, t-s/c)$
+and $\ud v = \oder{}{s} \eexp^{-\tau} \ud s$:}
+    \begin{split}
+  &=-\frac{1}{4\pi} \bigg[ 
+\eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'} 
+\phi(\vec{x} - s \vec{\Omega}, t-s/c) \bigg|_{0}^{\infty}
+\\
+&\qquad\qquad- \int_{0}^{\infty} \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
+\oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\ud s
+  \bigg]
+    \end{split}
+  \\
+  &=-\frac{1}{4\pi} \bigg[ 
+0 -  
+\eexp^0 \phi(\vec{x}, t)
+- \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+\oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\ud s
+  \bigg]
+%  \\
+% &=\frac{1}{4\pi}\phi(\vec{x}, t)
+%+ \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau(\vec{x}, \vec{x} - s \vec{\Omega}, \vec{\Omega}, t)}
+%\oder{}{s} \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+%\ud s
+ \\
+    %\begin{split}
+ &=\frac{1}{4\pi}\phi(\vec{x}, t)
+% \\
+%&\qquad
++ \frac{1}{4\pi}\ \int_{0}^{\infty} \eexp^{-\tau}
+\left[ -\vec{\Omega} \vd \del - \pder{}{t} \right] \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\ud s
+%    \end{split}
+%  \\
+%  &= O(\epsiloncolor{1}) + O(\epsiloncolor{\epsilon})
+\end{align*}
+%(assuming $\phi\to 0$ as $\norm{\vec{x}}\to \infty$)
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Approximate using Taylor series}
+  Taylor series expansion of nonlocal unknown $\phi$ in space and time:
+  \begin{align*}
+  \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+  &\sim
+  \phi(\vec{x}, t) - s \vec{\Omega} \vd \del \phi(\vec{x}, t)
+  - s\frac{1}{c} \pder{\phi}{t}(\vec{x}, t) + \cdots
+  \\
+  &= \phi(\vec{x}, t) - s \left[ \vec{\Omega} \vd \del
+  + \frac{1}{c} \pder{}{t} \right] \phi(\vec{x}, t) + \cdots
+  \\
+  &= O(\epsiloncolor{1}) +
+  O(\epsiloncolor{\epsilon}) + \cdots
   \end{align*}
+
+  Taylor series in time for $\sigma$ embedded in optical thickness $\tau$:
+\begin{align*}
+  \sigma(\vec{x} - s \vec{\Omega}, t-s/c)
+  &\sim
+  \sigma(\vec{x} - s \vec{\Omega}, t)
+  - s\frac{1}{c} \pder{\sigma}{t}(\vec{x} - s \vec{\Omega}, t) + \cdots
+  \\
+  &= O(\epsiloncolor{1}) + O(\epsiloncolor{\epsilon^{(?)}}) + \cdots
+\end{align*}
+Keep only the leading order terms.
+%  Derivative along streaming direction:
+%  \begin{align*}
+%    \oder{}{s} f(\vec{x} - s \vec{\Omega}, t-s/v)
+%    &=  \oder{}{s} f(x_i - s \Omega_i, t-s/v)
+%    = \oder{}{s} f(x_1',x_2',x_3',t')
+%    \\
+%    &= \sum_{i=1}^{3}
+%    \pder{x_i'}{s}\pder{x_i}{x_i'} \pder{f}{x_i}
+%    + \pder{t'}{s}\pder{t}{t'} \pder{f}{t}
+%    \\
+%    &= \sum_{i=1}^{3} [- \Omega_i][1]\pder{f}{x_i} 
+%    + \left( -\frac{1}{v} \right)  \pder{f}{t}
+%    \\
+%    &= \left[ -\vec{\Omega} \vd \del f - \pder{f}{t} \right]_{(\vec{x} - s
+%    \vec{\Omega}, t-s/v)}
+%  \end{align*}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  Taylor series expansion of nonlocal unknowns:
-  \begin{align*}
-    f(\vec{x} - s \vec{\Omega}, t-s/v)
-    &\sim
-    f(\vec{x}, t) - s \vec{\Omega} \vd \del f(\vec{x}, t)
-    - s\frac{1}{v} \pder{f}{t}(\vec{x}, t) + \cdots
-    \\
-    &= f(\vec{x}, t) - s \left[ \vec{\Omega} \vd \del
-    + \frac{1}{v} \pder{}{t} \right] f(\vec{x}, t) + \cdots
-    \\
-    &= O(\epsiloncolor{1}) +
-    O(\epsiloncolor{\epsilon}) + \cdots
-  \end{align*}
-
-  Derivative along streaming direction:
-  \begin{align*}
-    \oder{}{s} f(\vec{x} - s \vec{\Omega}, t-s/v)
-    &=  \oder{}{s} f(x_i - s \Omega_i, t-s/v)
-    = \oder{}{s} f(x_1',x_2',x_3',t')
-    \\
-    &= \sum_{i=1}^{3}
-    \pder{x_i'}{s}\pder{x_i}{x_i'} \pder{f}{x_i}
-    + \pder{t'}{s}\pder{t}{t'} \pder{f}{t}
-    \\
-    &= \sum_{i=1}^{3} [- \Omega_i][1]\pder{f}{x_i} 
-    + \left( -\frac{1}{v} \right)  \pder{f}{t}
-    \\
-    &= \left[ -\vec{\Omega} \vd \del f - \pder{f}{t} \right]_{(\vec{x} - s
-    \vec{\Omega}, t-s/v)}
-  \end{align*}
+ The expansion in $\phi$ allows it to be moved outside the integral, and the
+ expansion in $\sigma$ obviates the storage of all prior $\sigma$:
+\begin{multline*}
+  \int_{0}^{\infty} \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
+\left[ -\vec{\Omega} \vd \del - \pder{}{t} \right] \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+\ud s
+\\
+\sim \int_{0}^{\infty} \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t)
+\ud s'} \ud s
+\left[ -\vec{\Omega} \vd \del - \pder{}{t} \right] \phi(\vec{x}, t)
+\end{multline*}
+Therefore the $\sigma\phi$ component of $I$ is approximated as
+\begin{multline*}
+  \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{ -\tau(\vec{x}, \vec{x} - s
+  \vec{\Omega}, \vec{\Omega}, t)} \sigma(\vec{x} - s \vec{\Omega}, t-s/c)
+  \phi(\vec{x} - s \vec{\Omega}, t-s/c) \ud s
+  \\
+  \sim 
+  \frac{1}{4\pi}\underbrace{\phi(\vec{x}, t)}_{O(1)}
+  - \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t)
+\ud s'} \ud s
+\underbrace{\left[ -\vec{\Omega} \vd \del - \pder{}{t} \right]}_{O(\epsilon)} \phi(\vec{x}, t)\,.
+\end{multline*}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  Next term in Eq.~\eqref{eq:integralTrtRhs}: apply the same Taylor series to
+  $\sigma$ and $\phi$, discarding $O(\epsilon^2)$ and higher terms:
+\begin{multline*}
+  \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{ -\tau(\vec{x}, \vec{x} - s
+  \vec{\Omega}, \vec{\Omega}, t)}
+  \frac{1}{c} \pder{}{t}\phi(\vec{x} - s \vec{\Omega}, t-s/c) \ud s
+ \\
+ \sim 
+  \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t)
+  \ud s'} \ud s
+  \underbrace{\frac{1}{c} \pder{}{t}}_{O(\epsilon)}\phi(\vec{x}, t)\,.
+\end{multline*}
+Third term in Eq.~\eqref{eq:integralTrtRhs},
+  \begin{equation*}
+    \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{ -\tau(\vec{x}, \vec{x} - s
+    \vec{\Omega}, \vec{\Omega}, t)}
+    \del \vd \vec{F}(\vec{x} - s \vec{\Omega}, t-s/c) \ud s\,,
+  \end{equation*}
+is $O(\epsiloncolor{\epsilon^2})$, so neglect it.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -289,7 +410,11 @@ the material energy to the radiation field.}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-\subsection{Time-dependent linear anisotropic diffusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Test problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Problem description}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -313,7 +438,7 @@ the material energy to the radiation field.}
       purely absorbing transport problem
     \item Improve performance by reducing time spent in transport sweeps
       \begin{itemize}
-        \item Evaluate $\Dtens$ on coarser spatial grid, since they are smooth
+        \item Evaluate $\Dtens$ on coarser spatial grid, since it is smooth
         \item Update $\Dtens$ less frequently
         \item Advanced quadrature set for \emph{a priori} problem geometry
       \end{itemize}
