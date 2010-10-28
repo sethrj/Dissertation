@@ -65,7 +65,13 @@ University of Michigan, Ann Arbor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Thermal radiative transfer}
-  Radiation $T^4$ is the dominant heat transfer process
+  \begin{itemize}
+    \item TRT is the dominant heat transfer process in very hot materials
+    \item High-energy photons are emitted $\propto T^4$ by hot material and
+      absorbed by cold
+    \item Cold material heats up and becomes relatively transparent (smaller
+      $\sigma$)
+  \end{itemize}
 
   Applications in high energy density physics:
   \begin{itemize}
@@ -313,7 +319,7 @@ Therefore the $\sigma\phi$ component of $I$ is approximated as
   \\
   \sim 
   \frac{1}{4\pi}\underbrace{\phi(\vec{x}, t)}_{O(1)}
-  - \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t)
+  + \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t)
 \ud s'} \ud s
 \underbrace{\left[ -\vec{\Omega} \vd \del - \pder{}{t} \right]}_{O(\epsilon)} \phi(\vec{x}, t)\,.
 \end{multline*}
@@ -332,6 +338,8 @@ Therefore the $\sigma\phi$ component of $I$ is approximated as
   \ud s'} \ud s
   \underbrace{\frac{1}{c} \pder{}{t}}_{O(\epsilon)}\phi(\vec{x}, t)\,.
 \end{multline*}
+This cancels the time derivative term from the $\sigma\phi$ component!
+
 Third term in Eq.~\eqref{eq:integralTrtRhs},
   \begin{equation*}
     \frac{1}{4\pi}\int_{0}^{\infty} \eexp^{ -\tau(\vec{x}, \vec{x} - s
@@ -339,7 +347,17 @@ Third term in Eq.~\eqref{eq:integralTrtRhs},
     \del \vd \vec{F}(\vec{x} - s \vec{\Omega}, t-s/c) \ud s\,,
   \end{equation*}
 is $O(\epsiloncolor{\epsilon^2})$, so neglect it.
+
+Result: 
+\begin{equation} \label{eq:anisotropicIntensity}
+  I(\vec{x}, \vec{\Omega}, t) \approx
+  \frac{1}{4\pi}\phi(\vec{x}, t) - \left[ \int_{0}^{\infty} \frac{1}{4\pi}
+  \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t)
+  \ud s'} \ud s\right]
+\vec{\Omega} \vd \del \phi(\vec{x}, t)\,.
+\end{equation}
 \end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Properties of anisotropic diffusion}
@@ -414,6 +432,57 @@ the material energy to the radiation field.}
 \subsection{Test problem}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Problem description}
+  \begin{columns}[t]
+    \begin{column}{.48\textwidth}
+      Flatland geometry!
+
+      Uniform spatial grid: $\Delta_x=0.1$
+      
+      Piecewise linear time grid: $\Delta_t \approx 0.01 + 0.09 (1.0 - t)$ for
+      $t < 1$, $\Delta_t=0.1$ for $t \ge 1$
+
+      Reflecting bndy on left, others vacuum
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \textcolor[rgb]{0,0,1}{\textbf{Source}}: $c_v=0.5$, $\sigma=0.5$;
+      $Q=1$ for $0 \le t \le 1$, $Q=0$ for $t > 1$.
+
+      \textcolor[rgb]{0.1,0.9,0.1}{\textbf{Channel}}: $c_v=0.1$,
+      $\sigma=0.01 T^{-3}$
+
+      \textcolor[rgb]{1,0,0}{\textbf{Diffusive}}: $c_v=0.1$,
+      $\sigma=T^{-3}$
+
+      Initial condition: $T=T_\text{rad}=0.1$
+    \end{column}
+  \end{columns}
+\begin{center}
+  \includegraphics[width=.99\textwidth]{../figures/crashpipe2/materials}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Compared methods}
+\begin{itemize}
+  \item Implicit Monte Carlo \cite{Fle1971} (implemented with variance
+    reduction methods), $10^6$ particles in each time step
+  \item Flux-limited diffusion, with semi-implicit treatment of diffusion
+    coefficient and radiation:
+    \begin{equation*}
+      \vec{F}^{n+1} = - D^{n} \del \phi^{n+1}  = -\left[ (3\sigma^{n})^2
+      + \left( \frac{\norm{\del \phi^{n}}}{\phi^{n}}  \right)^2 \right]^{-1/2}
+      \del \phi^{n+1}
+    \end{equation*}
+  \item Standard diffusion, with semi-implicit treatment of nonlinearities:
+    \begin{equation*}
+      \vec{F}^{n+1} = - D^{n} \del \phi^{n+1} 
+      = -\frac{1}{3\sigma^{n}} \del \phi^{n+1}
+    \end{equation*}
+  \item Anisotropic diffusion, with 16 \SN{} quadrature angles per quadrant used
+    to calculate $\Dtens$, with semi-implicit treatment of nonlinearities:
+    \begin{equation*}
+      \vec{F}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} 
+    \end{equation*}
+\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
