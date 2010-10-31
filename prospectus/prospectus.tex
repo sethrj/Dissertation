@@ -34,14 +34,14 @@ University of Michigan, Ann Arbor
 }
 \date[11/3/2010]{November 3, 2010}
 
-%\AtBeginSection[]
-%{
-%\begin{frame}
-%  \frametitle{Outline}
-%  \tableofcontents[currentsection]
-%\end{frame}
-%}
-%
+\AtBeginSection[]
+{
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+\end{frame}
+}
+
 \hypersetup{colorlinks=true,linkcolor=black}
 
 % only show section headings in table of contents
@@ -67,15 +67,14 @@ University of Michigan, Ann Arbor
   \frametitle{Thermal radiative transfer}
   \begin{itemize}
     \item TRT is the dominant heat transfer process in very hot materials
-    \item High-energy photons are emitted $\propto T^4$ by hot material and
-      absorbed by cold
+    \item Photons are emitted by black body emission ($T^4$)
     \item Cold material heats up and becomes relatively transparent (smaller
       $\sigma$)
   \end{itemize}
 
   Applications in high energy density physics:
   \begin{itemize}
-    \item Stellar astrophysics, strategic astrophysics
+    \item Stellar astrophysics, \textcolor[gray]{.5}{strategic astrophysics}
     \item Inertial confinement fusion
     \item CRASH (Center for RAdiative Shock Hydrodynamics) program: ``Assessment
           of Predictive Capability''
@@ -85,8 +84,35 @@ University of Michigan, Ann Arbor
     \item High dimensionality of solution phase space $(\vec{x}, \vec{\Omega},
       h\nu, t)$
     \item Highly nonlinear coupled partial differential equations for radiation
-      field $I(\vec{x}, \vec{\Omega}, h\nu, t)$ and material energy $U_m(\vec{x}, t)$
+      field $I(\vec{x}, \vec{\Omega}, h\nu, t)$ and material energy
   \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Gray TRT equations}
+  Common approximations for radiation transport methods development:
+  \begin{itemize}
+    \item work in a fixed medium, disregarding material advection;
+    \item assume local thermodynamic equilibrium (LTE), which uses a single
+      material temperature;
+    \item neglect thermal conduction in material;
+    \item average over all photon energies $h\nu$ (gray).
+  \end{itemize}
+\begin{subequations} \label{eqs:fullGrayTRT}
+  Radiation transfer equation, intensity $I(\vec{x}, \vec{\Omega}, t)$:
+\begin{equation} \label{eq:fullGrayTransport}
+  \frac{1}{c} \pder{I}{t}
+  + \vec{\Omega} \vd \del I +
+ \sigma I
+  = \frac{\sigma c aT^4}{4\pi} 
+  + \frac{c Q}{4\pi}
+\end{equation}
+  Material energy balance equation:
+\begin{equation} \label{eq:fullGrayMaterial}
+  \frac{1}{c_v}\pder{T}{t} = \sigma \int_{4\pi}  I \ud \Omega - \sigma c aT^4
+\end{equation}
+\end{subequations}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -96,15 +122,21 @@ University of Michigan, Ann Arbor
 \end{center}
 % also, storage requirements
 \end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Previous work}
+  \frametitle{Anisotropic diffusion work}
+  Previous work:
   \begin{itemize}
     \item Steady-state VHTR-like problem with analytically calculated
       coefficients \cite{Lar2009c}
     \item Non-local tensor diffusion \cite{Mor2007} for steady-state
       radiative transfer, no further development or
       analysis in literature
+  \end{itemize}
+  Current work:
+  \begin{itemize}
+    \item Time-dependent anisotropic diffusion for thermal radiative transfer!
   \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,18 +145,19 @@ University of Michigan, Ann Arbor
 \begin{frame}
   \frametitle{Summary in advance}
   \begin{enumerate}
-    \item Make assumptions about weakness of derivatives and moments of angular
-      flux $I(\vec{x}, \vec{\Omega}, t)$. % non-rigorous $O(1)$, $O(\epsilon)$
-    \item Substitute the particle conservation equation (zeroth moment of
-      Boltzmann equation) into the integral equation for time-dependent
-      intensity.
+    \item Make assumptions about weakness of derivatives and moments of
+      intensity $I(\vec{x}, \vec{\Omega}, t)$.
+    \item Convert integrodifferential transport equation to integral transport
+      equation along characteristic rays.
+    \item Substitute the left hand side of the particle conservation equation
+      (zeroth moment of Boltzmann equation) into the integral equation
     \item Apply Taylor series to non-local $\phi$ to get an approximate
       expression for $I(\vec{x}, \vec{\Omega}, t)$ as a function of
       $\phi(\vec{x}, t)$ and other problem-dependent quantities.
       Discard $O(\epsilon^2)$ and higher terms.
     \item Take first moment of this approximate $I$ to get
       $\vec{F}(\vec{x}, t)$.
-    \item Apply semi-implicit approximation to TRT equations
+    \item Apply semi-implicit approximation to TRT equations.
   \end{enumerate}
 \end{frame}
 
@@ -194,6 +227,7 @@ University of Michigan, Ann Arbor
     \bigg]_{(\vec{x} - s \vec{\Omega}, t-s/c)} \ud s
     \label{eq:integralTrtRhs}
   \end{align}
+  Consider the integral's three components separately.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}%{The first component of $I$}
@@ -207,6 +241,7 @@ University of Michigan, Ann Arbor
 %  &= -\oder{}{s}
 %    \expp{ -\int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'}
 %\end{align*}
+First term in Eq.~\eqref{eq:integralTrtRhs}:
 \begin{align*}
 \lefteqn{\frac{1}{4\pi}\int_{0}^{\infty} \eexp^{ -\int_{0}^{s}
   \sigma(\vec{x}-s'\vec{\Omega}, t-s'/c) \ud s'} \sigma(\vec{x} - s \vec{\Omega}, t-s/c)
@@ -360,9 +395,9 @@ Result:
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Looks like Fick's law}
+\begin{frame}{Analogy to Fick's law}
   Take the first angular moment of Eq.~\eqref{eq:anisotropicIntensity} to find
-  the radiation flux:
+  the radiation flux (``current'' in the neutron world):
 \begin{align*}
   \vec{F}(\vec{x}, t) &= \int_{4\pi} \vec{\Omega} I(\vec{x}, \vec{\Omega}, t) \ud \Omega
   \\
@@ -374,12 +409,14 @@ Result:
   \ud s'} \ud s\right]
 \vec{\Omega}  \ud \Omega \vd \del \phi(\vec{x}, t)
 \\
+&= - \left[ \int_{4\pi} \vec{\Omega} f(\vec{x},\vec{\Omega},t)
+\vec{\Omega}  \ud \Omega \right] \vd \del \phi(\vec{x}, t)
+\\
 &= - \Dtens(\vec{x},t) \vd \del \phi(\vec{x}, t)
 \end{align*}
-where $\Dtens$ is the second angular moment of the solution $f$ to the
-``steady-state'' transport equation
+where $f$ satisfies the ``steady-state'' transport equation
 \begin{equation} \label{eq:dcoeffTransportEquation}
-  \vec{\Omega}\vd \del f(\vec{x},t) + \sigma(\vec{x},t) f(\vec{x},t) =
+  \vec{\Omega}\vd \del f(\vec{x},\vec{\Omega},t) + \sigma(\vec{x},t) f(\vec{x},\vec{\Omega},t) =
   \frac{1}{4\pi}\,.
 \end{equation}
 \end{frame}
@@ -389,7 +426,7 @@ where $\Dtens$ is the second angular moment of the solution $f$ to the
 \begin{frame}
   \frametitle{Properties of anisotropic diffusion}
 
-  The diffusion tensor $\Dtens(\vec{x},t)$: 
+  The anisotropic diffusion tensor $\Dtens(\vec{x},t)$: 
   \begin{itemize}
     \item Results from consistent approximations to the transport equation
       using physical coefficients
@@ -404,17 +441,20 @@ where $\Dtens$ is the second angular moment of the solution $f$ to the
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+  The transport problem used to calculate $\Dtens$,
   \begin{equation*}
-    \vec{\Omega}\vd \del f + \sigma f = \frac{1}{4\pi}
+    \vec{\Omega}\vd \del f + \sigma f = \frac{1}{4\pi} \,,
   \end{equation*}
-
-  The transport problem used to calculate $\Dtens$:
+  \vspace{-\baselineskip}
   \begin{itemize}
     \item Takes only one transport sweep to solve, since it is the description
       of a purely absorbing medium
     \item Only needs to be calculated once if $\sigma$ is constant in time
     \item Requires no storage of the angular flux, just accumulation of second
       moment, $D_{ij} = \int_{4\pi} \Omega_i \Omega_j f \ud \Omega$
+    \item Has the solution $f=1/4\pi\sigma$ if $\sigma$ is a constant.
+      Then, $\int_{4\pi} \vec{\Omega} f \vec{\Omega} \ud \Omega =
+      \mat{I}/3\sigma$.
   \end{itemize}
 \end{frame}
 
@@ -422,13 +462,17 @@ where $\Dtens$ is the second angular moment of the solution $f$ to the
 \subsection{Semi-implicit radiative transfer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Thermal radiative transfer equations}
 Zeroth moment of radiative transfer equation:
 \begin{equation*}
   \frac{1}{c} \pder{\phi}{t}
   + \del \vd \vec{F} + \textcolor{red}{\sigma} \phi
   = \textcolor{red}{\sigma} ac\textcolor{red}{T^4}
   + c Q
+\end{equation*}
+Radiation flux equation from anisotropic diffusion calculation:
+\begin{equation*}
+ \vec{F}(\vec{x}, t) \cong - \Dtens(\vec{x},\textcolor{red}{\sigma})
+  \vd \del \phi(\vec{x}, t)
 \end{equation*}
 Material energy balance equation:
 \begin{equation*}
@@ -437,7 +481,7 @@ Material energy balance equation:
 \end{equation*}
 
 Semi-implicit discretization freezes $c_v/T^3$ and $\sigma$ at the initial time
-value $t^n$ explicitly and treats $\vec{F}$ and $\phi$ implicitly. Some
+value $t^n$ explicitly and treats $\phi$ implicitly. Some
 manipulation gives a linear transport equation (with ``effective scattering''
 that emulates photon absorption and re\"emission) over the time step, and an
 equation to update the new material temperature.
@@ -459,7 +503,7 @@ equation to update the new material temperature.
 \begin{frame}{Compared methods}
 \begin{itemize}
   \item Implicit Monte Carlo \cite{Fle1971} (implemented with variance
-    reduction methods), $10^6$ particles in each time step
+    reduction methods), $10^6$ particles per time step
   \item Flux-limited diffusion with Larsen limiter \cite{Ols2000}, with
     semi-implicit treatment of diffusion coefficient and radiation:
     \begin{equation*}
@@ -485,17 +529,19 @@ equation to update the new material temperature.
   \frametitle{Summary of AD approximations}
   \begin{block}{Thermal radiative transfer equations}
     \begin{itemize}
-      \item Assume weak gradients and angular moments for $I$
+      \item Assume weak gradients and angular moments for $I$ (\emph{don't}
+        assume that $I$ is a linear function of $\vec{\Omega}$!)
       \item Neglect boundary and initial conditions
       \item Semi-implicit approximation for the nonlinearities
     \end{itemize}
   \end{block}
+  \vspace{-\baselineskip}
   \begin{columns}[t]
     \begin{column}{.48\textwidth}
   \begin{block}{AD equation}
     \begin{itemize}
       \item Cell-centered finite difference spatial approximation
-      \item Discard $D^{xy}$ and $D^{yx}$
+      \item Discard $D^{xy}$ and $D^{yx}$ terms$^*$
     \end{itemize}
   \end{block}
     \end{column}
@@ -503,12 +549,13 @@ equation to update the new material temperature.
   \begin{block}{$\Dtens$ transport equation}
     \begin{itemize}
       \item Discrete ordinates angular approximation
-      \item Diamond difference spatial approximation (16 azimuthal ordinates
+      \item Diamond difference$^*$ spatial approximation (16$^*$ azimuthal ordinates
         per quadrant)
     \end{itemize}
   \end{block}
     \end{column}
   \end{columns}
+  {\small $^*$Numerical experiments support using these approximations}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -518,12 +565,9 @@ equation to update the new material temperature.
   \begin{columns}[t]
     \begin{column}{.48\textwidth}
       Flatland geometry!
-
-      Uniform spatial grid: $\Delta_x=0.1$
-      
-      Piecewise linear time grid: $\Delta_t=0.1$ for $t \ge 1$
-
-      Reflecting bndy on left, others vacuum
+      \\Uniform spatial grid: $\Delta_x=0.1$
+      \\Piecewise linear time grid: $\Delta_t=0.1$ for $t \ge 1$
+      \\Reflecting bndy on left, others vacuum
     \end{column}
     \begin{column}{.48\textwidth}
       \textcolor[rgb]{0,0,1}{\textbf{Source}}: $c_v=0.5$, $\sigma=0.5$;
@@ -546,6 +590,8 @@ equation to update the new material temperature.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Time evolution of material temperature}
 \begin{center}
+  {\tiny (Replaced with movie)}
+
   \includegraphics[width=.80\textwidth]{../figures/crashpipe2/mattemp_2d0117}
 \end{center}
 \end{frame}
@@ -592,16 +638,38 @@ equation to update the new material temperature.
   \includegraphics[width=.75\textwidth]{../figures/crashpipe2/adcoeff_t10}
 \end{center}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Timing results}
+  TO DO: finish other runs, add finer grid results
+  \begin{table}[htb]
+    \centering
+    \begin{tabular}{cr}
+      Method & Time (s) \\ \hline
+      IMC & 460 \\
+      FLD & 8 \\
+      D   & 8 \\
+      AD$_{64}$ & 13 \\
+      AD$_{128}$ & 22 \\
+    \end{tabular}
+    \caption{Run times for pipe test problem, 14000 cells. Average of three
+    runs.}
+    \label{tab:pipeTiming}
+  \end{table}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Conclusions}
+  Anisotropic diffusion:
   \begin{itemize}
-    \item Accurate treatment of nonlinear time-dependent flow of radiation
-      through a tube like that found in CRASH
-    \item AD can account for higher anisotropy in angular flux than diffusion
-    \item Theory suggests AD works best in slowly changing problems but 
+    \item accounts for some amount of arbitrary anisotropy in angular
+      flux, unlike standard or flux-limited diffusion, by preserving some
+      transport physics
+    \item works best in problems with weaker derivatives, as suggested by
+      theory and borne out by numerical experiments
+    \item accurately treats the nonlinear time-dependent flow of radiation
+      through a tube like that found in CRASH experiments
   \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -611,7 +679,7 @@ equation to update the new material temperature.
     \item Improved time-dependent behavior, with wavefront propagation speed of
       $c$
     \item Boundary conditions for both anisotropic diffusion problem and
-      purely absorbing transport problem
+      purely absorbing transport problem (solution of $f$)
     \item Improve performance by reducing time spent in transport sweeps
       \begin{itemize}
         \item Evaluate $\Dtens$ on coarser spatial grid, since it is smooth
@@ -619,7 +687,7 @@ equation to update the new material temperature.
         \item Advanced quadrature set for \emph{a priori} problem geometry
       \end{itemize}
     \item Quantify the penalty of omitting the $D^{xy}$ terms for various
-      problems, or find more effective discretization scheme
+      problems, or find an effective discretization scheme to include them
   \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -631,13 +699,21 @@ equation to update the new material temperature.
     \item Prof.~Larsen
     \item Committee: Profs.~Martin, Downar, Holloway, Thornton
     \item Funding: NSF, NEUP
-    \item Support: department staff et al.
   \end{itemize}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Questions?}
+\begin{center}
+  \includegraphics[width=3in]{../figures/fidelity2}
+\end{center}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{References}
-\bibliographystyle{amsplain}
+\bibliographystyle{ans}
 \bibliography{../SRJall}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
