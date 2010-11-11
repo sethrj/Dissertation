@@ -168,8 +168,8 @@ University of Michigan, Ann Arbor
   \begin{multline} \label{eq:fullGrayTransport2}
   \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
   + \vec{\Omega} \vd \del I(\vec{x}, \vec{\Omega}, t) +
- \sigma(\vec{x}, t) I(\vec{x}, \vec{\Omega}, t)
-  \\= \frac{\sigma(\vec{x}, t) a c [T(\vec{x},t)]^4}{4\pi} 
+ \sigma(\vec{x}, T) I(\vec{x}, \vec{\Omega}, t)
+  \\= \frac{\sigma(\vec{x}, T) a c [T(\vec{x},t)]^4}{4\pi} 
   + \frac{c Q(\vec{x},t)}{4\pi}
   %\,, \qquad \vec{x} \in V, \ \vec{\Omega} \in 4\pi, \ t >= 0.
   \end{multline}
@@ -178,8 +178,8 @@ University of Michigan, Ann Arbor
   \begin{equation} \label{eq:grayTransportZeroth}
   \frac{1}{c} \pder{\phi}{t}(\vec{x}, t)
   +\del \vd \vec{F}(\vec{x}, t) +
- \sigma(\vec{x}, t) \phi(\vec{x}, t)
-  = \sigma(\vec{x}, t) a c [T(\vec{x},t)]^4
+ \sigma(\vec{x}, T) \phi(\vec{x}, t)
+  = \sigma(\vec{x}, T) a c [T(\vec{x},t)]^4
   + c Q(\vec{x},t)
   \end{equation}
 
@@ -189,6 +189,7 @@ University of Michigan, Ann Arbor
   \sigma &= O(\epsiloncolor{1}), \\
   \del I &= O(\epsiloncolor{\epsilon}), &
   \frac1c\pder{I}{t} &= O(\epsiloncolor{\epsilon}), &
+  \frac1c\pder{\sigma}{t} &= O(\epsiloncolor{\epsilon}), &
   \int_{4\pi} \vec{\Omega} I\ud \Omega &= O(\epsiloncolor{\epsilon}).
     \end{align*}
   \end{block}
