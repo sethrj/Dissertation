@@ -8,8 +8,6 @@
 \input{../SRJinclude.tex}
 \newcommand{\Dtens}{\mat{D}}
 \definecolor{lightgray}{gray}{0.85}
-\newcommand{\notebox}[1]{\hspace{.1\columnwidth}\colorbox{lightgray}{\parbox{0.8\columnwidth}{\small
-#1}}}
 \newcommand{\epsiloncolor}[1]{\textcolor{blue}{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -486,16 +484,6 @@ value $t^n$ explicitly and treats $\phi$ implicitly. Some
 manipulation gives a linear transport equation (with ``effective scattering''
 that emulates photon absorption and re\"emission) over the time step, and an
 equation to update the new material temperature.
-%\notebox{\textcolor{red}{Red} quantities are temperature-dependent and couple
-%the material energy to the radiation field.}
-%
-%Let equilibrium material radiation energy density be $U_r(T) \equiv aT^4$,
-%material energy density be $U_m(T) \equiv \int_{0}^{T} c_v(T') \ud T'$, and
-%\begin{equation*}
-%  \beta(T) \equiv \pder{U_r}{U_m} 
-%  = \pder{U_r}{T} \Bigg/ \pder{U_m}{T}
-%  = \frac{4 a T^3}{c_v(T)} \,.
-%\end{equation*}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

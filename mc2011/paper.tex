@@ -1,4 +1,13 @@
 \documentclass[11pt,letter,twoside]{mc2011}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage{booktabs} % \toprule, \midrule, \bottomrule
+\input{../SRJinclude.tex}
+\newcommand{\epsiloncolor}[1]{#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage[numbers,sort&compress]{natbib}
 
@@ -10,21 +19,18 @@
 
 \globalmc2011
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
 \title{A Physics-based Anisotropic Diffusion Method for Thermal Radiative
 Transfer}
 
 \author{
-\textbf{Author A and Author B\footnote{Footnote, if necessary, in Times New Roman and font size 9}}\\
-Name of Institute\\
-Corresponding Address\\
-A@institute.gov; B@institute.gov \vspace{1.0em} \\ 
-\textbf{Double space and list Author C}\\
-Department of Nuclear Engineering\\
-Name of University\\
-Address\\
-c@name.univ.edu
+\textbf{Seth R.~Johnson and Edward W.~Larsen}\\
+Department of Nuclear Engineering \& Radiological Sciences\\
+University of Michigan \\
+2355 Bonisteel Boulevard, Ann Arbor, MI, 48109\\
+sethrj@umich.edu; edlarsen@umich.edu
 }
 
 \maketitle
@@ -32,12 +38,19 @@ c@name.univ.edu
 \thispagestyle{empty}
 
 \begin{abstract}
-Use 8.5 x 11 paper size, with 1" margins on all sides. A required 200-250 word abstract starts on this line.  
-Leave two blank lines before ABSTRACT and one after.  Use 10 point Times New Roman here and single 
-(10 point) spacing.  The abstract is a very brief summary highlighting main accomplishments, what is new, 
-and how it relates to the state-of-the-art.
+This paper describes an anisotropic diffusion (AD) method that uses
+transport-calculated AD coefficients to efficiently and accurately solve the
+thermal radiative transfer (TRT) equations. By assuming weak gradients and angular moments in the radiation
+intensity, we derive an expression for the radiation energy density that
+depends on a non-local function of the opacity that yields an approximate
+expression for the intensity that does not assume linearity in angle. The AD
+coefficients can be solved with a single steady-state transport sweep once per
+time step.
+To demonstrate the AD method's efficacy, we model radiation flow down a tube
+in ``flatland'' geometry. 
 
-\keywords{List of minimum 3 and maximum 6 key words separated by commas.}
+\keywords{Thermal radiative transfer, Anisotropic diffusion, Flux-limited
+diffusion, Hybrid methods, Flatland geometry}
 
 \end{abstract}
 
@@ -48,12 +61,103 @@ and how it relates to the state-of-the-art.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+Thermal radiative transfer (TRT) is the nonlinear process describing the
+dominant form of energy transfer in a very hot material, such as the interior
+of a star or the
+target of a laser-driven shock experiment. The equations describing TRT are
+time-dependent, contain strong nonlinearities, and reside in a large phase
+space $(\vec{x}, \vec{\Omega}, h\nu, t)$.
+These difficulties make TRT the subject of significant work in methods
+development, which typically balances fidelity against computational cost. 
+Among high-fidelity methods are Fleck and Cummings' Implicit Monte Carlo
+(IMC) method \cite{Fle1971} and the discrete ordinates (\SN) method
+\cite{Mor1996}. Both of these methods require large amounts of computer time:
+IMC requires large numbers of particles to accurately sample the large phase
+space, and \SN\ has to iteratively ``sweep'' through all spatial cells and all
+angles in the quadrature set. Furthermore, the requirement of storing the full
+time-dependent angular intensity imposes a heavy burden on computer memory: IMC
+must store millions of particles in a ``census'' at the end of the time step,
+and \SN\ must store the calculated angular flux in all angles at all spatial
+points.
+
+This paper describes a new hybrid method that uses transport-calculated
+anisotropic diffusion coefficients to efficiently and accurately solve the TRT
+equations. By making assumptions about the strength of the gradients and
+angular moment of the radiative intensity $I$, we systematically derive an
+approximate expression for the radiation energy density $E$. The result is an
+expression for the radiation flux, a function of the local radiation energy
+gradient and a nonlocal anisotropic diffusion tensor. The AD tensor is the
+second angular moment of a steady-state, purely absorbing transport problem
+with a uniform source.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
+We consider the gray TRT equations, which eliminate the energy unknown from the
+full TRT description by approximating the energy dependence of the opacity
+$\sigma$ and integrating over all energies. 
+\begin{subequations} \label{eqs:fullGrayTRT}
+The radiation field is described by a monoenergetic Boltzmann transport
+equation:
+\begin{equation} \label{eq:fullGrayTransport}
+  \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
+  + \vec{\Omega} \vd \del I(\vec{x}, \vec{\Omega}, t) +
+ \sigma(\vec{x}, T) I(\vec{x}, \vec{\Omega}, t)
+  = \frac{\sigma(\vec{x}, T) a c [T(\vec{x},t)]^4}{4\pi} 
+  + \frac{c Q(\vec{x},t)}{4\pi}
+\end{equation}
+for $\vec{x} \in V$, $\vec{\Omega} \in 4\pi$, and $t >= 0$. The material energy
+equation describes the time rate of change in the material energy:
+\begin{equation} \label{eq:fullGrayMaterial}
+  \pder{U_m}{t}(\vec{x}, t)
+  = \sigma(\vec{x}, T) \int_{4\pi}  I \ud \Omega
+    - \sigma(\vec{x}, T) ac [T(\vec{x},t)]^4 
+  = c \sigma(\vec{x}, T) \left[
+  E(\vec{x},  t) - B(\vec{x}, t) \right]\,.
+\end{equation}
+\end{subequations}
+Here, $E=\frac1c \int_{4\pi} I \ud \Omega$ is the radiation energy density and
+$B=aT^4$ is the Planck function integrated over all energy. The material energy
+density $U_m$ is related to the temperature by 
+\begin{equation} \label{eq:matEnergyDens}
+  U_m(\vec{x},T) = \int_{0}^{T} c_v(\vec{x},T') \ud T' \,.
+\end{equation}
+%The nonlinear Planck function $B$ and the generally nonlinear opacity $\sigma$ 
+
+Integrating Eq.~\eqref{eq:fullGrayTransport} over all angles gives an
+expression for the conservation of energy in the radiation field:
+\begin{equation} \label{eq:grayTransportZeroth}
+  \pder{E}{t}(\vec{x}, t)
+  + c\del \vd \vec{F}(\vec{x}, t) +
+ c \sigma(\vec{x}, T) E(\vec{x}, t)
+  = c \sigma(\vec{x}, T) B(\vec{x},t) + cQ(\vec{x},t) \,.
+\end{equation}
+$\vec{F}(\vec{x}, t)$ is the radiation flux, analogous to the ``current'' of
+the neutron transport world.
+
+To begin, we informally make some assumptions about the strength of the
+derivatives and the angular moments of $I$:
+\begin{align*}
+  I &= O(\epsiloncolor{1}), &
+  \sigma &= O(\epsiloncolor{1}), &
+  \del I &= O(\epsiloncolor{\epsilon}), &
+  \frac1c\pder{I}{t} &= O(\epsiloncolor{\epsilon}), &
+  \frac1c\pder{\sigma}{t} &= O(\epsiloncolor{\epsilon}), &
+  \int_{4\pi} \vec{\Omega} I\ud \Omega &= O(\epsiloncolor{\epsilon}).
+\end{align*}
+These assumptions are different (and less rigorous) than the set traditionally
+used to derive the radiation diffusion equations \cite{Lar1983a}. They will
+lead to an approximate expression for the angular intensity that is
+\emph{not} linear in angle.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results}
+\section{Numerical Results}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Methods compared}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Problem description}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Results}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
@@ -61,8 +165,12 @@ and how it relates to the state-of-the-art.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgements}
+This material is based upon work supported under a National Science Foundation
+Graduate Research Fellowship and a Department of Energy Nuclear
+Energy University Programs Graduate Fellowship.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\nocite{Mih1984}
 \bibliographystyle{ans}
 \bibliography{../SRJall}
 
