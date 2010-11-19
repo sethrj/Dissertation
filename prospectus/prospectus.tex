@@ -449,7 +449,8 @@ where $f$ satisfies the ``steady-state'' transport equation
     \item Takes only one transport sweep to solve, since it is the description
       of a purely absorbing medium
     \item Only needs to be calculated once if $\sigma$ is constant in time
-    \item Requires no storage of the angular flux, just accumulation of second
+    \item Requires no storage of the angular intensity, just accumulation of
+      second
       moment, $D_{ij} = \int_{4\pi} \Omega_i \Omega_j f \ud \Omega$
     \item Has the solution $f=1/4\pi\sigma$ if $\sigma$ is a constant.
       Then, $\int_{4\pi} \vec{\Omega} f \vec{\Omega} \ud \Omega =
@@ -652,7 +653,7 @@ equation to update the new material temperature.
   Anisotropic diffusion:
   \begin{itemize}
     \item Accounts for some amount of arbitrary anisotropy in angular
-      flux, unlike standard or flux-limited diffusion, by preserving some
+      intensity, unlike standard or flux-limited diffusion, by preserving some
       transport physics
     \item Works best in problems with weaker derivatives, as suggested by
       theory and borne out by numerical experiments
