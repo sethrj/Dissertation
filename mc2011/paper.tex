@@ -4,11 +4,15 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{microtype}
+\usepackage{subfigure}
 %\usepackage{booktabs} % \toprule, \midrule, \bottomrule
 \input{../SRJinclude.tex}
 \newcommand{\epsiloncolor}[1]{#1}
 \newcommand{\Dtens}{\mat{D}}
 
+\makeatletter
+\def\input@path{{/Users/seth/_research/figures/}}
+\makeatother
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[numbers,sort&compress]{natbib}
 
@@ -553,9 +557,28 @@ one we presented in my thesis prospectus.}
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=3in]{../figures/crashpipe2/dcoeff_t10}
-  \caption{Diffusion coefficients along the $x$ axis at $y=3.5$.}
+  \hspace{-1.6in}
+  \subfigure[Along the channel centerline]{
+  \small\input{crashpipe2/dcoeff_channel_t10/include.tex}}
+  \hspace{-.4in}
+  \subfigure[Perpendicular]{
+  \small\input{crashpipe2/dcoeff_ortho_t10/include.tex}}
+  \hspace{-1.6in}
+  \caption{Diffusion coefficients at $t=10$.}
   \label{fig:dcoeffT10}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \hspace{-1.6in}
+  \subfigure[$t=1.0$]{
+  \small\input{crashpipe2/phi_channel_t1/include.tex}}
+  \hspace{-.4in}
+  \subfigure[$t=10.0$]{
+  \small\input{crashpipe2/phi_channel_t10/include.tex}}
+  \hspace{-1.6in}
+  \caption{Scalar intensity along the center of the channel}
+  \label{fig:phi}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -14,6 +14,12 @@
 \usepackage[width=.75\textwidth,font=small,labelfont=bf]{caption}
 \input{../SRJinclude.tex}
 
+% include paths
+\graphicspath{{/Users/seth/_research/figures/}}
+\makeatletter
+\def\input@path{{/Users/seth/_research/figures/}}
+\makeatother
+
 % New paragraph before lists only in thesis
 \newcommand{\prelistpar}{\par}
 
@@ -43,6 +49,7 @@ ssFormulation,%
 ssResults,%
 ltdFormulation,%
 ltdResults,%
+trtAnisotropicDerivation,%
 trtFormulation,%
 trtResults,%
 conclusion,%
@@ -104,7 +111,8 @@ conclusion,%
 %\include{ssFormulation}
 %\include{ssResults}
 %\include{ltdFormulation}
-%\include{ltdFormulation}
+%\include{ltdResults}
+\include{trtAnisotropicDerivation}
 \include{trtFormulation}
 %\include{trtResults}
 \include{conclusion}
