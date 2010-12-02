@@ -524,7 +524,7 @@ boundary is reflecting, and the others are vacuum.
 
 The spatial grid is uniform with $\Delta_x=0.1$. The time grid is linearly
 increasing and then constant: $\Delta_t(t)\approx 0.1 t + 0.099 (1 - t)$ for $0
-\le t < 1$, then $\Delta_t=0.1$ for $t \ge 1$. A more resolved time step at
+\le t < 1$, then $\Delta_t=0.1$ for $1 \le t < 10$. A more resolved time step at
 the beginning is a common technique to reduce the effect of the linearization
 error (i.e., to prevent a violation of the maximum principle) and to improve
 the behavior of the explicitly treated FLD coefficient.
@@ -534,10 +534,15 @@ the behavior of the explicitly treated FLD coefficient.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=.75\textwidth]{../figures/crashpipe2/mattemp_2d0117}
-  \caption{Pseudocolor plot of material temperature for the four methods at
-  $t=10$. From top to bottom: IMC, AD, FLD, D.}
-  \label{fig:mattemp}
+  \hspace{-1.25in}
+  \subfigure[$t=2$]{
+  \includegraphics[height=3.5in]{crashpipe2/mattemp2d_t2}}
+  \subfigure[$t=10$]{
+  \includegraphics[height=3.5in]{crashpipe2/mattemp_2d0117}}
+  \hspace{-1.25in}
+  \caption{Pseudocolor plot of material temperature for the four methods (top
+  to bottom: IMC, AD, FLD, diffusion).}
+  \label{fig:mattemp2d}
 \end{figure}
 
 The diffusion coefficient in the heated channel is extremely large and
@@ -551,37 +556,42 @@ However, it modifies the diffusion coefficients not only in the streaming
 region but also in the diffusive region, limiting the spread of radiation into
 the walls. As a result, the energy bottles up in the channel.
 
-\emph{NOTE: I will add figures and descriptions of the time-dependent behavior
-here. I think we decided to try to model a slightly different problem than the
-one we presented in my thesis prospectus.}
+\begin{figure}[htb]
+  \centering
+  \hspace{-1.25in}
+  \subfigure[$t=1.0$]{
+  \small\input{crashpipe2/phi_channel_t1/include.tex}}
+  \hspace{-.4in}
+  \subfigure[$t=2.0$]{
+  \small\input{crashpipe2/phi_channel_t2/include.tex}}
+  \hspace{-1.25in}
+
+  \hspace{-1.25in}
+  \subfigure[$t=5.0$]{
+  \small\input{crashpipe2/phi_channel_t5/include.tex}}
+  \hspace{-.4in}
+  \subfigure[$t=10.0$]{
+  \small\input{crashpipe2/phi_channel_t10/include.tex}}
+  \hspace{-1.25in}
+  \caption{Scalar intensity along the center of the channel at $t=1,2,5,10$}
+  \label{fig:phi}
+\end{figure}
 
 \begin{figure}[htb]
   \centering
-  \hspace{-1.6in}
+  \hspace{-1.25in}
   \subfigure[Along the channel centerline]{
   \small\input{crashpipe2/dcoeff_channel_t10/include.tex}}
+  \subfigure[Perpendicular to the channel]{
   \hspace{-.4in}
-  \subfigure[Perpendicular]{
   \small\input{crashpipe2/dcoeff_ortho_t10/include.tex}}
-  \hspace{-1.6in}
+  \hspace{-1.25in}
   \caption{Diffusion coefficients at $t=10$.}
   \label{fig:dcoeffT10}
 \end{figure}
 
-\begin{figure}[htb]
-  \centering
-  \hspace{-1.6in}
-  \subfigure[$t=1.0$]{
-  \small\input{crashpipe2/phi_channel_t1/include.tex}}
-  \hspace{-.4in}
-  \subfigure[$t=10.0$]{
-  \small\input{crashpipe2/phi_channel_t10/include.tex}}
-  \hspace{-1.6in}
-  \caption{Scalar intensity along the center of the channel}
-  \label{fig:phi}
-\end{figure}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \section{Conclusions}
 The anisotropic diffusion method accounts for some amount of arbitrary
 anisotropy in the angular intensity, unlike standard or flux-limited diffusion,

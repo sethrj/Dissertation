@@ -535,7 +535,7 @@
   \vskip\abovecaptionskip
   \sbox\@tempboxa{\textbf{#1: #2}}%
   \ifdim \wd\@tempboxa >\hsize
-    #1: #2\par
+  \textbf{#1: #2}\par
   \else
     \global \@minipagefalse
     \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%

@@ -4,7 +4,7 @@
 %%
 %% The original source files were:
 %%
-%% merlin.mbs  (with options: `seq-no,nm-init,ed-au,nmft,nmft-def,nmand-rm,yr-par,tit-qq,bt-qq,atit-u,vol-bf,vnum-cm,volp-com,num-xser,ser-vol,pre-pub,blk-com,pp,abr,xedn,nfss,')
+%% merlin.mbs  (with options: `seq-no,nm-init,ed-au,nmft,nmft-def,nmand-rm,yr-par,tit-qq,bt-qq,atit-u,vol-bf,vnum-cm,volp-com,num-xser,ser-vol,pre-pub,blk-com,pp,jwdpg,abr,xedn,nfss,')
 %% ----------------------------------------
 %% *** For M&C conference proceedings. ***
 %%     Generated and modified by Seth R. Johnson
@@ -472,8 +472,10 @@ FUNCTION {format.url}
   "url" bibinfo.check
   duplicate$ empty$ 'skip$
     {
-      "\underline{\texttt{" swap$ *
-      "}} " *
+      "\underline{" swap$ *
+      "} " *
+%      "\underline{\texttt{" swap$ *
+%      "}} " *
     }
   if$
 }
@@ -676,13 +678,20 @@ FUNCTION {format.journal.pages}
           ", " *
           swap$
           n.dashify
+          pages multi.page.check
+            'bbl.pages
+            'bbl.page
+          if$
+          swap$ tie.or.space.prefix
           "pages" bibinfo.check
+          * *
           *
         }
       if$
     }
   if$
 }
+
 FUNCTION {format.journal.eid}
 { eid "eid" bibinfo.check
   duplicate$ empty$ 'pop$
@@ -1221,7 +1230,7 @@ FUNCTION {begin.bib}
   if$
   "\begin{thebibliography}{"  longest.label  * "}" *
   write$ newline$
-  "\newcommand{\enquote}[1]{``#1''}"
+  "\newcommand{\enquote}[1]{#1}"
   write$ newline$
 }
 EXECUTE {begin.bib}
