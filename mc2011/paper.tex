@@ -28,7 +28,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-\title{An Anisotropic Diffusion Method for Thermal Radiative
+\title{An Anisotropic Diffusion Approximation to Thermal Radiative
 Transfer}
 
 \author{
@@ -507,7 +507,7 @@ extends infinitely into and out of the page.) It uses scaled units with $c=a=1$.
 shows the material layout for the problem.
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.75\textwidth]{../figures/crashpipe2/materials}
+  \includegraphics[width=0.75\textwidth]{crashpipe2/materials}
   \caption{Material properties for the pipe problem. The blue square is the
   source, the green channel is a low-opacity region, and the red regions are
   diffusive.}
@@ -531,6 +531,10 @@ the behavior of the explicitly treated FLD coefficient.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results}
+Fig.~\ref{fig:mattemp2d} shows the material temperature $T$ at the early time
+$t=2$ and the later time $t=10$. The benchmark solution, IMC, correctly
+reproduces an important physical features: energy transfer does not exceed the
+speed of light, as shown .
 
 \begin{figure}[htb]
   \centering
