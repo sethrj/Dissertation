@@ -13,6 +13,11 @@
 \makeatletter
 \def\input@path{{/Users/seth/_research/figures/}}
 \makeatother
+\renewcommand\bottomfraction{0.5}
+\renewcommand\floatpagefraction{.9}
+\renewcommand\topfraction{.9}
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[numbers,sort&compress]{natbib}
 
@@ -492,7 +497,8 @@ radiation flux is
   \del \phi^{n+1}\,.
 \end{equation*}
 
-
+For the anisotropic diffusion problem, the transport equation that calculates
+$\Dtens$ uses 16 azimuthal ordinates per quadrant.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem description}
 One application of the AD method is in the Center for Radiative Shock
@@ -531,34 +537,25 @@ the behavior of the explicitly treated FLD coefficient.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results}
-Fig.~\ref{fig:mattemp2d} shows the material temperature $T$ at the early time
-$t=2$ and the later time $t=10$. The benchmark solution, IMC, correctly
-reproduces an important physical features: energy transfer does not exceed the
-speed of light, as shown .
-
+Figure~\ref{fig:mattemp2d} shows the material temperature $T$ as calculated
+by the four methods at progressively increasing times. Figure~\ref{fig:phi}
+shows the scalar intensity $\phi$ for the four methods.
+%
 \begin{figure}[htb]
   \centering
-  \hspace{-1.25in}
-  \subfigure[$t=2$]{
-  \includegraphics[height=3.5in]{crashpipe2/mattemp2d_t2}}
-  \subfigure[$t=10$]{
-  \includegraphics[height=3.5in]{crashpipe2/mattemp_2d0117}}
-  \hspace{-1.25in}
+  \includegraphics{crashpipe2/mattemp}
   \caption{Pseudocolor plot of material temperature for the four methods (top
-  to bottom: IMC, AD, FLD, diffusion).}
+  to bottom: IMC, AD, FLD, diffusion) at $t=1$, $2$, $5$, and $10$.}
   \label{fig:mattemp2d}
 \end{figure}
-
-The diffusion coefficient in the heated channel is extremely large and
-unphysical, forcing the unphysically rapid transfer of energy throughout the
-void. Because the same amount of energy is distributed throughout a larger
-region, the overall temperature in the channel is colder, so the penetration
-rate into the surrounding diffusive medium is incorrectly small.
-
-Flux-limited diffusion prevents the energy propagation speed from exceeding $c$.
-However, it modifies the diffusion coefficients not only in the streaming
-region but also in the diffusive region, limiting the spread of radiation into
-the walls. As a result, the energy bottles up in the channel.
+%
+The injected radiation energy heats up the material, reducing the opacity of
+both the diffusive and channel regions. As the material grows more optically
+thin, energy is more easily transferred there from the source, causing a
+wavefront in the radiation and material temperatures.
+%The diffusive
+%region is optically thick and cold with a relatively low heat capacity, so
+%standard diffusion can model it accurately.
 
 \begin{figure}[htb]
   \centering
@@ -581,6 +578,37 @@ the walls. As a result, the energy bottles up in the channel.
   \label{fig:phi}
 \end{figure}
 
+Because the channel is so thin, the
+radiation travels through it relatively unhindered. Of the compared methods,
+only IMC correctly simulates the finite speed of particles. FLD does a good
+job of approximating the finite energy propagation speed by modifying the
+diffusion coefficients at the wavefronts, where there is a strong spatial
+gradient. Both AD and standard diffusion allow energy to move faster than $c$,
+but because AD yields comparatively smaller diffusion coefficients, the
+radiation flux is smaller.
+
+Both standard and flux-limited diffusion also have notable errors in their
+modeling of the diffusive region.
+With standard diffusion, because the same amount of energy is distributed
+throughout a much larger region of the channel, the average temperature is
+colder, so the penetration rate into the surrounding diffusive medium is
+incorrectly small.  
+Flux limiting has the side effect of modifying the diffusion coefficient
+in diffusive regions because of the steep radiation energy gradient. This
+unphysically limits the spread of radiation into the walls, bottling energy in
+the channel.
+
+The diffusion coefficients, as plotted at the final time in
+Fig.~\ref{fig:dcoeffT10}, offer an insightful comparison between the three
+diffusion methods. In the optically thin channel, anisotropic
+diffusion produces coefficients an order of magnitude smaller than standard
+diffusion. Because of the tendency for photons to stream down the channel
+rather than across it, $D^{xx} < D^{yy}$.
+In this problem, the magnitude of the $D^{xy}$ terms (which can be negative,
+positive, or zero) is very small compared to the
+other components $D^{xx}$ and $D^{yy}$, justifying the approximation of
+neglecting them.  
+
 \begin{figure}[htb]
   \centering
   \hspace{-1.25in}
@@ -594,6 +622,32 @@ the walls. As a result, the energy bottles up in the channel.
   \label{fig:dcoeffT10}
 \end{figure}
 
+Figure~\ref{fig:adcoeff} plots the anisotropic diffusion tensors as
+ellipses, where the axes of an ellipse are oriented along an eigenvectors of
+$\Dtens$ at that point, scaled proportionally to the eigenvalues. Isotropic
+$\Dtens$ appear as circles sized proportionally to $\norm{\Dtens}$, and
+anisotropic tensors point along the direction that particles preferentially
+flow. In the optically thin channel, the anisotropic diffusion coefficients are
+larger and directed along the channel. In the thicker parts of the problem,
+they are isotropic.
+The apparent asymmetry about the channel centerline is an artifact of
+the visualization.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3in]{crashpipe2/adcoeff_t10_cropped}
+  \caption{Anisotropic diffusion tensors at $t=10$ overlaid on the material
+  temperature.}
+  \label{fig:adcoeff}
+\end{figure}
+
+Comparing relative computer run times shows that the additional accuracy of
+AD comes at a relatively inconsequential cost. Flux-limited diffusion and
+standard diffusion were
+equally fast, anisotropic diffusion took about 60\% longer than FLD, and the
+benchmark IMC solution took about 40 times longer than the AD calculation.
+Doubling the number of ordinates used to calculate $\Dtens$ increased the run
+time by 70\% with only a few percent change in the answer.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \section{Conclusions}
