@@ -60,13 +60,13 @@ the anisotropic diffusion tensor.
 To demonstrate the AD method's efficacy, we model radiation flow down a channel 
 in ``flatland'' geometry. 
 
-\keywords{Thermal radiative transfer, Anisotropic diffusion, Flux-limited
+\keywords{Anisotropic diffusion, Thermal radiative transfer, Flux-limited
 diffusion, Hybrid methods, Flatland geometry}
 
 \end{abstract}
 
 \newcommand\authorname{Seth~R.~Johnson and Edward~W.~Larsen}
-\newcommand\shorttitlename{Anisotropic diffusion for TRT}
+\newcommand\shorttitlename{Anisotropic diffusion approximation to TRT}
 
 \fancymc2011
 
@@ -80,8 +80,10 @@ radiative transfer (TRT) are
 time-dependent, contain strong nonlinearities, and reside in a large phase
 space $(\vec{x}, \vec{\Omega}, h\nu, t)$.
 These difficulties make TRT the subject of significant work in methods
-development, which typically balances fidelity against computational cost. 
-%
+development, which typically balances fidelity against computational cost. The
+method described in this paper is meant to be a middle ground between high
+fidelity transport methods and inexpensive diffusion methods.
+
 %Among high-fidelity methods are Fleck and Cummings' Implicit Monte Carlo
 %(IMC) method \cite{Fle1971} and the discrete ordinates (\SN) method
 %\cite{Mor1996}. Both of these methods require large amounts of computer time:
@@ -195,7 +197,7 @@ integral transport equation is:
     [T(\vec{x},t)]^4}{4\pi} + \frac{c Q(\vec{x},t)}{4\pi}\,,
   \end{equation}
   which is evaluated along the characteristic ray at a distance $s$, at the time
-  $t-s/c$ at which a particle originating at that point reaches $(\vec{x},t)$.
+  $t-s/c$ when a particle originating at that point reaches $(\vec{x},t)$.
   The optical thickness of the medium between points $\vec{x}$ and
   $\vec{x}'$ along direction $\vec{\Omega}$ is 
   \begin{equation} \label{eq:integralTrtTauDefinition}
@@ -360,7 +362,7 @@ The time derivative in Eq.~\eqref{eq:term2Approx} exactly cancels the time
 derivative in Eq.~\eqref{eq:term1Approx} when they are added.
 
 The third $\del \vd \vec{F}$ component of Eq.~\eqref{eq:integralTrtLhs}, which
-is the composition of two $O(\epsilon)$ operations, is $O(\epsilon^2)$ and
+is the composition of two $O(\epsilon)$ operations, is $O(\epsilon^2)$ and is
 discarded. Adding the two remaining components together gives the
 following approximate
 expression for the angular intensity:
@@ -407,7 +409,8 @@ approximations to the transport equation that do not assume that the intensity
 is linear in angle. However, in an infinite homogeneous (or even optically
 thick homogeneous) medium, $\Dtens = \mat{I}/3\sigma$, which reduces
 Eq.~\eqref{eq:adFlux} to Fick's law. Because the solution $f$ is larger along a
-voided channel than orthogonal to it, the primary action of the tensor $\Dtens$
+voided channel than perpendicular to it, the primary action of the tensor
+$\Dtens$
 is along an optically thin channel. More importantly, $\Dtens$ remains bounded
 in voided regions: it does not ``blow up'' like a standard diffusion
 coefficient. Finally, the AD coefficient is spatially continuous, so the
@@ -520,8 +523,8 @@ shows the material layout for the problem.
   \label{fig:crashpipeMaterial}
 \end{figure}
 The source has a volumetric source
-$Q=1$ for $0 \le t \le 1$ and turns off at $t=1$.
-That region has $c_v=0.5$ and
+$Q=1$ for $0 \le t \le 1$ and turns off at $t=1$; it has a heat capacity
+$c_v=0.5$ and opacity
 $\sigma=0.5$. The diffusive region has a small heat capacity $c_v=0.1$, and an
 inverse cubic opacity, $\sigma=T^{-3}$. The streaming channel region has
 $c_v=0.1$ and $\sigma=0.01 T^{-3}$. The material temperature and radiation
@@ -538,7 +541,7 @@ the behavior of the explicitly treated FLD coefficient.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results}
 Figure~\ref{fig:mattemp2d} shows the material temperature $T$ as calculated
-by the four methods at progressively increasing times. Figure~\ref{fig:phi}
+by the four methods at increasing times. Figure~\ref{fig:phi}
 shows the scalar intensity $\phi$ for the four methods.
 %
 \begin{figure}[htb]
@@ -598,12 +601,14 @@ in diffusive regions because of the steep radiation energy gradient. This
 unphysically limits the spread of radiation into the walls, bottling energy in
 the channel.
 
+%\clearpage
+
 The diffusion coefficients, as plotted at the final time in
 Fig.~\ref{fig:dcoeffT10}, offer an insightful comparison between the three
 diffusion methods. In the optically thin channel, anisotropic
 diffusion produces coefficients an order of magnitude smaller than standard
 diffusion. Because of the tendency for photons to stream down the channel
-rather than across it, $D^{xx} < D^{yy}$.
+rather than across it, $D^{xx} > D^{yy}$.
 In this problem, the magnitude of the $D^{xy}$ terms (which can be negative,
 positive, or zero) is very small compared to the
 other components $D^{xx}$ and $D^{yy}$, justifying the approximation of
@@ -641,9 +646,9 @@ the visualization.
   \label{fig:adcoeff}
 \end{figure}
 
-Comparing relative computer run times shows that the additional accuracy of
-AD comes at a relatively inconsequential cost. Flux-limited diffusion and
-standard diffusion were
+Comparing relative wall times for the methods shows that the additional
+accuracy of AD comes at only a small computational cost. Flux-limited diffusion
+and standard diffusion ran
 equally fast, anisotropic diffusion took about 60\% longer than FLD, and the
 benchmark IMC solution took about 40 times longer than the AD calculation.
 Doubling the number of ordinates used to calculate $\Dtens$ increased the run

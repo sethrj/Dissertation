@@ -1,0 +1,1 @@
+/usr/local/texlive/2009/texmf-dist/tex/latex/umthesis/umthesis.cls
