@@ -1,0 +1,6 @@
+I wonder if applying the transverse integration procedure (like in nodal dffiusion methods) would help to account for yhe off-diagonal terms in diffusion tensor.
+
+1. Section titles should be all capitals.
+2. The curled brackets in eqs. 5 and 6 should be made longer, so that they include \phi(x,t).
+3. In the last paragraph of p. 4, \nabla F should be put in parentheses.
+4. On the 3rd paragraph of p. 8, "an eigenvectors" should be fixed.
