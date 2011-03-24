@@ -1,0 +1,72 @@
+\documentclass[11pt]{SRJresearch}
+\author{Seth R.~Johnson}
+\date{\today}
+\title{Research summary}
+
+\newcommand{\Dtens}{\mat{D}}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This is a list of what I've done, what I'm currently working on, and what I've
+left to do.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Done}
+\subsection{Theory}
+\begin{itemize}
+  \item Discretization schemes: Gol'din, nine-point stencil, alternate
+    nine-point stencil
+  \item Realization that AD coefficients are continuous, so first derivative of
+    scalar intensity is continuous (no kinks)
+  \item Semi-implicit anisotropic diffusion approximation
+  \item Method of moments (ultimately fruitless)
+\end{itemize}
+
+\subsection{Implementation}
+\begin{itemize}
+  \item Lots of already existing methods (IMC, MC, SN, D, P1, FLD, etc.)
+  \item Lots of analysis tools (lineout, angleout, wavefront detection, Silo)
+  \item Transport-calculated AD coefficients (MOC, DD)
+  \item Nine-point stencils for AD
+  \item Diffusion-matched boundary conditions
+\end{itemize}
+
+\subsection{Analysis}
+\begin{itemize}
+  \item Looked at off-diagonal terms of $\Dtens$ which were neglected in
+    previous AD work (dogleg problem)
+  \item Compared angular intensity representation for different methods (AD,
+    SN, D, FLD)
+  \item Test problem for non-orthogonal channels
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{In progress}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Needs to be done}
+
+\subsection{Theory}
+\begin{itemize}
+  \item Time-dependent P1, including elimination of face-centered terms?
+  \item Boundary conditions
+  \item Higher-order approximations with powers of $s$
+\end{itemize}
+
+\subsection{Implementation}
+\begin{itemize}
+  \item Coarse-grid AD coefficient calculation using multigrid routines
+  \item Flux-limited AD
+\end{itemize}
+
+\subsection{Analysis}
+\begin{itemize}
+  \item CRASH-like test problem
+  \item Boundary conditions in, e.g., the pipe problem
+  \item Comparison using wavefront detection
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
