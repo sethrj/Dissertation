@@ -3,8 +3,6 @@
 \date{\today}
 \title{Research summary}
 
-\newcommand{\Dtens}{\mat{D}}
-
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This is a list of new stuff I've done, what I'm currently working on, and what
@@ -20,6 +18,8 @@ I've left to do.
     scalar intensity is continuous (no kinks)
   \item Semi-implicit anisotropic diffusion approximation
   \item Method of moments (ultimately fruitless)
+  \item Boundary conditions!
+  \item Anisotropic \APone!
 \end{itemize}
 
 \subsection{Implementation}
@@ -29,6 +29,7 @@ I've left to do.
   \item Transport-calculated AD coefficients (MOC, DD)
   \item Nine-point stencils for AD
   \item Diffusion-matched boundary conditions
+  \item Visualization of AD tensors
 \end{itemize}
 
 \subsection{Analysis}
@@ -44,7 +45,10 @@ I've left to do.
 \section{In progress}
 
 \begin{itemize}
+  \item 1D boundary layer analysis
   \item Boundary pipe problem analysis
+  \item Coarse-grid AD coefficient calculation using multigrid routines
+  \item \APone\ implementation 
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -52,14 +56,13 @@ I've left to do.
 
 \subsection{Theory}
 \begin{itemize}
-  \item Time-dependent P1, including elimination of face-centered terms?
+  \item Time-dependent \Pone, including elimination of face-centered terms?
   \item Boundary conditions
-  \item Higher-order approximations with powers of $s$
+  \item Higher-order approximations with powers of $s$?
 \end{itemize}
 
 \subsection{Implementation}
 \begin{itemize}
-  \item Coarse-grid AD coefficient calculation using multigrid routines
   \item Flux-limited AD
 \end{itemize}
 
