@@ -14,28 +14,28 @@ I've left to do.
 \begin{itemize}
   \item Discretization schemes: Gol'din, nine-point stencil, alternate
     nine-point stencil
-  \item Realization that AD coefficients are continuous, so first derivative of
-    scalar intensity is continuous (no kinks)
+    %  \item Realization that AD coefficients are continuous, so first derivative of
+    %    scalar intensity is continuous (no kinks)
   \item Semi-implicit anisotropic diffusion approximation
-  \item Method of moments (ultimately fruitless)
+%  \item Method of moments (ultimately fruitless)
   \item Boundary conditions!
-  \item Anisotropic \APone!
+  \item \APone!
 \end{itemize}
 
 \subsection{Implementation}
 \begin{itemize}
-  \item Lots of already existing methods (IMC, MC, SN, D, P1, FLD, etc.)
-  \item Lots of analysis tools (lineout, angleout, wavefront detection, Silo)
   \item Transport-calculated AD coefficients (MOC, DD)
   \item Nine-point stencils for AD
-  \item Diffusion-matched boundary conditions
-  \item Visualization of AD tensors
+  %\item ``Diffusion-matched'' boundary conditions
+  \item Lots of already existing methods (IMC, MC, SN, D, P1, FLD, etc.)
+  \item Lots of analysis tools (lineout, angleout, wavefront detection, Silo)
 \end{itemize}
 
 \subsection{Analysis}
 \begin{itemize}
   \item Looked at off-diagonal terms of $\Dtens$ which were neglected in
     previous AD work (dogleg problem)
+  \item Visualization of AD tensors
   \item Compared angular intensity representation for different methods (AD,
     SN, D, FLD)
   \item Test problem for non-orthogonal channels
