@@ -1,0 +1,62 @@
+// dot -Tpdf semi-implicit.dot -osemi-implicit.pdf && open semi-implicit.pdf
+digraph G {
+//size="7.0, 4.0"
+ranksep=0.5
+subgraph cluster_0 {
+label="Initial conditions"
+	node [shape = box, fontsize = 11 ];
+	phi [label="Radiation intensity"];
+	um [label="Material energy density"];
+}
+subgraph cluster_1 {
+label="Physics data"
+	node [shape = box, fontsize = 11 ];
+	sigmamodel [label="Opacity model"];
+	cvmodel [label="Heat capacity model"];
+	radsource [label="Radiation source"];
+	matsource [label="Electron source"];
+	deltat [label="Time grid"];
+}
+subgraph cluster_2 {
+label="Linearized physics"
+	node [shape = box, fontsize = 11 ];
+	sigmat [label="Sigma_t"];
+	sigmas [label="Sigma_s"];
+	q [label="q"];
+	ddt [label="Time derivative"];
+	node [shape = box, style=dotted ];
+	dcoeff [label="Diffusion coefficient"]
+	adcoeff [label="AD coefficient"]
+	fldcoeff [label="FLD coefficient"]
+}
+	node [shape = box, fontsize = 11  ];
+	tmat [label="Material temperature"]
+	sigma [label="Opacity"]
+	beta [label="Beta"]
+	f [label="Fleck factor"]
+	tmat -> um;
+	beta -> cvmodel;
+	beta -> tmat;
+	sigma -> tmat;
+	sigma -> sigmamodel;
+	f -> sigma;
+	f -> beta;
+	f -> deltat;
+// time derivative
+	ddt -> deltat;
+	ddt -> phi;
+// physics
+	sigmat -> sigma;
+	sigmas -> sigma;
+	sigmas -> f;
+	q -> radsource;
+	q -> f;
+	q -> matsource;
+	edge[style=dotted];
+	dcoeff -> sigma;
+	adcoeff -> sigma;
+	fldcoeff -> sigma;
+	fldcoeff -> phi;
+//}
+}
+

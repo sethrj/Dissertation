@@ -8,10 +8,12 @@
 \usepackage{bm}
 \usepackage{amsmath}
 \usepackage{amssymb}
-%\usepackage{microtype}
-\usepackage{booktabs} % \toprule, \midrule, \bottomrule
+\usepackage{microtype}
 \usepackage[pdftex]{graphicx}
 \usepackage[width=.75\textwidth,font=small,labelfont=bf]{caption}
+\usepackage{booktabs} % \toprule, \midrule, \bottomrule
+% note: rotating must go AFTER graphicx
+\usepackage{rotating}
 \input{../SRJinclude.tex}
 
 % include paths
@@ -31,28 +33,27 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \author{Seth R.~Johnson}
-\title{A Physics-Based Anisotropic Diffusion Method for Thermal Radiative
-Transfer}
+\title{Advanced Anisotropic Diffusion for Thermal Radiative Transfer}
 
 \program{Nuclear Engineering and Radiological Sciences}
 \degree{Doctor of Philosophy}
 \chaircommitteemember{Edward W.~Larsen}{Professor}
 \committeemember{William R.~Martin}{Professor}
 \committeemember{Thomas J.~Downar}{Professor}
-\committeemember{Katsuyo S.~Thornton}{Professor}
 \committeemember{James~Holloway}{Professor}
+\committeemember{Katsuyo S.~Thornton}{Professor}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \includeonly{%
 introduction,%
-ssFormulation,%
-ssResults,%
-ltdFormulation,%
-ltdResults,%
-trtAnisotropicDerivation,%
-trtFormulation,%
-trtResults,%
+trtBackground,%
+flatland,%
+adDerivation,%
+implementation,%
+simpleNumericalResults,%
+trtNumericalResults,%
 conclusion,%
+appendixLinearization,%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -80,11 +81,11 @@ conclusion,%
 %\end{frontispiece}
 
 \begin{dedication}
-  to my parents, Ayn Rand and God
+  To my parents, Doug and Carol
 \end{dedication}
 
 \begin{acknowledgments}
-  Thanks to all my friends. They were the greatest ever.
+  Thanks to all my friends, Romans, and countrymen.
 \end{acknowledgments}
 
 %\begin{preface}
@@ -107,18 +108,17 @@ conclusion,%
 \mainmatter
 
 % note that chapter markers MUST go inside the ``include''-d file
-\include{introduction}
-%\include{ssFormulation}
-%\include{ssResults}
-%\include{ltdFormulation}
-%\include{ltdResults}
-\include{trtAnisotropicDerivation}
-\include{trtFormulation}
-%\include{trtResults}
-\include{conclusion}
+\include{introduction          }
+\include{trtBackground         }
+\include{flatland              }
+\include{adDerivation          }
+\include{implementation        }
+\include{simpleNumericalResults}
+\include{trtNumericalResults   }
+\include{conclusion            }
 
-%\appendix
-%\include{trtadapter}
+\appendix
+\include{appendixLinearization }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAPHY

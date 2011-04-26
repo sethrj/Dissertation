@@ -1,0 +1,479 @@
+\documentclass{beamer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{microtype}
+\usepackage{booktabs} % \toprule, \midrule, \bottomrule
+\input{../SRJinclude.tex}
+\definecolor{lightgray}{gray}{0.85}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetheme{AnnArbor}
+\usecolortheme{seahorse}
+\usecolortheme{orchid}
+\usefonttheme[onlymath]{serif}
+\setbeamercolor*{frametitle}{use=structure,bg=structure.fg!20!white}
+\setbeamercolor*{frametitle right}{use=structure,bg=structure.fg!20!white}
+\setbeamertemplate{navigation symbols}{\insertframenavigationsymbol}
+\setbeamertemplate{caption}[numbered]
+
+\title[ORNL Seminar]%
+{An improved hybrid anisotropic diffusion method}
+%\subtitle{}
+
+\author[SRJ]{Seth~R.~Johnson}
+
+\institute[UMich]{
+University of Michigan, Ann Arbor
+}
+\date[5/6/2011]{May 6, 2011}
+
+\AtBeginSection[]
+{
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+\end{frame}
+}
+
+\hypersetup{colorlinks=true,linkcolor=black}
+
+% only show section headings in table of contents
+\setcounter{tocdepth}{1}
+
+%use symbols for footnote
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\titlepage
+\begin{center}
+  \includegraphics[width=0.2\textwidth]{../figures/umlogo}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Thermal radiative transfer}
+  \begin{itemize}
+    \item TRT is the dominant heat transfer process in very hot materials
+    \item Photons are emitted by black body emission ($\propto T^4$)
+    \item Cold material heats up and becomes relatively transparent (
+      $\sigma\propto T^{-3}$)
+  \end{itemize}
+
+  Applications in high energy density physics:
+  \begin{itemize}
+    \item Stellar astrophysics, \textcolor[gray]{.5}{strategic astrophysics}
+    \item Inertial confinement fusion
+    \item CRASH (Center for RAdiative Shock Hydrodynamics) program: ``Assessment
+          of Predictive Capability''
+  \end{itemize}
+  Difficulties in solving:
+  \begin{itemize}
+    \item High dimensionality of solution phase space $(\vec{x}, \vec{\Omega},
+      h\nu, t)$
+    \item Highly nonlinear coupled partial differential equations for radiation
+      field $I(\vec{x}, \vec{\Omega}, h\nu, t)$ and material energy
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Gray TRT equations}
+  Common approximations for radiation transport methods development:
+  \begin{itemize}
+    \item work in a fixed medium, disregarding material advection;
+    \item assume local thermodynamic equilibrium (LTE), which uses a single
+      material temperature;
+    \item neglect thermal conduction in material;
+    \item average over all photon energies $h\nu$ (gray).
+  \end{itemize}
+\begin{subequations} \label{eqs:fullGrayTRT}
+  Radiation transfer equation, intensity $I(\vec{x}, \vec{\Omega}, t)$:
+\begin{equation} \label{eq:fullGrayTransport}
+  \frac{1}{c} \pder{I}{t}
+  + \vec{\Omega} \vd \del I +
+ \sigma I
+  = \frac{\sigma c aT^4}{4\pi} 
+  + \frac{c Q}{4\pi}
+\end{equation}
+  Material energy balance equation:
+\begin{equation} \label{eq:fullGrayMaterial}
+  \frac{1}{c_v}\pder{T}{t} = \sigma \int_{4\pi}  I \ud \Omega - \sigma c aT^4
+\end{equation}
+\end{subequations}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Motivation}
+\begin{center}
+  \includegraphics[width=3in]{../figures/fidelity}
+\end{center}
+% also, storage requirements
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Anisotropic diffusion work}
+  Previous work:
+  \begin{itemize}
+    \item Steady-state infinite medium VHTR-like problem with analytically
+      calculated coefficients \cite{Lar2009c}
+    \item Non-local tensor diffusion \cite{Mor2007} for steady-state
+      radiative transfer, no further development or analysis in literature
+  \end{itemize}
+  Current work:
+  \begin{itemize}
+    \item Formulates boundary conditions and time-dependent terms
+    \item Uses transport-calculated anisotropic diffusion tensor
+    \item Applies to thermal radiative transfer
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Applications outside of TRT}
+  \begin{itemize}
+    \item Handles voided regions much better than standard diffusion
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theory}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Summary in advance}
+  \begin{enumerate}
+    \item Make assumptions about weakness of derivatives and moments of
+      intensity $I(\vec{x}, \vec{\Omega}, t)$.
+    \item Convert integrodifferential transport equation to integral transport
+      equation along characteristic rays.
+    \item Substitute the left hand side of the particle conservation equation
+      (zeroth moment of Boltzmann equation) into the integral equation
+    \item Apply Taylor series to non-local $\phi$ to get an approximate
+      expression for $I(\vec{x}, \vec{\Omega}, t)$ as a function of
+      $\phi(\vec{x}, t)$ and other problem-dependent quantities.
+      Discard $O(\epsilon^2)$ and higher terms.
+    \item Take first moment of this approximate $I$ to get
+      $\vec{F}(\vec{x}, t)$.
+  \end{enumerate}
+\end{frame}
+
+\subsection{Anisotropic diffusion derivation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  TODO
+  Integral time-dependent transport equation \cite{Pri2010}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Analogy to Fick's law}
+  Take the first angular moment of Eq.~\eqref{eq:anisotropicIntensity} to find
+  the radiation flux (``current'' in the neutron world):
+\begin{align*}
+  \vec{F}(\vec{x}, t) &= \int_{4\pi} \vec{\Omega} I(\vec{x}, \vec{\Omega}, t) \ud \Omega
+  \\
+  &=
+  \frac{1}{4\pi}\phi(\vec{x}, t) \int_{4\pi} \vec{\Omega} \ud \Omega
+  \\
+  &\qquad-  \int_{4\pi} \vec{\Omega} \left[ \int_{0}^{\infty} \frac{1}{4\pi}
+  \eexp^{- \int_{0}^{s} \sigma(\vec{x}-s'\vec{\Omega}, t)
+  \ud s'} \ud s\right]
+\vec{\Omega}  \ud \Omega \vd \del \phi(\vec{x}, t)
+\\
+&= - \left[ \int_{4\pi} \vec{\Omega} f(\vec{x},\vec{\Omega},t)
+\vec{\Omega}  \ud \Omega \right] \vd \del \phi(\vec{x}, t)
+\\
+&= - \Dtens(\vec{x},t) \vd \del \phi(\vec{x}, t)
+\end{align*}
+where $f$ satisfies the ``steady-state'' transport equation
+\begin{equation} \label{eq:dcoeffTransportEquation}
+  \vec{\Omega}\vd \del f(\vec{x},\vec{\Omega},t) + \sigma(\vec{x},t) f(\vec{x},\vec{\Omega},t) =
+  \frac{1}{4\pi}\,.
+\end{equation}
+\end{frame}
+
+\subsection{Anisotropic diffusion discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Properties of anisotropic diffusion}
+
+  The anisotropic diffusion tensor $\Dtens(\vec{x},t)$: 
+  \begin{itemize}
+    \item Results from consistent approximations to the transport equation
+      using physical coefficients
+    \item Reduces to $\mat{I}/3\sigma$ for infinite homogeneous
+      medium, which gives standard diffusion solution
+    \item Has a smaller magnitude across a channel than along it
+    \item Does not ``blow up'' in void regions
+    \item Is continuous in $\vec{x}$, so the anisotropic solution $\phi$
+      has continuous first derivatives
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  The transport problem used to calculate $\Dtens$,
+  \begin{equation*}
+    \vec{\Omega}\vd \del f + \sigma f = \frac{1}{4\pi} \,,
+  \end{equation*}
+  \vspace{-\baselineskip}
+  \begin{itemize}
+    \item Takes only one transport sweep to solve, since it is the description
+      of a purely absorbing medium
+    \item Only needs to be calculated once if $\sigma$ is constant in time
+    \item Requires no storage of the angular intensity, just accumulation of
+      second
+      moment, $D_{ij} = \int_{4\pi} \Omega_i \Omega_j f \ud \Omega$
+    \item Has the solution $f=1/4\pi\sigma$ if $\sigma$ is a constant.
+      Then, $\int_{4\pi} \vec{\Omega} f \vec{\Omega} \ud \Omega =
+      \mat{I}/3\sigma$.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Semi-implicit radiative transfer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+Zeroth moment of radiative transfer equation:
+\begin{equation*}
+  \frac{1}{c} \pder{\phi}{t}
+  + \del \vd \vec{F} + \textcolor{red}{\sigma} \phi
+  = \textcolor{red}{\sigma} ac\textcolor{red}{T^4}
+  + c Q
+\end{equation*}
+Radiation flux equation from anisotropic diffusion calculation:
+\begin{equation*}
+ \vec{F}(\vec{x}, t) \cong - \Dtens(\vec{x},\textcolor{red}{\sigma})
+  \vd \del \phi(\vec{x}, t)
+\end{equation*}
+Material energy balance equation:
+\begin{equation*}
+  \frac{1}{\textcolor{red}{c_v}}\pder{T}{t} = \textcolor{red}{\sigma} \phi -
+  \textcolor{red}{\sigma} ac\textcolor{red}{T^4}
+\end{equation*}
+
+Semi-implicit discretization freezes $c_v/T^3$ and $\sigma$ at the initial time
+value $t^n$ explicitly and treats $\phi$ implicitly. Some
+manipulation gives a linear transport equation (with ``effective scattering''
+that emulates photon absorption and re\"emission) over the time step, and an
+equation to update the new material temperature.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Compared methods}
+\begin{itemize}
+  \item Implicit Monte Carlo \cite{Fle1971} (implemented with variance
+    reduction methods), $10^6$ particles per time step
+  \item Flux-limited diffusion with Larsen limiter \cite{Ols2000}, with
+    semi-implicit treatment of diffusion coefficient and radiation:
+    \begin{equation*}
+      \vec{F}^{n+1} = - D^{n} \del \phi^{n+1}  = -\left[ (3\sigma^{n})^2
+      + \left( \frac{\norm{\del \phi^{n}}}{\phi^{n}}  \right)^2 \right]^{-1/2}
+      \del \phi^{n+1}
+    \end{equation*}
+  \item Standard diffusion, with semi-implicit treatment of nonlinearities:
+    \begin{equation*}
+      \vec{F}^{n+1} = - D^{n} \del \phi^{n+1} 
+      = -\frac{1}{3\sigma^{n}} \del \phi^{n+1}
+    \end{equation*}
+  \item Anisotropic diffusion, with semi-implicit treatment of nonlinearities:
+    \begin{equation*}
+      \vec{F}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} 
+    \end{equation*}
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Summary of AD approximations}
+  \begin{block}{Thermal radiative transfer equations}
+    \begin{itemize}
+      \item Assume weak gradients and angular moments for $I$ (\emph{don't}
+        assume that $I$ is a linear function of $\vec{\Omega}$!)
+      \item Neglect boundary and initial conditions
+      \item Semi-implicit approximation for the nonlinearities
+    \end{itemize}
+  \end{block}
+  \vspace{-\baselineskip}
+  \begin{columns}[t]
+    \begin{column}{.48\textwidth}
+  \begin{block}{AD equation}
+    \begin{itemize}
+      \item Cell-centered finite difference spatial approximation
+      \item Discard $D^{xy}$ and $D^{yx}$ terms$^*$
+    \end{itemize}
+  \end{block}
+    \end{column}
+    \begin{column}{.48\textwidth}
+  \begin{block}{$\Dtens$ transport equation}
+    \begin{itemize}
+      \item Discrete ordinates angular approximation
+      \item Diamond difference$^*$ spatial approximation (16$^*$ azimuthal
+        ordinates per quadrant)
+    \end{itemize}
+  \end{block}
+    \end{column}
+  \end{columns}
+  {\small $^*$Numerical experiments support using these approximations}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Test problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Problem description}
+  \begin{columns}[t]
+    \begin{column}{.48\textwidth}
+      Flatland geometry!
+      \\Uniform spatial grid: $\Delta_x=0.1$
+      \\Piecewise linear time grid: $\Delta_t=0.1$ for $t \ge 1$
+      \\Reflecting bndy on left, others vacuum
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \textcolor[rgb]{0,0,1}{\textbf{Source}}: $c_v=0.5$, $\sigma=0.5$;
+      $Q=1$ for $0 \le t \le 1$, $Q=0$ for $t > 1$.
+
+      \textcolor[rgb]{1,0,0}{\textbf{Diffusive}}: $c_v=0.1$,
+      $\sigma=T^{-3}$
+
+      \textcolor[rgb]{0.1,0.9,0.1}{\textbf{Channel}}: $c_v=0.1$,
+      $\sigma=0.01 T^{-3}$
+
+      Initial condition: $T=T_\text{rad}=0.1$
+    \end{column}
+  \end{columns}
+\begin{center}
+  \includegraphics[width=.99\textwidth]{../figures/crashpipe2/materials}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Time evolution of material temperature}
+\begin{center}
+  {\tiny (Replaced with movie)}
+
+  \includegraphics[width=.80\textwidth]{../figures/crashpipe2/mattemp_2d0117}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Time evolution of radiation energy density}
+
+\only<1>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phix_t1}}
+\only<2>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phix_t2}}
+\only<3>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phix_t5}}
+\only<4>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phix_t10}}
+\only<1>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phiy_t1}}
+\only<2>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phiy_t2}}
+\only<3>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phiy_t5}}
+\only<4>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phiy_t10}}
+  
+\begin{center}
+  along $y=3.5$ \qquad
+  \only<1>{ $t=1.0$ }
+  \only<2>{ $t=2.0$ }
+  \only<3>{ $t=5.0$ }
+  \only<4>{ $t=10.0$ }
+  \qquad along $x=2.5$
+
+  \textcolor[rgb]{0,0,0}{\textbf{IMC}}\quad
+  \textcolor[rgb]{0.1,0.9,0.1}{\textbf{AD}}\quad
+  \textcolor[rgb]{0,0,1}{\textbf{FLD}}\quad
+  \textcolor[rgb]{1,0,0}{\textbf{Diffusion}}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Diffusion coefficients}
+\begin{center}
+  \includegraphics[width=.60\textwidth]{../figures/crashpipe2/dcoeff_t10}
+
+\textcolor[rgb]{0,0,0}{$D^{xx}$}\quad
+\textcolor[rgb]{1,0,.5}{$D^{xy}$}\quad
+\textcolor[rgb]{0.1,0.9,0.1}{$D^{yy}$}\quad
+\textcolor[rgb]{0,0,1}{$D_\text{FLD}$}\quad
+  \textcolor[rgb]{1,0,0}{$D$}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Anisotropic diffusion tensor visualization}
+\begin{center}
+  \includegraphics[width=.75\textwidth]{../figures/crashpipe2/adcoeff_t10}
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Timing results}
+  \begin{table}[htb]
+    \centering
+    \begin{tabular}{cr}
+      Method & Time (s) \\ \hline
+      IMC & 477 \\
+      FLD & 8 \\
+      D   & 8 \\
+      AD$_{64}$ & 13 \\
+      AD$_{128}$ & 22
+    \end{tabular}
+    \caption{Run times for pipe test problem, 14000 cells. Average of three
+    runs.}
+    \label{tab:pipeTiming}
+  \end{table}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Conclusions}
+  Anisotropic diffusion:
+  \begin{itemize}
+    \item Accounts for some amount of arbitrary anisotropy in angular
+      intensity, unlike standard or flux-limited diffusion, by preserving some
+      transport physics
+    \item Works best in problems with weaker derivatives, as suggested by
+      theory and borne out by numerical experiments
+    \item Accurately treats the nonlinear time-dependent flow of radiation
+      through a tube like that found in CRASH experiments
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Future work}
+  \begin{itemize}
+    \item Implement and test ``Anisotropic P$_1$''
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Questions?}
+\begin{center}
+  \includegraphics[width=3in]{../figures/fidelity2}
+\end{center}
+{\tiny
+This material is based upon work supported under a National Science Foundation
+Graduate Research Fellowship and a Department of Energy Nuclear Energy
+University Programs Graduate Fellowship. Any opinions, findings, conclusions or
+recommendations expressed in this publication are those of the author and do
+not necessarily reflect the views of the National Science Foundation or the
+Department of Energy Office of Nuclear Energy.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{References}
+\bibliographystyle{ans}
+\bibliography{../SRJall}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%	This material is based upon work supported under a National Science
+%	Foundation Graduate Research Fellowship. Any opinions, findings, conclusions
+%	or recommendations expressed in this publication are those of the author(s)
+%	and do not necessarily reflect the views of the National Science
+%	Foundation.  
+\end{document}

@@ -1,111 +1,13 @@
-% !TEX root = _individual/trtFormulation.tex
+% !TEX root = _individual/appendixLinearization.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Thermal radiative transfer derivations}
+\chapter{Semi-implicit Time Discretization}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Thermal radiative transfer (TRT) is the nonlinear process describing the
-dominant form of energy transfer in a very hot material, such as the interior
-of a star or the
-target of a laser fusion experiment. The equations describing TRT are
-time-dependent, contain strong nonlinearities, and reside in a large phase
-space. These difficulties make TRT the subject of significant work in methods
-development.
-
-A full representation of the physics in
-those high-energy-density regimes often includes the consideration of moving
-relativistic materials, different electron and ion temperatures, photon
-scattering, and thermal conduction in the material \cite{Mih1984}. However,
-much theoretical work in the field neglects these complex phenomena by
-\prelistpar
-\begin{itemize}
-  \item working in a fixed medium, disregarding material advection;
-  \item assuming local thermodynamic equilibrium (LTE), which uses a single
-    material temperature;
-  \item neglecting photon scattering, which VERIFY THIS tends to be small for
-    very hot materials; and
-  \item neglecting thermal conduction, since energy transfer is dominated by
-    radiative transfer in the temperature regimes we consider.
-\end{itemize}
-
-A further simplification often used for methods development is the ``gray''
-approximation to the frequency dependence. Analogous to the one-group
-approximation for neutron transport, the full transport equation is integrated
-over all frequencies, and the opacities are averaged with some \emph{a priori}
-weighting function. The commonly used Rosseland mean satisfies a radiation
-diffusion equation found in an asymptotic analysis of the thermal radiative
-transfer equations \cite{Lar1983a} and is therefore the best choice for a
-method that resembles diffusion.
-
-\section{TRT equations}
-After the simplifications, the thermal radiative transfer process can be
-described by
-\begin{subequations} \label{eqs:fullGrayTRT}
-the radiative transfer equation,
-\begin{equation} \label{eq:fullGrayTransport}
-  \frac{1}{c} \pder{I}{t}
-  + \vec{\Omega} \vd \del I +
- \sigma I
-  = \frac{\sigma c U_r}{4\pi} 
-  + \frac{c Q}{4\pi} \,,
-\end{equation}
-and the material energy balance equation
-\begin{equation} \label{eq:fullGrayMaterial}
-  \pder{U_m}{t} = \sigma \int_{4\pi}  I \ud \Omega - \sigma c U_r
-  %= \sigma \phi - \sigma c U_r
-  \,.
-\end{equation}
-\end{subequations}
-
-The notation and omitted parameters in Eqs.~\eqref{eqs:fullGrayTRT} are:
-\begin{alignat*}{2}
-  I &= I(\vec{x}, \vec{\Omega}, t) &&= \text{the angle-dependent
-  radiation intensity,}
-%  \\
-%  \phi &= \phi(\vec{x}, t) &&= \text{the zeroth angular moment of the radiation
-%  intensity,}
-  \\
-  T &= T(\vec{x}, t) &&= \text{the temperature of the material,}
-  \\
-  \sigma &= \sigma(\vec{x}, T) &&= \text{the absorption opacity,} 
-  \\
-  Q &= Q(\vec{x}) &&= \text{an extraneous isotropic radiation energy source,}
-  \\
-  U_m &= U_m(\vec{x}, T) &&= \text{the material energy density,}
-  \\
-  U_r &= U_r(\vec{x}, T) &&= \text{the equilibrium radiation energy density of
-  the material,}
-  \\
-  c_v &= c_v(\vec{x}, T) &&= \text{the specific heat capacity of a material,}
-  \\
-  c& &&= \text{the speed of light.}
-\end{alignat*}
-The ``equilibrium radiation energy density'' of a material is a scaled integral
-of the Planckian emission function:
-\begin{subequations} \label{eqs:materialU}
-\begin{equation} \label{eq:radEnergyDens}
-  U_r(T) \equiv aT^4 = \frac{1}{c} \int_{4\pi} \int_{0}^{\infty}B(\nu, T) \ud
-  \nu \ud \Omega \,.
-\end{equation}
-The material energy density is related only to the material's temperature:
-\begin{equation} \label{eq:matEnergyDens}
-  U_m(T) = \int_{0}^{T} c_v(T') \ud T' \,.
-\end{equation}
-The specific heat capacity $c_v(T)$ is the amount of energy per unit
-volume needed to change the material's temperature.
-\end{subequations}
-%The zeroth moment of $I$ is equal to the radiation energy density scaled by the
-%speed of light:
-%\begin{equation*}
-%  \phi(\vec{x}, t) = \int_{4\pi} I(\vec{x}, \vec{\Omega}, t) \ud \Omega
-%  = \int_{4\pi} c [h \nu] N(\vec{x}, \vec{\Omega}, t) \ud \Omega
-%  = c \RadEn(\vec{x}, t)\,.
-%\end{equation*}
-%Here, $N$ is the photon density, $h\nu$ is the energy of a single photon, and
-%$E$ is the radiation energy density.
-
-\section{Semi-implicit time discretization}
-To solve Eqs.~\eqref{eqs:fullGrayTRT}, we use the semi-implicit time
+To solve the TRT equations with deterministic methods,\footnote{The Implicit
+Monte Carlo scheme of Fleck and Cummings \cite{Fle1971} gives a result very
+similar to the semi-implicit discretization. The difference is that Monte
+Carlo does not need to approximate the time dependence implicitly.} we use the
+semi-implicit time
 discretization scheme \cite{Kno1999a,Kno2001,Low2004} where some important
 unknowns are treated implicitly in
 time, and other unknowns are treated explicitly. By choosing the intensity $I$
@@ -293,13 +195,13 @@ Eq.~\eqref{eq:linearizedGrayTransport} and let $\phi^{n+1}(\vec{x}) \equiv
 \frac{1}{4\pi} \int_{4\pi} I^{n+1}\ud \Omega$, then
 \begin{align*}
   \frac{1}{c} \frac{\phi^{n+1} - \phi^n}{\Delta_t^n}
-  + \del \vd \vec{J}^{n+1}
+  + \del \vd \vec{F}^{n+1}
  + \sigma^n \phi^{n+1}
  &=  \left(1 - f^n\right) \sigma^n \phi^{n+1} +f^n \sigma^n c U_r^n
   + c Q^n
   \\
   \frac{1}{c} \frac{\phi^{n+1} - \phi^n}{\Delta_t^n}
-  + \del \vd \vec{J}^{n+1} + f^n\sigma^n \phi^{n+1}
+  + \del \vd \vec{F}^{n+1} + f^n\sigma^n \phi^{n+1}
  &=  f^n \sigma^n c U_r^n + c Q^n\,.
 \end{align*}
 Thus, $f^n\sigma^n$ is sometimes known as the ``effective absorption opacity''
@@ -352,3 +254,10 @@ initial material energy density $U_m^n$, the solution process follows.
     approximation $\sigma(T) \approx \sigma(T^n)$.]
 \end{enumerate}
 
+\begin{sidewaystable}[htb]
+  \centering
+  \includegraphics[width=8in]{semi-implicit}
+  \caption{Flow chart showing dependence of quantities in the semi-implicit
+  discretization.}
+  \label{fig:semiImplicitFlowchart}
+\end{sidewaystable}
