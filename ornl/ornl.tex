@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[draft]{beamer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{bm}
 \usepackage{amsmath}
@@ -149,26 +149,196 @@ University of Michigan, Ann Arbor
 \begin{frame}
   \frametitle{Summary in advance}
   \begin{enumerate}
-    \item Make assumptions about weakness of derivatives and moments of
-      intensity $I(\vec{x}, \vec{\Omega}, t)$.
-    \item Convert integrodifferential transport equation to integral transport
-      equation along characteristic rays.
-    \item Substitute the left hand side of the particle conservation equation
-      (zeroth moment of Boltzmann equation) into the integral equation
-    \item Apply Taylor series to non-local $\phi$ to get an approximate
-      expression for $I(\vec{x}, \vec{\Omega}, t)$ as a function of
-      $\phi(\vec{x}, t)$ and other problem-dependent quantities.
-      Discard $O(\epsilon^2)$ and higher terms.
-    \item Take first moment of this approximate $I$ to get
-      $\vec{F}(\vec{x}, t)$.
+    \item Start with time-dependent radiation transport equation with frozen
+      opacities. Neglect $\frac{1}{c}\pder{I}{t}$ term to get anisotropic
+      diffusion instead of anisotropic P$_1$.
+    \item Convert integrodifferential equation to an integral equation.
+    \item Formulate the isotropic component of the angular flux as a transport
+      equation, convert to an integral equation. Subtract the result from the
+      integral transport equation.
+    \item Use Taylor series to approximate nonlocal unknowns with local
+      unknowns.
+    \item Require that the contribution of boundary terms is zero: this gives
+      boundary conditions for the new approximate method.
+    \item Take the first angular moment of this new approximate angular
+      intensity to get an approximate radiation flux.
+    \item Substitute into time-dependent particle conservation equation to get
+      time-dependent anisotropic diffusion.
   \end{enumerate}
+%  \begin{enumerate}
+%    \item Consider radiation transport equation $\lop{I}=\hat Q$ over a time
+%      step, with opacities frozen at $\sigma^*$. Discard the time derivative
+%      term and initial condition to get time-dependent anisotropic diffusion
+%      instead of time-dependent \APone
+%    \item Apply $\lopinv{}{\cdot}$ to convert the integrodifferential transport
+%      equation to an integral transport equation along characteristic rays.
+%    \item Average radiation transport equation over $\vec{\Omega}$, apply
+%      $\lopinv{}{\cdot}$, subtract from integral equation for $I$
+%    \item Apply Taylor series to non-local quantities $\phi$ to get an
+%      approximate expression for $I(\vec{x}, \vec{\Omega})$ as a function of
+%      $\phi(\vec{x})$ and other problem-dependent quantities.
+%    \item Require that the boundary term disappears over the entire problem to
+%      get boundary conditions
+%    \item Take first moment of this approximate $I$ to get $\vec{F}(\vec{x})$,
+%      which is used in time-dependent particle conservation equation.
+%  \end{enumerate}
 \end{frame}
 
 \subsection{Anisotropic diffusion derivation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}%{Transport equation}
+\begin{subequations} \label{eqs:fullTransport}
+\begin{multline} \label{eq:fullTransportVol}
+    \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega})
+    + \sigma^\ast(\vec{x}) I (\vec{x}, \vec{\Omega})
+    = \frac{1}{4\pi} \sigma^\ast(\vec{x}) ac [T(\vec{x})]^4
+    + \frac{1}{4\pi} q_{r}(\vec{x})
+\\
+    \equiv \frac{1}{4\pi} Q(\vec{x})
+    \equiv \hat Q(\vec{x}, \vec{\Omega}) \,,
+%\\
+\quad
+x \in V,\  \vec{\Omega} \in 4\pi,
+\end{multline}
+\begin{equation} \label{eq:fullTransportBndy}
+  I(\vec{x}, \vec{\Omega}, t) = I^b(\vec{x}, \vec{\Omega}, t) \,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0.
+\end{equation}
+\end{subequations}
+\begin{subequations} \label{eqs:inverseTransport}
+  Integral transport equation \cite{Pri2010}:
+  \begin{align} \label{eq:inverseTransportFull}
+    I(\vec{x}, \vec{\Omega})
+    &=
+    I^b(\vec{x}_b, \vec{\Omega})
+    \eexp^{ -\tau(\vec{x}, \vec{x}_b)}
+    + \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+    \left[ \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega})
+    \right]
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
+    \ud s
+    \\ \label{eq:lopinv}
+    &\equiv \lopinv{b}{I^b}
+    + \lopinv{v}{\hat Q} 
+  \end{align}
+  Optical thickness: 
+  \begin{equation} \label{eq:fullTauDefinition}
+    \tau(\vec{x}, \vec{x}') = \int_{0}^{\norm{\vec{x} -
+    \vec{x}'}} \sigma^\ast(\vec{x}-s\vec{\Omega}) \ud s \,.
+  \end{equation}
+\end{subequations}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}%{Transport equation}
+\begin{subequations} \label{eqs:fullTransport}
+\begin{multline} \label{eq:fullTransportVol}
+    \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega})
+    + \sigma^\ast(\vec{x}) I (\vec{x}, \vec{\Omega})
+    = \frac{1}{4\pi} \sigma^\ast(\vec{x}) ac [T(\vec{x})]^4
+    + \frac{1}{4\pi} q_{r}(\vec{x})
+\\
+    \equiv \frac{1}{4\pi} Q(\vec{x})
+    \equiv \hat Q(\vec{x}, \vec{\Omega}) \,,
+%\\
+\quad
+x \in V,\  \vec{\Omega} \in 4\pi,
+\end{multline}
+\begin{equation} \label{eq:fullTransportBndy}
+  I(\vec{x}, \vec{\Omega}, t) = I^b(\vec{x}, \vec{\Omega}, t) \,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0.
+\end{equation}
+\end{subequations}
+\begin{subequations} \label{eqs:inverseTransport}
+Integral transport equation \cite{Pri2010}:
+\begin{align} \label{eq:inverseTransportFull}
+  I(\vec{x}, \vec{\Omega})
+  &=
+  I^b(\vec{x}_b, \vec{\Omega})
+  \eexp^{ -\tau(\vec{x}, \vec{x}_b)}
+  + \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+  \left[ \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega})
+  \right]
+  \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
+  \ud s
+  \\ \label{eq:lopinv}
+  &\equiv \lopinv{b}{I^b}
+  + \lopinv{v}{\hat Q} 
+\end{align}
+Optical thickness: 
+\begin{equation} \label{eq:fullTauDefinition}
+  \tau(\vec{x}, \vec{x}') = \int_{0}^{\norm{\vec{x} -
+  \vec{x}'}} \sigma^\ast(\vec{x}-s\vec{\Omega}) \ud s \,.
+\end{equation}
+\end{subequations}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{``Isotropic'' transport equation}
+Apply $ \frac{1}{4\pi} \int_{4\pi} (\cdot') \ud \Omega' + \vec{\Omega}\vd \grad
+[\phi/4\pi]$ to both sides of Eq.~\eqref{eq:fullTransportVol}:
+\begin{multline*}
+  \grad \vd \left[ \frac1{4\pi} \vec{F}(\vec{x}, t) \right]
+  + \sigma^\ast \left[ \frac1{4\pi} \phi(\vec{x}, t) \right]
+  + \vec{\Omega}\vd \grad  \left[ \frac1{4\pi} \phi(\vec{x}, t) \right]
+  \\
+  =
+  \frac{1}{4\pi} \int_{4\pi} \hat Q(\vec{x}, \vec{\Omega}, t) \ud \Omega
+  + \vec{\Omega}\vd \grad  \left[ \frac1{4\pi} \phi(\vec{x}, t) \right]
+\end{multline*}
+Average boundary condition Eq.~\eqref{eq:fullTransportBndy} over incident
+angles, add and subtract $\frac{1}{2\pi} \int I^\mathrm{out} \ud \Omega$:
+\begin{align} \nonumber
+ \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0} I(\vec{x}, \vec{\Omega},
+ t) \ud \Omega
+ &= \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0}I^b(\vec{x},
+ \vec{\Omega}, t) \ud \Omega
+\\ 
+\label{eq:fullIsotropicTransportBndy}
+ \frac{1}{2\pi} \phi(\vec{x}, t)
+ - \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} > 0}
+ I(\vec{x}, \vec{\Omega}, t) \ud \Omega
+ &= \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0}
+ I^b(\vec{x}, \vec{\Omega}, t) \ud \Omega
+\end{align}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  TODO
-  Integral time-dependent transport equation \cite{Pri2010}
+This is just a transport equation with an angle-dependent source!
+\begin{multline} \label{eq:inverseTransportIsotropic}
+  \frac1{4\pi} \phi =  \lopinv{b}{ \frac{1}{2\pi} \phi
+ - \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud
+ \Omega' }
+ \\
+ + \lopinv{v}{ \frac1{4\pi} \int_{4\pi} \hat Q \ud \Omega' }
+ - \lopinv{v}{ \frac1{4\pi}\vec{\Omega}\vd \grad \phi }
+ + \lopinv{v}{ \frac1{4\pi}\grad \vd \vec{F} }
+\end{multline}
+(This is exactly satisfied if we know the true $I$, $\phi$, and $\vec{F}$.)
+
+Subtract from inverse radiation transport Eq.~\eqref{eq:inverseTransportFull}:
+\begin{align} \label{eq:inverseAnisotropicExact}
+  I(\vec{x}, \vec{\Omega})
+  &= \frac1{4\pi} \phi(\vec{x}) 
+  + \lopinv{b}{I^b - \frac{1}{2\pi} \phi
+  + \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0}
+  I\ud\Omega'}
+ \\
+ &\quad
+ - \lopinv{v}{ \frac1{4\pi}\vec{\Omega}\vd \grad \phi }
+ + \lopinv{v}{ \frac1{4\pi}\grad \vd \vec{F} }
+ \\ 
+ \intertext{ Only approximations so far: discard $\frac{1}{c}\pder{I}{t}$ and
+ freeze $\sigma^\ast$. Now define approximate angular intensity:
+}
+  \nonumber
+  \tilde I(\vec{x}, \vec{\Omega})
+  &= \frac1{4\pi} \tilde \phi(\vec{x}) 
+  + \mathrm{ \tilde b }(\vec{x}, \vec{\Omega})
+  + \mathrm{ \tilde s }(\vec{x}, \vec{\Omega})
+  + \mathrm{ \tilde f }(\vec{x}, \vec{\Omega})
+\end{align}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -237,192 +407,9 @@ where $f$ satisfies the ``steady-state'' transport equation
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Semi-implicit radiative transfer}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-Zeroth moment of radiative transfer equation:
-\begin{equation*}
-  \frac{1}{c} \pder{\phi}{t}
-  + \del \vd \vec{F} + \textcolor{red}{\sigma} \phi
-  = \textcolor{red}{\sigma} ac\textcolor{red}{T^4}
-  + c Q
-\end{equation*}
-Radiation flux equation from anisotropic diffusion calculation:
-\begin{equation*}
- \vec{F}(\vec{x}, t) \cong - \Dtens(\vec{x},\textcolor{red}{\sigma})
-  \vd \del \phi(\vec{x}, t)
-\end{equation*}
-Material energy balance equation:
-\begin{equation*}
-  \frac{1}{\textcolor{red}{c_v}}\pder{T}{t} = \textcolor{red}{\sigma} \phi -
-  \textcolor{red}{\sigma} ac\textcolor{red}{T^4}
-\end{equation*}
-
-Semi-implicit discretization freezes $c_v/T^3$ and $\sigma$ at the initial time
-value $t^n$ explicitly and treats $\phi$ implicitly. Some
-manipulation gives a linear transport equation (with ``effective scattering''
-that emulates photon absorption and re\"emission) over the time step, and an
-equation to update the new material temperature.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Compared methods}
-\begin{itemize}
-  \item Implicit Monte Carlo \cite{Fle1971} (implemented with variance
-    reduction methods), $10^6$ particles per time step
-  \item Flux-limited diffusion with Larsen limiter \cite{Ols2000}, with
-    semi-implicit treatment of diffusion coefficient and radiation:
-    \begin{equation*}
-      \vec{F}^{n+1} = - D^{n} \del \phi^{n+1}  = -\left[ (3\sigma^{n})^2
-      + \left( \frac{\norm{\del \phi^{n}}}{\phi^{n}}  \right)^2 \right]^{-1/2}
-      \del \phi^{n+1}
-    \end{equation*}
-  \item Standard diffusion, with semi-implicit treatment of nonlinearities:
-    \begin{equation*}
-      \vec{F}^{n+1} = - D^{n} \del \phi^{n+1} 
-      = -\frac{1}{3\sigma^{n}} \del \phi^{n+1}
-    \end{equation*}
-  \item Anisotropic diffusion, with semi-implicit treatment of nonlinearities:
-    \begin{equation*}
-      \vec{F}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} 
-    \end{equation*}
-\end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{Summary of AD approximations}
-  \begin{block}{Thermal radiative transfer equations}
-    \begin{itemize}
-      \item Assume weak gradients and angular moments for $I$ (\emph{don't}
-        assume that $I$ is a linear function of $\vec{\Omega}$!)
-      \item Neglect boundary and initial conditions
-      \item Semi-implicit approximation for the nonlinearities
-    \end{itemize}
-  \end{block}
-  \vspace{-\baselineskip}
-  \begin{columns}[t]
-    \begin{column}{.48\textwidth}
-  \begin{block}{AD equation}
-    \begin{itemize}
-      \item Cell-centered finite difference spatial approximation
-      \item Discard $D^{xy}$ and $D^{yx}$ terms$^*$
-    \end{itemize}
-  \end{block}
-    \end{column}
-    \begin{column}{.48\textwidth}
-  \begin{block}{$\Dtens$ transport equation}
-    \begin{itemize}
-      \item Discrete ordinates angular approximation
-      \item Diamond difference$^*$ spatial approximation (16$^*$ azimuthal
-        ordinates per quadrant)
-    \end{itemize}
-  \end{block}
-    \end{column}
-  \end{columns}
-  {\small $^*$Numerical experiments support using these approximations}
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Test problem}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Problem description}
-  \begin{columns}[t]
-    \begin{column}{.48\textwidth}
-      Flatland geometry!
-      \\Uniform spatial grid: $\Delta_x=0.1$
-      \\Piecewise linear time grid: $\Delta_t=0.1$ for $t \ge 1$
-      \\Reflecting bndy on left, others vacuum
-    \end{column}
-    \begin{column}{.48\textwidth}
-      \textcolor[rgb]{0,0,1}{\textbf{Source}}: $c_v=0.5$, $\sigma=0.5$;
-      $Q=1$ for $0 \le t \le 1$, $Q=0$ for $t > 1$.
-
-      \textcolor[rgb]{1,0,0}{\textbf{Diffusive}}: $c_v=0.1$,
-      $\sigma=T^{-3}$
-
-      \textcolor[rgb]{0.1,0.9,0.1}{\textbf{Channel}}: $c_v=0.1$,
-      $\sigma=0.01 T^{-3}$
-
-      Initial condition: $T=T_\text{rad}=0.1$
-    \end{column}
-  \end{columns}
-\begin{center}
-  \includegraphics[width=.99\textwidth]{../figures/crashpipe2/materials}
-\end{center}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Time evolution of material temperature}
-\begin{center}
-  {\tiny (Replaced with movie)}
-
-  \includegraphics[width=.80\textwidth]{../figures/crashpipe2/mattemp_2d0117}
-\end{center}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Time evolution of radiation energy density}
-
-\only<1>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phix_t1}}
-\only<2>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phix_t2}}
-\only<3>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phix_t5}}
-\only<4>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phix_t10}}
-\only<1>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phiy_t1}}
-\only<2>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phiy_t2}}
-\only<3>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phiy_t5}}
-\only<4>{\includegraphics[width=.48\textwidth]{../figures/crashpipe2/phiy_t10}}
-  
-\begin{center}
-  along $y=3.5$ \qquad
-  \only<1>{ $t=1.0$ }
-  \only<2>{ $t=2.0$ }
-  \only<3>{ $t=5.0$ }
-  \only<4>{ $t=10.0$ }
-  \qquad along $x=2.5$
-
-  \textcolor[rgb]{0,0,0}{\textbf{IMC}}\quad
-  \textcolor[rgb]{0.1,0.9,0.1}{\textbf{AD}}\quad
-  \textcolor[rgb]{0,0,1}{\textbf{FLD}}\quad
-  \textcolor[rgb]{1,0,0}{\textbf{Diffusion}}
-\end{center}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Diffusion coefficients}
-\begin{center}
-  \includegraphics[width=.60\textwidth]{../figures/crashpipe2/dcoeff_t10}
-
-\textcolor[rgb]{0,0,0}{$D^{xx}$}\quad
-\textcolor[rgb]{1,0,.5}{$D^{xy}$}\quad
-\textcolor[rgb]{0.1,0.9,0.1}{$D^{yy}$}\quad
-\textcolor[rgb]{0,0,1}{$D_\text{FLD}$}\quad
-  \textcolor[rgb]{1,0,0}{$D$}
-\end{center}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Anisotropic diffusion tensor visualization}
-\begin{center}
-  \includegraphics[width=.75\textwidth]{../figures/crashpipe2/adcoeff_t10}
-\end{center}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Timing results}
-  \begin{table}[htb]
-    \centering
-    \begin{tabular}{cr}
-      Method & Time (s) \\ \hline
-      IMC & 477 \\
-      FLD & 8 \\
-      D   & 8 \\
-      AD$_{64}$ & 13 \\
-      AD$_{128}$ & 22
-    \end{tabular}
-    \caption{Run times for pipe test problem, 14000 cells. Average of three
-    runs.}
-    \label{tab:pipeTiming}
-  \end{table}
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
