@@ -67,13 +67,6 @@ University of Michigan, Ann Arbor
       $\sigma\propto T^{-3}$)
   \end{itemize}
 
-  Applications in high energy density physics:
-  \begin{itemize}
-    \item Stellar astrophysics, \textcolor[gray]{.5}{strategic astrophysics}
-    \item Inertial confinement fusion
-    \item CRASH (Center for RAdiative Shock Hydrodynamics) program: ``Assessment
-          of Predictive Capability''
-  \end{itemize}
   Difficulties in solving:
   \begin{itemize}
     \item High dimensionality of solution phase space $(\vec{x}, \vec{\Omega},
@@ -81,6 +74,23 @@ University of Michigan, Ann Arbor
     \item Highly nonlinear coupled partial differential equations for radiation
       field $I(\vec{x}, \vec{\Omega}, h\nu, t)$ and material energy
   \end{itemize}
+
+  Particular application of this work: CRASH project
+  \begin{itemize}
+    \item Center for RAdiative Shock Hydrodynamics program: ``Assessment
+      of Predictive Capability''
+    \item Simulate laser-driven shock in a xenon-filled tube
+    \item Uncertainty quantification: hundreds of solution instances needed
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Motivation}
+\begin{center}
+  \includegraphics[width=3in]{../figures/fidelity}
+\end{center}
+% also, storage requirements
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,18 +119,10 @@ University of Michigan, Ann Arbor
 \end{equation}
 \end{subequations}
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{Motivation}
-\begin{center}
-  \includegraphics[width=3in]{../figures/fidelity}
-\end{center}
-% also, storage requirements
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Anisotropic diffusion work}
+  \frametitle{Anisotropic diffusion}
   Previous work:
   \begin{itemize}
     \item Steady-state infinite medium VHTR-like problem with analytically
@@ -131,18 +133,16 @@ University of Michigan, Ann Arbor
   Current work:
   \begin{itemize}
     \item Formulates boundary conditions and time-dependent terms
-    \item Uses transport-calculated anisotropic diffusion tensor
-    \item Applies to thermal radiative transfer
+    \item Uses transport-calculated anisotropic diffusion tensors
+    \item Application to TRT problems
   \end{itemize}
+  Potential applications:
+  \begin{itemize}
+    \item Extends diffusion theory to new regimes of applicability
+    \item Variance reduction with shielding problems that have voids
+  \end{itemize}<++>
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{Applications outside of TRT}
-  \begin{itemize}
-    \item Handles voided regions much better than standard diffusion
-  \end{itemize}
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
