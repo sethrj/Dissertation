@@ -141,7 +141,7 @@ University of Michigan, Ann Arbor
   \begin{itemize}
     \item Extends diffusion theory to new regimes of applicability
     \item Variance reduction with shielding problems that have voids
-  \end{itemize}<++>
+  \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,10 +153,10 @@ University of Michigan, Ann Arbor
     \item Start with time-dependent radiation transport equation with frozen
       opacities. Neglect $\frac{1}{c}\pder{I}{t}$ term to get anisotropic
       diffusion instead of anisotropic P$_1$.
-    \item Convert integrodifferential equation to an integral equation.
-    \item Formulate the isotropic component of the angular flux as a transport
-      equation, convert to an integral equation. Subtract the result from the
-      integral transport equation.
+    \item Multiply the zeroth moment of the transport equation by $1/4\pi$,
+      subtract from the transport equation.
+    \item Define $\Psi=I - \frac1{4\pi} \phi$, convert to an integral transport
+      equation for $\Psi$ that has nonlocal unknowns.
     \item Use Taylor series to approximate nonlocal unknowns with local
       unknowns.
     \item Require that the contribution of boundary terms is zero: this gives
