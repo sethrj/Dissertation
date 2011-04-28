@@ -1,5 +1,5 @@
 \author{Seth R.~Johnson}
-\title{Advanced anisotropic diffusion for thermal radiative transfer}
+\title{An Anisotropic Diffusion Approximation to Nonlinear Radiation Transport}
 \date{\today}
 
 \usepackage{color}
@@ -28,3 +28,12 @@ dissertation: \emph{#1}}}%
 
 \usepackage{booktabs} % \toprule, \midrule, \bottomrule
 \usepackage{rotating}
+
+\renewcommand\contentsname\relax
+\AtBeginDocument{%
+\vspace{-\baselineskip}
+{\par\noindent\centering\rule[.25ex]{\columnwidth}{2pt}\par}
+\vspace{-3\baselineskip}
+ \tableofcontents
+{\par\noindent\centering\rule[.25ex]{\columnwidth}{2pt}\par}
+}

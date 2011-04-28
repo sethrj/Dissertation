@@ -19,10 +19,10 @@
 \setbeamertemplate{caption}[numbered]
 
 \title[ORNL Seminar]%
-{An improved hybrid anisotropic diffusion method}
+{An anisotropic diffusion approximation to nonlinear radiation transport}
 %\subtitle{}
 
-\author[SRJ]{Seth~R.~Johnson}
+\author[SRJ, EWL]{Seth~Johnson, Ed~Larsen}
 
 \institute[UMich]{
 University of Michigan, Ann Arbor
@@ -62,9 +62,10 @@ University of Michigan, Ann Arbor
   \frametitle{Thermal radiative transfer}
   \begin{itemize}
     \item TRT is the dominant heat transfer process in very hot materials
-    \item Photons are emitted by black body emission ($\propto T^4$)
-    \item Cold material heats up and becomes relatively transparent (
-      $\sigma\propto T^{-3}$)
+    \item Photons born isotropically via black body emission
+      ($q_\text{rad} \propto \sigma T^4$)
+    \item Cold material heats up and becomes relatively transparent
+      ($\sigma\propto T^{-3}$)
   \end{itemize}
 
   Difficulties in solving:

@@ -1,0 +1,19 @@
+A Hybrid Anisotropic Diffusion Approximation to Nonlinear Radiation Transport
+
+Motivated by the Center for Radiative Shock Hydrodynamics (CRASH) uncertainty
+quantification project, which needs to simulate hundreds of instances of a
+complex multiphysics problem, we desire a method more accurate than diffusion
+but less costly than time-dependent transport. We believe we have found this
+middle ground: an anisotropic diffusion (AD) method that uses
+transport-calculated AD coefficients to solve the thermal radiative transfer
+equations.
+
+Using the integral transport equation for the angular intensity, we derive an
+expression for the radiation flux that depends on a non-local function of the
+opacity. This nonlocal function is the solution of a purely absorbing transport
+equation with albedo boundary conditions, and the function's second angular
+moment is the anisotropic diffusion tensor. A system of low-order equations
+solves for the scalar intensity using the AD coefficients. To demonstrate the
+AD method's speed and efficacy, we simulate a mock-up of the CRASH project's
+problem of interest, radiation flow down a channel in ``flatland'' geometry.
+

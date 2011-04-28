@@ -11,6 +11,28 @@ using the AD method in time-dependent and nonlinear contexts, and it also
 addresses the heretofore unsolved problem of how to treat the boundary
 conditions.
 
+A summary of the derivation is presented up front:
+\begin{enumerate}
+  \item Consider the time-dependent nonlinear radiation transport equation
+    over one time step, with the opacities frozen at some particular value.
+  \item Define the anisotropic intensity as $\Psi = I - \frac{1}{4\pi}\phi$.
+    From the radiation transport equation and conservation equation, we get a
+    transport equation for $\Psi$ with appropriate initial and boundary
+    conditions.
+  \item Transform this to an integral transport equation for $\Psi$, and move
+    the term involving $\phi$ to the right-hand side to get an exact
+    integral expression for $I$.
+  \item Use Taylor series to approximate nonlocal unknowns with local
+    unknowns.
+  \item Require that the contribution of boundary terms throughout the problem
+    space is zero: this gives boundary conditions for the new approximate
+    method.
+  \item Take the first angular moment of this new approximate angular
+    intensity to get an approximate radiation flux.
+  \item Substitute into time-dependent particle conservation equation to get
+    time-dependent anisotropic diffusion.
+\end{enumerate}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Derivation}
 The gray radiative transfer equation inside a time step $0 < t < \Delta_t$,
@@ -21,7 +43,7 @@ $\sigma(\vec{x},0)$ for a semi-implicit formulation), is:
   \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega}, t)
     + \sigma^\ast(\vec{x}) I (\vec{x}, \vec{\Omega}, t)
-    = \frac{1}{4\pi} \sigma^\ast(\vec{x}) ac [T(\vec{x}, t)]^4
+    \\ = \frac{1}{4\pi} \sigma^\ast(\vec{x}) ac [T(\vec{x}, t)]^4
     + \frac{1}{4\pi} q_{r}(\vec{x}, t)
     \equiv \frac{1}{4\pi} Q(\vec{x}, t)
     \equiv \hat Q(\vec{x}, \vec{\Omega}, t) \,,
@@ -42,15 +64,38 @@ and the initial condition
 step.)
 \end{subequations}
 
-We also define a transport operator $\lop{\cdot}$:
+We can express the left-hand side of Eq.~\eqref{eq:fullTransportVol} as a
+transport operator $\lop{\cdot}$ that satisfies
 \begin{equation*}
   \lop{I(\vec{x}, \vec{\Omega}, t)} = \hat Q(\vec{x}, \vec{\Omega}, t)
   + \text{boundary conditions} + \text{initial conditions}\,.
 \end{equation*}
 
-\subsection{Inverse transport}
-Because the opacities are frozen at $t=0$, and assuming the arbitrary
-angle- and space-dependent $\hat Q(\vec{x}, t)$ is known inside the time step,
+The particle conservation equation (a scaled form of radiation energy
+conservation) is the zeroth moment of the radiation transport equation.
+\begin{subequations} \label{eqs:loEquations}
+Operating on Eq.~\eqref{eq:fullTransportVol} by $\int_{4\pi} (\cdot) \ud
+\Omega$ gives
+\begin{equation} \label{eq:loVol}
+\frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
+  + \grad \vd\vec{F}(\vec{x}, t)
+  + \sigma^\ast \phi(\vec{x}, t)
+  =  Q(\vec{x}, t)\,.
+\end{equation}
+Doing the same to the initial condition, Eq.~\eqref{eq:fullTransportInit},
+\begin{equation} \label{eq:loInit}
+\phi(\vec{x}, 0) = \int_{4\pi}  I^i(\vec{x},
+\vec{\Omega}) \ud \Omega = \phi^i(\vec{x}) \,.
+\end{equation}
+\end{subequations}
+Here we have used the scalar intensity $\phi=\int_{4\pi} I \ud \Omega$ and the
+radiation flux $\vec{F} = \int_{4\pi} \vec{\Omega} I \ud \Omega$. The boundary
+conditions shall be addressed later.
+
+\subsection{Integral transport equation}
+Because the opacities are frozen (i.e., independent of time inside $\Delta_t$),
+and assuming the arbitrary angle- and space-dependent $\hat Q(\vec{x}, t)$ is
+known inside the time step,
 the transport operator can be
 inverted to yield an integral equation for the time-dependent angular
 intensity $I$ \cite{Pri2010}. The exact result for the intensity is:
@@ -73,7 +118,7 @@ intensity $I$ \cite{Pri2010}. The exact result for the intensity is:
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s\,.
   \end{split}
-    \\ \label{eq:lopinv}
+    \\ 
     &\equiv \lopinv{b}{I^b}
     + \lopinv{i}{I^{\smash i \vphantom{\mathrm{i}}}}
     + \lopinv{v}{\hat Q} 
@@ -92,6 +137,8 @@ intensity $I$ \cite{Pri2010}. The exact result for the intensity is:
   for a particular $(\vec{x}, \vec{\Omega})$.
 \end{subequations}
 
+Just as $\lop{\cdot}$ represented a differential operator, $\lopinv{}{\cdot}$
+represents an integral operator.
 Equation~\eqref{eq:lopinv} shows how the inverse operator is decomposed into
 contributions from the incident radiation on the boundary
 $\lopinv{b}{I^b}$, contributions from the initial condition
@@ -107,173 +154,169 @@ arbitrary space- and angle-dependent functions $A$ and $B$, $\lopinv{X}{ cA +
 B} = c\lopinv{X}{ A} + \lopinv{X}{ B}$. This also means $\lopinv{X}{0} = 0$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Isotropic contribution to the angular intensity}
-The next step is to average Eqs.~\eqref{eqs:fullTransport} over their angular
-space. Using $\phi$ as the zeroth angular moment of $I$ and
-$\vec{F}$ as the first angular moment, operating on
-Eq.~\eqref{eq:fullTransportVol} by $ \frac{1}{4\pi} \int_{4\pi} (\cdot) \ud
-\Omega$ gives
-\begin{equation*}
-\frac{1}{c} \pder{}{t}\left[ \frac1{4\pi} \phi(\vec{x}, t) \right]
-  + \grad \vd \left[ \frac1{4\pi} \vec{F}(\vec{x}, t) \right]
-  + \sigma^\ast \left[ \frac1{4\pi} \phi(\vec{x}, t) \right]
-  =
-  \frac{1}{4\pi} \int_{4\pi} \hat Q(\vec{x}, \vec{\Omega}, t) \ud \Omega\,.
-\end{equation*}
-Now, we add $\vec{\Omega}\vd \grad [\phi/4\pi]$ to both sides, putting this
-equation back in $(\vec{x}, \vec{\Omega}, t)$-space but preserving the exact
-solution:
-\begin{align} \label{eq:fullIsotropicTransport}
- \begin{split}
-  \lefteqn{\frac{1}{c} \pder{}{t}\left[ \frac1{4\pi} \phi(\vec{x}, t) \right]
-  + \vec{\Omega}\vd \grad  \left[ \frac1{4\pi} \phi(\vec{x}, t) \right]
-  + \sigma^\ast \left[ \frac1{4\pi} \phi(\vec{x}, t) \right]}\qquad
-  \\
-  &= \frac{1}{4\pi} \int_{4\pi} \hat Q(\vec{x}, \vec{\Omega}', t) \ud \Omega'
-  + \vec{\Omega}\vd \grad  \left[ \frac1{4\pi} \phi(\vec{x}, t) \right]
-  - \grad \vd \left[ \frac1{4\pi} \vec{F}(\vec{x}, t) \right]
-\,,
- \end{split}
-\end{align}
-for $x \in V$, $0 \le t < \Delta_t$, and $\vec{\Omega} \in 4\pi$.
-Equation~\eqref{eq:fullIsotropicTransport} is just the
-transport operator applied to $\phi/4\pi$:
-\begin{equation*}
-  \lop{\frac1{4\pi} \phi} = \frac{1}{4\pi} \int_{4\pi} \hat Q \ud \Omega'
-  + \frac1{4\pi}\vec{\Omega}\vd \grad \phi
-  - \frac1{4\pi}\grad \vd \vec{F}\,.
-\end{equation*}
-The right hand side contains an
-angular ``correction'' term so that the equation yields the exact transport
-solution to $\phi$, even though we have introduced the unknown $\vec{F}$ and
-returned to the higher-order space of the original transport equation. To
-reiterate, if we were given the exact transport solution values for $\phi$ and
-$\vec{f}$, Eq.~\eqref{eq:fullIsotropicTransport} would hold true.
+\subsection{Anisotropic angular intensity}
+The next step is to formulate an equation for the ``anisotropic'' intensity,
+i.e., the exact angular intensity with the isotropic component removed:
+\begin{equation} \label{eq:capPsi}
+  \Psi(\vec{x}, \vec{\Omega}, t) \equiv I(\vec{x}, \vec{\Omega}, t)
+  - \frac{1}{4\pi} \phi(\vec{x}, t)\,.
+\end{equation}
+This definition satisfies $\int_{4\pi} \Psi(\vec{x}, \vec{\Omega}, t)=0$.
 
-Next we turn to the boundary condition, Eq.~\eqref{eq:fullTransportBndy}.
-Averaging it by applying $\frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0}
-(\cdot) \ud \Omega$, we find
-\begin{align} \nonumber
- \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0} I(\vec{x}, \vec{\Omega},
- t) \ud \Omega
- &= \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0}I^b(\vec{x},
- \vec{\Omega}, t) \ud \Omega\,.
-\\ \intertext{Adding the average (zeroth moment scaled by $1/2\pi$) of the exiting
-angular flux to both sides,} \nonumber
- \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0}
- I(\vec{x}, \vec{\Omega}, t) \ud \Omega
- + \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} > 0}
- I(\vec{x}, \vec{\Omega}, t) \ud \Omega
- &= \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0}
- I^b(\vec{x}, \vec{\Omega}, t) \ud \Omega
- + \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} > 0}
- I(\vec{x}, \vec{\Omega}, t) \ud \Omega
-\\ 
-\label{eq:fullIsotropicTransportBndy}
- \frac{1}{2\pi} \phi(\vec{x}, t)
- - \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} > 0}
- I(\vec{x}, \vec{\Omega}, t) \ud \Omega
- &= \frac{1}{2\pi} \int_{\vec{\Omega} \vd \vec{n} < 0}
- I^b(\vec{x}, \vec{\Omega}, t) \ud \Omega
+\subsubsection{Transport equation}
+Multiplying the particle conservation equation~\eqref{eq:loVol} by
+$\frac{1}{4\pi}$ and subtracting it from the transport
+equation~\eqref{eq:fullTransportVol} cancels the isotropic source on the
+right-hand side, yielding
+\begin{equation*}
+  \frac{1}{c} \pder{}{t}\left[ I(\vec{x}, \vec{\Omega}, t)
+  - \frac{1}{4\pi} \phi(\vec{x}, t) \right]
+    + \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega}, t)
+    + \sigma^\ast(\vec{x}) \left[ I(\vec{x}, \vec{\Omega}, t)
+  - \frac{1}{4\pi} \phi(\vec{x}, t) \right]
+  - \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t)
+= 0 \,.
+\end{equation*}
+Subtracting $\vec{\Omega}\vd \grad \phi/4\pi$ from both sides,
+\begin{multline*}
+  \frac{1}{c} \pder{}{t}\left[ I(\vec{x}, \vec{\Omega}, t)
+  - \frac{1}{4\pi} \phi(\vec{x}, t) \right]
+    + \vec{\Omega}\vd \grad \left[ I(\vec{x}, \vec{\Omega}, t)
+  - \frac{1}{4\pi} \phi(\vec{x}, t) \right]
+    + \sigma^\ast(\vec{x}) \left[ I(\vec{x}, \vec{\Omega}, t)
+  - \frac{1}{4\pi} \phi(\vec{x}, t) \right]
+  \\ = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
+  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,.
+\end{multline*}
+Substituting Eq.~\eqref{eq:capPsi}, we have an exact expression for $\Psi$
+inside the problem:
+\begin{multline} \label{eq:capPsiVol}
+  \frac{1}{c} \pder{}{t}\Psi(\vec{x}, \vec{\Omega}, t)
+    + \vec{\Omega}\vd \grad \Psi(\vec{x}, \vec{\Omega}, t)
+    + \sigma^\ast(\vec{x}) \Psi(\vec{x}, \vec{\Omega}, t)
+  \\
+  = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
+  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,,
+  \qquad
+x \in V,\  0 \le t < \Delta_t, \ \vec{\Omega} \in 4\pi,
+\end{multline}
+No approximations have been made, but now instead of an isotropic source term
+on the right hand side, we have an anisotropic source term that depends on the
+unknowns $\phi$ and $\vec{F}$.
+
+\paragraph{Note} At this point, making the approximation $\Psi(\vec{x},
+\vec{\Omega}, t) \approx \frac{3}{4\pi} \vec{\Omega}\vd \vec{F}$ and
+integrating the equation over $\vec{\Omega} \in 4\pi$ would yield the \Pone{}
+approximation. Also, if the source term from the radiation transport equation
+had an anisotropic component (e.g., linearly anisotropic scattering), there
+would be an extra term on the right hand side of Eq.~\eqref{eq:capPsiVol}.
+
+\subsubsection{Boundary condition}
+Next, we subtract $\phi/4\pi$ from the boundary condition,
+Eq.~\eqref{eq:fullTransportBndy}:
+\begin{align}\nonumber
+  I(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+  &= I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+  \\
+  \intertext{Using the definition of $\phi$ as the integral of $I$ and
+  splitting that integral into two hemispheres about the unit normal, we get 
+  }\nonumber
+  I(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+  &= I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi}
+  \left[ 
+   \int_{\vec{\Omega}' \vd \vec{n} < 0} I(\vec{x}, \vec{\Omega}', t) \ud \Omega'
+ + \int_{\vec{\Omega}' \vd \vec{n} > 0} I(\vec{x}, \vec{\Omega}', t) \ud \Omega'
+  \right]\,.
+  \\ 
+  \intertext{Substituting Eq.~\eqref{eq:capPsi} into the left hand side and the
+  boundary condition Eq.~\eqref{eq:fullTransportBndy} into the right hand side,
+  we get a boundary condition on $\Psi$:
+  } \label{eq:capPsiBndy}
+ \Psi(\vec{x}, \vec{\Omega}, t) 
+  &= I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi}
+ \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b(\vec{x}, \vec{\Omega}', t) \ud \Omega'
+ - \frac{1}{4\pi}
+ \int_{\vec{\Omega}' \vd \vec{n} > 0} I(\vec{x}, \vec{\Omega}', t) \ud \Omega'
  \,,
 \end{align}
-for $\vec{x} \in \partial V$ and $0 \le t < \Delta_t$. The left hand side of
-Eq.~\eqref{eq:fullIsotropicTransportBndy} is exactly equal to the right-hand
-side if the exact exiting intensity $I$ and the exact scalar
-intensity $\phi$ are known.
+for $\vec{x} \in \partial V$, $\vec{\Omega} \vd \vec{n} < 0$, $0 \le t <
+\Delta_t$.
 
-Finally, we average Eq.~\eqref{eq:fullTransportInit} in angle, yielding the
-isotropic component of the initial condition:
-\begin{equation} \label{eq:fullIsotropicTransportInit}
-\frac1{4\pi} \phi(\vec{x}, 0) = \frac1{4\pi} \int_{4\pi}  I^i(\vec{x},
-\vec{\Omega}) \ud \Omega = \frac1{4\pi} \phi^i(\vec{x}) \,,
-\end{equation}
-for $\vec{x} \in V$. 
-
-If we consider Eqs.~\eqref{eq:fullTransportVol}, \eqref{eq:fullTransportBndy},
-and \eqref{eq:fullTransportInit} in conjunction, we see that they satisfy a
-transport equation where the boundary condition, initial condition, and
-solution are all all isotropic: the angle-dependent ``correction'' term ensures
-that the solution is exactly consistent with the transport equation. Applying
-the inverse transport operator to the isotropic components of $I$,
-\begin{align} \nonumber
-  \begin{split}
- \frac1{4\pi} \int_{4\pi} I \ud \Omega'
- &= \lopinv{b}{ \frac{1}{2\pi} \int_{\vec{\Omega'} \vd \vec{n} < 0}
-   I^b \ud \Omega'}
- + \lopinv{i}{ \frac1{4\pi} \int_{4\pi} I^i \ud \Omega'}
- \\&\qquad + \lopinv{v}{
- \frac{1}{4\pi} \int_{4\pi} \hat Q \ud \Omega'
-  + \frac1{4\pi} \vec{\Omega} \vd \grad \int_{4\pi} I \ud \Omega'
-  - \frac1{4\pi}\grad \vd \int_{4\pi} \vec{\Omega}' I \ud \Omega'
-  } \,,
-  \end{split}\\ 
-  \intertext{or, in terms of the still unknown scalar intensity $\phi$, exiting
-  intensity $I$, and radiation flux $\vec{F}$:}
-  \label{eq:inverseTransportIsotropic}
-  \begin{split}
-  \frac1{4\pi} \phi &=  \lopinv{b}{ \frac{1}{2\pi} \phi
- - \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud
- \Omega'
- }
- + \lopinv{i}{ \frac1{4\pi} \phi^i }
- \\&\qquad
- + \lopinv{v}{ \frac1{4\pi} \int_{4\pi} \hat Q \ud \Omega' }
- - \lopinv{v}{ \frac1{4\pi}\vec{\Omega}\vd \grad \phi }
- + \lopinv{v}{ \frac1{4\pi}\grad \vd \vec{F} }\,.
-  \end{split}
+\subsubsection{Initial condition}
+Finally, to get an initial condition for the anisotropic intensity, we
+multiply Eq.~\eqref{eq:loInit} by $1/4\pi$ and subtract it from
+Eq.~\eqref{eq:fullTransportInit}:
+\begin{align}\nonumber
+ I(\vec{x}, \vec{\Omega}, 0) - \phi(\vec{x}, 0)
+ &= I^i(\vec{x}, \vec{\Omega}, t) - \frac1{4\pi} \phi^i(\vec{x})
+ \\ \label{eq:capPsiInit}
+ \Psi(\vec{x}, \vec{\Omega}, 0)
+ &= I^i(\vec{x}, \vec{\Omega}, t) - \frac1{4\pi} \phi^i(\vec{x})\,,
 \end{align}
+for $\vec{x} \in V$, $\vec{\Omega} \in 4\pi$.
+
+Equations \eqref{eq:capPsiVol},~\eqref{eq:capPsiBndy}, and~\eqref{eq:capPsiInit}
+comprise a full description of the ``anisotropic'' component of the angular
+intensity. Even though they involve unknowns, they are exact.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Inverse ``anisotropic'' angular intensity}
-Subtracting the inverted isotropic components in
-Eq.~\eqref{eq:inverseTransportIsotropic} from the inverse transport
-equation~\eqref{eq:inverseTransportFull} yields
-\begin{multline*}
- I - \frac1{4\pi} \phi =
- \lopinv{b}{I^b - \left( \frac{1}{2\pi} \phi
- - \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I\ud\Omega'
- \right)}
- + \lopinv{i}{I^i - \frac1{4\pi} \phi^i}
- \\
- + \lopinv{v}{\hat Q -  \frac1{4\pi} \int_{4\pi} \hat Q \ud \Omega'}
- - \lopinv{v}{ \frac1{4\pi}\vec{\Omega}\vd \grad \phi }
- + \lopinv{v}{ \frac1{4\pi}\grad \vd \vec{F} }\,.
-\end{multline*}
-If the angle-dependent source term $\hat Q$ is isotropic, as is the case in
-our TRT problem in Eq.~\eqref{eq:fullTransportVol}, then 
-\begin{equation*}
-  \hat Q - \frac1{4\pi} \left[\int_{4\pi} \hat Q \ud \Omega' \right]
-  = \frac{1}{4\pi} Q(\vec{x},t) - \frac1{4\pi} [Q(\vec{x},t)] = 0\,,
-\end{equation*}
-thereby \emph{cancelling} the volumetric integral containing the right-hand
-side of the transport equation.
+\subsection{Inverse anisotropic angular intensity}
 
-[If the transport equation had an isotropic
-scattering term (which appears as an isotropic source term on the right-hand
-side of the transport equation) then that too would be cancelled. If an
-\emph{an}isotropic scattering term existed, the anisotropic components would
-\emph{not} be cancelled but the isotropic components \emph{would}. We are
-assuming that we don't have any weird (Compton, Rayleigh, etc.) scattering
-terms in our TRT radiation transport problem, so we'll leave anisotropic
-scattering to Travis.]
+Applying the inverse transport Eq.~\eqref{eq:inverseTransportFull} to $\Psi$
+instead of $I$,
+\begin{align*}\nonumber
+ \begin{split}
+ \Psi &=
+ \lopinv{b}{
+  I^b
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud \Omega' }
+\\&\qquad
++ \lopinv{i}{
+  I^i(\vec{x}, \vec{\Omega}, t)
+- \frac{1}{4\pi} \phi^i(\vec{x}) }
++ \lopinv{v}{
+  \frac{1}{4\pi} \grad \vd\vec{F}
+- \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi} 
+ \end{split}
+ \\ 
+ \intertext{Substituting the definition of Eq.~\eqref{eq:capPsi} and using the
+ linear property of $\lopinv{v}{\cdot}$,}
+ \begin{split}
+ I - \frac{1}{4\pi} \phi &=
+ \lopinv{b}{
+  I^b
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud \Omega' }
+\\&\qquad
++ \lopinv{i}{
+  I^i(\vec{x}, \vec{\Omega}, t)
+- \frac{1}{4\pi} \phi^i(\vec{x}) }
++ \lopinv{v}{ \frac{1}{4\pi} \grad \vd\vec{F} }
+- \lopinv{v}{ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi } 
+ \end{split}
+\end{align*}
 
-Removing the cancelled term and moving $\phi$ to the right-hand side, we have
-an exact expression for the intensity that depends on the isotropic $\phi$
-and several other unknowns:
+Moving $\phi$ to the right-hand side gives an exact expression for the angular
+flux that depends on 
 \begin{multline}\label{eq:inverseAnisotropicExact}
-  I(\vec{x}, \vec{\Omega}, t) = \frac1{4\pi} \phi(\vec{x}, t) 
-  + \lopinv{b}{I^b - \frac{1}{2\pi} \phi
-  + \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0}
-  I\ud\Omega'}
- + \lopinv{i}{I^i - \frac1{4\pi} \phi^i }
- \\
- - \lopinv{v}{ \frac1{4\pi}\vec{\Omega}\vd \grad \phi }
- + \lopinv{v}{ \frac1{4\pi}\grad \vd \vec{F} }\,.
+  I(\vec{x}, \vec{\Omega}, t)  =
+ \frac{1}{4\pi} \phi(\vec{x}, t)
++ \lopinv{b}{
+  I^b
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud \Omega' }
+\\
++ \lopinv{i}{
+  I^i(\vec{x}, \vec{\Omega}, t)
+- \frac{1}{4\pi} \phi^i(\vec{x}) }
++ \lopinv{v}{ \frac{1}{4\pi} \grad \vd\vec{F} }
+- \lopinv{v}{ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi } \,.
 \end{multline}
 
-So far, no approximations or assumptions at all have been made. As a
-result, the inverse equation~\ref{eq:inverseAnisotropicExact} still contains
+Again, we emphasize that no approximations or assumptions at all have been
+made. As a
+result, the inverse equation~\eqref{eq:inverseAnisotropicExact} still contains
 the unknowns $I$, $\phi$, and $\vec{F}$, and the local value of
 $I$ depends on the global value of all the unknowns.
 
@@ -284,17 +327,15 @@ depends only on local unknowns and certain coefficients that can be calculated
 without any \emph{a priori} knowledge of the exact solution.
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Approximating the intensity}
-Let's approximate Eq.~\eqref{eq:inverseAnisotropicExact} by
+Now, we approximate Eq.~\eqref{eq:inverseAnisotropicExact} by
 separately considering each component of the intensity:
 \begin{equation}\label{eq:approxIntensity1}
   \tilde I(\vec{x}, \vec{\Omega}, t)
   = \frac1{4\pi} \tilde \phi(\vec{x}, t) 
   + \mathrm{ \tilde b }(\vec{x}, \vec{\Omega}, t)
   + \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t)
-  + \mathrm{ \tilde s }(\vec{x}, \vec{\Omega}, t)
-  + \mathrm{ \tilde f }(\vec{x}, \vec{\Omega}, t) \,,
+  + \mathrm{ \tilde f }(\vec{x}, \vec{\Omega}, t)
+  + \mathrm{ \tilde s }(\vec{x}, \vec{\Omega}, t) \,,
 \end{equation}
 where:
 \begin{itemize}
@@ -305,14 +346,12 @@ where:
     $\lopinv{b}{\cdots}$,
   \item $\mathrm{ \tilde i }$ is an approximation to the initial condition 
     $\lopinv{i}{\cdots}$,
-  \item $\mathrm{ \tilde s }$ is an approximation to the streaming term
-    $\lopinv{v}{ -\frac1{4\pi} \vec{\Omega}\vd \grad \phi }$, and
   \item $\mathrm{ \tilde f }$ is an approximation to the leakage term
-    $\lopinv{v}{ \frac1{4\pi} \grad \vd \vec{F} }$.
+    $\lopinv{v}{ \frac1{4\pi} \grad \vd \vec{F} }$, and
+  \item $\mathrm{ \tilde s }$ is an approximation to the streaming term
+    $\lopinv{v}{ -\frac1{4\pi} \vec{\Omega}\vd \grad \phi }$.
 \end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Leakage term}
 At present, it's not clear if we can approximate the ``leakage'' term:
 \begin{align*}
   \mathrm{ \tilde f }(\vec{x}, \vec{\Omega}, t) &=
@@ -327,7 +366,7 @@ At present, it's not clear if we can approximate the ``leakage'' term:
 For now, we just discard it.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Streaming term}
+\subsection{Approximating the streaming term}
 The streaming term in Eq.~\eqref{eq:approxIntensity1} is (see
 Eqs.~\eqref{eqs:inverseTransport}):
 \begin{align*}
@@ -434,7 +473,7 @@ conditions. However, now that we have expressions for the other terms $\mathrm{
 \tilde b}$, $\mathrm{ \tilde i}$, and $\mathrm{ \tilde f}$, we can do better.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Initial condition}\label{sec:derIc}
+\subsection{Approximating the initial condition term}\label{sec:derIc}
 The term accounting for the initial condition in
 Eq.~\eqref{eq:approxIntensity1} is (see Eqs.~\eqref{eqs:inverseTransport}):
 \begin{align*}
@@ -458,15 +497,17 @@ Now we approximate the terms in the bracket, which is the evaluated nonlocal
 initial condition. Let's expand the initial condition in spherical harmonics:
 \begin{equation*}
   I^i(\vec{x}, \vec{\Omega}) = \frac{1}{4\pi} \phi^i(\vec{x})
-  + \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i(\vec{x}) + \Psi(\vec{x}, \vec{\Omega})\,,
+  + \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i(\vec{x}) + \varphi(\vec{x}, \vec{\Omega})\,,
 \end{equation*}
-where $\Psi$ contains all the spherical moments of $I^i$ that are more than
+where $\varphi$ contains all the spherical moments of $I^i$ that are more than
 linearly anisotropic. Substituting the spherical harmonic expansion into
 $\mathrm{ \tilde i }$ cancels the isotropic component of the initial condition,
 leaving
 \begin{align} \nonumber
   \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t)
-  &= \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i(\vec{x}) + \Psi(\vec{x}, \vec{\Omega}) \right]_{( \vec{x} - ct \vec{\Omega}, \vec{\Omega})}
+  &= \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i(\vec{x})
+  + \varphi(\vec{x}, \vec{\Omega}) \right]_{( \vec{x} - ct \vec{\Omega},
+  \vec{\Omega})}
     \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
     U( \norm{\vec{x} - \vec{x}_b} - ct)\,.
   \\
@@ -514,7 +555,7 @@ and boundary conditions to be determined.
 \end{subequations}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Putting it together}
+\subsection{Approximating the boundary term}\label{sec:derBc}
 With Eqs.~\eqref{eq:tildeS} and~\eqref{eq:tildeI}, and if the $\mathrm{ \tilde f }$ term is discarded, our approximate
 equation~\eqref{eq:approxIntensity1} for the angular intensity becomes
 \begin{equation} \label{eq:approxIntensity2}
@@ -528,91 +569,11 @@ equation~\eqref{eq:approxIntensity1} for the angular intensity becomes
 where $f$ and $g$ are the solutions to the simple transport equations derived
 earlier, Eqs.~\eqref{eqs:fFull} and~\eqref{eqs:gFull}. Even though the boundary
 contribution $ \mathrm{ \tilde b }$ is mathematically small away from the
-boundaries, we seek to eliminate it globally.
+boundaries, we seek to eliminate it globally, including at the boundary
+itself.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Boundary condition (for specified incident radiation)}
-The boundary condition for Eq.~\eqref{eq:approxIntensity1} is:
-\begin{align*}
-  \mathrm{ \tilde b }(\vec{x}, \vec{\Omega}, t) &=
-   \lopinv{b}{I^b - \frac{1}{2\pi} \phi
- + \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud\Omega'}
-  \\
-  &= \left[ I^b - \frac{1}{2\pi} \phi
- + \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I\ud\Omega'
- \right]_{(\vec{x}_b, \vec{\Omega}, t - \norm{\vec{x} - \vec{x}_b}/c)}
-    \eexp^{ -\tau(\vec{x}, \vec{x}_b)} U(ct - \norm{\vec{x} - \vec{x}_b})\,.
-  \\
-  &\approx \lopinv{b}{ I^b - \frac{1}{2\pi} \tilde \phi
- + \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0}
- \tilde I\ud\Omega'
- }\,.
-\end{align*}
-It accounts for particles that start their life at the boundary inside the
-current time step, streaming along $\vec{\Omega}$, attenuated by $\eexp^{
--\tau}$ along their path.
-
-If we can somehow cancel the term in brackets at all points on the boundary,
-then there will be no contribution to the internal solution from the boundary
-term. Demanding this cancellation gives the equation
-\begin{equation*}
-  I^b( \vec{x}, \vec{\Omega}, t)
-  =\frac{1}{2\pi} \tilde \phi( \vec{x}, t)
- - \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0}
- \tilde I( \vec{x}, \vec{\Omega}', t) \ud\Omega' \,,
- \quad \vec{x} \in \partial V, \ \vec{\Omega}' \vd \vec{n} < 0,
- \ 0 \le t < \Delta_t\,,
-\end{equation*}
-where $\tilde I$ is the approximation of the intensity, given in
-Eq.~\eqref{eq:approxIntensity2}.
-Substituting that approximate expression under the assumption that
-$\mathrm{ \tilde b }=0$,
-\begin{align*}
-  I^b( \vec{x}, \vec{\Omega}, t)
-  &=
- \frac{1}{2\pi} \tilde \phi( \vec{x}, t)
- - \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} \left[
- \frac{1}{4\pi} \tilde \phi(\vec{x}, t)
- + g(\vec{x}, \vec{\Omega}', t) \vec{\Omega}' \vd \vec{F}^i(\vec{x})
- - f(\vec{x}, \vec{\Omega}', t) \vec{\Omega}'\vd \grad \tilde\phi(\vec{x},t)
- \right] \ud\Omega'
- \\
-  &=
- \frac{1}{4\pi} \tilde\phi
- - \frac{1}{2\pi} \left[ \int_{\vec{\Omega}' \vd \vec{n} > 0} \vec{\Omega}'
- g\ud\Omega \right]
- \vd \vec{F}^i
- + \frac{1}{2\pi} \left[ \int_{\vec{\Omega}' \vd \vec{n} > 0} \vec{\Omega}' f
- \ud\Omega' \right]
-  \vd \grad\tilde\phi
-\end{align*}
-To proceed, we assume that $I^b( \vec{x}, \vec{\Omega}, t)
-\equiv \frac{1}{\pi} F^\mathrm{in}( \vec{x}, t)$, an isotropic incident radiation
-condition with radiation flux $F^\mathrm{in}$. If we do not make this
-assumption, then anisotropic components of $I^b$ will remain. (I
-think this implies that isotropic components of incident $I$ will cancel with
-the following analysis, but anisotropic components will produce boundary
-effects that we can't account for.) So under this assumption, the condition
-that eliminates internal boundary effects is, after multiplying through by
-$\pi$:
-\begin{equation} \label{eq:bndyElimCond}
-  F^\mathrm{in}( \vec{x}, t) = 
- \frac{1}{4} \tilde\phi
- - \frac{1}{2} \left[ \int_{\vec{\Omega}' \vd \vec{n} > 0} \vec{\Omega}'
- g(\vec{x}, \vec{\Omega}', t) \ud\Omega' \right]
- \vd \vec{F}^i(\vec{x})
- + \frac{1}{2} \left[ \int_{\vec{\Omega}' \vd \vec{n} > 0} \vec{\Omega}'
- f(\vec{x}, \vec{\Omega}', t) \ud\Omega' \right]
- \vd \grad\tilde\phi(\vec{x}, t) \,.
-\end{equation}
-
-\vspace{\baselineskip}
-\noindent\hspace{\stretch{1}}
-%\rule{.5\textwidth}{.5pt}
-$\ast\qquad \ast\qquad \ast\qquad$
-\hspace{\stretch{1}}
-\vspace{\baselineskip}
-
+\subsubsection{Low-order ``Marshak'' boundary}
 Now let us consider the boundary condition from the true transport problem,
 Eq.~\eqref{eq:fullTransportBndy}:
 \begin{equation*}
@@ -644,55 +605,220 @@ $\mathrm{ \tilde b }$ term,
   + \mathrm{ \tilde s }
   + \mathrm{ \tilde f }\right]\ud\Omega
  \\\nonumber
+  F^\mathrm{in}(\vec{x}, t)
  &=
  \frac1{4} \tilde \phi(\vec{x}, t) 
- - \int_{\vec{\Omega} \vd \vec{n} < 0} (\vec{\Omega} \vd \vec{n})\left[
+ + \int_{\vec{\Omega} \vd \vec{n} < 0} \abs{\vec{\Omega} \vd \vec{n}}
+\left[
  0
   + g(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \vd \vec{F}^i(\vec{x})
   - f(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \vd \grad \tilde\phi(\vec{x}, t)
   + 0 \right]\ud\Omega\,.
-\\ \label{eq:bndyAnisotropic}
+\\ \nonumber
+ F^\mathrm{in}(\vec{x}, t)
  &=
  \frac1{4} \tilde \phi(\vec{x}, t) 
- - \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0} \vec{\Omega} \vec{\Omega}\:
+ - \int_{\vec{\Omega} \vd \vec{n} < 0} (\vec{\Omega} \vd \vec{n})
+ \vec{\Omega}\:
  g(\vec{x}, \vec{\Omega}, t) \ud\Omega \vd \vec{F}^i(\vec{x})
- + \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0} \vec{\Omega} \vec{\Omega}\:
+ + 4\int_{\vec{\Omega} \vd \vec{n} < 0} (\vec{\Omega} \vd \vec{n})
+ \vec{\Omega}\:
+ f(\vec{x}, \vec{\Omega}, t) \ud\Omega \vd \grad \tilde\phi(\vec{x}, t)
+\,.
+\\ \label{eq:bndyAnisotropic}
+ 4F^\mathrm{in}(\vec{x}, t)
+ &=
+ \tilde \phi(\vec{x}, t) 
+ - 4 \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \vec{\Omega}\:
+ g(\vec{x}, \vec{\Omega}, t) \ud\Omega \vd \vec{F}^i(\vec{x})
+ + 4 \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \vec{\Omega}\:
  f(\vec{x}, \vec{\Omega}, t) \ud\Omega \vd \grad \tilde\phi(\vec{x}, t)
 \,.
 \end{align}
 
-We can make this consistent with Eq.~\eqref{eq:fullTransportBndy} by specifying
-incident boundary values for $f$ and $g$. Setting the right-hand side
-Eq.~\eqref{eq:bndyAnisotropic} to the right-hand side of
-Eq.~\eqref{eq:bndyElimCond}, because the left-hand side is the same incident
-flux, for $x \in \partial V$ and $t$ inside the time step:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{High-order boundary term}
+
+The boundary contribution to the approximate intensity,
+Eq.~\eqref{eq:approxIntensity1}, is:
 \begin{align*}
- \frac{1}{4} \tilde\phi
- - \frac{1}{2} \int_{\vec{\Omega} \vd \vec{n} > 0} \vec{\Omega}
- g \ud\Omega 
- \vd \vec{F}^i
- + \frac{1}{2} \int_{\vec{\Omega} \vd \vec{n} > 0} \vec{\Omega}
- f \ud\Omega
-  \vd \grad\tilde\phi
-&=
- \frac1{4} \tilde \phi
- - \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0} \vec{\Omega} \vec{\Omega}\:
- g \ud\Omega \vd \vec{F}^i
- + \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0} \vec{\Omega} \vec{\Omega}\:
- f \ud\Omega \vd \grad \tilde\phi
+  \mathrm{ \tilde b }(\vec{x}, \vec{\Omega}, t)
+  &= \left[
+  I^b
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud \Omega'
+ \right]_{(\vec{x}_b, \vec{\Omega}, t - \norm{\vec{x} - \vec{x}_b}/c)}
+    \eexp^{ -\tau(\vec{x}, \vec{x}_b)} U(ct - \norm{\vec{x} - \vec{x}_b})
+  \\
+  &=
+  \lopinv{b}{ I^b
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud \Omega' }
+ \,.
+\end{align*}
+It accounts for particles that start their life at the boundary inside the
+current time step, streaming along $\vec{\Omega}$, attenuated by $\eexp^{
+-\tau}$ along their path.
+
+If we can somehow cancel the term in brackets at all points on the boundary,
+then there will be no contribution to the internal solution from the boundary
+term. Demanding this cancellation gives the equation
+\begin{equation*}
+I^b(\vec{x}, \vec{\Omega}, t)
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b(\vec{x},
+\vec{\Omega}', t) \ud \Omega'
+= \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} \tilde I(\vec{x},
+\vec{\Omega}', t) \ud \Omega'
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0,
+ \ 0 \le t < \Delta_t\,,
+\end{equation*}
+where $\tilde I$ is the approximation of the intensity, given in
+Eq.~\eqref{eq:approxIntensity2}.
+Substituting that approximate expression under the assumption that
+$\mathrm{ \tilde b }=0$,
+\begin{align*}
+\lefteqn{I^b(\vec{x}, \vec{\Omega}, t)
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b(\vec{x},
+\vec{\Omega}', t) \ud \Omega'}\qquad
+\\
+&= \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} 
+\Bigg[
+ \frac{1}{4\pi} \tilde \phi(\vec{x}, t)
+ + g(\vec{x}, \vec{\Omega}', t) \vec{\Omega}' \vd \vec{F}^i(\vec{x})
+ - f(\vec{x}, \vec{\Omega}', t) \vec{\Omega}'\vd \grad \tilde\phi(\vec{x},t)
+ \Bigg] \ud \Omega'
+ \\
+&= \frac{1}{8\pi} \tilde \phi(\vec{x}, t)
++ \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} 
+ g(\vec{x}, \vec{\Omega}', t) \vec{\Omega}' \vd \vec{F}^i(\vec{x})
+ \ud \Omega'
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} 
+ f(\vec{x}, \vec{\Omega}', t) \vec{\Omega}'\vd \grad \tilde\phi(\vec{x},t)
+ \ud \Omega'\,.
 \end{align*}
 
-This equation holds true for all values of $\tilde\phi$ and $\vec{F}^i$ if:
+To proceed, we assume that $I^b( \vec{x}, \vec{\Omega}, t)
+\equiv \frac{1}{\pi} F^\mathrm{in}( \vec{x}, t)$, an isotropic incident
+radiation condition with radiation flux $F^\mathrm{in}$.\footnote{Rather than
+requiring that the flux be isotropic, we could separate $I_b$ into an
+angle-independent component of magnitude $F^\mathrm{in}/\pi$ and a remainder
+term. The remainder term would introduce some unaccounted-for boundary terms
+into the problem.} Under this assumption, the left-hand side is
+\begin{equation*}
+I^b( \vec{x},\vec{\Omega},  t)
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0}
+I^b( \vec{x}, \vec{\Omega}', t) \ud \Omega'
+= \frac{1}{\pi} F^\mathrm{in}( \vec{x}, t)
+- \frac{1}{\pi} F^\mathrm{in}( \vec{x}, t) \left[ \frac{1}{4\pi}
+\int_{\vec{\Omega}' \vd \vec{n} < 0} \ud \Omega'\right]
+= \frac{1}{2\pi} F^\mathrm{in}( \vec{x}, t)\,.
+\end{equation*}
+Thus, to cancel the boundary term,
+\begin{align}\nonumber
+  \frac{1}{2\pi} F^\mathrm{in}( \vec{x}, t)
+  &=
+  \frac{1}{8\pi} \tilde \phi(\vec{x}, t)
++ \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} 
+ g(\vec{x}, \vec{\Omega}', t) \vec{\Omega}' \ud \Omega'
+ \vd \vec{F}^i(\vec{x})
+- \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0} 
+ f(\vec{x}, \vec{\Omega}', t) \vec{\Omega}' \ud \Omega'
+ \vd \grad \tilde\phi(\vec{x},t)
+ \\ \label{eq:bndyElimCond}
+ 4 F^\mathrm{in}( \vec{x}, t)
+  &=
+  \tilde \phi(\vec{x}, t)
++ 2\int_{\vec{\Omega}' \vd \vec{n} > 0} 
+ g(\vec{x}, \vec{\Omega}', t) \vec{\Omega}' \ud \Omega'
+ \vd \vec{F}^i(\vec{x})
+- 2\int_{\vec{\Omega}' \vd \vec{n} > 0} 
+ f(\vec{x}, \vec{\Omega}', t) \vec{\Omega}' \ud \Omega'
+ \vd \grad \tilde\phi(\vec{x},t)
+ \ud \Omega'\,.
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Resulting boundary conditions}
+
+In summary, the low-order equation~\eqref{eq:bndyAnisotropic} demands that
+\begin{align*}
+ 4F^\mathrm{in}(\vec{x}, t)
+ &=
+ \tilde \phi(\vec{x}, t) 
+ - 4 \vec{n} \vd \left[ \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \vec{\Omega}\:
+ g(\vec{x}, \vec{\Omega}, t) \ud\Omega \right] \vd \vec{F}^i(\vec{x})
+ + 4 \vec{n} \vd \left[ \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \vec{\Omega}\:
+ f(\vec{x}, \vec{\Omega}, t) \ud\Omega \right] \vd \grad \tilde\phi(\vec{x}, t)
+\\ 
+\intertext{and we want to satisfy Eq.~\eqref{eq:bndyElimCond},}
+ 4 F^\mathrm{in}( \vec{x}, t)
+  &=
+  \tilde \phi(\vec{x}, t)
++ 2 \left[ \int_{\vec{\Omega} \vd \vec{n} > 0} 
+ g(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \ud \Omega \right]
+ \vd \vec{F}^i(\vec{x})
+- 2\left[\int_{\vec{\Omega} \vd \vec{n} > 0} 
+ f(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \ud \Omega \right]
+\vd \grad \tilde\phi(\vec{x},t)
+ \,.
+\end{align*}
+WHAT JUST HAPPENED TO MY SIGNS?
+
+If we use the old way I did it,
+\begin{align*}
+  \mathrm{\tilde b} 
+  &= \lopinv{b}{I^b
+  - \frac{1}{2\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'}
+  \\
+  &= \lopinv{b}{I^b
+  - \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'
+  - \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'}
+  \\
+  &= \lopinv{b}{I^b
+  - \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'
+  - \frac{1}{4\pi}\left[ \phi - \int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud \Omega' \right]
+  }
+\end{align*}
+i.e.,
+\begin{equation*}
+  I^b
+  - \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} < 0} I^b \ud \Omega'
+  = \frac{1}{4\pi} \phi
+  - \frac{1}{4\pi}\int_{\vec{\Omega}' \vd \vec{n} > 0} I \ud \Omega'
+\end{equation*}
+then we get
+\begin{equation*}
+ 4 F^\mathrm{in}( \vec{x}, t)
+  =
+  \tilde \phi(\vec{x}, t)
+- 2\int_{\vec{\Omega} \vd \vec{n} > 0} 
+ g(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \vd \vec{F}^i(\vec{x})
+ \ud \Omega
++ 2\int_{\vec{\Omega} \vd \vec{n} > 0} 
+ f(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \tilde\phi(\vec{x},t)
+ \ud \Omega\,.
+\end{equation*}
+and the signs match like we'd expect.
+
+We are ??? in luck. By inspection, both equations holds true for all
+values of
+$\tilde\phi$, $\vec{F}^i$, and $F^\mathrm{in}$ if:
 \begin{subequations} \label{eqs:bndyTransport}
 \begin{align} \label{eq:bndyF}
-  \frac{1}{2} \int_{\vec{\Omega} \vd \vec{n} > 0} \vec{\Omega}
+  \int_{\vec{\Omega} \vd \vec{n} > 0} \vec{\Omega}
  \underbrace{f(\vec{x}, \vec{\Omega}, t)}_{\text{exiting}} \ud\Omega
- &= \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0} \vec{\Omega} \vec{\Omega}\:
+ &= 2 \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \vec{\Omega}
  \underbrace{f(\vec{x}, \vec{\Omega}, t)}_{\text{incident}} \ud\Omega
  \\ \intertext{and} \label{eq:bndyG}
-  \frac{1}{2} \int_{\vec{\Omega} \vd \vec{n} > 0} \vec{\Omega}
+  \int_{\vec{\Omega} \vd \vec{n} > 0} \vec{\Omega}
  \underbrace{g(\vec{x}, \vec{\Omega}, t)}_{\text{exiting}} \ud\Omega
- &= \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0} \vec{\Omega} \vec{\Omega}\:
+ &= 2 \vec{n} \vd \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \vec{\Omega}
  \underbrace{g(\vec{x}, \vec{\Omega}, t)}_{\text{incident}} \ud\Omega
 \end{align}
 \end{subequations}
@@ -705,9 +831,29 @@ then we have developed a set of consistent conditions that eliminate
 $\mathrm{\tilde b}$ throughout the approximate solution $\tilde\phi$ and
 produced a low-order boundary condition for the \APone\ problem.
 
-Equations~\eqref{eqs:bndyTransport} look like some sort of anisotropic albedo
-condition; I'm not sure how to interpret them at this point. Further analysis
-should be performed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{A further approximation}
+
+If $f$ and $g$ have no azimuthal dependence at the boundary, then
+\begin{equation*}
+  \int_{\vec{\Omega} \vd \vec{n} > 0} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  = \vec{n} \int_{\vec{\Omega} \vd \vec{n} > 0}
+  \left( \vec{\Omega} \vd \vec{n} \right)
+  f(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  = \vec{n} j^\textrm{out}
+\end{equation*}
+where $j^\textrm{out}$ is the ``exiting radiation flux'' in the transport
+calculation that calculates $f$.
+
+and we get an albedo white boundary condition. (Note that in a 1-D problem,
+there is no azimuthal dependence at all, so the albedo white boundary is not an
+approximation.)
+
+The assumption of negligible azimuthal dependence on the exiting $f$ has an
+additional benefit. Without azimuthal dependence, there is no transverse
+leakage on the boundary, so formulating a discretized version of the boundary
+conditions is much easier.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Approximate radiation flux}
