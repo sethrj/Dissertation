@@ -104,15 +104,15 @@ intensity $I$ \cite{Pri2010}. The exact result for the intensity is:
   \begin{split}
     I(\vec{x}, \vec{\Omega}, t)
     &=
-    I^b(\vec{x}_b, \vec{\Omega}, t - \norm{\vec{x} - \vec{x}_b}/c)
-    \eexp^{ -\tau(\vec{x}, \vec{x}_b)}
-    U(ct - \norm{\vec{x} - \vec{x}_b})
+    I^b(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}, t - s_b/c)
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
+    U(ct - s_b)
     \\
     &\qquad + I^i( \vec{x} - ct \vec{\Omega}, \vec{\Omega})
     \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
-    U( \norm{\vec{x} - \vec{x}_b} - ct)
+    U( s_b - ct)
     \\
-    &\qquad +  \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+    &\qquad +  \int_{0}^{s_b}
     \left[ \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t-s/v)
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
@@ -131,10 +131,8 @@ intensity $I$ \cite{Pri2010}. The exact result for the intensity is:
     \tau(\vec{x}, \vec{x}') = \int_{0}^{\norm{\vec{x} -
     \vec{x}'}} \sigma^\ast(\vec{x}-s\vec{\Omega}) \ud s \,.
   \end{equation}
-  The point $\vec{x}_b$ is defined as the point on the boundary that,
-  following direction $\vec{\Omega}$, intersects point $\vec{x}$. In other
-  words, $\vec{x}_b = \vec{x} - s \vec{\Omega}$ where $s$ positive and fixed
-  for a particular $(\vec{x}, \vec{\Omega})$.
+  The quantity $s_b$ is the distance to the boundary along $-\vec{\Omega}$ from
+  $\vec{x}$..
 \end{subequations}
 
 Just as $\lop{\cdot}$ represented a differential operator, $\lopinv{}{\cdot}$
