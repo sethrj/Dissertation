@@ -113,7 +113,7 @@ intensity $I$ \cite{Pri2010}. The exact result for the intensity is:
     U( s_b - ct)
     \\
     &\qquad +  \int_{0}^{s_b}
-    \left[ \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t-s/v)
+    \left[ \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t-s/c)
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s\,.
@@ -132,7 +132,7 @@ intensity $I$ \cite{Pri2010}. The exact result for the intensity is:
     \vec{x}'}} \sigma^\ast(\vec{x}-s\vec{\Omega}) \ud s \,.
   \end{equation}
   The quantity $s_b$ is the distance to the boundary along $-\vec{\Omega}$ from
-  $\vec{x}$..
+  $\vec{x}$.
 \end{subequations}
 
 Just as $\lop{\cdot}$ represented a differential operator, $\lopinv{}{\cdot}$
@@ -356,7 +356,7 @@ At present, it's not clear if we can approximate the ``leakage'' term:
    \lopinv{v}{ \frac1{4\pi}\grad \vd \vec{F} }
   \\
   &= \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
-    \left[ \frac1{4\pi}\grad \vd \vec{F}(\vec{x} - s \vec{\Omega}, t-s/v)
+    \left[ \frac1{4\pi}\grad \vd \vec{F}(\vec{x} - s \vec{\Omega}, t-s/c)
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s \,.
@@ -373,21 +373,21 @@ Eqs.~\eqref{eqs:inverseTransport}):
   \\
   &= \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
     \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega},
-    t-s/v)
+    t-s/c)
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
 \end{align*}
 This integral describes the contribution from the volumetric source (in this
 case, $-\vec{\Omega}\vd\grad\phi$) along $\vec{\Omega}$, evaluated at a prior
-point in time ($t-s/v$, the point along $s$ at which a particle would travel
+point in time ($t-s/c$, the point along $s$ at which a particle would travel
 to $\vec{x}$ at time $t$), attenuated by the medium along the way (the
 $\eexp^{ -\tau }$ factor).
 
 We now make our first approximation by expanding the distant $\phi(\vec{x} - s
-\vec{\Omega}, t-s/v)$ about the local $\phi(\vec{x}, t)$ in a Taylor series:
+\vec{\Omega}, t-s/c)$ about the local $\phi(\vec{x}, t)$ in a Taylor series:
 \begin{equation} \label{eq:taylorPhi}
-  \phi(\vec{x} - s \vec{\Omega}, t-s/v)
+  \phi(\vec{x} - s \vec{\Omega}, t-s/c)
   \sim \phi(\vec{x},t) - s \left( \frac{1}{c} \pder{}{t} + \vec{\Omega} \vd
   \grad  \right) \phi (\vec{x}, t) + \cdots \,.
 \end{equation}
