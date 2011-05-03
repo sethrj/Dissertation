@@ -22,7 +22,7 @@
 \setbeamertemplate{navigation symbols}{\insertframenavigationsymbol}
 \setbeamertemplate{caption}[numbered]
 
-\title[ORNL Seminar]%
+\title[MC 2011]%
 {An anisotropic diffusion approximation to nonlinear radiation transport}
 %\subtitle{}
 
@@ -31,7 +31,7 @@
 \institute[UMich]{
 University of Michigan, Ann Arbor
 }
-\date[5/6/2011]{May 6, 2011}
+\date[5/9/2011]{May 9, 2011}
 
 \AtBeginSection[]
 {
@@ -137,9 +137,8 @@ University of Michigan, Ann Arbor
   \end{itemize}
   Current work:
   \begin{itemize}
-    \item Formulates boundary conditions and time-dependent terms
     \item Uses transport-calculated anisotropic diffusion tensors
-    \item Application to TRT problems
+    \item Applies to nonlinear, time-dependent problems with isotropic sources
   \end{itemize}
   Potential applications:
   \begin{itemize}
@@ -154,48 +153,22 @@ University of Michigan, Ann Arbor
 \begin{frame}{Summary in advance (infinite medium)}
 \begin{enumerate}
   \item Define the anisotropic intensity as $\Psi = I - \frac{1}{4\pi}\phi$.
-    Our goal is to approximate $\Psi$ rather than $I$.
+    We will approximate $\Psi$ rather than $I$.
   \item From the radiation transport equation and conservation equation, we get
     a differential transport equation for $\Psi$. Transform this to an integral
     transport equation for $\Psi$.
   \item Assume $\phi=O(1)$, $\frac1c\pder{}{t}=O(\epsilon^2)$, $\grad =
     O(\epsilon)$, $\int_{4\pi} \vec{\Omega} (\cdot) \ud \Omega = O(\epsilon)$.
-    Discard $O(\epsilon^2)$ terms.
   \item Use Taylor series to approximate nonlocal unknowns with local
-    unknowns, discarding $O(\epsilon^2)$ terms. This yields
+    unknowns, discarding small terms. This yields
     \begin{equation*}
       \Psi(\vec{x}, \vec{\Omega})
-      \approx - f_v(\vec{x}, \vec{\Omega})  \vec{\Omega} \vd \grad \phi\,.
+      \approx - f(\vec{x}, \vec{\Omega})  \vec{\Omega} \vd \grad \phi\,.
     \end{equation*}
   \item Take the first angular moment of $\Psi$ to get $\vec{F}=-\Dtens \vd
     \grad \phi$
   \item Substitute $\vec{F}$ into the time-dependent particle
     conservation equation to get time-dependent anisotropic diffusion.
-\end{enumerate}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Summary \dots{}with boundary conditions}
-\begin{enumerate}
-  \item The same first steps give:
-    \begin{equation*}
-      \Psi(\vec{x}, \vec{\Omega}) \approx I - \frac{1}{4\pi}\phi
-      \approx [\text{boundary term}]
-      - f_v(\vec{x}, \vec{\Omega})  \vec{\Omega} \vd \grad \phi\,.
-    \end{equation*}
-  \item Derive the relationship between $\phi$ and $\grad\phi$ on the boundary
-    to satisfy the physical condition $\int_{4\pi} \Psi \ud \Omega=0$.
-  \item Formulate an ``approximate'' boundary term of the form $-f_b
-    \vec{\Omega} \vd \grad \phi$, and demand that it yield the same relation
-    between $\phi$ and $\grad\phi$ on the boundary.
-  \item Take the first angular moment of $\Psi$ to get
-    \begin{equation*}
-      \vec{F} = - \int_{4\pi}\vec{\Omega}\vec{\Omega}
-      \left[ f_b+ f_v \right]\vd \grad \phi
-      = -\Dtens \vd \grad \phi \,.
-    \end{equation*}
-  \item Substitute $\vec{F}$ into the time-dependent particle conservation
-    equation to get time-dependent anisotropic diffusion.
 \end{enumerate}
 \end{frame}
 
@@ -215,17 +188,13 @@ University of Michigan, Ann Arbor
 \\
 x \in V,\  0 \le t < \Delta_t, \ \vec{\Omega} \in 4\pi,
 \end{multline}
-with the boundary condition
-\begin{equation} \label{eq:fullTransportBndy}
-  I(\vec{x}, \vec{\Omega}, t) = I^b(\vec{x}, \vec{\Omega}, t) \,,
- \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0,\ 0 \le t < \Delta_t
-\end{equation}
 and the initial condition
 \begin{equation} \label{eq:fullTransportInit}
  I(\vec{x}, \vec{\Omega}, 0) = I^i(\vec{x}, \vec{\Omega}, t) \,,
  \quad \vec{x} \in V, \ \vec{\Omega} \in 4\pi\,.
 \end{equation}
 \end{subequations}
+For this presentation, only consider an infinite (non-homogeneous) medium.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -239,7 +208,7 @@ gives
   + \sigma^\ast \phi(\vec{x}, t)
   =  Q(\vec{x}, t)\,.
 \end{equation}
-and to the initial condition, Eq.~\eqref{eq:fullTransportInit},
+and on the initial condition, Eq.~\eqref{eq:fullTransportInit},
 \begin{equation} \label{eq:loInit}
 \phi(\vec{x}, 0) = \int_{4\pi}  I^i(\vec{x},
 \vec{\Omega}) \ud \Omega = \phi^i(\vec{x}) \,.
@@ -265,37 +234,19 @@ multiply by $\frac{1}{4\pi}$:
     - \frac{1}{4\pi} \phi(\vec{x})\,.
   \end{equation}
   (This satisfies $\int_{4\pi} \Psi=0$ and $\int_{4\pi} \vec{\Omega} \Psi =
-  \vec{F}$, which
-  will be important later.)
+  \vec{F}$.)
 
   Subtract Eq.~\eqref{eq:modifiedConservation} from
   Eq.~\eqref{eq:fullTransportVol}; the isotropic source cancels:
 \begin{multline*}
-  \frac{1}{c} \pder{\phi}{t} \left[ I - \frac{\phi}{4\pi} \right]
+  \frac{1}{c} \pder{}{t} \left[ I - \frac{\phi}{4\pi} \right]
     + \vec{\Omega}\vd \grad \left[ I - \frac{\phi}{4\pi} \right]
     + \sigma^\ast(\vec{x})\left[ I - \frac{\phi}{4\pi} \right]
   = \frac{1}{4\pi} \grad \vd\vec{F} -
   \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi
 \end{multline*}
-
-  Subtract $\phi/4\pi$ from the transport boundary condition:
-  %($\vec{x} \in \partial V$, $\vec{\Omega} \vd \vec{n} < 0$):
-  \begin{equation*}
-    I - \frac{\phi}{4\pi} = I^b - \frac{\phi}{4\pi}
-  \end{equation*}
-
-  Subtract Eq.~\eqref{eq:loInit} from Eq.~\eqref{eq:fullTransportInit}:
-  \begin{equation*}
-    I(\vec{x}, \vec{\Omega}, 0) - \frac{1}{4\pi}\phi(\vec{x}, 0)
-    = I^i - \frac{\phi^i}{4\pi}
-  \end{equation*}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Anisotropic intensity equations}
-  Transport equation:
 \begin{equation*}
-  \frac{1}{c} \pder{\phi}{t} \Psi
+  \frac{1}{c} \pder{}{t} \Psi
    + \vec{\Omega}\vd \grad \Psi
    + \sigma^\ast(\vec{x}) \Psi
   = \frac{1}{4\pi} \grad \vd\vec{F} -
@@ -303,16 +254,12 @@ multiply by $\frac{1}{4\pi}$:
   \equiv \hat Q(\vec{x}, \vec{\Omega}, t)
 \end{equation*}
 
-  Boundary condition:
+  Subtract Eq.~\eqref{eq:loInit} from Eq.~\eqref{eq:fullTransportInit}:
   \begin{equation*}
-    \Psi = \Psi^b = I^b - \frac{\phi}{4\pi}
+    \Psi(\vec{x}, \vec{\Omega}, 0) =
+    I(\vec{x}, \vec{\Omega}, 0) - \frac{1}{4\pi}\phi(\vec{x}, 0)
+    = I^i - \frac{\phi^i}{4\pi}
   \end{equation*}
-
-  Initial condition:
-  \begin{equation*}
-    \Psi(\vec{x}, \vec{\Omega}, 0) = \Psi^i = I^i - \frac{\phi^i}{4\pi} \,.
-  \end{equation*}
-
   The exact solutions for $I$, $\phi$, $\vec{F}$ satisfy these equations: still
   no approximations.
 \end{frame}
@@ -326,32 +273,30 @@ multiply by $\frac{1}{4\pi}$:
   \begin{split}
     \Psi(\vec{x}, \vec{\Omega}, t)
     &=
-    \Psi^b(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}, t - s_b/c)
-    \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
-    U(ct - s_b)
-    \\
-    &\qquad + \Psi^i( \vec{x} - ct \vec{\Omega}, \vec{\Omega})
+    \Psi^i( \vec{x} - ct \vec{\Omega}, \vec{\Omega})
     \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
-    U( s_b - ct)
     \\
-    &\qquad + \int_{0}^{s_b}
+    &\qquad + \int_{0}^{\infty}
     \left[ \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t-s/c)
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s\,.
   \end{split}
     \\ 
-    &\equiv \lopinv{b}{\Psi^b}
-    + \lopinv{i}{\Psi^i}
-    + \lopinv{v}{\hat Q} 
+    &\equiv  \lopinv{i}{\Psi^i}
+    + \lopinv{v}{\hat Q}
+    \\ \nonumber
+    &= \lopinv{i}{\Psi^i}
+  + \lopinv{v}{\frac{1}{4\pi} \grad \vd\vec{F}} -
+  \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi} \,.
   \end{align}
-  $s_b$ is the distance to the boundary, $U(\zeta)$ is the heaviside function,
-  and the optical thickness is 
+  Here, the optical thickness is 
   \begin{equation} \label{eq:fullTauDefinition}
-    \tau(\vec{x}, \vec{x}') = \int_{0}^{\norm{\vec{x} -
+    \tau(\vec{x}, \vec{x}') = \int_{0}^{\abs{\vec{x} -
     \vec{x}'}} \sigma^\ast(\vec{x}-s\vec{\Omega}) \ud s \,.
   \end{equation}
 \end{subequations}
+These are nonlocal unknowns; we will approximate them with local unknowns.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -368,24 +313,24 @@ multiply by $\frac{1}{4\pi}$:
 Our first approximation: $\lopinv{i}{\cdot} = O(\epsilon^2)$ and $\grad \vd \vec{F} =
 O(\epsilon^2)$:
 \begin{align*}
-  \Psi &= \lopinv{b}{\Psi^b} + \lopinv{i}{\Psi^i}
+  \Psi &= \lopinv{i}{\Psi^i}
   + \lopinv{v}{\frac{1}{4\pi} \grad \vd\vec{F}} -
   \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
     \\ 
   \Psi 
-  &\approx \lopinv{b}{\Psi^b} - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
+  &\approx - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
   + O(\epsilon^2)
 \end{align*}
 
 Taylor series expansion:
 \begin{align} \nonumber
-  X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
-  &\sim X(\vec{x}, \vec{\Omega}, t)
+  \phi(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
+  &\sim \phi(\vec{x}, \vec{\Omega}, t)
   - s \bigg( \frac{1}{c} \pder{}{t} + \vec{\Omega} \vd \grad \bigg)
-  X(\vec{x}, \vec{\Omega}, t) + O(\epsilon^2)
+  \phi(\vec{x}, \vec{\Omega}, t) + O(\epsilon^2)
 \\ \label{eq:taylorPhi}
-X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
-&= X(\vec{x}, \vec{\Omega}, t) + O(\epsilon)
+\phi(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
+&= \phi(\vec{x}, \vec{\Omega}, t) + O(\epsilon)
 \end{align}
 \end{frame}
 
@@ -394,53 +339,65 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
   Applying the Taylor series expansion under the assumption of a smooth $\phi$,
   \begin{align*}
   -\lopinv{v}{ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi }
-  &= -\int_{0}^{\norm{\vec{x} - \vec{x}_b}}
-    \left[ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi \right]
+  &= -\int_{0}^{\abs{\vec{x} - \vec{x}_b}}
+    \left[ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi \right]_{(\vec{x} - s
+    \vec{\Omega}, t-s/c)}
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
   \\\nonumber
-  &\sim - \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+  &\sim - \int_{0}^{\abs{\vec{x} - \vec{x}_b}}
     \left[ \frac1{4\pi}\right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s
-    \vec{\Omega}\vd \grad \tilde \phi(\vec{x},t) + O(\epsilon^2)
+    \vec{\Omega}\vd \grad \phi(\vec{x},t) + O(\epsilon^2)
   \\\label{eq:tildeS}
-  &= - \lopinv{v}{ \frac1{4\pi} } \vec{\Omega}\vd \grad \tilde \phi(\vec{x},t)
-  %&\equiv -f_v(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \tilde
+  &= - \lopinv{v}{ \frac1{4\pi} } \vec{\Omega}\vd \grad \phi(\vec{x},t)
+  %&\equiv -f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \tilde
   %\phi(\vec{x},t)
   \end{align*}
-  where $ \lopinv{v}{ \frac1{4\pi} } \equiv f_v$ is the solution to a purely
-  absorbing transport equation with vacuum boundary conditions:
+  where $ \lopinv{v}{ \frac1{4\pi} } \equiv f$ is the solution to a purely
+  absorbing transport equation:
 \begin{subequations} \label{eqs:fFull}
   \begin{equation} \label{eq:fFullVol}
-    \vec{\Omega}\vd \grad f_v(\vec{x}, \vec{\Omega})
-    + \sigma^\ast f_v (\vec{x}, \vec{\Omega})
+    \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
+    + \sigma^\ast f (\vec{x}, \vec{\Omega})
   =  \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
   \end{equation}
 \begin{equation} \label{eq:fFullBndy}
-  f_v(\vec{x}, \vec{\Omega}) = 0 \,,
+  f(\vec{x}, \vec{\Omega}) = 0 \,,
  \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0 \,.
 \end{equation}
 \end{subequations}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{If we ignore boundary conditions}
-  Using the identity $\vec{F} = \int_{4\pi}\vec{\Omega} \Psi \ud \Omega$,
+\begin{frame}{An analogy to Fick's Law}
+  To get an expression for the radiation flux (a.k.a.~``current''), use the identity
+  $\vec{F} = \int_{4\pi}\vec{\Omega} \Psi \ud \Omega$,
   \begin{align*}
     \vec{F}(\vec{x}, t)
-    &= \int_{4\pi}\vec{\Omega} \left[ - \lopinv{v}{
-    \frac1{4\pi} } \vec{\Omega}\vd \grad \tilde \phi(\vec{x},t) \right]
+    &= \int_{4\pi}\vec{\Omega} \left( - \lopinv{v}{
+    \frac1{4\pi} } \vec{\Omega}\vd \grad \phi(\vec{x},t) \right)
     \ud \Omega
     \\
-      &= - \int_{4\pi}\vec{\Omega}\vec{\Omega} f_v \ud \Omega \vd \grad \phi
+      &= - \left[ \int_{4\pi}\vec{\Omega}\vec{\Omega} f \ud \Omega\right] \vd \grad \phi
     \\
       &\equiv -\Dtens \vd \grad \phi \,.
   \end{align*}
-  and 
-  \begin{equation*}
-    \vec{\Omega}\vd \grad f_v + \sigma^\ast f_v = \frac{1}{4\pi}
-  \end{equation*}
-  with vacuum boundary conditions.
+
+  Substitute into radiation energy conservation equation:
+\begin{equation*}
+  \frac{1}{c} \pder{\phi}{t}
+  + \del \vd \vec{F} + \textcolor{red}{\sigma^*} \phi
+  = \textcolor{red}{\sigma} ac\textcolor{red}{T^4}
+  + c Q
+\end{equation*}
+Material energy balance equation:
+\begin{equation*}
+  \frac{1}{\textcolor{red}{c_v}}\pder{T}{t} = \textcolor{red}{\sigma^*} \phi -
+  \textcolor{red}{\sigma^*} ac\textcolor{red}{T^4}
+\end{equation*}
+Approximate red terms semi-implicitly.
+
 \end{frame}
 
 \subsection{Anisotropic diffusion discussion}
@@ -471,7 +428,7 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
   \vspace{-\baselineskip}
   \begin{itemize}
     \item Takes only one transport sweep to solve, since it is the description
-      of a purely absorbing medium with vacuum boundary conditions
+      of a purely absorbing medium
     \item Only needs to be calculated once per time step (because of changing
       $\sigma^*$) in a nonlinear problem \item Requires no storage of the
       angular intensity, just accumulation of second moment, $D_{ij} =
@@ -479,6 +436,7 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
     \item Has the solution $f=1/4\pi\sigma$ if $\sigma$ is a constant.
       Then, $\int_{4\pi} \vec{\Omega} f \vec{\Omega} \ud \Omega =
       \mat{I}/3\sigma$.
+    \item For a finite medium, we must derive boundary conditions.
   \end{itemize}
 \end{frame}
 
@@ -488,12 +446,12 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
 \begin{frame}{Compared methods}
 \begin{itemize}
   \item Implicit Monte Carlo \cite{Fle1971} (implemented with variance
-    reduction methods), $10^6$ particles per time step
+    reduction methods), $10^7$ particles per time step
   \item Flux-limited diffusion with Larsen limiter \cite{Ols2000}, with
     semi-implicit treatment of diffusion coefficient and radiation:
     \begin{equation*}
       \vec{F}^{n+1} = - D^{n} \del \phi^{n+1}  = -\left[ (3\sigma^{n})^2
-      + \left( \frac{\norm{\del \phi^{n}}}{\phi^{n}}  \right)^2 \right]^{-1/2}
+      + \left( \frac{\abs{\del \phi^{n}}}{\phi^{n}}  \right)^2 \right]^{-1/2}
       \del \phi^{n+1}
     \end{equation*}
   \item Standard diffusion, with semi-implicit treatment of nonlinearities:
@@ -515,7 +473,6 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
     \begin{itemize}
       \item Assume weak gradients and angular moments for $I$ (\emph{don't}
         assume that $I$ is a linear function of $\vec{\Omega}$!)
-      \item Recast the boundary term in an approximate but practical way
       \item Apply semi-implicit approximation for nonlinear material coupling
         and radiation
     \end{itemize}
@@ -527,7 +484,6 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
   \begin{itemize}
     \item \SN\ angular approximation
     \item DD spatial approximation
-    \item Only one source iteration after first time step
   \end{itemize}
 \end{block}
     \end{column}
@@ -535,7 +491,6 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
 \begin{block}{AD equation}
   \begin{itemize}
     \item 9-point cell-centered finite difference spatial approximation
-    \item Boundary conditions are updated with $j^+$ from transport sweep
   \end{itemize}
 \end{block}
     \end{column}
@@ -573,11 +528,17 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Time evolution of material temperature}
-\begin{center}
-  {\tiny (Replaced with movie)}
-
-  \includegraphics[width=.70\textwidth]{../figures/crashpipe2/mattemp_2d0117}
-\end{center}
+\only<1>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0000}$t=0$}%
+\only<2>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0020}$t=0.5$}%
+\only<3>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0027}$t=1.0$}%
+\only<4>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0032}$t=1.5$}%
+\only<5>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0037}$t=2$}%
+\only<6>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0047}$t=3$}%
+\only<7>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0057}$t=4$}%
+\only<8>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0067}$t=5$}%
+\only<9>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0117}$t=10$}%
+\only<10>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0167}$t=15$}%
+\only<11>{\includegraphics[height=3in]{../figures/crashpipe2b/mattemp/0217}$t=20$}%
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Time evolution of radiation energy density}
@@ -607,7 +568,7 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Time evolution of radiation energy density}
+\begin{frame}{Time evolution of radiation temperature wavefront}
   \centering%
   \input{../figures/crashpipe2b/wavefront-channel/include.tex}%
   \par
@@ -629,15 +590,14 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
   \begin{table}[htb]
     \centering
     \begin{tabular}{cr}
-      Method & Time (s) \\ \hline
+      Method & Wall time (s) \\ \hline
       IMC & 2730 \\
       FLD & 21 \\
       D   & 20 \\
       AD$_{64}$ & 36 \\
       AD$_{128}$ & 59
     \end{tabular}
-    \caption{Run times for pipe test problem, 11000 cells. Average of three
-    runs.}
+    \caption{Approximate run times for pipe test problem with $\Delta_x=0.1$.}
     \label{tab:pipeTiming}
   \end{table}
 \end{frame}
@@ -661,12 +621,13 @@ X(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
 \begin{frame}
   \frametitle{Future work}
   \begin{itemize}
+    \item Finalize derivation and analysis of transport-matched boundary conditions (not
+      presented here).
     \item Implement and test ``Anisotropic P$_1$''
-      ($\frac1c\pder{}{t}=O(\epsilon)$ instead of $O(\epsilon^2)$)
-    \item Extend method to anisotropic internal sources and boundary conditions
+      ($\frac1c\pder{}{t}=O(\epsilon)$ instead of $O(\epsilon^2)$).
+    \item Extend the method to anisotropic internal sources.
     \item Keep the $\grad \vd \vec{F}$ term by ignoring assumption of
-      $\int_{4\pi} \vec{\Omega} (\cdot) \ud \Omega = O(\epsilon)$ 
-    \item Further analysis 
+      $\int_{4\pi} \vec{\Omega} (\cdot) \ud \Omega = O(\epsilon)$.
   \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
