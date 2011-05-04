@@ -339,13 +339,13 @@ Taylor series expansion:
   Applying the Taylor series expansion under the assumption of a smooth $\phi$,
   \begin{align*}
   -\lopinv{v}{ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi }
-  &= -\int_{0}^{\abs{\vec{x} - \vec{x}_b}}
+  &= -\int_{0}^{\infty}
     \left[ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi \right]_{(\vec{x} - s
     \vec{\Omega}, t-s/c)}
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
   \\\nonumber
-  &\sim - \int_{0}^{\abs{\vec{x} - \vec{x}_b}}
+  &\sim - \int_{0}^{\infty}
     \left[ \frac1{4\pi}\right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s
     \vec{\Omega}\vd \grad \phi(\vec{x},t) + O(\epsilon^2)
