@@ -149,8 +149,9 @@ University of Michigan, Ann Arbor
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
+\subsection{Summary in advance}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Summary in advance}
+\begin{frame}
 \begin{enumerate}
   \item Define the anisotropic angular flux as $\Psi = \psi -
     \frac{1}{4\pi}\phi$. To handle boundary conditions, define $\Psi
@@ -466,10 +467,9 @@ Taylor series expansion:
   &= \int_{\vec{\Omega}\vd \vec{n} < 0} W(\abs{\vec{\Omega}\vd \vec{n}})
   \Psi_\mathrm{bl} \ud\Omega
   \\
-  &= \int_{\vec{\Omega}\vd \vec{n} < 0} W \psi^b \ud\Omega
-  - \frac{1}{4\pi} \phi \int_{\vec{\Omega}\vd \vec{n} < 0} W \ud\Omega
-  + \int_{\vec{\Omega}\vd \vec{n} < 0} W \zeta \vec{\Omega} \ud\Omega
-  \vd \grad \phi
+  &= \int_{\vec{\Omega}\vd \vec{n} < 0} W \left[ \psi^b
+  - \frac{1}{4\pi} \phi
+  + \zeta \vec{\Omega} \vd \grad \phi \right] \ud\Omega
   \end{align*}
   or
   \begin{equation} \label{eq:loBndy}
@@ -618,6 +618,7 @@ Approximate the red terms semi-implicitly.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
+\subsection{Implementation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Compared methods}
 \begin{itemize}
@@ -759,6 +760,12 @@ Approximate the red terms semi-implicitly.
 \begin{frame}{Anisotropic diffusion tensor visualization}
   \centering%
   \includegraphics[width=.75\textwidth]{../figures/crashpipe2/adcoeff_t10}%
+  \par
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Approximate representations of the angular flux}
+  \centering%
+  \input{../figures/crashpipe2b/intensity-x5-t20/include.tex}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
