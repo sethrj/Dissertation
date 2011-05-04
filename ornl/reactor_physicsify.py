@@ -10,8 +10,8 @@ substitutions = [
         (re.compile(r"opacit(y|ies)"), "cross section"),
         (re.compile(r"\bI\b"), r"\psi"),
         (re.compile(r"\bF\b"), r"J"),
-        (re.compile(r"\bc\b"), r"v"),
-        (re.compile(r"\bct\b"), r"vt"),
+#        (re.compile(r"\bc\b"), r"v"),
+#        (re.compile(r"\bct\b"), r"vt"),
         ]
 
 def replace_line(line):
