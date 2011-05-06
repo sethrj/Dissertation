@@ -3,7 +3,7 @@
 \usepackage{bm}
 \usepackage{amsmath}
 \usepackage{amssymb}
-%\usepackage{microtype}
+\usepackage{microtype}
 \usepackage{booktabs} % \toprule, \midrule, \bottomrule
 \input{../SRJinclude.tex}
 \definecolor{lightgray}{gray}{0.85}
@@ -56,6 +56,7 @@ University of Michigan, Ann Arbor
 \begin{center}
   \includegraphics[width=0.2\textwidth]{../figures/umlogo}
 \end{center}
+\smash{\includegraphics[width=0.2\textwidth]{../figures/neup-small}}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,7 +184,7 @@ University of Michigan, Ann Arbor
 \subsection{Transport}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Transport equation}
-  Inside a time step, with ``frozen'' cross section:
+  Inside a time step, with ``frozen'' cross sections (opacities):
 \begin{subequations} \label{eqs:fullTransport}
 \begin{multline} \label{eq:fullTransportVol}
   \frac{1}{c} \pder{\psi}{t}(\vec{x}, \vec{\Omega}, t)
@@ -404,13 +405,13 @@ O(\epsilon^2)$:
 
 Taylor series expansion:
 \begin{align} \nonumber
-  \phi(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
-  &\sim \phi(\vec{x}, \vec{\Omega}, t)
+  \phi(\vec{x} - s\vec{\Omega}, t - s/c)
+  &\sim \phi(\vec{x}, t)
   - s \bigg( \frac{1}{c} \pder{}{t} + \vec{\Omega} \vd \grad \bigg)
-  \phi(\vec{x}, \vec{\Omega}, t) + O(\epsilon^2)
+  \phi(\vec{x}, t) + O(\epsilon^2)
 \\ \label{eq:taylorPhi}
-\phi(\vec{x} - s\vec{\Omega}, \vec{\Omega}, t - s/c)
-&= \phi(\vec{x}, \vec{\Omega}, t) + O(\epsilon)
+\phi(\vec{x} - s\vec{\Omega}, t - s/c)
+&= \phi(\vec{x}, t) + O(\epsilon)
 \end{align}
 \end{frame}
 
@@ -483,7 +484,7 @@ Taylor series expansion:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Determining $\zeta$}
  Recall that in the exact anisotropic transport equation,
- $\int_{4\pi}\Psi\ud\Omega = 0$ and $\Psi_\mathrm{bl}=0$. So we choose to
+ $\int_{4\pi}\Psi\ud\Omega = 0$. So we choose to
  enforce $\int_{4\pi}\tilde\Psi\ud\Omega = 0$ on the boundary:
  \begin{equation*}
    0 = \int_{4\pi} \tilde\Psi\ud\Omega
@@ -595,7 +596,7 @@ Approximate the red terms semi-implicitly.
       \int_{4\pi} \Omega_i \Omega_j f \ud\Omega$
     \item Has the solution $f=1/4\pi\sigma$ if $\sigma$ is a constant.
       Then, $\int_{4\pi} \vec{\Omega} f \vec{\Omega} \ud\Omega =
-      \mat{\psi}/3\sigma$.
+      \Identitytens/3\sigma$.
   \end{itemize}
 \end{frame}
 
@@ -608,12 +609,14 @@ Approximate the red terms semi-implicitly.
     \item Does not ``blow up'' in void regions
     \item Has a greater ``action'' along the direction of a voided channel than
       across it
-    \item Reduces to $\mat{\psi}/3\sigma$ for an infinite homogeneous
-      medium, which gives standard diffusion solution
+    \item Reduces to $\Identitytens/3\sigma$ for a homogeneous
+      medium, which gives standard diffusion solution (and boundary conditions
+      reduce to transport-corrected diffusion BCs)
     \item Is continuous in $\vec{x}$, so the approximate AD-calculated $\phi$
       has continuous first derivatives (i.e., $\phi$ is smooth like our ansatz
       requires)
   \end{itemize}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -669,15 +672,15 @@ Approximate the red terms semi-implicitly.
 \begin{block}{AD equation}
   \begin{itemize}
     \item 9-point cell-centered finite difference spatial approximation
-    \item Discard transverse leakage on the boundary$^*$
+    %\item Discard transverse leakage on the boundary$^*$
   \end{itemize}
 \end{block}
     \end{column}
   \end{columns}
-
-  \vspace{.5\baselineskip}
-  {\small $^*$Not an approximation if $f_v$ is azimuthally symmetric about
-  $\vec{n}$}
+%
+%  \vspace{.5\baselineskip}
+%  {\small $^*$Not an approximation if $f_v$ is azimuthally symmetric about
+%  $\vec{n}$}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -765,7 +768,7 @@ Approximate the red terms semi-implicitly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Approximate representations of the angular flux}
   \centering%
-  \input{../figures/crashpipe2b/intensity-x5-t20/include.tex}%
+  \input{../figures/crashpipe2b/intens-x5-t20/include.tex}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -808,7 +811,7 @@ Approximate the red terms semi-implicitly.
     \item Further analysis of boundary conditions
     \item Implement and test ``Anisotropic P$_1$''
       ($\frac1c\pder{}{t}=O(\epsilon)$ instead of $O(\epsilon^2)$)
-    \item Extend method to anisotropic internal sources and boundary conditions
+    \item Extend method to anisotropic internal sources
     \item Keep the $\grad \vd \vec{J}$ term by ignoring assumption of
       $\int_{4\pi} \vec{\Omega} (\cdot) \ud\Omega = O(\epsilon)$ 
   \end{itemize}
