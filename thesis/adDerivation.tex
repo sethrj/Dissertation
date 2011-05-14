@@ -350,7 +350,7 @@ where:
     $\lopinv{v}{ -\frac1{4\pi} \vec{\Omega}\vd \grad \phi }$.
 \end{itemize}
 
-At present, it's not clear if we can approximate the ``leakage'' term:
+Thee ``leakage'' term,
 \begin{align*}
   \mathrm{ \tilde f }(\vec{x}, \vec{\Omega}, t) &=
    \lopinv{v}{ \frac1{4\pi}\grad \vd \vec{F} }
@@ -359,9 +359,9 @@ At present, it's not clear if we can approximate the ``leakage'' term:
     \left[ \frac1{4\pi}\grad \vd \vec{F}(\vec{x} - s \vec{\Omega}, t-s/c)
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
-    \ud s \,.
+    \ud s \,,
 \end{align*}
-For now, we just discard it.
+is $O(\epsilon^2)$ because it contains both a gradient and $\vec{F}$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Approximating the streaming term}

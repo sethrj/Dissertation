@@ -6,3 +6,25 @@
 
 Our new method is simply the best ever! Please let me graduate.
 
+\section{Future work}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In the derivation of the AD method, we made the ansatz that
+$\vec{F}=O(\epsilon)$. If we instead supposed that $\vec{F}=O(1)$, the same
+Taylor expansion would yield an extra term:
+\begin{equation*}
+  \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+  \approx \cdots + \lopinv{v}{ \frac1{4\pi} } \grad \vd \vec{F}(\vec{x},t)\,,
+\end{equation*}
+resulting in
+\begin{equation*}
+  \vec{F}(\vec{x}, t)
+  \approx - \Dtens \vd \grad \phi(\vec{x},t)
+  + \left\{ \int_{4\pi} \vec{\Omega} \lopinv{v}{ \frac1{4\pi} } \ud\Omega
+  \right\} \grad \vd \vec{F}(\vec{x},t)
+\end{equation*}
+
+Away from material discontinuities, the term in brackets would be
+exponentially small (since $f$ would be an even function of $\vec{\Omega}$).
+Near a change in material, however, this might yield a better solution that has
+a ``kink'' (discontinuous first derivative) like the transport solution.
+
