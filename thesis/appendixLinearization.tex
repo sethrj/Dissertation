@@ -1,7 +1,7 @@
 % !TEX root = _individual/appendixLinearization.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Semi-implicit Time Discretization}
+\chapter{Semi-implicit Time Discretization}\label{sec:semiImplicit}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 To solve the TRT equations with deterministic methods,\footnote{The Implicit
 Monte Carlo scheme of Fleck and Cummings \cite{Fle1971} gives a result very
@@ -16,6 +16,7 @@ by treating the opacity $\sigma$ and another material property explicitly,
 Eqs.~\eqref{eqs:fullGrayTRT} can be formulated as a time-dependent linear
 transport equation over a time step $t^n < t < t^{n+1}$.
 
+\section{Derivation}
 \subsection{Linearizing the material energy equation}
 First, we define a parameter $\beta$ as a function of Eqs.~\eqref{eqs:materialU}:
 \begin{equation} \label{eq:beta}
@@ -158,7 +159,7 @@ which was derived from the material equation Eq.~\eqref{eq:fullGrayMaterial}:
   + \frac{1}{4\pi} c Q^n \,.
 \end{align}
 
-\subsection{Comments}
+\section{Comments}\label{sec:trtLinearizedComments}
 If we compare Eq.~\eqref{eq:linearizedGrayTransport} to a temporally implicit
 discretization of a monoenergetic linear transport problem with isotropic
 scattering,
@@ -254,10 +255,12 @@ initial material energy density $U_m^n$, the solution process follows.
     approximation $\sigma(T) \approx \sigma(T^n)$.]
 \end{enumerate}
 
-\begin{sidewaystable}[htb]
+Figure~\ref{fig:semiImplicitFlowchart} shows how the quantities $\Delta_t$,
+$\beta$, $\sigma$, $f$, etc.~relate. This relation is especially important when
+implementing the linearization scheme programmatically. 
+\begin{sidewaystable}[hp]
   \centering
   \includegraphics[width=8in]{semi-implicit}
-  \caption{Flow chart showing dependence of quantities in the semi-implicit
-  discretization.}
+  \caption{Dependency graph of quantities in the semi-implicit discretization.}
   \label{fig:semiImplicitFlowchart}
 \end{sidewaystable}

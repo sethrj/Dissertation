@@ -5,7 +5,8 @@
 
 The use of anisotropic diffusion tensors is not new, nor is the search for
 accurate discretizations. In this dissertation, we only consider a structured
-Cartesian mesh, where all cells are quadrilaterals, and each cell connects (in
+two-dimensional Cartesian mesh, where all cells are quadrilaterals, and each
+cell connects (in
 the interior) to four adjacent cells through four faces, and each face is
 perpendicular to one of the coordinate system axes.
 
@@ -20,8 +21,53 @@ equations for Anisotropic Diffusion on Cartesian meshes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-Figure~\ref{fig:cellDiagram} represents a single cell $i,j$ with width
-$\Delta_{x,i}$ and height $\Delta_{y,j}$. For finite difference methods, 
+Because the semi-implicit gray TRT formulation can be expressed as a
+steady-state transport equation (see \S\ref{sec:trtLinearizedComments}), for
+simplicity we will present these discretizations without time dependence.
+
+The steady-state particle conservation equation is
+\begin{equation}\label{eq:ssConservation}
+  \grad \vd \vec{F}(\vec{x}) + \sigma_a(\vec{x}) \phi(\vec{x}) =
+  q(\vec{x})\,,\qquad \vec{x} \in V\,.
+\end{equation}
+The first step in a simple differencing scheme is to assume that the unknown
+(in this case, $\phi$) is constant over a single cell, represented in
+Fig.~\ref{fig:cellDiagram}. We also assume that the opacity and source are
+constant over the cell, which, for TRT, means assuming the material temperature
+is constant over a cell. Integrating Eq.~\eqref{eq:ssConservation} over cell
+$i,j$ and using the divergence theorem gives
+\begin{equation} \label{eq:ssConservationDisc}
+  %\sum_{f\in \{L,R,B,T\}} \int_f \vec{n}_f \vd \vec{F} \ud A
+  \Delta_{x,i} \left( F_T^y - F_B^y \right)
++ \Delta_{y,j} \left( F_R^x - F_L^x \right)
++ \Delta_{x,i}\Delta_{y,j} \sigma_{a,i,j} \phi_{i,j}
+= \Delta_{x,i}\Delta_{y,j} q_{i,j}\,.
+\end{equation}
+Here, $F_A^b$ is the leakage (radiation flux) from cell $i,j$ through face $A$
+along the $b$ axis. The methods presented in the following sections provide
+different closures for the leakages in terms of the other unknowns. They all
+serve to approximate the ``Fick's law'' of anisotropic diffusion,
+\begin{equation*}
+  \vec{F} = - \Dtens \vd \grad \phi
+  = -
+  \begin{bmatrix}
+    D^{xx} & D^{yx} \\
+    D^{xy} & D^{yy}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \tpder{\phi}{x} \\
+    \tpder{\phi}{y}
+  \end{bmatrix}
+  = 
+  \begin{bmatrix}
+    - D^{xx} \tpder{\phi}{x}
+    - D^{yx} \tpder{\phi}{y} \\
+    - D^{yy} \tpder{\phi}{y}
+    - D^{xy} \tpder{\phi}{x}
+  \end{bmatrix}
+  \,.
+\end{equation*}
+Because the diffusion matrix is symmetric, $D^{yx}=D^{xy}$.
 
 \begin{figure}[htb]
   \centering
@@ -30,6 +76,8 @@ $\Delta_{x,i}$ and height $\Delta_{y,j}$. For finite difference methods,
   \label{fig:cellDiagram}
 \end{figure}
 
+To preserve particles, it's necessary that $F_T^y$ from cell $i,j$ is equal to
+$F_B^y$ from cell $i,{j+1}$, and the same from the other directions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neglecting transverse diffusion}

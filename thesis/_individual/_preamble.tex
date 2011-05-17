@@ -1,18 +1,34 @@
+\let\origmaketitle\maketitle
+\renewcommand\maketitle\relax
+\renewcommand\contentsname\relax
+
 \author{Seth R.~Johnson}
-\title{An Anisotropic Diffusion Approximation to Nonlinear Radiation Transport}
+\title{An Anisotropic Diusion Approximation to Nonlinear Radiation Transport}
 \date{\today}
 
 \usepackage{color}
 \definecolor{intertextbg}{gray}{0.85}
 
-\newcommand{\chapter}[1]{%
-\par\vspace{2ex}%
+
+\makeatletter
+\newcommand{\newchapter}{%
 \noindent%
 \hspace{\stretch{1}}%
-\colorbox{intertextbg}{\parbox{0.75\columnwidth}{Chapter from Seth's
-dissertation: \emph{#1}}}%
-\hspace{\stretch{1}}%
-\vspace{2ex}\par%
+\colorbox{intertextbg}{\parbox{0.75\columnwidth}{\centering Chapter from Seth's
+dissertation}}%
+\hspace{\stretch{1}}
+}
+\makeatother
+
+\newcommand{\chapter}[1]{%
+\title{#1}%
+\origmaketitle
+\newchapter
+{\par\noindent\centering\rule[.25ex]{\columnwidth}{2pt}\par}%
+\vspace{-3\baselineskip}
+\tableofcontents%
+{\par\noindent\centering\rule[.25ex]{\columnwidth}{2pt}\par}%
+\clearpage%
 }
 
 % graphics paths
@@ -29,11 +45,3 @@ dissertation: \emph{#1}}}%
 \usepackage{booktabs} % \toprule, \midrule, \bottomrule
 \usepackage{rotating}
 
-\renewcommand\contentsname\relax
-\AtBeginDocument{%
-\vspace{-\baselineskip}
-{\par\noindent\centering\rule[.25ex]{\columnwidth}{2pt}\par}
-\vspace{-3\baselineskip}
- \tableofcontents
-{\par\noindent\centering\rule[.25ex]{\columnwidth}{2pt}\par}
-}
