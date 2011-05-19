@@ -1,0 +1,16 @@
+A Hybrid Anisotropic Diffusion Approximation to Radiation Transport
+
+The subject of my dissertation is a new method that resembles the diffusion 
+approximation but is applicable to problems with voided regions, with 
+particular application to time-dependent thermal radiative transfer. Under 
+certain conditions, this anisotropic diffusion (AD) method provides much more 
+accurate solutions than diffusion for only a little extra computational cost.
+
+Using the integral transport equation for the angular flux, we derive an
+expression for the current that depends on a non-local function of the
+total cross section. This nonlocal function is the solution of a purely 
+absorbing transport equation, and the function's second angular moment is the 
+anisotropic diffusion tensor. A system of low-order equations solves for the 
+scalar flux using the AD coefficients. To demonstrate the AD method's speed and 
+efficacy, we simulate a radiation shock in a partially voided tube.
+
