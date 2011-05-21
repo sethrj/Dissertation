@@ -30,7 +30,7 @@
 \institute[UMich]{
 University of Michigan, Ann Arbor
 }
-\date[5/6/2011]{May 6, 2011}
+\date[5/24/2011]{May 24, 2011}
 
 \AtBeginSection[]
 {
@@ -92,10 +92,11 @@ University of Michigan, Ann Arbor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Motivation}
-\begin{center}
-  \includegraphics[width=3in]{../figures/fidelity}
-\end{center}
-% also, storage requirements
+
+  \centering
+  \only<1>{\includegraphics[width=3in]{../figures/fidelity}}%
+  \only<2>{\includegraphics[width=3in]{../figures/fidelity2}}%
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -319,13 +320,13 @@ Taylor series expansion:
   If $\phi$ is smooth like the ansatz hypothesizes, the volumetric term becomes:
   \begin{align} \nonumber
   -\lopinv{v}{ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi }
-  &= -\int_{0}^{s_b}
+  &= -\int_{0}^{\infty}
     \left[ \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi \right]_{(\vec{x} - s
     \vec{\Omega}, t-s/c)}
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
   \\\nonumber
-  &\sim - \int_{0}^{s_b}
+  &\sim - \int_{0}^{\infty}
     \left[ \frac1{4\pi}\right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s
     \vec{\Omega}\vd \grad \phi(\vec{x},t) + O(\epsilon^2)
@@ -411,6 +412,8 @@ Approximate the red terms semi-implicitly.
     \item Reduces to $\Identitytens/3\sigma$ for a homogeneous
       medium, which gives standard diffusion solution (and boundary conditions
       reduce to transport-corrected diffusion BCs)
+    \item Is symmetric positive definite, guaranteeing a positive solution
+      for $\phi$.
     \item Is continuous in $\vec{x}$, so the approximate AD-calculated $\phi$
       has continuous first derivatives (i.e., $\phi$ is smooth like our ansatz
       requires)
@@ -433,14 +436,15 @@ Approximate the red terms semi-implicitly.
       + \left( \frac{\norm{\del \phi^{n}}}{\phi^{n}}  \right)^2 \right]^{-1/2}
       \del \phi^{n+1}
     \end{equation*}
-  \item Standard diffusion, with semi-implicit treatment of nonlinearities:
-    \begin{equation*}
-      \vec{J}^{n+1} = - D^{n} \del \phi^{n+1} 
-      = -\frac{1}{3\sigma^{n}} \del \phi^{n+1}
-    \end{equation*}
   \item Anisotropic diffusion, with semi-implicit treatment of nonlinearities:
     \begin{equation*}
       \vec{J}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} 
+    \end{equation*}
+  \item Flux-limited anisotropic diffusion:
+    \begin{equation*}
+      \vec{J}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} \times 
+      \max\left( 1, \norm{\Dtens^{n}\vd \frac{\del \phi^{n}}{\phi^{n}}}
+      \right)\inv
     \end{equation*}
 \end{itemize}
 \end{frame}
@@ -518,24 +522,28 @@ Approximate the red terms semi-implicitly.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Time evolution of radiation temperature wavefront}
+
   \centering%
   \input{../figures/crashpipe2b/wavefront-channel/include.tex}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Diffusion coefficients ($t=10$)}
-  \centering%
+  
+  \centering\small%
   \input{../figures/crashpipe2b/pres-dcoeff---channel-t10/include.tex}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Anisotropic diffusion tensor visualization}
+  
   \centering%
   \includegraphics[width=.75\textwidth]{../figures/crashpipe2/adcoeff_t10}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Approximate representations of the angular flux}
+  
   \centering\small%
   \input{../figures/crashpipe2b/intens-x5-t20/include.tex}%
   \par
@@ -576,10 +584,16 @@ Approximate the red terms semi-implicitly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Future work}
+  Me:
   \begin{itemize}
     \item Further analysis of boundary conditions
+    \item Finish writing a dissertation
+    \item Convince committee to let me graduate
+  \end{itemize}
+  Someone else:
+  \begin{itemize}
     \item Implement and test ``Anisotropic P$_1$''
-      ($\frac1c\pder{}{t}=O(\epsilon)$ instead of $O(\epsilon^2)$)
+      ($\frac1c\pder{}{t}=O(\epsilon)$ instead of $O(\epsilon^2)$)?
     \item Extend method to anisotropic internal sources
     \item Keep the $\grad \vd \vec{J}$ term by ignoring assumption of
       $\int_{4\pi} \vec{\Omega} (\cdot) \ud\Omega = O(\epsilon)$ 
@@ -590,10 +604,13 @@ Approximate the red terms semi-implicitly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Questions?}
-  \begin{center}
-    \includegraphics[width=2in]{../figures/fidelity2}
-  \end{center}
-{\setlength{\baselineskip}{-\baselineskip} \tiny 
+
+{\par\centering%
+  \includegraphics[height=2.75in]{../figures/larsen}
+
+}
+{\vspace{-.25in}%
+\setlength{\baselineskip}{-\baselineskip} \tiny 
 This material is based upon work supported under a National Science Foundation
 Graduate Research Fellowship and a Department of Energy Nuclear Energy
 University Programs Graduate Fellowship. Any opinions, findings, conclusions or
