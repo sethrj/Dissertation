@@ -1,0 +1,279 @@
+% !TEX root = _individual/aponeDerivation.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Approximating the initial condition term}\label{sec:derIc}
+The term accounting for the initial condition in
+Eq.~\eqref{eq:approxIntensity1} is (see Eqs.~\eqref{eqs:inverseTransport}):
+\begin{align*}
+  \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t) &=
+    \lopinv{i}{I^i - \frac1{4\pi} \phi^i}
+  \\
+  &= \left[ I^i - \frac1{4\pi} \phi^i \right]_{( \vec{x} - ct
+  \vec{\Omega}, \vec{\Omega})}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
+    U( \norm{\vec{x} - \vec{x}_b} - ct)\,.
+\end{align*}
+This describes the contribution at $(\vec{x}, \vec{\Omega}, t)$ from particles
+that started at $t=0$ along the direction $\vec{\Omega}$, which have
+traveled a distance $ct$ to get to the current point. The Heaviside function
+$U$ is so that only particles that started in the interior are considered. The
+particles are attenuated by a factor $\eexp^{ -\tau}$ along their travel, so
+the contribution from this term in a non-vacuum is exponentially small at large
+times.
+
+Now we approximate the terms in the bracket, which is the evaluated nonlocal
+initial condition. Let's expand the initial condition in spherical harmonics:
+\begin{equation*}
+  I^i(\vec{x}, \vec{\Omega}) = \frac{1}{4\pi} \phi^i(\vec{x})
+  + \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i(\vec{x}) + \varphi(\vec{x}, \vec{\Omega})\,,
+\end{equation*}
+where $\varphi$ contains all the spherical moments of $I^i$ that are more than
+linearly anisotropic. Substituting the spherical harmonic expansion into
+$\mathrm{ \tilde i }$ cancels the isotropic component of the initial condition,
+leaving
+\begin{align} \nonumber
+  \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t)
+  &= \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i(\vec{x})
+  + \varphi(\vec{x}, \vec{\Omega}) \right]_{( \vec{x} - ct \vec{\Omega},
+  \vec{\Omega})}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
+    U( \norm{\vec{x} - \vec{x}_b} - ct)\,.
+  \\
+  \intertext{Now we make the dubious but (perhaps for now) necessary
+  approximation of discarding the higher-order angular moments:} \nonumber
+  \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t)
+  &= \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i(\vec{x}) \right]_{( \vec{x} - ct \vec{\Omega}, \vec{\Omega})}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
+    U( \norm{\vec{x} - \vec{x}_b} - ct)\,.
+  \\
+  \intertext{At this point, we apply the same Taylor series expansion as in
+  Eq.~\eqref{eq:taylorPhi}, but this time to $\vec{F}^i$, allowing us to move
+  the term outside the bracket:} \nonumber
+  \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t)
+  &= \left[ \frac{3}{4\pi} \right]_{( \vec{x} - ct \vec{\Omega}, \vec{\Omega})}
+    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
+    U( \norm{\vec{x} - \vec{x}_b} - ct)  \vec{\Omega} \vd \vec{F}^i(\vec{x})
+  \\ \nonumber
+  &= \lopinv{i}{\frac{3}{4\pi}} \vec{\Omega} \vd \vec{F}^i(\vec{x})\,.
+  \\\label{eq:tildeI}
+  &= g(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \vd \vec{F}^i(\vec{x})\,.
+\end{align}
+
+Now we have another simple transport problem:
+\begin{equation*}
+  g(\vec{x}, \vec{\Omega}, t) = 
+  \lopinv{b}{0} + \lopinv{i}{\frac{3}{4\pi}} + \lopinv{v}{ 0 },
+\end{equation*}
+which describes a time-dependent transport problem with an isotropic initial
+condition but no source:
+\begin{subequations} \label{eqs:gFull}
+  \begin{equation} \label{eq:gFullVol}
+  \frac{1}{c} \pder{g}{t}(\vec{x}, \vec{\Omega}, t)
+    + \vec{\Omega}\vd \grad g(\vec{x}, \vec{\Omega}, t)
+    + \sigma^\ast g (\vec{x}, \vec{\Omega}, t)
+  =  0 \,, \quad x \in V,\  0 \le t < \Delta_t, \ \vec{\Omega}
+  \in 4\pi\,,
+  \end{equation}
+  with boundary conditions
+\begin{equation} \label{eq:gFullInit}
+ g(\vec{x}, \vec{\Omega}, 0) = \frac{3}{4\pi} \,,
+ \quad \vec{x} \in V, \ \vec{\Omega} \in 4\pi\,,
+\end{equation}
+and boundary conditions to be determined.
+\end{subequations}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Implicit time-dependent formulation}
+To take the implicit Euler approximation of Eq.~\eqref{eq:anisotropicP1}, we
+average over the time step $0 < t < \Delta_t$, and approximate the
+time-average unknowns by their values at $t^{n+1} = t^i + \Delta_t$. This
+procedure yields an approximate but numerically convenient equation,
+\begin{equation}\label{eq:implicitFlux1}
+  \vec{F}^{n+1}(\vec{x}) = \mat{E}^{n+1} (\vec{x}) \vd \vec{F}^i(\vec{x})
+  - \Dtens^{n+1}(\vec{x}) \vd \grad \phi^{n+1} (\vec{x}) 
+\end{equation}
+
+\begin{subequations} \label{eqs:implicitD}
+The implicit approximation to $\Dtens$ is
+\begin{equation}\label{eq:implicitDtens}
+  \Dtens^{n+1} = \int_{4\pi} \vec{\Omega} \vec{\Omega} \:
+  f^{n+1}(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation}
+and the transport equation~\eqref{eqs:fFull} for $f$ discretized implicitly
+over time is:
+\begin{equation*}
+  \frac{f^{n+1} - f^{0}}{c \Delta_t}
+  + \vec{\Omega} \vd \grad f^{n+1}
+  + \sigma^\ast f^{n+1}
+  =  \frac{1}{4\pi} \,,
+\end{equation*}
+with appropriate boundary conditions and the initial condition $f^{0}=0$. This
+can be rearranged to the form of a steady-state transport solve, with modified
+opacities:
+\begin{equation} \label{eq:implicitF}
+  \vec{\Omega} \vd \grad f^{n+1}
+  + \left[ \sigma^\ast + \frac{1}{c \Delta_t} \right]f^{n+1}
+  =  \frac{1}{4\pi} \,.
+\end{equation}
+This transport equation takes only one ``sweep'' to solve!
+\end{subequations}
+
+\begin{subequations} \label{eqs:implicitE}
+Likewise, the implicit approximation to $\mat{E}$ is
+\begin{equation}\label{eq:implicitEtens}
+  \mat{E}^{n+1} = \int_{4\pi} \vec{\Omega} \vec{\Omega} \:
+  g^{n+1}(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation}
+and the transport equation~\eqref{eqs:gFull} for $g$ discretized implicitly
+over time is:
+\begin{equation*}
+  \frac{g^{n+1} - g^{0}}{c \Delta_t}
+  + \vec{\Omega} \vd \grad g^{n+1}
+  + \sigma^\ast g^{n+1}
+=  0 \,,
+\end{equation*}
+with appropriate boundary conditions and the initial condition
+$g^{0}=\frac{3}{4\pi}$. This too can be rearranged! Substituting the
+isotropic initial condition $g^i$,
+\begin{equation} \label{eq:implicitG}
+  \vec{\Omega} \vd \grad g^{n+1}
+  + \left[ \sigma^\ast + \frac{1}{c \Delta_t} \right]g^{n+1}
+  = \frac{1}{c \Delta_t} \frac{3}{4\pi} \,.
+\end{equation}
+This transport equation \emph{also} takes only one ``sweep'' to solve, but
+there is another glaringly obvious fact that will make our lives even easier:
+with the implicit approximation, $g^{n+1} = \frac{3}{c \Delta t} f^{n+1}$!
+\end{subequations}
+
+Therefore, $\mat{E}^{n+1} =  \frac{3}{c \Delta t} \mat{D}^{n+1}$, so
+Eq.~\eqref{eq:implicitFlux1} becomes
+\begin{equation}\label{eq:implicitFlux}
+  \vec{F}^{n+1}(\vec{x}) =  \frac{3}{c \Delta t} \Dtens^{n+1} (\vec{x}) \vd
+  \vec{F}^i(\vec{x})
+  - \Dtens^{n+1}(\vec{x}) \vd \grad \phi^{n+1} (\vec{x}) \,.
+\end{equation}
+Our implicit approximation comprises this approximation to the first moment,
+Eq.~\eqref{eq:implicitFlux}, and the transport equation used to calculate
+$\Dtens$, Eqs.~\eqref{eqs:implicitD}.
+
+\paragraph{Note} This is essentially the same result I got last August when I
+first implicitly time-discretized the transport equation and then applied the
+old (standard) AD derivation. I guess I should have paid more attention then!
+At least this time, I have derived it fairly rigorously, I've got a
+time-dependent form that we can improve, and I show how the opacities over a
+time step don't need to be approximated if they're lagged to $\sigma^\ast$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analysis}
+
+\subsection{Time dependence}
+Starting here, we only consider the implicit Euler discretization of the
+\APone\ equations. \emph{However}, the fact that we can calculate
+$\mat{E}^{n+1}$ and $\Dtens^{n+1}$ however we want means that we could do crazy
+stuff like, for example, using a Monte Carlo transport solve to yield
+coefficients that take into account the finite speed of the particles, yielding
+true time-averaged values for the two tensors, and possibly obviating the error
+inherent in implicit time discretization.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Limit for large time steps}
+As $\Delta_t\to \infty$, the modified opacity in Eq.~\eqref{eq:implicitF}
+approaches the true space-dependent opacity $\sigma^\ast$. Thus, $\Dtens$
+approaches the same $\Dtens$ as the standard anisotropic diffusion method. In
+an infinite homogeneous medium, $f\to 1/4\pi \sigma$ so $\Dtens \to
+\mat{I}/3\sigma$, the standard diffusion result.
+
+For these large time steps, the contribution of the initial condition
+$\vec{F}^i$ should approach zero, so $\mat{E}^{n+1}$ should approach $
+\mat{0}$. We find that it does, because the effect of the initial condition
+in Eq.~\eqref{eq:implicitG} diminishes exponentially for large time steps. Thus,
+for $c \Delta_t \gg \sigma^\ast$, $g^{n+1}=0$ and therefore
+$\mat{E}^{n+1}=\mat{0}$.
+
+Therefore, in the limit of large time steps, the \APone\ method limits to the
+standard AD method. This is good!
+
+\paragraph{Note} What makes a time step ``large'' is now a non-local factor,
+not a local factor as in \Pone.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Limit for small time steps}
+TODO the same analysis makes it clear that as $\Delta_t \to 0$,
+$\Dtens^{n+1}$ approaches $\mat{0}$ and $\mat{E}^{n+1}$ approaches $\mat{I}$,
+yielding
+\begin{equation*}
+  \vec{F}^{n+1} \approx \vec{F}^{n}
+\end{equation*}
+as $\Delta_t \to 0$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Infinite homogeneous medium case}
+In an infinite homogeneous medium, Eq.~\eqref{eq:implicitFlux} limits to a
+form, obviating the error inherent in implicit discretizations.
+of the implicitly time-discretized \Pone\ equation.
+
+The solution to Eq.~\eqref{eq:implicitF} is
+\begin{equation*}
+  f^{n+1}
+  = \frac{1}{4\pi} \frac{1}{\sigma^\ast + 1 /c \Delta_t}
+  = \frac{1}{4\pi} \frac{\sigma^\ast}{\sigma^\ast} \frac{c \Delta t}{1 + \sigma^\ast c \Delta_t}
+  = \frac{1}{4\pi \sigma} ( 1 - \alpha^i) \,,
+\end{equation*}
+where $\alpha^i = 1/ \sigma^\ast c \Delta_t$. (This has a physical
+interpretation, because $\sigma^\ast c \Delta_t$ is the number of mean free
+paths a photon travels inside a time step.) Equation~\eqref{eq:implicitDtens}
+then gives
+\begin{equation*}
+  \Dtens = \frac{1}{3 \sigma} ( 1 - \alpha^i) \mat{I}\,.
+\end{equation*}
+
+The solution to Eq.~\eqref{eq:implicitG} is
+\begin{equation*}
+  g^{n+1}
+  = \frac{1}{c \Delta_t} \frac{3}{4\pi} \frac{1}{\sigma^\ast + 1 /c \Delta_t}
+  = \frac{3}{4\pi} \frac{1}{1 + \sigma^\ast c \Delta_t}
+  = \frac{3}{4\pi} \alpha^i \,.
+\end{equation*}
+Equation~\eqref{eq:implicitEtens} then gives
+\begin{equation*}
+  \mat{E} = \alpha^i \mat{I}\,.
+\end{equation*}
+
+Substituting $\Dtens$ and $\mat{E}$ into Eq.~\eqref{eq:implicitFlux}, we get the
+infinite-medium solution
+\begin{align*}
+  \vec{F}^{n+1}(\vec{x})
+  &= \alpha^i \mat{I} \vd \vec{F}^i(\vec{x})
+  - \frac{1}{3 \sigma} ( 1 - \alpha^i) \mat{I} \vd \grad \phi^{n+1} (\vec{x}) 
+  \\
+  &= \alpha^i \vec{F}^i(\vec{x})
+  - \frac{1}{3 \sigma} ( 1 - \alpha^i) \grad \phi^{n+1} (\vec{x})\,.
+\end{align*}
+
+We can reshape the \Pone\ equations into this exact form:
+\begin{align*}
+  \frac{\vec{F}^{n+1} - \vec{F}^i}{c \Delta_t} + \frac{1}{3} \grad \phi^{n+1}
+  + \sigma^\ast \vec{F}^{n+1} &= 0
+  \\
+  \vec{F}^{n+1} - \vec{F}^i 
+  + \sigma^\ast c \Delta_t \vec{F}^{n+1}
+  &= - c \Delta_t \frac{1}{3} \grad \phi^{n+1}
+  \\
+  \left[ 1 + \sigma^\ast c \Delta_t \right] \vec{F}^{n+1}
+  &= \vec{F}^i - \sigma^\ast c \Delta_t \frac{1}{3\sigma^\ast} \grad \phi^{n+1}
+  \\
+  \vec{F}^{n+1}
+  &= \frac{1}{1 + \sigma^\ast c \Delta_t} \vec{F}^i - \frac{\sigma^\ast c
+  \Delta_t}{1 + \sigma^\ast c \Delta_t} \frac{1}{3\sigma^\ast} \grad \phi^{n+1}
+  \\
+  \vec{F}^{n+1}
+  &= \alpha^i \vec{F}^i - (1 - \alpha^i) \frac{1}{3\sigma^\ast} \grad \phi^{n+1}
+\end{align*}
+
+Ta-da! Our approximation of the previous time step in \S\ref{sec:derIc} as
+being linear in angle is really what gives the undesirable $\frac13\grad\phi$
+(which has an incorrect wave speed). It may be possible to either improve that
+approximation by supposing $f$ for the previous time step is like $f$ from the
+current time step (and same with $g$), which would definitely not be the case
+if $\Delta_t$ is changing from one time step to the next.
+

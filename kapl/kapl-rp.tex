@@ -158,17 +158,17 @@ University of Michigan, Ann Arbor
   \item Define the anisotropic angular flux as $\Psi = \psi -
     \frac{1}{4\pi}\phi$.
   \item From the radiation transport equation and conservation equation, we get
-    a differential transport equation for $\tilde \Psi$.
-    Transform to an \emph{integral} transport equation for $\tilde \Psi$.
+    a differential transport equation for $\Psi$.
+    Transform to an \emph{integral} transport equation for $\Psi$.
   \item Assume $\psi=O(1)$, $\frac1c\pder{}{t}=O(\epsilon^2)$, $\grad =
     O(\epsilon)$, $\int_{4\pi} \vec{\Omega} (\cdot) \ud\Omega = O(\epsilon)$.
   \item Use Taylor series to approximate nonlocal unknowns with local
     unknowns, discarding small terms. This yields
     \begin{equation*}
-      \tilde \Psi(\vec{x}, \vec{\Omega})
+      \Psi(\vec{x}, \vec{\Omega})
       \approx - f(\vec{x}, \vec{\Omega})  \vec{\Omega} \vd \grad \phi\,.
     \end{equation*}
-  \item Take the first angular moment of $\tilde \Psi$ to get
+  \item Take the first angular moment of $\Psi$ to get
     $\vec{J}=-\Dtens \vd \grad \phi$
   \item Substitute $\vec{J}$ into the time-dependent particle
     conservation equation to get time-dependent anisotropic diffusion.
@@ -254,7 +254,7 @@ approximations.
 \begin{subequations} \label{eqs:inverseTransport}
   \begin{align} \label{eq:inverseTransportFull}
   \begin{split}
-    \tilde \Psi(\vec{x}, \vec{\Omega}, t)
+    \Psi(\vec{x}, \vec{\Omega}, t)
     &= \Psi^i( \vec{x} - ct \vec{\Omega}, \vec{\Omega})
     \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
     \\
@@ -292,12 +292,12 @@ These are nonlocal unknowns; we will approximate them with local unknowns.
 Our first approximation: $\lopinv{i}{\cdot} = O(\epsilon^2)$ and $\grad \vd \vec{J} =
 O(\epsilon^2)$:
 \begin{align*}
-  \tilde \Psi &=
+  \Psi &=
   \lopinv{i}{\Psi^i}
   + \lopinv{v}{\frac{1}{4\pi} \grad \vd\vec{J}} -
   \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
     \\ 
-  \tilde \Psi 
+  \Psi 
   &\approx
   - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
   + O(\epsilon^2)
@@ -335,7 +335,7 @@ Taylor series expansion:
   \end{align}
   Thus,
   \begin{equation}\label{eq:capPsiApprox}
-    \tilde\Psi(\vec{x}, \vec{\Omega}, t) \approx
+    \Psi(\vec{x}, \vec{\Omega}, t) \approx
     - \left[ \lopinv{v}{ \frac1{4\pi} } \right]
     \vec{\Omega}\vd \grad \phi(\vec{x},t)
     \equiv -f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x},t)
@@ -346,7 +346,7 @@ Taylor series expansion:
 \begin{frame}{An analogy to Fick's law}
   To get an expression for the current use the
   identity
-  $\vec{J} = \int_{4\pi}\vec{\Omega} \tilde \Psi \ud\Omega$, which gives
+  $\vec{J} = \int_{4\pi}\vec{\Omega} \Psi \ud\Omega$, which gives
   \begin{align*}
     \vec{J}(\vec{x}, t)
     &= \int_{4\pi}\vec{\Omega} \left\{
