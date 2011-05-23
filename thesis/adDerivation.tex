@@ -682,7 +682,7 @@ We have applied the approximation that $\frac{1}{c}\pder{}{t}= O(\epsilon^2)$
 to turn the transport equation for $f$ into a steady-state equation, and we have
 accordingly restricted $\zeta$ to a function constant within the time step.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Approximate radiation flux}
 Now we have an equation for the local angle-dependent anisotropic intensity as a
 function of this simple transport equation $f$ and the scalar intensity $\phi$.
@@ -725,6 +725,7 @@ In this section, we address the connected issues of appropriate boundary
 conditions for the low-order anisotropic diffusion equations and the boundary
 condition $\zeta$ used in the transport calculation.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Incident boundary conditions}
 In this section, a standard boundary layer analysis uses
 equations~\eqref{eqs:blCapPsi} to determine a boundary condition for specified
@@ -735,6 +736,8 @@ $\vec{n}\vd\vec{\Omega} < 0$ on an incident boundary, $s_b=0$, so
 \begin{equation}\label{eq:bndyIdentity}
   \lopinv{b}{\zeta} = \zeta \eexp^0 = \zeta(\vec{x}, t)\,.
 \end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reflecting boundary conditions}
 An important property of $\lopinv{b}{\cdot}$ is that, for
 $\vec{n}\vd\vec{\Omega} < 0$ on an incident boundary, $s_b=0$, so
@@ -745,10 +748,13 @@ $\vec{n}\vd\vec{\Omega} < 0$ on an incident boundary, $s_b=0$, so
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transport calculation for $f$}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Properties of the anisotropic diffusion method}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Relating the anisotropic intensity equation to
 diffusion}\label{sec:adDiscDiff}
 Let us return to Eq.~\eqref{eq:capPsiVol}. Instead of using the integral

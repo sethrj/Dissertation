@@ -1,6 +1,55 @@
 % !TEX root = _individual/flatland.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Background: Flatland Geometry}
+\chapter{Flatland Geometry}
+
+Flatland geometry is a fictional two-dimensional space where particles are
+constrained to the page \cite{Asa2008}. This differs from standard 2-D
+geometry, which represents a 3-D problem that is invariant in the $z$ axis,
+where particles can travel at different polar angles out of the page. The
+constraint of living in the page reduces the phase space of the transport
+equation, as the flatland solution is only a function of the azimuthal angle
+rather than both azimuthal and polar angles. This reduction in phase space makes 
+flatland geometry a computationally less burdensome testing ground for new
+methods.
+
+Despite being easier computationally to solve, flatland has a few subtle quirks
+that need to be taken into account before implementing a solver in that
+geometry. Previous work in flatland \cite{Asa2008,Lar2009c} has shown that the
+diffusion coefficient for flatland geometry $\frac{1}{2\sigma}$ is different from
+the physical diffusion coefficients $\frac{1}{3\sigma}$, but flatland boundary
+conditions have remained an unanswered and indeed unasked question. This
+chapter answers that question in addition to providing other insights into this
+strange geometry.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transport in flatland}
+
+\subsection{An insightful comparison problem}
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{lll}
+\toprule
+ $\tau$ & Flatland & 2-D
+\\ \midrule
+\phantom{1}0.01 & 0.985 & 0.950 \\
+\phantom{1}0.1 & 0.863 & 0.726 \\
+\phantom{1}1 & 0.274 & 0.148 \\
+10 & $1.63\EE{-5}$ & $3.83\EE{-6}$
+ \\
+\bottomrule
+  \end{tabular}
+  \caption{Comparison of the probability of crossing a channel $\tau$ mfp thick
+  without colliding.}
+  \label{tab:collision}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Diffusion in flatland}
+
+\subsection{Interior diffusion approximation}
+
+\subsection{Boundary conditions}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
