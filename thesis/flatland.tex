@@ -25,13 +25,46 @@ strange geometry.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Transport in flatland}
 
+The differences between flatland and 2D 
+\begin{sidewaystable}[hp]
+  \centering
+  \renewcommand*{\arraystretch}{1.5}
+  \begin{tabular}{rcccccc}
+\toprule
+   Geometry & $\vec{\Omega}$ & Domain $\Omega$ & $\ud\Omega$
+   & $\omega_0 \equiv \int_\Omega \ud\Omega$
+   & $\omega_1 \equiv \int_\Omega \abs{\vec{\Omega}\vd\vec{i}} \ud\Omega$
+   & $\omega_2 \equiv \int_\Omega (\vec{\Omega}\vd\vec{i})^2 \ud\Omega$
+\\ \midrule
+   1D & $\mu$ & $-1 \le \mu \le 1$ & $\ud\mu$
+   & 2 & 1 & $\frac{2}{3}$
+   \\
+   2D & $(\sqrt{1-\mu^2} \cos \gamma, \sqrt{1-\mu^2} \sin \gamma)$
+   & $-1 \le \mu \le 1$, $0 \le \gamma < 2\pi$ & $\ud\mu \ud \gamma$
+   & $4\pi$ & $2\pi$ & $\frac{4\pi}{3}$
+   \\
+   Flatland & $(\cos \theta, \sin \theta)$
+   & $0 \le \theta < 2\pi$ & $\ud \theta$
+   & $2\pi$ & $4$ & $\pi$
+   \\
+   3D & $(\mu, \sqrt{1-\mu^2} \cos \gamma, \sqrt{1-\mu^2} \sin \gamma)$
+   & $-1 \le \mu \le 1$, $0 \le \gamma < 2\pi$ & $\ud\mu \ud \gamma$
+   & $4\pi$ & $2\pi$ & $\frac{4\pi}{3}$
+ \\
+\bottomrule
+  \end{tabular}
+  \caption{Geometry descriptions and identities.}
+  \label{tab:geometry}
+\end{sidewaystable}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{An insightful comparison problem}
 
 \begin{table}[htb]
   \centering
   \begin{tabular}{lll}
 \toprule
- $\tau$ & Flatland & 2-D
+\phantom{10}$\tau$ & Flatland & 2D
 \\ \midrule
 \phantom{1}0.01 & 0.985 & 0.950 \\
 \phantom{1}0.1 & 0.863 & 0.726 \\
@@ -44,11 +77,99 @@ strange geometry.
   without colliding.}
   \label{tab:collision}
 \end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Monte Carlo sampling}
+\cite{Lew1984,Bro2004a}
+Direct sampling 
+probability distribution function (PDF)
+cumulative distribution function (CDF)
+
+\subsubsection{Isotropic volume source}
+An isotropic internal source, whether directly from an extraneous radiation
+source or indirectly from isotropic scattering, has an equal probability of
+entering any angle. The normalized  that
+represents this process is
+\begin{equation*}
+  f(\theta) \ud \theta = \frac{1}{2\pi} \ud \theta\,, \quad \theta \in [0, 2\pi)\,.
+\end{equation*}
+To sample the angle that results from an isotropic event, we use the :
+\begin{equation*}
+  F(\theta) = \int_{0}^{\theta} f(\theta') \ud \theta' = \frac{1}{2\pi}
+  \theta\,.
+\end{equation*}
+Setting $\xi_1 = F(\theta)$ and solving for $\theta = F\inv(\xi_1)$ gives the
+simple result that
+\begin{equation*}
+  \theta = 2\pi \xi_1\,.
+\end{equation*}
+The particle's new angle is therefore
+\begin{equation*}
+  \vec{\Omega} = ( \cos \theta, \sin \theta) = ( \cos 2\pi\xi_1, \sin
+  2\pi\xi_1)\,.
+\end{equation*}
+
+\subsubsection{Isotropic surface source}
+Particles emitted from an isotropic surface source have a cosine distribution
+\cite{Gre2002}, which makes constant the radiation flux in each differential
+angle:
+\begin{equation}\label{eq:surfaceSource}
+  f(\vec{\Omega}) \ud \Omega = c \abs{\vec{\Omega}\vd \vec{n}} \ud \Omega \,,
+\vec{\Omega}\vd \vec{n} < 0 \,,
+\end{equation}
+where $c$ is a normalization constant.
+
+In 3D, with $\vec{n}=\vec{i}$ so $\abs{\vec{\Omega}\vd \vec{n}}=\mu$, this has
+the form
+\begin{equation*}
+  f(\mu, \gamma) \ud\mu \ud\gamma = \frac{\mu \ud\mu}{2} \frac{\ud\gamma}{2\pi}
+  \,,\quad 0 \le \mu < 1\,,\ 0 \le \gamma < 2\pi\,,
+\end{equation*}
+a separable distribution that gives $\mu=\sqrt{\xi_1}$ and $\gamma=2\pi \xi_2$.
+
+For flatland geometry, the representation is different. Let us choose
+$\vec{n} = -\vec{j}$ so that incident directions are inside $\theta \in [0,
+pi)$. Applying the flatland identities in Table~\ref{tab:geometry} to
+Eq.~\eqref{eq:surfaceSource} gives
+\begin{equation*}
+  f(\theta) \ud\theta = c\abs{ -\sin \theta} = c \sin \theta
+  \,,\quad 0 \le \theta < \pi\,.
+\end{equation*}
+Integrating this gives
+\begin{equation*}
+  F(\theta) \ud\theta = c \left( 1-\cos\theta \right)
+  \,,\quad 0 \le \theta < \pi\,,
+\end{equation*}
+The constant $c$ should satisfy $F(\pi)=1$:
+\begin{equation*}
+  1 = c (1 - (-1) ) \lra c=\frac{1}{2}\,.
+\end{equation*}
+
+Thus, the CDF for particle emission from a surface source in flatland geometry
+is
+\begin{equation*}
+  F(\theta) \ud\theta = \frac{1}{2} \left( 1-\cos\theta \right)
+  \,,\quad 0 \le \theta < \pi\,.
+\end{equation*}
+Solving for $\theta = F\inv(\xi_1)$ gives a sampled angle for a surface source
+in flatland:
+\begin{equation*}
+  \theta = \cos\inv(1 - 2\xi_1)\,.
+\end{equation*}
+Using the identity $\cos^2 \theta + \sin^2 \theta = 1$, the particle's new angle is
+\begin{align*}
+  \vec{\Omega} &= ( \cos \theta, \sin \theta) \\
+  &= ( \cos[ \cos\inv(1 - 2\xi_1) ], \sin[ \cos\inv(1 - 2\xi_1) ] ) \\
+  &= (1 - 2\xi_1, \sqrt{1 - (1 - 2\xi_1)^2} )\,.
+\end{align*}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diffusion in flatland}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Interior diffusion approximation}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Boundary conditions}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
