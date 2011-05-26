@@ -658,7 +658,7 @@ The exciting part of this representation is in the interpretation of
 \end{equation*}
 Converting this from an integral transport representation back to a differential
 transport equation, we see that $f$ is the solution of a purely absorbing
-transport equation:
+transport equation with a uniform, isotropic source:
 \begin{subequations} \label{eqs:fFull}
   \begin{equation} \label{eq:fFullVol}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
@@ -671,7 +671,7 @@ transport equation:
   f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x}, \vec{\Omega}) \,,
  \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
-  and reflecting boundary conditions where $I$ is reflecting,
+  and with reflecting boundary conditions where $I$ is reflecting,
 \begin{equation} \label{eq:fFullBndy}
   f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
  \quad \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0\,.
@@ -729,7 +729,43 @@ condition $\zeta$ used in the transport calculation.
 \subsection{Incident boundary conditions}
 In this section, a standard boundary layer analysis uses
 equations~\eqref{eqs:blCapPsi} to determine a boundary condition for specified
-incident boundaries for the low-order equations AD method. 
+incident boundaries for the low-order equations AD method.
+{\small [citation needed]}
+
+A boundary layer analysis 
+{\small [citation needed]}
+shows that the transport boundary layer, the solution of
+Eqs.~\eqref{eqs:blCapPsi}, decays most rapidly if the solution of the
+approximate method satisfies the boundary condition
+\begin{equation} \label{eq:bcW}
+  0 = \int_{\vec{\Omega} \vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  \Psi_\mathrm{bl} (\vec{x}, \vec{\Omega}, t) \ud \Omega\,,\qquad \vec{x} \in
+  \partial V_b\,.
+\end{equation}
+Here, $W$ is related to Chandrasekhar's $H$-function \cite{Cha1960}:
+\begin{equation} \label{eq:chandraW}
+  W(\mu) = \frac{\sqrt{3}}{2} \mu H(\mu)
+  \approx \mu + \tfrac{3}{2} \mu^2
+\end{equation}
+To recover the Marshak boundary condition, we could use $W(\mu) \approx 2 \mu$.
+
+Substituting Eq.~\eqref{eq:blCapPsiBndy} into Eq.~\eqref{eq:bcW} gives the
+low-order boundary condition for anisotropic diffusion:
+\begin{equation} \label{eq:bcInc1}
+  2\int_{\vec{\Omega}\vd \vec{n} < 0}
+  W(\abs{\vec{\Omega} \vd \vec{n}}) I^b(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  = \phi(\vec{x}, t)
+  - 2\int_{\vec{\Omega}\vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  \zeta(\vec{x}, \vec{\Omega}) \vec{\Omega} \ud\Omega
+  \vd \grad \phi(\vec{x}, t) \,.
+\end{equation}
+
+\subsubsection{Determining $\zeta$}
+The unknown function $\zeta(\vec{x}, \vec{\Omega})$ that lives on the boundary
+is a degree of freedom introduced at the beginning of the anisotropic
+diffusion analysis. It allowed us to treat a specified boundary condition 
+
+\horizsep
 
 An important property of $\lopinv{b}{\cdot}$ is that, for
 $\vec{n}\vd\vec{\Omega} < 0$ on an incident boundary, $s_b=0$, so

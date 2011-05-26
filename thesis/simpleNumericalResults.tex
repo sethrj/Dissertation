@@ -10,17 +10,43 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Boundary conditions}
 
-As a test problem, let's look at an optically thick problem with a specified
-incident boundary on the left, and a reflecting boundary many mean free paths to
-the right. It has a total opacity $\sigma$, a scattering opacity $c\sigma$, and
-a uniform source $q$. Because the problem is optically thick (approximately
-semi-infinite), $f$ will have the infinite homogeneous medium value of
-$1/2\sigma$ for $-1 < \mu < 0$.
+Angular distributions
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{ccc}
+\toprule
+    Distribution & 1-D & Flatland
+\\ \midrule
+Isotropic & $I(\mu) = \frac{1}{2}$ & $I(\theta) = \frac{\pi}{2}$
+\\
+Normal & $I(\mu) = \delta(\mu-1)$ & $I(\theta) = \delta(\theta-\pi/2)$
+\\
+Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\theta) = \delta(\theta-0.1)$
+\\ \bottomrule
+  \end{tabular}
+  \caption{Angular distributions used in boundary condition tests.}
+  \label{tab:angularDistributions}
+\end{table}
+
+These are the same angular distributions used in a boundary matching analysis
+in \cite{Dav2006}.
+
+\horizsep
+
+As a test problem, let's look at an optically thick one-dimensional problem
+with a specified incident boundary source on the left, and a reflecting
+boundary many mean free paths to the right. It has a total opacity $\sigma$, a
+scattering opacity $c\sigma$, and a uniform source $q$. Because the problem is
+optically thick (approximately semi-infinite), $f$ will have the infinite
+homogeneous medium value of $1/2\sigma$ for $-1 < \mu < 0$.
 
 For the ``exact'' solution, we use S$_{32}$ with the step characteristic
 discretization. A cell-centered diffusion approximation is used for
 the low-order solution. The ``anisotropic diffusion'' coefficients are
 calculated using step characteristic transport.
+
+\horizsep
 
 Instead of applying the true albedo-white boundary condition to the
 left hand side, we could use an incident isotropic source matched to the
