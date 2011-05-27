@@ -407,6 +407,12 @@ particle source:
   \end{split}
 \end{align}
 
+%A useful property of $\lopinv{b}{\cdot}$ is that, for
+%$\vec{n}\vd\vec{\Omega} < 0$ on an incident boundary, $s_b=0$, so
+%\begin{equation}\label{eq:bndyIdentity}
+%  \lopinv{b}{\zeta} = \zeta \eexp^0 = \zeta(\vec{x}, t)\,.
+%\end{equation}
+
 No approximations or assumptions at all have been made yet. As a
 result, the inverse equation~\eqref{eq:inverseTransportFull} still contains
 the unknowns $\phi$, and $\vec{F}$ (as well as the exiting anisotropic flux on
@@ -589,43 +595,44 @@ boundary yields
   \vd \grad \phi(\vec{x} - s_b\vec{\Omega}, t - s_b/c) \right]
   \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
   U(ct - s_b) \,.
-\\ \intertext{ Just like in the incident boundary situation, we apply the Taylor
-series expansion from Eq.~\eqref{eq:taylorPhi} to $\phi$ but not to $f$:}
+\\ 
+\intertext{First, we expand $\vec{\Omega}_r$ using Eq.~\eqref{eq:reflection}.
+}
+\lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
+  &= - \lopinv{b}{f(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r)
+\left(  \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n} \right)
+  \vd \grad \phi(\vec{x} - s_b\vec{\Omega}, t - s_b/c) }
+  \\
+  &= -\lopinv{b}{f \vec{\Omega} \vd \grad \phi}
+  + \lopinv{b}{2(\vec{\Omega} \vd \vec{n}) \vec{n} \vd \grad \phi } \,.
+\\ 
+\intertext{On a reflecting boundary, the exact intensity satisfies $\vec{n} \vd
+\grad I = 0$, which also means $\vec{n} \vd \grad \phi=0$. Thus, the second
+term is zero.
+}
+\lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
+&= -\lopinv{b}{f \vec{\Omega} \vd \grad \phi} \,.
+\\ \intertext{ Now, just like in the incident boundary situation, we apply the
+Taylor
+series expansion from Eq.~\eqref{eq:taylorPhi} to $\phi$ but not to $f$:
+}
 \lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
 &\approx
--\left[f(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r) \vec{\Omega}_r 
+-\left[f(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r)
   \right]
   \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
-  U(ct - s_b) \vec{\Omega}_r \vd \grad \phi(\vec{x}, t) 
-\\
-&=
-- \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}
-\vec{\Omega}_r \vd \grad \phi(\vec{x}, t)
-\\
-&=
-- \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}
-\left( \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\right)
-\vd \grad \phi(\vec{x}, t)
-\\
-&=
-- \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}\vec{\Omega}\vd \grad
-\phi(\vec{x}, t)
-\\
-&\qquad+ 2(\vec{\Omega} \vd \vec{n})\lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}
-\vec{n} \vd \grad \phi(\vec{x}, t) \,.
+  U(ct - s_b) \vec{\Omega} \vd \grad \phi(\vec{x}, t)\,,
 \end{align*}
-Equation~\eqref{eq:reflection} has been substituted and expanded to more
-explicitly express $\vec{\Omega}_r$.
-
-On a reflecting boundary, the exact intensity satisfies
-$\vec{n} \vd \grad I = 0$.
-This also implies $\vec{n} \vd \grad \phi=0$, which is a tremendously
-convenient identity that simplifies the reflecting boundary approximation to
+or, in the more simplified form,
 \begin{equation} \label{eq:reflApprox}
 \lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
-\approx
-- \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}\vec{\Omega}\vd \grad \phi(\vec{x}, t)\,.
+\approx  
+- \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}
+\vec{\Omega} \vd \grad \phi(\vec{x}, t) \,.
 \end{equation}
+
+This has the same form as the other approximations to the term. This is crucial
+to forming the anisotropic diffusion approximation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Completed approximation to the anisotropic intensity}
@@ -672,7 +679,7 @@ transport equation with a uniform, isotropic source:
  \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
   and with reflecting boundary conditions where $I$ is reflecting,
-\begin{equation} \label{eq:fFullBndy}
+\begin{equation} \label{eq:fFullRefl}
   f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
  \quad \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
@@ -699,11 +706,11 @@ Eq.~\eqref{eq:approxPsi3}:
   &= \int_{4\pi} \vec{\Omega} \tilde \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
   \\ \nonumber
   &= 
-  - \left[ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x}, \vec{\Omega}, t)
+  - \left[ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x}, \vec{\Omega})
   \ud\Omega \right]
   \vd \grad \phi(\vec{x},t)
   \\ \label{eq:anisotropicFicks}
-  &= - \Dtens(\vec{x}, t) \vd \grad \phi(\vec{x},t) \,.
+  &= - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
 \end{align}
 This resembles ``Fick's law,'' but instead of a scalar diffusion coefficient,
 the anisotropic diffusion method has a diffusion \emph{tensor}, $\Dtens$, the
@@ -763,15 +770,192 @@ low-order boundary condition for anisotropic diffusion:
 \subsubsection{Determining $\zeta$}
 The unknown function $\zeta(\vec{x}, \vec{\Omega})$ that lives on the boundary
 is a degree of freedom introduced at the beginning of the anisotropic
-diffusion analysis. It allowed us to treat a specified boundary condition 
+diffusion analysis. It allowed us to formulate a specified boundary condition
+such that the effect of $\zeta$ could be embedded in the anisotropic diffusion
+tensor $\Dtens$.
 
-\horizsep
+To make use of this degree of freedom, we decide to enforce on the boundary the
+truth from Eq.~\eqref{eq:capPsiZeroth},
+\begin{equation*}
+  \int_{4\pi} \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  = 0 \,.
+\end{equation*}
+Note that our approximate $\tilde\Psi$ defined in Eq.~\eqref{eq:approxPsi3}
+does not generally satisfy this identity:
+\begin{align*}
+  0
+&\qeq \int_{4\pi} \tilde\Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
+\\
+&\qeq \int_{4\pi} f(\vec{x}, \vec{\Omega}) \vec{\Omega}
+\vd \grad \phi(\vec{x}, t)
+\ud\Omega
+\\
+&\qeq \int_{4\pi} \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega
+\vd \grad \phi(\vec{x}, t) \,.
+\end{align*}
+This identity holds if $f$ is an even function of $\vec{\Omega}$.
+%\footnote{The identity $\int_{4\pi} \vec{\Omega} f\ud\Omega \vd \grad \phi=0$
+%is also true if $\grad \phi=0$, or if the first angular moment of $f$ is
+%orthogonal to $\grad \phi$.} 
+One such situation is many mean free paths away from internal material
+boundaries, where $f$ is effectively a constant and therefore even.
 
-An important property of $\lopinv{b}{\cdot}$ is that, for
-$\vec{n}\vd\vec{\Omega} < 0$ on an incident boundary, $s_b=0$, so
-\begin{equation}\label{eq:bndyIdentity}
-  \lopinv{b}{\zeta} = \zeta \eexp^0 = \zeta(\vec{x}, t)\,.
+On exterior source boundaries, because $\zeta$ is defined for incident
+directions and $f$ is known for exiting directions, we can choose $\zeta$ such
+that $f$ on the boundary is even under certain conditions.
+
+Returning to the description of $f$ on an incident boundary in
+Eq.~\eqref{eq:fFullBndy}, we can say that
+\begin{align*}
+  \int_{4\pi} \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega
+  &= \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  + \int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega\,.
+\end{align*}
+Now we set the left hand side to zero, demanding that
+Eq.~\eqref{eq:capPsiZeroth} be satisfied:
+\begin{align} \nonumber
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  &= -\int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega \,.
+  \\ 
+  \intertext{Making the substitution $\vec{\Omega}\to -\vec{\Omega}$ on the
+  right hand side yields}
+  \label{eq:zetaCondition}
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  &= \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} f(\vec{x}, -\vec{\Omega})\ud\Omega \,.
+\end{align}
+
+If $f(\vec{\Omega})$ is azimuthally symmetric about $\vec{n}$, then $f$ is only
+a function of the cosine angle between $\vec{\Omega}$ and $\vec{n}$:
+\begin{equation*}
+f(\vec{\Omega}) = \hat f( \vec{\Omega} \vd \vec{n})\,.
+\end{equation*}
+Now recall the definition of a reflecting boundary from
+Eq.~\eqref{eq:reflection},
+\begin{equation*}
+  \vec{\Omega}_r = \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\,.
+\end{equation*}
+Dotting the reflected vector with the normal vector $\vec{n}$,
+\begin{equation*}
+  \vec{\Omega}_r \vd \vec{n}
+  = \vec{\Omega} \vd \vec{n} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\vd \vec{n}
+  = - \vec{\Omega} \vd \vec{n}\,.
+\end{equation*}
+Thus,
+\begin{equation*}
+  \hat f( \vec{\Omega}_r \vd \vec{n}) = \hat f( -\vec{\Omega} \vd \vec{n})
+\end{equation*}
+and
+\begin{equation}\label{eq:aziSymResult}
+  f( \vec{\Omega}_r) = f( -\vec{\Omega} )\,.
 \end{equation}
+
+Therefore, if $f$ is azimuthally symmetric for outgoing directions on the
+boundary, Eq.~\eqref{eq:zetaCondition} can be written
+\begin{equation*}
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  = \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega}_r)\ud\Omega \,,
+\end{equation*}
+which is satisfied by
+\begin{equation} \label{eq:zeta}
+  \zeta(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
+ \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0 \,.
+\end{equation}
+Now the boundary condition for $f$ in Eq.~\eqref{eq:fFullBndy} becomes
+\begin{equation} \label{eq:fFullBndy2}
+  f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
+ \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
+This says that under the approximations, assumptions, and restrictions we made,
+the transport equation for $f$ has reflecting boundaries everywhere, even
+where the physical problem does \emph{not} have reflecting boundaries.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Low-order boundary conditions}
+With a definition for $\zeta$ in hand, we return to Eq.~\eqref{eq:bcInc1} and
+substitute Eq.~\eqref{eq:zeta}:
+\begin{equation*}
+  2\int_{\vec{\Omega}\vd \vec{n} < 0}
+  W(\abs{\vec{\Omega} \vd \vec{n}}) I^b(\vec{\Omega}) \ud\Omega
+  = \phi
+  - 2\int_{\vec{\Omega}\vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  \vec{\Omega} f(\vec{\Omega}_r) \ud\Omega
+  \vd \grad \phi \,.
+\end{equation*}
+(The space and time parameters have been omitted for brevity.)
+We modify the right hand side slightly by making the substitution
+$\vec{\Omega}\to-\vec{\Omega}$:
+\begin{align*}
+  - 2\int_{\vec{\Omega}\vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  \vec{\Omega} f(\vec{\Omega}_r) \ud\Omega
+  &= 
+  - 2\int_{\vec{\Omega}\vd \vec{n} > 0} W(\abs{-\vec{\Omega} \vd \vec{n}})
+  ( - \vec{\Omega}) f(-\vec{\Omega}_r) \ud\Omega
+  \\
+  &= 
+  2\int_{\vec{\Omega}\vd \vec{n} > 0} W(\vec{\Omega} \vd \vec{n})
+  \vec{\Omega} f(-\vec{\Omega}_r) \ud\Omega
+  \\ 
+  \intertext{and using the boundary condition on $f$ from
+  Eq.~\eqref{eq:fFullBndy2} in conjunction with Eq.~\eqref{eq:aziSymResult},
+  which gives $f(\vec{\Omega}_r) = f(-\vec{\Omega})$:}
+  &= 
+  2\int_{\vec{\Omega}\vd \vec{n} > 0} W(\vec{\Omega} \vd \vec{n})
+  \vec{\Omega} f(\vec{\Omega}) \ud\Omega \,.
+\end{align*}
+The low-order, transport-consistent boundary condition for an incident source
+is therefore
+\begin{equation}\label{eq:loBndy}
+  2\int_{\vec{\Omega}\vd \vec{n} < 0}
+  W(\abs{\vec{\Omega} \vd \vec{n}}) I^b(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  = \phi(\vec{x}, t)
+  + 2\int_{\vec{\Omega}\vd \vec{n} > 0} W(\vec{\Omega} \vd \vec{n})
+  \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega
+  \vd \grad \phi(\vec{x}, t) \,.
+\end{equation}
+
+This form has a particular advantage if we use the Marshak-like approximation
+that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBndy} becomes
+\begin{align}\nonumber
+  2\int_{\vec{\Omega}\vd \vec{n} < 0}
+  [2\abs{\vec{\Omega} \vd \vec{n}}] I^b(\vec{\Omega}) \ud\Omega
+  &= \phi
+  + 2\int_{\vec{\Omega}\vd \vec{n} > 0} [2\vec{\Omega} \vd \vec{n}]
+  \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \grad \phi
+  \\ \nonumber
+  4 \vec{F}^-
+  &= \phi
+  + 4 \vec{n} \vd \left[ \int_{\vec{\Omega}\vd \vec{n} > 0} \vec{\Omega}
+  \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \grad \phi \,.
+  \\ 
+  \intertext{We chose the boundary condition on $f$ to ensure that it is an
+  even function of $\vec{\Omega}$ on the boundary. Therefore, the integrand on
+  the right hand side is also an even function of $\vec{\Omega}$, so}
+  \nonumber
+  4 \vec{F}^-
+  &= \phi
+  + 4 \vec{n} \vd  \left[ \frac{1}{2} \int_{4\pi}
+  \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \grad \phi \,.
+  \\ 
+  \intertext{The integral on the right hand side is the same as in
+  Eq.~\eqref{eq:anisotropicFicks}, which defined the anisotropic diffusion
+  tensor. Our Marshak-like boundary approximation is}
+  \label{eq:marshakAd}
+  4 \vec{F}^-(\vec{x}, t)
+  &= \phi(\vec{x}, t)
+  + 2 \vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
+\end{align}
+This is entirely analogous to the standard diffusion Marshak boundary condition,
+\begin{equation*}
+  4 \vec{F}^- = \phi + 2 \vec{n} \vd D \grad \phi\,.
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reflecting boundary conditions}
@@ -795,7 +979,7 @@ transport equation and the rest, let us choose to approximate
   \vec{F}(\vec{x}, t)\,,
 \end{equation*}
 which corresponds to the \Pone\ approximation $I= \frac{1}{4\pi} (\phi +
-3\vec{\Omega} \vd \vec{F}$. It also satisfies the identities given in
+3\vec{\Omega} \vd \vec{F})$. It also satisfies the identities given in
 Eqs.~\eqref{eqs:capPsiIdentities}.
 
 For the interior, Eq.~\eqref{eq:capPsiVol} gives

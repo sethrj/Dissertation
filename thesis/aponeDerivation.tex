@@ -1,7 +1,28 @@
 % !TEX root = _individual/aponeDerivation.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Approximating the initial condition term}\label{sec:derIc}
+\chapter{Advanced time-dependent anisotropic theory}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Flux-limited anisotropic diffusion}
+
+reference to FLD chapter
+
+\begin{equation*}
+  \vec{F}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} \times 
+  \max\left( 1, \norm{\Dtens^{n}\vd \frac{\del \phi^{n}}{\phi^{n}}}
+  \right)\inv
+\end{equation*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anisotropic \Pone}
+The anisotropic diffusion approximation effectively makes the same quasi-static
+approximation as diffusion by making the ansatz
+$\frac1c\pder{}{t}=O(\epsilon^2)$. If we instead assume that
+$\frac1c\pder{}{t}=O(\epsilon)$, a `
+
+\subsection{Approximating the initial condition term}\label{sec:derPoneIc}
 The term accounting for the initial condition in
 Eq.~\eqref{eq:approxIntensity1} is (see Eqs.~\eqref{eqs:inverseTransport}):
 \begin{align*}
