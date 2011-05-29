@@ -1076,11 +1076,11 @@ where, for example, $i=x$ corresponds $\Omega^x =
 From Eq.~\eqref{eq:dij}, $\Dtens$ is clearly symmetric: $D^{ij}=D^{ji}$. Yet
 $\Dtens$ is also symmetric positive definite (SPD), satisfying
 \begin{equation*}
-  \vec{a}\conj \Dtens \vec{a} > 0
+  \vec{a} \vd \Dtens \vd \vec{a} > 0
 \end{equation*}
 for all non-zero, real vectors $\vec{a}$ \cite{Tre1997}. To show this, we write 
 \begin{align*}
-  \vec{a}\conj \Dtens \vec{a} &=
+  \vec{a} \vd \Dtens \vd \vec{a} &=
   \vec{a} \vd \left[\int_{4\pi} \vec{\Omega} \vec{\Omega}
   f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vd \vec{a}
   \\
@@ -1099,45 +1099,46 @@ $\vec{a}$, this integral will always be positive. Therefore, $\Dtens$ is SPD.
 
 \subsubsection{Eigenvectors}
 As stated in \S\ref{sec:determiningZeta}, if $f(\vec{\Omega})$ is azimuthally
-symmetric about $\vec{n}$, then $f$ is only a function of the cosine angle
-between $\vec{\Omega}$ and $\vec{n}$:
+symmetric about some unit vector $\vec{a}$, then $f$ is only a function of the
+cosine angle
+between $\vec{\Omega}$ and $\vec{a}$:
 \begin{equation*}
-f(\vec{\Omega}) = \hat f( \vec{\Omega} \vd \vec{n})\,.
+f(\vec{\Omega}) = \hat f( \vec{\Omega} \vd \vec{a})\,.
 \end{equation*}
 
-If $\vec{n}$ is an eigenvector of $\Dtens$, then
+If $\vec{a}$ is an eigenvector of $\Dtens$, then
 \begin{equation*}
-  \Dtens \vd \vec{n} = \lambda \vec{n}\,,
+  \Dtens \vd \vec{a} = \lambda \vec{a}\,,
 \end{equation*}
 where $\lambda$ is a constant. Dotting Eq.~\eqref{eq:dDefinition} with
-$\vec{n}$ and omitting the $\vec{x}$ parameter for brevity, we find
+$\vec{a}$ and omitting the $\vec{x}$ parameter for brevity, we find
 \begin{align*}
-  \Dtens \vd \vec{n}
-  &= \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \vec{n}
+  \Dtens \vd \vec{a}
+  &= \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \vec{a}
   \\
-  &= \int_{4\pi} (\vec{\Omega} \vd \vec{n}) \vec{\Omega} f(\vec{\Omega}) \ud\Omega
+  &= \int_{4\pi} (\vec{\Omega} \vd \vec{a}) \vec{\Omega} f(\vec{\Omega}) \ud\Omega
   \,.
   \\ 
-  \intertext{If $f$ is azimuthal about $\vec{n}$, then}
-  \Dtens \vd \vec{n}
-  &= \int_{4\pi} (\vec{\Omega} \vd \vec{n}) \vec{\Omega}
-    \hat f(\vec{\Omega} \vd \vec{n}) \ud\Omega \,.
+  \intertext{If $f$ is azimuthal about $\vec{a}$, then}
+  \Dtens \vd \vec{a}
+  &= \int_{4\pi} (\vec{\Omega} \vd \vec{a}) \vec{\Omega}
+    \hat f(\vec{\Omega} \vd \vec{a}) \ud\Omega \,.
   \\ 
-  \intertext{We change the angular coordinates so that $\vec{i}=\vec{n}$, which
-  implies $\vec{\Omega} \vd \vec{n}=\mu$:}
-  \Dtens \vd \vec{n}
+  \intertext{We change the angular coordinates so that $\vec{i}=\vec{a}$, which
+  means $\vec{\Omega} \vd \vec{a}=\mu$:}
+  \Dtens \vd \vec{a}
   &= \int_{0}^{2\pi} \int_{-1}^{1} (\mu)
-  \left( \mu \vec{n} + \sqrt{1-\mu^2} \cos \theta \vec{u} + \sqrt{1-\mu^2} \sin
+  \left( \mu \vec{a} + \sqrt{1-\mu^2} \cos \theta \vec{u} + \sqrt{1-\mu^2} \sin
   \theta \vec{v} \right) \hat f(\mu) \ud\mu \ud\theta \,.
 \\ 
 \intertext{Because $\hat f$ is not a function of $\theta$, the integrand is an
 odd function of $\theta$, so the $\vec{u}$ and $\vec{v}$ components are zero.}
-  \Dtens \vd \vec{n}
-  &= 2\pi \int_{-1}^{1} \mu^2 \hat f(\mu) \ud\mu \vec{n}
+  \Dtens \vd \vec{a}
+  &= 2\pi \int_{-1}^{1} \mu^2 \hat f(\mu) \ud\mu \vec{a}
   \\
-  &= \lambda \vec{n} \,.
+  &= \lambda \vec{a} \,.
 \end{align*}
-Thus, if $f$ is azimuthally symmetric about $\vec{n}$, $\vec{n}$ is an
+Thus, if $f$ is azimuthally symmetric about $\vec{a}$, $\vec{a}$ is an
 eigenvector of $\Dtens$.
 %This will prove a straightforward means of testing the
 %assumption in \S\ref{sec:derBc} that, for both kinds of boundary conditions, $f$
@@ -1153,6 +1154,9 @@ conditions are therefore as simple to implement as those in standard diffusion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Properties of the anisotropic diffusion method}
+
+The previous section showed that $\Dtens$ is SPD. Therefore, many reasonable
+discretizations of the anisotropic diffusion 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Asymptotic ansatz}
@@ -1173,7 +1177,7 @@ like the ansatz supposes.
 Furthermore, as noted in the previous section, the diffusion tensor is
 continuous in space, and the solution for $\phi$ therefore has a smooth first
 derivative. This is compatible with the smoothness assumption that $\grad \phi$
-is $O(\epsilon)$
+is $O(\epsilon)$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Relating the anisotropic intensity equation to
