@@ -90,16 +90,58 @@ length of the distance projected onto the plane. The line actually
   \label{fig:chordFlatland}
 \end{figure}
 
+\begin{figure}[htb]
+  \centering
+  \includegraphics{chord-rz}
+  \caption[A cross-section of the chord length problem in $r$--$z$
+  geometry.]%
+  {A cross-section of the chord length problem in $r$--$z$
+  geometry. The orthogonal view looks like Fig.~\ref{fig:chordFlatland}.}
+  \label{fig:chordRz}
+\end{figure}
+
+Flatland probability of reaching other side:
+\begin{equation*}
+  p(\tau) = \frac{\int_{0}^{\pi} \eexp^{-\tau / \sin \theta} \sin \theta \ud
+  \theta}{\int_{0}^{\pi} \sin \theta \ud \theta}
+  = \frac{1}{2} \int_{0}^{\pi} \eexp^{-\tau / \sin \theta} \sin \theta \ud
+  \theta
+\end{equation*}
+
+2-D probability of reaching other side:
+\begin{equation*}
+  p(\tau) = \frac{\int_{0}^{\pi} \int_{-1}^{1} \eexp^{-\tau / \left(
+  \sqrt{1-\mu^2} \sin\theta \right)}
+  \sqrt{1-\mu^2} \sin\theta \ud\mu \ud \theta}
+  {\int_{0}^{\pi} \int_{-1}^{1} \sqrt{1-\mu^2} \sin\theta \ud\mu \ud\theta}
+  = \frac{\int_{0}^{2\pi} \int_{0}^{1} \eexp^{-\tau / \mu} \mu
+  \ud\mu \ud\theta }
+  {\int_{0}^{2\pi} \int_{0}^{1} \mu \ud\mu \ud\theta}
+  = 2 \int_{0}^{1} \eexp^{-\tau / \mu} \mu
+  \ud\mu
+\end{equation*}
+
+Cylindrical probability of reaching other side:
+\begin{equation*}
+  p(\tau) = \frac{\int_{0}^{\pi} \int_{-1}^{1} \eexp^{-\tau \sin \theta / 
+  \sqrt{1-\mu^2}}
+  \sqrt{1-\mu^2} \sin\theta \ud\mu \ud \theta}
+  {\int_{0}^{\pi} \int_{-1}^{1} \sqrt{1-\mu^2} \sin\theta \ud\mu \ud\theta}
+  = \frac{1}{\pi} \int_{0}^{\pi} \int_{-1}^{1} \eexp^{-\tau \sin \theta / 
+  \sqrt{1-\mu^2}}
+  \sqrt{1-\mu^2} \sin\theta \ud\mu \ud \theta
+\end{equation*}
+
 \begin{table}[htb]
   \centering
-  \begin{tabular}{lll}
+  \begin{tabular}{llll}
 \toprule
-\phantom{10}$\tau$ & Flatland & 2D
+\phantom{10}$\tau$ & $r$--$z$ & Flatland & $x$--$y$
 \\ \midrule
-\phantom{1}0.01 & 0.985 & 0.950 \\
-\phantom{1}0.1 & 0.863 & 0.726 \\
-\phantom{1}1 & 0.274 & 0.148 \\
-10 & $1.63\EE{-5}$ & $3.83\EE{-6}$
+           0.01 & 0.990 & 0.985 & 0.981 \\
+\phantom{1}0.1 & 0.906 & 0.863 & 0.833 \\
+\phantom{1}1 & 0.404 & 0.274 & 0.219 \\
+\phantom{1}10 & 0.00772 & 1.63\EE{-5} & 7.10\EE{-6}
  \\
 \bottomrule
   \end{tabular}
