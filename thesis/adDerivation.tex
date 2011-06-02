@@ -207,11 +207,7 @@ Eq.~\eqref{eq:fullTransportBndy}:
   I(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
   &= I(\vec{x}, \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}, t)
    - \frac{1}{4\pi} \phi(\vec{x}, t)\,.
-  \\ 
-  \intertext{Substituting Eq.~\eqref{eq:capPsi} into the left hand side and the
-  boundary condition Eq.~\eqref{eq:fullTransportBndy} into the right hand side,
-  we get a boundary condition on $\Psi$:
-  } \label{eq:capPsiRefl}
+  \\ \label{eq:capPsiRefl}
  \Psi(\vec{x}, \vec{\Omega}, t) 
   &= \Psi(\vec{x}, \vec{\Omega}_r, t)
 \end{align}
@@ -247,6 +243,12 @@ analogous to Fick's law.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion}
+The anisotropic diffusion approximation is derived by manipulating the
+anisotropic transport equation and assuming that the gradients and anisotropy
+of the unknown intensity are small. Some care must be taken in deriving
+a suitable boundary condition, because we desire a simple expression for
+$\vec{F}$ that only depends on the low-order unknown $\phi$ and some separable
+function of space and angle.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Modification for boundary condition treatment}
@@ -1053,9 +1055,62 @@ and
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transport calculation for $f$}
+
+The anisotropic diffusion tensors are calculated from the solution $f$ of a
+transport problem:
+\begin{equation*}
+    \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
+    + \sigma^\ast f (\vec{x}, \vec{\Omega})
+  = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
+\end{equation*}
+and
+\begin{equation*}
+  f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation*}
+
+This is a purely absorbing transport problem with a unit isotropic source,
+reflecting boundary conditions, and the same opacities as the physical problem
+being simulated. It is steady-state, although it needs to be recalculated at
+every time step as $\sigma^*$ changes.\footnote{The problem for $f$ would also
+have to be recalculated at every iteration on the nonlinearities if the user
+wishes to converge $\sigma^* \to \sigma^{n+1}$.}
+
+Because it is purely absorbing, if the boundaries are many mean free paths
+apart, the calculation of $f$ will only take one transport sweep to solve if
+the \SN\ method is used. There is no scattering source to converge.
+There is, however, a caveat because of the opposing reflecting boundaries. If
+two boundaries on opposite sides of the problem are separated by only a
+fraction of a mean free path (e.g., a voided channel), and a very fine angular
+quadrature set is used (one with ordinates that are nearly perpendicular to the
+boundary), then $f$ will take many iterations to converge.
+However, because only the second angular moment of $f$ is needed, an
+unconverged solution inside a small angular range will not affect the
+anisotropic diffusion tensor very much.
+
+Another desirable property of $f$ is that, because it is a steady-state
+solution, and because only the second moment
+$D_{ij}=\int_{4\pi} \Omega_i \Omega_j f \ud\Omega$ needs to be calculated, the
+full angle-dependent solution does not need to be stored! This is a tremendous
+advantage: time-dependent transport typically requires the storage of the full
+angular intensity, so computer memory is often a limiting factor in
+computational time-dependent transport.
+
+If $\sigma^*$ is a constant throughout the problem, then the solution is
+$f=1/4\pi\sigma$. Taking the second moment of $f$ then yields
+\begin{equation*}
+  \Dtens = \frac{1}{4\pi\sigma} \int_{4\pi} \vec{\Omega} \vec{\Omega} \ud \Omega
+  = \frac{1}{3\sigma} \Identitytens\,.
+\end{equation*}
+Substituting this into the anisotropic Fick's law,
+Eq.~\eqref{eq:anisotropicFicks}, we recover the standard Fick's law:
+\begin{equation*}
+  \vec{F} = - \frac{1}{3\sigma} \grad \phi\,.
+\end{equation*}
+In other words, for a homogeneous medium, the anisotropic diffusion method
+reduces to the standard diffusion method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Properties of the anisotropic diffusion tensor}
