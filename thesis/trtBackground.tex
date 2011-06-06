@@ -37,7 +37,7 @@ transfer equations \cite{Lar1983a} and is therefore the best choice for a
 method that resembles diffusion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{TRT equations}
+\section{TRT equations}\label{sec:trtEquations}
 After the simplifications, the thermal radiative transfer process can be
 described by
 \begin{subequations} \label{eqs:fullGrayTRT}
@@ -104,6 +104,10 @@ volume needed to change the material's temperature.
 %Here, $N$ is the photon density, $h\nu$ is the energy of a single photon, and
 %$E$ is the radiation energy density.
 
+The scalar
+intensity is the energy density of the radiation scaled by the speed of light:
+$\phi=cE$, so integrating $\phi$ over a volume at time $t$ and dividing by $c$
+gives the amount of energy in the radiation field in that volume.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Radiation transport approximations}\label{sec:trtApproxMethods}
 

@@ -8,6 +8,7 @@ Our new method is simply the best ever! Please let me graduate.
 
 \section{Future work}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Improved discontinuity treatment}
 In the derivation of the AD method, we made the ansatz that
 $\vec{F}=O(\epsilon)$. If we instead supposed that $\vec{F}=O(1)$, the same
 Taylor expansion would yield an extra term:
@@ -27,4 +28,32 @@ Away from material discontinuities, the term in brackets would be
 exponentially small (since $f$ would be an even function of $\vec{\Omega}$).
 Near a change in material, however, this might yield a better solution that has
 a ``kink'' (discontinuous first derivative) like the transport solution.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Higher-order anisotropic P$_N$ methods}
+The conceptualization of an anisotropic transport equation opens the door to
+any number of potential approximations to radiation transport.
+
+For example, instead of defining the anisotropic intensity as $I -
+\frac{1}{4\pi}\phi$, we could also subtract off the linearly anisotropic
+component:
+\begin{equation*}
+  \Psi' \equiv I - \frac{1}{4\pi}\phi - \frac{3}{4\pi} \vec{\Omega} \vd
+  \vec{F}\,.
+\end{equation*}
+We could then perform a similar analysis that in chapter~\ref{chap:adDerivation}
+and get an approximate form for the second moment of the intensity,
+\begin{equation*}
+  \int_{4\pi} \vec{\Omega}\vec{\Omega} I \ud \Omega
+  = \int_{4\pi} \vec{\Omega}\vec{\Omega} \Psi' \ud \Omega \,.
+\end{equation*}
+This would be substituted into the first moment of the transport equation,
+\begin{equation*}
+  \frac{1}{c}\pder{\vec{F}}{t}
+  + \vec{\Omega} \vd \int_{4\pi} \vec{\Omega}\vec{\Omega} I \ud \Omega
+  + \sigma \vec{F}
+  = 0 \,.
+\end{equation*}
+It would almost certainly involve higher-order gradients of $\phi$ and $\vec{F}$
+as well as more complex tensors.
 

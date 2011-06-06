@@ -29,6 +29,13 @@ strange geometry.
 Two-dimensional $x$-$y$ geometry represents a three-dimensional problem that is
 invariant in the $z$ direction. 
 
+The general-geometry steady-state transport equation with isotropic scattering
+and an isotropic source is
+\begin{equation}\label{eq:generalTransport}
+  \vec{\Omega}\vd \grad I + \sigma I
+  = \frac{\sigma_s}{\omega_0} \int_{\Omega} I \ud\Omega + \frac{q}{\omega_0} \,.
+\end{equation}
+
 \begin{sidewaystable}[hp]
   \centering
   \renewcommand*{\arraystretch}{1.5}
@@ -359,6 +366,18 @@ intensity:
   - \frac{1}{\sigma(\vec{x})}
   \vec{\Omega} \vd \grad \phi(\vec{x}) \right] \,.
 \end{align}
+In 2-D, Eq.~\eqref{eq:diffusionIntensity} evaluates to the standard result
+\begin{equation*}
+ I(\vec{x}, \vec{\Omega})
+= \frac{1}{4\pi} \left[ \phi(\vec{x}) - \frac{1}{\sigma(\vec{x})} \vec{\Omega}
+\vd \grad \phi(\vec{x}) \right] \,,
+\end{equation*}
+and in flatland, it is
+\begin{equation}\label{eq:flatlandDiffusion}
+ I(\vec{x}, \vec{\Omega})
+= \frac{1}{2\pi} \left[ \phi(\vec{x}) - \frac{1}{\sigma(\vec{x})} \vec{\Omega}
+\vd \grad \phi(\vec{x}) \right]\,.
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Marshak boundary condition}
@@ -475,7 +494,176 @@ which gives the approximate extrapolation distance of
 %source-free, purely scattering transport problem, assuming the exiting $I$ is
 %constant in angle, and making a particular demand.
 
-In this section, we 
+Now we repeat that analysis for flatland rather than real space. The first step
+is to consider a homogeneous, purely scattering transport problem in a
+semi-infinite plane. The transport equation~\eqref{eq:generalTransport} becomes
+\begin{subequations} \label{eqs:flatTransport}
+\begin{equation}\label{eq:flatTransportVol}
+  \cos \theta \pder{I}{x} + \sin \theta \pder{I}{y} + \sigma I
+  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} I \ud \theta'\,,\quad
+ -\infty < x < \infty,\ 0 \le y < \infty,\ 0 \le \theta < 2\pi\,.
+\end{equation}
+It has a uniform incident boundary condition,
+\begin{equation}\label{eq:flatTransportBndy}
+  I(x, 0, \theta) = I^b(\theta) \,,\quad -\infty < x < \infty,\ 
+  0 \le \theta < \pi \,.
+\end{equation}
+\end{subequations}
+Also, because there is no variation in the boundary condition or $\sigma$ along
+the $x$ axis, $\tpder{I}{x}=0$, and Eq.~\eqref{eq:flatTransportVol} becomes the
+one-dimensional transport equation 
+\begin{equation*}
+  \sin \theta \pder{}{y}I(y,\theta) + \sigma I(y,\theta)
+  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} I(y,\theta') \ud \theta'\,.
+\end{equation*}
+This is \emph{not} the same one-dimensional transport equation as in slab
+geometry.
+
+We define the $y$ components of the angular moments of $I$ as
+\begin{equation} \label{eq:flatPhi}
+  \phi_m(y) = \int_{0}^{2\pi} (\vec{\Omega}\vd\vec{j})^m I(y,\theta) \ud\theta
+  = \int_{0}^{2\pi} (\sin\theta)^m I(y,\theta) \ud\theta \,.
+\end{equation}
+
+As $y\to\infty$, the intensity $I$ will approach a constant $\varphi/2\pi$,
+which gives $\phi_0(\infty)=\varphi$. Concordantly, $\phi_1(\infty)=0$.
+
+Operating on the transport equation with $\int_{0}^{2\pi} (\sin\theta)^m (\cdot)
+\ud\theta$ gives the $m$th angular moment in the $y$ direction:
+\begin{align} \nonumber
+  \pder{}{y} \int_{0}^{2\pi} (\sin\theta)^{m+1} I \ud\theta
+  + \sigma \int_{0}^{2\pi} (\sin\theta)^{m} I \ud\theta
+  &= \frac{\sigma}{2\pi} \int_{0}^{2\pi} I \ud \theta'
+  \int_{0}^{2\pi} (\sin\theta)^{m} \ud\theta
+  \\ \label{eq:flatMoments}
+  \pder{\phi_{m+1}}{y}
+  + \sigma \phi_{m}
+  &= \frac{\sigma}{2\pi} \phi_{0}
+  \int_{0}^{2\pi} (\sin\theta)^{m} \ud\theta\,.
+\end{align}
+For $m=0$, the conservation equation, Eq.~\eqref{eq:flatMoments} evaluates to
+\begin{equation*}
+  \pder{\phi_{1}}{y}
+  + \sigma \phi_{0}
+  = \frac{\sigma}{2\pi} \phi_{0} (2\pi)
+  \lra
+  \pder{\phi_{1}}{y} = 0\,.
+\end{equation*}
+That means the radiation flux is a constant, and because $\phi_1(\infty)=0$,
+that constant is zero.
+
+Evaluating Eq.~\eqref{eq:flatMoments} for $m=1$ and using the result that
+$\phi_{1}=0$, we find
+\begin{equation*}
+  \pder{\phi_{2}}{y}
+  + \sigma \phi_{1}
+  = \frac{\sigma}{2\pi} \phi_{0} (0)
+  \lra
+  \pder{\phi_{2}}{y} = 0\,.
+\end{equation*}
+Thus $\phi_{2}$ is also a constant. As $y\to\infty$, $I\to\varphi/2\pi$, so
+\begin{equation*}
+  \phi_{2} = \int_{0}^{2\pi} (\sin\theta)^2 \frac{\varphi}{2\pi} \ud\theta
+  = \frac{1}{2} \varphi\,.
+\end{equation*}
+% in 1D, this would be $\int_{-1}^{1}\mu^2\frac{\varphi}{2} \ud \mu =
+% \frac{1}{3} \varphi$.
+
+Now, since $\phi_1=0$, we can add $\alpha \phi_1$ to this equation for any
+$\alpha$:
+\begin{align*}
+ \alpha\phi_1 + \phi_{2} &= \frac{\varphi}{2} \\
+ \int_{0}^{2\pi} (\alpha \sin\theta + \sin^2\theta)
+ I(y,\theta) \ud\theta
+ &= \frac{\varphi}{2}\,.
+\end{align*}
+At the boundary $y=0$, $I=I^b$ for incident angles $0 \le \theta < \pi$. The
+variational analysis makes the reasonable approximation that, to leading order,
+the exiting particles are isotropically distributed, $I(0,\theta)=I^\text{out}$.
+\begin{equation*}
+ \int_{0}^{\pi} (\alpha \sin\theta + \sin^2\theta)
+ I^b(\theta) \ud\theta
+ + \int_{\pi}^{2\pi} (\alpha \sin\theta + \sin^2\theta)\ud\theta I^\text{out}
+ = \frac{\varphi}{2}\,.
+\end{equation*}
+The value $\alpha=\pi/4$ eliminates the integral over outgoing directions and
+gives a relation between moments of the incident angular intensity and the
+magnitude of the intensity as $y\to\infty$:
+\begin{equation}\label{eq:varBoundary}
+  \int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
+ I^b(\theta) \ud\theta
+ = \frac{\varphi}{2}\,.
+\end{equation}
+
+Diffusion in flatland approximates the intensity as 
+\begin{equation*}
+  I(\vec{x}, \vec{\Omega}) \approx \frac{1}{2\pi} \left[ \phi(\vec{x}) -
+  \frac{1}{\sigma(\vec{x})} \vec{\Omega}
+\vd \grad \phi(\vec{x}) \right]
+\end{equation*}
+In our simple transport problem, $\vec{\Omega} \vd \grad \phi=\sin\theta
+\pder{\phi_0}{y}$. We wish our boundary condition to preserve the value of
+$\varphi$ when the diffusion method is used:
+\begin{align*}
+ \varphi = 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
+ I^b(\theta) \ud\theta
+ &= 
+  2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
+ \left( \frac{1}{2\pi} \phi -
+  \frac{1}{\sigma} \sin\theta \pder{\phi_0}{y}\right)\ud\theta
+\\
+\int_{0}^{\pi} \left( \frac{\pi}{2} \sin\theta + 2 \sin^2\theta \right)
+ I^b(\theta) \ud\theta
+ &= 
+\frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin\theta + 2 \sin^2\theta
+\right)\ud\theta
+ \phi -
+ \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin^2\theta + 2 \sin^3\theta \right)\ud\theta \frac{1}{\sigma} \pder{\phi_0}{y}
+  \\
+ &= 
+ \frac{1}{2\pi} \left( \frac{\pi}{2} [2] + 2 \frac{\pi}{2}
+\right) \phi
+-
+\frac{1}{2\pi} \left( \frac{\pi}{2} \left[ \frac{\pi}{2} \right] + 2 \left[
+\frac{4}{3} \right] \right) \frac{1}{\sigma} \pder{\phi_0}{y}
+\\
+ &= 
+  \phi
+- \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma} \pder{\phi_0}{y}
+\,.
+\end{align*}
+In this problem, we chose a boundary surface normal of $\vec{n}=-\vec{j}$. Now
+replacing $\sin \theta$ with $-\vec{\Omega}\vd\vec{n}$, we get the general
+boundary condition for flatland diffusion,
+\begin{equation} \label{eq:flatlandDiffusionVarBc}
+\int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
+\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
+I^b(\vec{x}, \vec{\Omega}) \ud\Omega
+= 
+  \phi(\vec{x})
+  - \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma}
+  \vec{n}\vd\grad \phi(\vec{x})\,.
+\end{equation}
+Essentially, we have shown that the flatland equivalent of the $W$ function,
+which we shall call $V$, can be approximated by
+\begin{equation}\label{eq:flatlandVariational}
+  V(\theta)
+  \approx \frac{1}{4}\sin\theta + \frac{1}{\pi} \sin^2\theta \,,\quad
+  0 \le \theta < \pi \,,
+\end{equation}
+which satisfies
+\begin{equation*}
+  \int_{0}^{\pi} V(\theta) \ud\theta= 1
+\end{equation*}
+and gives the extrapolation distance
+\begin{equation*}
+  z = \frac{\int_{0}^{\pi} \sin \theta V(\theta) \ud\theta}{\int_{0}^{\pi}
+  V(\theta) \ud\theta} =  \frac{\pi}{8} + \frac{4}{3\pi} \,.
+\end{equation*}
+% \left( \frac{3\pi^2 + 32}{24\pi} \right)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 
 ``Marshak'' extrapolation distance:
 \begin{equation*}
