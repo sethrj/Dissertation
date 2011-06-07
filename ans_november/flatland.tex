@@ -1,11 +1,11 @@
 \documentclass{anstrans}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Boundary Conditions for Diffusion in Flatland Geometry}
-\author{Seth R.~Johnson}
+\author{Seth R.~Johnson \and Edward W.~Larsen}
 
 %% uncomment these next five only if using anstrans
 \institute{Department of Nuclear Engineering \& Radiological Sciences, University of Michigan, Ann Arbor, MI, 48109}
-\email{sethrj@umich.edu}
+\email{sethrj@umich.edu \and edlarsen@umich.edu}
 \usepackage{amssymb}
 \usepackage{microtype}
 \usepackage{graphicx}
@@ -21,15 +21,19 @@
 \renewcommand{\bottomfraction}{0.99}
 \renewcommand{\topfraction}{0.99}
 
+%\usepackage{setspace}
+%\doublespacing
+
 \date{2011/05/30}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-Flatland geometry is a fictional two-dimensional space where particles are
-constrained to the page \cite{Asa2008} that has recently proven useful in
-transport methods development \cite{Lar2009c}. Because the flatland phase
-space is $(x,y,\theta)$ rather than 2D's $(x,y,\mu,\theta)$, flatland geometry
+Flatland geometry, a fictional two-dimensional space where particles are
+constrained to the page, has recently proven useful in
+transport methods development \cite{Asa2008,Lar2009c}. Because the flatland phase
+space is $(x,y,\theta)$ rather than the two-dimensional $(x,y,\mu,\theta)$,
+flatland
 is a computationally less burdensome testing ground that still retains the
 complexity of multidimensional geometry.
 
@@ -53,8 +57,7 @@ The steady-state, monoenergetic transport equation is
   \quad \vec{x}\in V,\ \vec{\Omega}\in \Omega \,,
 \end{equation}
 where $\vec{\Omega}$, $\Omega$, and $\omega_0$ depend on whether the geometry
-is flatland or 2-D. We consider a specified incident boundary condition on the
-lower boundary:
+is flatland or 2-D. We consider a specified incident boundary condition:
 \begin{equation} \label{eq:ssBndy}
   \psi(\vec{x}, \vec{\Omega}) = \psi^b(\vec{x}, \vec{\Omega})\,,
   \quad \vec{x}\in \partial V,\ \vec{\Omega} \vd \vec{n} < 0\,.
@@ -70,8 +73,8 @@ In 2-D geometry, $\vec{\Omega}=\sqrt{1-\mu^2} \cos \theta \vec{i} +
 \end{equation}
 In 2D, $\omega_0=4\pi$, $\omega_1=2\pi$, and $\omega_2=\frac{4\pi}{3}$.
 However, in flatland, $\omega_0=2\pi$, $\omega_1=4$, and $\omega_2=\pi$. The
-difference between those identities lead to a different diffusion coefficient
-and different boundary conditions.
+differences between those sets of identities lead to a different diffusion 
+coefficient and different boundary conditions.
 
 %The diffusion approximation begins by assuming that $\psi$ is linear in angle:
 %\begin{equation*}
@@ -146,7 +149,7 @@ approximation to the angular flux:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Marshak Boundary Condition}
-The Marshak boundary condition preserves the incident radiation
+The Marshak boundary condition preserves the incident
 current on the boundary. It is derived by substituting the approximate diffusion
 angular flux from Eq.~\eqref{eq:diffusionIntensity} into the boundary condition,
 Eq.~\eqref{eq:ssBndy}, multiplying by $\abs{\vec{\Omega}\vd \vec{n}}$, and integrating over
@@ -163,7 +166,9 @@ incident directions:
 After some algebra, using the identities in Eq.~\eqref{eq:omegaIdentities}, we
 find an expression for the Marshak boundary condition for general geometries:
 \begin{equation} \label{eq:marshak}
-\frac{2\omega_0}{\omega_1} J^{-}
+\frac{2\omega_0}{\omega_1}
+\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}}
+\psi^b \ud\Omega
 =
 \phi + \frac{\omega_2}{\omega_1}\frac{1}{\sigma} \vec{n} \vd \grad \phi \,.
 \end{equation}
@@ -177,11 +182,12 @@ it gives
 Thus, the flatland extrapolation distance of $\frac{\pi}{4} \approx 0.7854$
 is about 18\% longer than in 2D.
 Physically, this has the interpretation that in 2D, a significant fraction of
-particles are travelling at a steep angle to the $x$-$y$ plane.
+particles are traveling at a steep angle to the $x$-$y$ plane, yielding a
+shorter extrapolation distance, i.e.~a steeper slope for $\phi$ on the boundary.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Variational Boundary Condition}
-It is well known that the Marshak boundary condition is \emph{ad hoc}, that
+It is well known that the Marshak boundary condition is \emph{ad hoc}, and that
 the correct boundary condition for diffusion is derived from an
 asymptotic matched boundary layer analysis \cite{Mal1991}. A reasonably simple
 method of deriving a more accurate boundary condition is to use a variational analysis.
@@ -288,7 +294,8 @@ magnitude of the angular flux as $y\to\infty$:
 \end{equation}
 
 We wish our boundary condition to preserve the value of $\varphi$ when the
-diffusion method is used, so we 
+diffusion method is used, so we substitute the diffusion approximation,
+Eq.~\eqref{eq:diffusionIntensity}:
 \begin{align*}
  \varphi &= 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
  \psi^b(\theta) \ud\theta
@@ -322,12 +329,12 @@ different extrapolation distance $\frac{\pi}{8} + \frac{4}{3\pi} \approx
 0.8171$ but also uses a different moment of the incident boundary flux.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results}
+\section{Numerical Results}
 As a test problem, we consider a homogeneous flatland problem with a
 total cross section $\sigma=1$ and scattering ratio $c=0.99$. It lives on the
-domain $0 < x < 2$, $0 < y < 10$, with reflecting boundaries on the left,
-right, and top sides. The bottom side has a specified incident boundary
-condition with unit current, and we consider three different angular
+domain $0 \le x \le 2$, $0 \le y \le 10$, with reflecting boundaries on the left,
+right, and top sides. The bottom side has a specified boundary
+condition with unit incident current, and we consider three different angular
 distributions.
 
 The first distribution is isotropic, $\psi^b(\theta) = \frac{1}{2}$. The second
@@ -337,7 +344,7 @@ perpendicular to the surface, $\psi^b(\theta) = \delta(\theta -
 $\psi^b(\theta) = 10 \delta(\theta - \sin^{-1}.1)$.
 
 Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi_0$ along
-$x=2.$ for an isotropic incident source. Because the left-hand sides of
+$x=1$ for an isotropic incident source. Because the left-hand sides of
 Eqs.~\eqref{eq:flatMarshak} and~\eqref{eq:flatVarBc} are the same, the
 differences in the solution are only due to the slightly different
 extrapolation distance.
