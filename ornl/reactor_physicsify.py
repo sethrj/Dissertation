@@ -5,8 +5,8 @@ import sys
 
 substitutions = [
         (re.compile(r"(radiation\s+)?flux"), "current"),
-        (re.compile(r"(angular\s+)?intensity"), "angular flux"),
         (re.compile(r"scalar\s+intensity"), "scalar flux"),
+        (re.compile(r"(angular\s+)?intensity"), "angular flux"),
         (re.compile(r"opacit(y|ies)"), "cross section"),
         (re.compile(r"\bI\b"), r"\psi"),
         (re.compile(r"\bF\b"), r"J"),
