@@ -137,7 +137,7 @@ right-hand side, yielding
   - \frac{1}{4\pi} \phi \right]
     + \vec{\Omega}\vd \grad \left[ \psi
   - \frac{1}{4\pi} \phi \right]
-  \\  + \sigma \left[ \psi
+  + \sigma \left[ \psi
   - \frac{1}{4\pi} \phi \right]
   = 0 + \frac{1}{4\pi} \grad \vd\vec{J} -
   \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
@@ -327,7 +327,7 @@ $\tilde\Psi$ as an integral:
   \begin{split}
     \tilde\Psi(\vec{x}, \vec{\Omega})
     &=
-    \tilde\Psi^b(\vec{x} - s_b\vec{\Omega}, \vec{\Omega} - s_b/c)
+    \tilde\Psi^b(\vec{x} - s_b\vec{\Omega}, \vec{\Omega})
     \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
     U(ct - s_b)
     \\
@@ -336,7 +336,7 @@ $\tilde\Psi$ as an integral:
     U( s_b - ct)
     \\
     &\qquad +  \int_{0}^{s_b}
-    \left[ \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}-s/c)
+    \left[ \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega})
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
@@ -429,7 +429,7 @@ The ansatz about the gradients allows the nonlocal variables in
 Eq.~\eqref{eq:inverseTransportFull} to be expanded about
 the local spatiotemporal point:
 \begin{equation} \label{eq:taylorPhi}
-  \phi(\vec{x} - s \vec{\Omega}-s/c)
+  \phi(\vec{x} - s \vec{\Omega})
   \sim \phi(\vec{x}) - s \left( \frac{1}{c} \pder{}{t} + \vec{\Omega} \vd
   \grad  \right) \phi (\vec{x}) + O(\epsilon^2) \sim \phi(\vec{x}) +
   O(\epsilon) \,.
@@ -445,22 +445,22 @@ Eq.~\eqref{eq:inverseTransportFull}):
 - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})}
   &= \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
     \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega},
-    t-s/c)
+    t)
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
 \end{align*}
 This integral describes the contribution from the volumetric source  along
 $\vec{\Omega}$, evaluated at a prior
-point in time ($t-s/c$, the point along $s$ at which a particle would travel
+point in time ($t$, the point along $s$ at which a particle would travel
 to $\vec{x}$ at time $t$), attenuated by the medium along the way (the
 $\eexp^{ -\tau }$ factor).
 
 We now make our first approximation by expanding the distant $\phi(\vec{x} - s
-\vec{\Omega}-s/c)$ about the local $\phi(\vec{x})$ using
+\vec{\Omega})$ about the local $\phi(\vec{x})$ using
 Eq.~\eqref{eq:taylorPhi}. Thus,
 \begin{equation*}
-  \grad \phi(\vec{x} - s \vec{\Omega}-s/c)
+  \grad \phi(\vec{x} - s \vec{\Omega})
   = \grad \phi(\vec{x}) + \grad O(\epsilon)
   = \grad \phi(\vec{x}) + O(\epsilon^2).
 \end{equation*}
@@ -492,8 +492,8 @@ because it is no longer a function of $s$:
 The incident boundary term in Eq.~\eqref{eq:approxPsi1} is
 \begin{multline*}
 -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
-  = -\left[\zeta(\vec{x} - s_b\vec{\Omega}, \vec{\Omega} - s_b/c)
-   \vec{\Omega}\vd \grad \phi(\vec{x} - s_b\vec{\Omega} - s_b/c) \right]
+  = -\left[\zeta(\vec{x} - s_b\vec{\Omega}, \vec{\Omega})
+   \vec{\Omega}\vd \grad \phi(\vec{x} - s_b\vec{\Omega}) \right]
    \\
 \times
     \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
@@ -508,13 +508,13 @@ exponentially fast.
 Now we apply the Taylor series expansion from Eq.~\eqref{eq:taylorPhi} to
 $\phi$, but not to $\zeta$:
 \begin{equation*}
-  \grad \phi(\vec{x} - s_b\vec{\Omega} - s_b/c)
+  \grad \phi(\vec{x} - s_b\vec{\Omega})
   \approx \grad \phi(\vec{x}) + O(\epsilon^2)\,,
 \end{equation*}
 and we discard the $O(\epsilon^2)$ term. Now we have
 \begin{align} \nonumber
 -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
-&\approx -\left[\zeta(\vec{x} - s_b\vec{\Omega}, \vec{\Omega} - s_b/c) \right]
+&\approx -\left[\zeta(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}) \right]
   \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})} U(ct - s_b)
   \vec{\Omega}\vd \grad \phi
  \\ \label{eq:bndyApprox}
@@ -559,12 +559,12 @@ Substituting this approximation into the reflecting boundary term in
 Eq.~\eqref{eq:inverseTransportBrief} yields
 \begin{align*}
 \lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
-  &= \left[\tilde\Psi(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r - s_b/c) \right]
+  &= \left[\tilde\Psi(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r) \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
     U(ct - s_b)
 \\
   &= \left[-f(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r) \vec{\Omega}_r 
-  \vd \grad \phi(\vec{x} - s_b\vec{\Omega} - s_b/c) \right]
+  \vd \grad \phi(\vec{x} - s_b\vec{\Omega}) \right]
   \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
   U(ct - s_b) \,.
 \\ 
@@ -573,7 +573,7 @@ Eq.~\eqref{eq:inverseTransportBrief} yields
 \lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
   &= - \lopinv{b}{f(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r)
 \left(  \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n} \right)
-  \vd \grad \phi(\vec{x} - s_b\vec{\Omega} - s_b/c) }
+  \vd \grad \phi(\vec{x} - s_b\vec{\Omega}) }
   \\
   &= -\lopinv{b}{f(\vec{x}_b,\vec{\Omega}) \vec{\Omega} \vd \grad
   \phi(\vec{x}_b)}

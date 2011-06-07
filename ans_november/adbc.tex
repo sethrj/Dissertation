@@ -1,9 +1,8 @@
 \documentclass{anstrans}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Anisotropic Diffusion Boundary Conditions}
+\title{Boundary Conditions for the Anisotropic Diffusion Method}
 \author{Seth R.~Johnson \and Edward W.~Larsen}
 
-%% uncomment these next five only if using anstrans
 \institute{Department of Nuclear Engineering \& Radiological Sciences, University of Michigan, Ann Arbor, MI, 48109}
 \email{sethrj@umich.edu \and edlarsen@umich.edu}
 \usepackage{amssymb}
@@ -11,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs} % \toprule, \midrule, \bottomrule
 \input{../SRJinclude.tex}
+\newcommand{\url}[1]{\texttt{#1}}
 
 % graphics paths
 \graphicspath{{/Users/seth/_research/figures/}}
@@ -21,6 +21,9 @@
 \renewcommand{\bottomfraction}{0.99}
 \renewcommand{\topfraction}{0.99}
 
+%\hyphenpenalty=800
+%\tolerance=400
+
 %\usepackage{setspace}
 %\doublespacing
 
@@ -30,19 +33,295 @@
 A new anisotropic diffusion (AD) approximation has recently been developed
 that uses transport-calculated AD coefficients to cheaply but accurately treat
 particle transport, particularly in voided regions where standard diffusion
-theory breaks down \cite{Lar2009a}.
+theory breaks down \cite{Lar2009c}. Prior derivations of the AD method have
+assumed an infinite medium: boundary conditions have been unaddressed.
+
+This summary presents a different derivation that formulates boundary
+conditions for the AD method. The proposed boundary conditions are
+implemented in and tested with the \pytrt\ research code \cite{Pytrt}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analysis}
+We consider a 3-D, monoenergetic, steady-state transport equation
+with isotropic scattering and an isotropic extraneous source:
+\begin{subequations} \label{eqs:fullTransport}
+\begin{multline} \label{eq:fullTransportVol}
+  \vec{\Omega}\vd \grad \psi(\vec{x}, \vec{\Omega})
+  + \sigma(\vec{x}) \psi (\vec{x}, \vec{\Omega})
+\\ =
+  \frac{\sigma_s(\vec{x})}{4\pi} \int_{4\pi} \psi(\vec{x},\vec{\Omega}')
+  \ud\Omega' + \frac{q(\vec{x})}{4\pi} 
+  \equiv \frac{1}{4\pi} Q(\vec{x}) \,,
+\end{multline}
+inside $x \in V$, $\vec{\Omega} \in 4\pi$, with an incident boundary
+condition
+\begin{equation} \label{eq:fullTransportBndy}
+  \psi(\vec{x}, \vec{\Omega}) = \psi^b(\vec{x}, \vec{\Omega}) \,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
+\end{subequations}
+Operating on Eq.~\eqref{eq:fullTransportVol} by $\int_{4\pi} (\cdot) \ud
+\Omega$ gives the particle conservation equation
+\begin{equation} \label{eq:loVol}
+  \grad \vd\vec{J}(\vec{x})
+  + \sigma(\vec{x}) \phi(\vec{x})
+  = Q(\vec{x})\,,
+  \quad \vec{x} \in V\,.
+\end{equation}
+If we add $-\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:loVol},
+divide the result by $4\pi$, and subtract from
+Eq.~\eqref{eq:fullTransportVol}, the isotropic scattering and extraneous
+sources cancel, and we get a transport equation:
+\begin{equation*}
+  \vec{\Omega}\vd \grad \left[ \psi
+  - \frac{1}{4\pi} \phi \right]
+  + \sigma \left[ \psi
+  - \frac{1}{4\pi} \phi \right]
+  = 0 + \frac{1}{4\pi} \grad \vd\vec{J} -
+  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
+\end{equation*}
+Defining the ``anisotropic angular flux''
+\begin{equation}\label{eq:capPsi}
+  \Psi(\vec{x},\vec{\Omega}) \equiv \psi(\vec{x},\vec{\Omega})
+  - \frac{1}{4\pi} \phi(\vec{x})\,,
+\end{equation}
+which is the angular flux with the isotropic component subtracted off, we have
+an exact transport equation
+\begin{subequations} \label{eqs:capPsiTransport}
+\begin{equation} \label{eq:capPsiVol}
+  \vec{\Omega}\vd \grad \Psi(\vec{x}, \vec{\Omega})
+  + \sigma(\vec{x}) \Psi(\vec{x}, \vec{\Omega})
+  = \frac{1}{4\pi} \grad \vd\vec{J}(\vec{x}) -
+  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})\,.
+\end{equation}
+Subtracting $\phi/4\pi$ from Eq.~\eqref{eq:fullTransportBndy} gives the
+boundary condition
+\begin{equation}\label{eq:capPsiBndy}
+ \Psi(\vec{x}, \vec{\Omega}) 
+  =\psi^b(\vec{x}, \vec{\Omega}) - \frac{1}{4\pi} \phi(\vec{x})\,,
+  \quad \vec{x} \in \partial V,\ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
+\end{subequations}
+
+The true transport solution will satisfy these equations exactly. The
+true anisotropic angular flux also satisfies the identities
+\begin{equation} \label{eq:capPsiIdentities}
+  \int_{4\pi} \Psi(\vec{x}, \vec{\Omega}) \ud\Omega = 0
+  \quad\text{and}\quad
+  \int_{4\pi} \vec{\Omega}\Psi(\vec{x}, \vec{\Omega}) \ud\Omega =
+  \vec{J}(\vec{x})\,.
+\end{equation}
+
+Introducing the approximation $\Psi\approx \frac{3}{4\pi}
+\vec{\Omega}\vd\vec{J}$ into Eq.~\eqref{eq:capPsiVol} and taking the first
+angular moment would yield Fick's law, but the AD method does something far
+stranger.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Boundary Condition}
+\subsection{Anisotropic Diffusion}
+In order to formulate transport-matched boundary conditions, we separate $\Psi$
+into an internal solution $\tilde\Psi$ and a boundary layer solution
+$\Psi_\mathrm{bl}$:
+\begin{equation} \label{eq:boundaryLayerPsi}
+  \Psi(\vec{x}, \vec{\Omega})
+  = \tilde\Psi(\vec{x}, \vec{\Omega})
+  + \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega})\,.
+\end{equation}
+The internal transport equation is just like Eq.~\eqref{eq:capPsiVol}:
+\begin{subequations} \label{eqs:tCapPsi}
+\begin{equation} \label{eq:tCapPsiVol}
+  \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega})
+  + \sigma(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega})
+  = \frac{1}{4\pi} \grad \vd\vec{J}(\vec{x}) -
+  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})\,.
+\end{equation}
+However, we will define incident boundary conditions for this internal solution
+to be
+\begin{equation}\label{eq:tCapPsiBndy}
+ \tilde\Psi(\vec{x}, \vec{\Omega}) 
+  = - \zeta(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x})
+  \equiv \tilde\Psi^b(\vec{x}, \vec{\Omega}) \,.
+\end{equation}
+\end{subequations}
+The boundary layer solution complements the internal solution. Its transport
+equation has no internal source, and its boundary condition is just
+Eq.~\eqref{eq:tCapPsiBndy} subtracted from Eq.~\eqref{eq:capPsiBndy}:
+\begin{equation} \label{eq:blCapPsiBndy}
+ \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}) 
+  = \psi^b(\vec{x}, \vec{\Omega}) - \frac{1}{4\pi} \phi(\vec{x})
+  + \zeta(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x})\,.
+\end{equation}
+
+Integrating along a characteristic ray transforms the differential
+equation~\eqref{eq:tCapPsiVol} into an integral transport equation
+\cite{Pri2010}:
+\begin{subequations} \label{eqs:inverseTransport}
+\begin{align} \label{eq:inverseTransportFull}
+\begin{split}
+  \tilde\Psi(\vec{x}, \vec{\Omega})
+  &=
+  \tilde\Psi^b(\vec{x} - s_b\vec{\Omega}, \vec{\Omega})
+  \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
+  \\
+  &\quad +  \int_{0}^{s_b}
+  \Big[\tfrac{1}{4\pi} \grad \vd\vec{J}(\vec{x} - s \vec{\Omega}, \vec{\Omega})
+  \\
+  &\quad\qquad - \tfrac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega}, \vec{\Omega}) \Big]
+  \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s
+\end{split}
+\\
+  \label{eq:inverseTransportBrief}
+\begin{split}
+  \tilde\Psi(\vec{x}, \vec{\Omega})
+    &\equiv
+    -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}
+    + \lopinv{v}{\tfrac{1}{4\pi} \grad \vd\vec{J} }
+    - \lopinv{v}{\tfrac{1}{4\pi} \vec{\Omega}\vd \grad \phi}\,.
+\end{split}
+\end{align}
+The optical thickness of the medium between points $\vec{x}$ and $\vec{x}'$
+along direction $\vec{\Omega} = (\vec{x}'- \vec{x})/\norm{\vec{x}'-\vec{x}}$ is 
+\begin{equation} \label{eq:fullTauDefinition}
+  \tau(\vec{x}, \vec{x}') = \int_{0}^{\norm{\vec{x} -
+  \vec{x}'}} \sigma(\vec{x}-s\vec{\Omega}) \ud s \,.
+\end{equation}
+The term $s_b$ is the distance to the boundary along $-\vec{\Omega}$ from
+$\vec{x}$.
+\end{subequations}
+
+Now we make an ansatz that the spatial gradients of the angular flux
+are weak, and the solution is mildly (but not necessarily linearly) anisotropic:
+\begin{align} \label{eq:ansatz}
+  \psi &= O(1), &
+  \grad \psi &= O(\epsilon), &
+  \int_{4\pi} \vec{\Omega} \psi\ud\Omega &= O(\epsilon).
+\end{align}
+With this ansatz, $\grad \vd\vec{J}=O(\epsilon^2)$.
+We can also expand the nonlocal variables in Eq.~\eqref{eq:inverseTransportFull} about the local spatial point:
+\begin{equation} \label{eq:taylorPhi}
+  \phi(\vec{x} - s \vec{\Omega})
+  \sim \phi(\vec{x}) - s \vec{\Omega} \vd \grad \phi (\vec{x}) + O(\epsilon^2)
+  \sim \phi(\vec{x}) + O(\epsilon) \,.
+\end{equation}
+Thus, the third term in Eq.~\eqref{eq:inverseTransportBrief} simplifies to
+\begin{align}\nonumber
+- \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})}
+  &\approx \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+    \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \tilde\phi(\vec{x}) \right]
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
+    \ud s
+  \\\nonumber
+  &= - \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+    \left[ \frac1{4\pi}\right]
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s \,
+    \vec{\Omega}\vd \grad \phi(\vec{x})
+  \\\label{eq:streamingApprox}
+  &= - \lopinv{v}{ \frac1{4\pi} } \vec{\Omega}\vd \grad \phi(\vec{x}) +
+  O(\epsilon^2) \,.
+\end{align}
+Similarly,
+\begin{equation} \label{eq:bndyApprox}
+-\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
+\approx -\lopinv{b}{\zeta}_{\partial V_b} \vec{\Omega}\vd \grad \phi(\vec{x})
++ O(\epsilon^2) \,.
+\end{equation}
+Substituting Eqs.~\eqref{eq:streamingApprox} and~\eqref{eq:bndyApprox} into
+Eq.~\eqref{eq:inverseTransportBrief}, and discarding $O(\epsilon^2)$ terms, we
+have an approximate representation for the anisotropic angular flux:
+\begin{align} \label{eq:approxPsi2}
+  \tilde\Psi
+  &\approx 
+- \lopinv{b}{\zeta}_{\partial V_b} \vec{\Omega}\vd \grad \phi
+- \lopinv{v}{\tfrac{1}{4\pi}}  \vec{\Omega}\vd \grad \phi
+%\\ \label{eq:approxPsi2}
+%  \tilde\Psi &= 
+%- \left\{ \lopinv{b}{\zeta}_{\partial V_b} 
+%+ \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}
+%+ \lopinv{v}{\frac{1}{4\pi}} \right\} \vec{\Omega}\vd \grad \phi
+\\ \label{eq:approxPsi3}
+\tilde\Psi(\vec{x}, \vec{\Omega}) &\equiv - f(\vec{x}, \vec{\Omega})
+\vec{\Omega}\vd \grad \phi(\vec{x})\,.
+\end{align}
+Converting the $\lopinv{}{\cdot}$ terms back into the differential form, we
+see that $f$ is the solution of a purely absorbing transport equation with a
+uniform, isotropic source:
+\begin{subequations} \label{eqs:fFull}
+  \begin{equation} \label{eq:fFullVol}
+    \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
+    + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega})
+  = \tfrac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
+  \end{equation}
+and to-be-determined boundary conditions,
+\begin{equation} \label{eq:fFullBndy}
+  f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x}, \vec{\Omega}) \,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
+\end{subequations}
+
+We use the identity from Eq.~\eqref{eq:capPsiIdentities} to get an expression
+for the current by taking the first moment of Eq.~\eqref{eq:approxPsi3}:
+\begin{align} \nonumber
+  \vec{J}(\vec{x})
+  &= 
+  - \left[ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x}, \vec{\Omega})
+  \ud\Omega \right]
+  \vd \grad \phi(\vec{x})
+  \\ \label{eq:anisotropicFicks}
+  &= - \Dtens(\vec{x}) \vd \grad \phi(\vec{x}) \,.
+\end{align}
+This resembles Fick's law, but instead of a scalar diffusion coefficient,
+the anisotropic diffusion method has a diffusion \emph{tensor}, $\Dtens$, the
+second angular moment of $f$.
+
+The unknown function $\zeta(\vec{x}, \vec{\Omega})$ that lives on the boundary
+is a degree of freedom introduced at the beginning of the anisotropic
+diffusion derivation. It allowed us to formulate a specified boundary condition
+such that the effect of $\zeta$ could be embedded in the anisotropic diffusion
+tensor $\Dtens$. To make use of this degree of freedom, we choose to enforce on
+the boundary the truth from Eq.~\eqref{eq:capPsiIdentities}, that the zeroth
+moment of $\Psi(\vec{x}, \vec{\Omega})$ is zero. Applying the identity to
+Eq.~\eqref{eq:approxPsi3} shows that for that truth to hold, $f$ must be an
+even function of $\vec{\Omega}$, so $\zeta(\vec{\Omega})=f(-\vec{\Omega})$. If
+$f$ is azimuthally symmetric about $\vec{n}$ on the boundary, then
+\begin{equation*}
+f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x},\vec{\Omega})=f(\vec{x},\vec{\Omega}-2(\vec{n}\vd\vec{\Omega})\vec{n})\,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,,
+\end{equation*}
+a reflecting boundary condition for $f$.
+
+Now we return to the boundary layer transport equation~\eqref{eq:blCapPsiBndy}.
+A lengthy analysis shows that the transport boundary layer decays most rapidly
+if the solution of the approximate method satisfies the boundary condition
+\begin{equation} \label{eq:bcW}
+  0 = \int_{\vec{\Omega} \vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  \Psi_\mathrm{bl} (\vec{x}, \vec{\Omega}) \ud \Omega\,,\qquad \vec{x} \in
+  \partial V\,,
+\end{equation}
+where $W(\mu)$ is well-approximated by the simple polynomial $\mu +
+\tfrac{3}{2} \mu^2$ \cite{Mal1991}. Using $W(\mu)=2\mu$ with
+Eq.~\eqref{eq:bcW} is the Marshak approximation.
+
+Applying Eq.~\eqref{eq:bcW} to Eq.~\eqref{eq:blCapPsiBndy}, using
+$\zeta(\vec{\Omega})=f(-\vec{\Omega})$, we find
+\begin{equation*}
+  2\int_{\vec{\Omega}\vd \vec{n} < 0}
+  W(\abs{\vec{\Omega} \vd \vec{n}}) \psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+  = \phi(\vec{x})
+  - 2\int_{\vec{\Omega}\vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  f(\vec{x}, -\vec{\Omega}) \vec{\Omega} \ud\Omega
+  \vd \grad \phi(\vec{x})
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Results}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Acknowledgments}
+This material is based upon work supported a Department of Energy Nuclear
+Energy University Programs Graduate Fellowship.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{ans}
