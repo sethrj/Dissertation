@@ -18,8 +18,8 @@
 \def\input@path{{/Users/seth/_research/figures/}}
 \makeatother
 
-\renewcommand{\bottomfraction}{0.99}
-\renewcommand{\topfraction}{0.99}
+\renewcommand{\bottomfraction}{1.}
+\renewcommand{\topfraction}{1.}
 
 %\hyphenpenalty=800
 %\tolerance=400
@@ -41,7 +41,7 @@ conditions for the AD method. The proposed boundary conditions are
 implemented in and tested with the \pytrt\ research code \cite{Pytrt}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Analysis}
+\section{Derivation}
 We consider a 3-D, monoenergetic, steady-state transport equation
 with isotropic scattering and an isotropic extraneous source:
 \begin{subequations} \label{eqs:fullTransport}
@@ -74,16 +74,16 @@ Eq.~\eqref{eq:fullTransportVol}, the isotropic scattering and extraneous
 sources cancel, and we get a transport equation:
 \begin{equation*}
   \vec{\Omega}\vd \grad \left[ \psi
-  - \frac{1}{4\pi} \phi \right]
+  - \tfrac{1}{4\pi} \phi \right]
   + \sigma \left[ \psi
-  - \frac{1}{4\pi} \phi \right]
-  = 0 + \frac{1}{4\pi} \grad \vd\vec{J} -
-  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
+  - \tfrac{1}{4\pi} \phi \right]
+  = 0 + \tfrac{1}{4\pi} \grad \vd\vec{J} -
+  \tfrac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
 \end{equation*}
 Defining the ``anisotropic angular flux''
 \begin{equation}\label{eq:capPsi}
   \Psi(\vec{x},\vec{\Omega}) \equiv \psi(\vec{x},\vec{\Omega})
-  - \frac{1}{4\pi} \phi(\vec{x})\,,
+  - \tfrac{1}{4\pi} \phi(\vec{x})\,,
 \end{equation}
 which is the angular flux with the isotropic component subtracted off, we have
 an exact transport equation
@@ -91,14 +91,14 @@ an exact transport equation
 \begin{equation} \label{eq:capPsiVol}
   \vec{\Omega}\vd \grad \Psi(\vec{x}, \vec{\Omega})
   + \sigma(\vec{x}) \Psi(\vec{x}, \vec{\Omega})
-  = \frac{1}{4\pi} \grad \vd\vec{J}(\vec{x}) -
-  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})\,.
+  = \tfrac{1}{4\pi} \grad \vd\vec{J}(\vec{x}) -
+  \tfrac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})\,.
 \end{equation}
 Subtracting $\phi/4\pi$ from Eq.~\eqref{eq:fullTransportBndy} gives the
 boundary condition
 \begin{equation}\label{eq:capPsiBndy}
  \Psi(\vec{x}, \vec{\Omega}) 
-  =\psi^b(\vec{x}, \vec{\Omega}) - \frac{1}{4\pi} \phi(\vec{x})\,,
+  =\psi^b(\vec{x}, \vec{\Omega}) - \tfrac{1}{4\pi} \phi(\vec{x})\,,
   \quad \vec{x} \in \partial V,\ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
 \end{subequations}
@@ -117,8 +117,6 @@ Introducing the approximation $\Psi\approx \frac{3}{4\pi}
 angular moment would yield Fick's law, but the AD method does something far
 stranger.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Anisotropic Diffusion}
 In order to formulate transport-matched boundary conditions, we separate $\Psi$
 into an internal solution $\tilde\Psi$ and a boundary layer solution
 $\Psi_\mathrm{bl}$:
@@ -169,8 +167,7 @@ equation~\eqref{eq:tCapPsiVol} into an integral transport equation
   &\quad\qquad - \tfrac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega}, \vec{\Omega}) \Big]
   \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s
 \end{split}
-\\
-  \label{eq:inverseTransportBrief}
+\\ \label{eq:inverseTransportBrief}
 \begin{split}
   \tilde\Psi(\vec{x}, \vec{\Omega})
     &\equiv
@@ -207,16 +204,16 @@ Thus, the third term in Eq.~\eqref{eq:inverseTransportBrief} simplifies to
 \begin{align}\nonumber
 - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})}
   &\approx \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
-    \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \tilde\phi(\vec{x}) \right]
+    \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \phi(\vec{x}) \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
   \\\nonumber
   &= - \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
-    \left[ \frac1{4\pi}\right]
+    \left[ \tfrac1{4\pi}\right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s \,
     \vec{\Omega}\vd \grad \phi(\vec{x})
   \\\label{eq:streamingApprox}
-  &= - \lopinv{v}{ \frac1{4\pi} } \vec{\Omega}\vd \grad \phi(\vec{x}) +
+  &= - \lopinv{v}{ \tfrac1{4\pi} } \vec{\Omega}\vd \grad \phi(\vec{x}) +
   O(\epsilon^2) \,.
 \end{align}
 Similarly,
@@ -280,8 +277,14 @@ such that the effect of $\zeta$ could be embedded in the anisotropic diffusion
 tensor $\Dtens$. To make use of this degree of freedom, we choose to enforce on
 the boundary the truth from Eq.~\eqref{eq:capPsiIdentities}, that the zeroth
 moment of $\Psi(\vec{x}, \vec{\Omega})$ is zero. Applying the identity to
-Eq.~\eqref{eq:approxPsi3} shows that for that truth to hold, $f$ must be an
-even function of $\vec{\Omega}$, so $\zeta(\vec{\Omega})=f(-\vec{\Omega})$. If
+Eq.~\eqref{eq:approxPsi3} shows that for that truth to hold,
+\begin{equation}\label{eq:zetaCondition}
+  \int_{\vec{\Omega}\vd \vec{n} > 0}\vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega
+  =
+  \int_{\vec{\Omega}\vd \vec{n} < 0}(-\vec{\Omega}) \zeta(\vec{x},\vec{\Omega})
+  \ud\Omega \,.
+\end{equation}
+One way to satisfy this is to make $f$ an even function of $\vec{\Omega}$, $\zeta(\vec{\Omega})=f(-\vec{\Omega})$. If
 $f$ is azimuthally symmetric about $\vec{n}$ on the boundary, then
 \begin{equation*}
 f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x},\vec{\Omega})=f(\vec{x},\vec{\Omega}-2(\vec{n}\vd\vec{\Omega})\vec{n})\,,
@@ -301,22 +304,141 @@ where $W(\mu)$ is well-approximated by the simple polynomial $\mu +
 \tfrac{3}{2} \mu^2$ \cite{Mal1991}. Using $W(\mu)=2\mu$ with
 Eq.~\eqref{eq:bcW} is the Marshak approximation.
 
-Applying Eq.~\eqref{eq:bcW} to Eq.~\eqref{eq:blCapPsiBndy}, using
-$\zeta(\vec{\Omega})=f(-\vec{\Omega})$, we find
-\begin{equation*}
+Applying Eq.~\eqref{eq:bcW} to Eq.~\eqref{eq:blCapPsiBndy}, we find
+\begin{multline*}
   2\int_{\vec{\Omega}\vd \vec{n} < 0}
   W(\abs{\vec{\Omega} \vd \vec{n}}) \psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+ \\  = \phi(\vec{x})
+ - 2\int_{\vec{\Omega}\vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  \zeta(\vec{x}, \vec{\Omega}) \vec{\Omega} \ud\Omega
+  \vd \grad \phi(\vec{x})\,,
+\end{multline*}
+or, rewriting the right hand side in terms of incident angles using
+$\zeta(\vec{\Omega})= f(-\vec{\Omega})$,
+\begin{multline}\label{eq:loBndy}
+  2\int_{\vec{\Omega}\vd \vec{n} < 0}
+  W(\abs{\vec{\Omega} \vd \vec{n}}) \psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+ \\ = \phi(\vec{x})
+  + 2\int_{\vec{\Omega}\vd \vec{n} > 0} W(\vec{\Omega} \vd \vec{n})
+  \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega
+  \vd \grad \phi(\vec{x}) \,.
+\end{multline}
+If we use the Marshak boundary condition $W(\mu)=2\mu$, then a bit of algebra
+actually reduces this to
+\begin{equation}\label{eq:marshakAd}
+  4 J^-(\vec{x})
   = \phi(\vec{x})
-  - 2\int_{\vec{\Omega}\vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
-  f(\vec{x}, -\vec{\Omega}) \vec{\Omega} \ud\Omega
-  \vd \grad \phi(\vec{x})
+  + 2 \vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}) \,,
+\end{equation}
+where $J^- \equiv \int_{\vec{\Omega}\vd \vec{n} < 0} \abs{\vec{\Omega} \vd
+\vec{n}} \psi^b \ud\Omega$ is the incident current.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+The form we chose for $\zeta$ allowed the boundary condition on $\tilde\Psi$ to
+be embedded in the anisotropic diffusion tensor $\Dtens$. It results in a
+boundary condition both for $f$ and for the low-order problem that calculates
+$\phi$.
+
+In a homogeneous medium, the reflecting boundary condition gives a solution
+$f=1/(4\pi\sigma)$, which not only gives the diffusion result $\Dtens=
+\Identitytens/(3\sigma)$ but also causes Eq.~\eqref{eq:loBndy} to simplify to
+the transport-corrected diffusion boundary condition.
+
+We chose a reflecting boundary to satisfy Eq.~\eqref{eq:zetaCondition}, but that
+was not the only possible choice. A white boundary will also satisfy it,
+although that choice does not generally lead to Eqs.~\eqref{eq:loBndy} and
+Eq.~\eqref{eq:marshakAd}. However, a white boundary does have the property of
+leading to faster convergence of an \SN\ solution of $f$ when very few mean free
+paths separate two boundaries.
+
+The transport problem for $f$ does not need to store the full angular flux; it
+only needs to accumulate the components of the second angular moment. However,
+for development purposes, storing $f(\vec{x},\vec{\Omega})$ allows the AD
+representation to the angular flux to be visualized as
+\begin{equation*}
+  \psi_\text{AD}(\vec{x},\vec{\Omega}) = \tfrac{1}{4\pi} \phi(\vec{x})
+  - f(\vec{x},\vec{\Omega}) \vec{\Omega} \vd \grad \phi(\vec{x})\,.
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Results}
+As a test problem, we consider a diffusive medium in flatland\footnote{The
+low-order AD boundary conditions in flatland have different coefficients.} on
+the domain $0
+\le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
+vertically through the middle. The diffusive region has $\sigma=1$ and
+$\sigma_s=0.99$, and the channel has $\sigma=0.01$ and $\sigma_s=0.0099$. It has
+reflecting boundaries on the top, left, and right sides, and an incident
+boundary condition on the bottom.
+
+The anisotropic diffusion equations and boundary conditions are implemented
+in \pytrt\ \cite{Pytrt}. For comparison
+purposes, Monte Carlo and standard diffusion are also implemented and plotted.
+We compare the AD method using three different boundary conditions for $f$ on
+the bottom surface: a reflecting boundary, a white boundary, and a vacuum
+boundary. The vacuum boundary is not consistent with our theory but
+is shown to gauge how much $\phi$ is affected by the choice of $\zeta$.
+
+Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi(2.5,y)$,
+along the center
+of the channel. Standard diffusion fails because $\sigma=0.01$ leads to a very
+large diffusion coefficient, resulting in a nearly constant solution inside the
+channel. Anisotropic diffusion performs exceedingly well, and curiously the
+white boundary gives a better result than the reflecting boundary.
+
+\begin{figure}[htb!]
+  \centering
+  \hspace{-.5in}
+  \input{channel_bc/isotropic-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux along the centerline of the channel with an isotropic
+  boundary condition at $y=0$.}
+  \label{fig:isotropic}
+\end{figure}
+
+A visualization of the angular flux for each method (replacing Monte Carlo with
+an \SN\ solution), Fig.~\ref{fig:isotropicAngular}, helps explain the accuracy
+of the AD method and the difference between the reflecting and white boundary
+treatments. Even though AD cannot exactly model the peak of freely streaming
+photons in the channel (which the \SN\ angular flux shows at $\theta=3\pi/2$),
+it accurately approximates the angular flux shape driven by scattering from the
+diffusive region (the lobes on the left and right).
+The linear-in-angle diffusion approximation cannot represent any of these
+features.  
+
+\begin{figure}[htb!]
+  \centering
+  \vspace{-.25in}
+  \hspace{-.5in}
+  \input{channel_bc/angle-isotropic-cmfp/plot}
+  \hspace{-.5in}
+  \vspace{-.25in}
+  \caption{Angular flux $\psi(2.5, 1., \theta)$, in the centerline of the
+  channel one unit from the boundary.}
+  \label{fig:isotropicAngular}
+\end{figure}
+
+The shape around $\theta=\pi/2$ gives insight into why the white boundary
+performs better in this problem: a reflecting boundary produces a peak in $f$
+along the channel, but a white boundary gives a more isotropic shape near that
+range, better matching the incident isotropic boundary condition. This suggests
+that the qualitatively best way to satisfy Eq.~\eqref{eq:zetaCondition} may be
+to have $\zeta$ take the shape of the true boundary condition.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
+The anisotropic diffusion method, by solving a simple transport problem,
+provides a very accurate approximation to the true transport solution. Its
+representation of the angular flux accounts for an arbitrary amount of
+anisotropy.
+
+The derivation presented here allows the AD method to apply to finite problems.
+By interpreting the AD method as a modification to $\psi-\frac{1}{4\pi}\phi$,
+we were able to use the integral transport equation to produce boundary
+conditions. Our numerical results show that these new boundary conditions allow
+the inexpensive solution of problems that would normally require costly
+transport methods to solve.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}

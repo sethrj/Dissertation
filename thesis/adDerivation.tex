@@ -491,7 +491,7 @@ because it is no longer a function of $s$:
 \begin{align}\nonumber
 - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)}
   &\approx \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
-    \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \tilde\phi(\vec{x},t) \right]
+    \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \phi(\vec{x},t) \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
   \\\nonumber
@@ -922,7 +922,7 @@ that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBndy} becomes
   + 2\int_{\vec{\Omega}\vd \vec{n} > 0} [2\vec{\Omega} \vd \vec{n}]
   \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \grad \phi
   \\
-  4 \vec{F}^-
+  4 F^-
   &= \phi
   + 4 \vec{n} \vd \left[ \int_{\vec{\Omega}\vd \vec{n} > 0} \vec{\Omega}
   \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \grad \phi \,.
@@ -930,12 +930,12 @@ that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBndy} becomes
   \intertext{We chose the boundary condition on $f$ to ensure that it is an
   even function of $\vec{\Omega}$ on the boundary. Therefore, the integrand on
   the right hand side is also an even function of $\vec{\Omega}$, so}
-  4 \vec{F}^-
+  4 F^-
   &= \phi
   + 4 \vec{n} \vd  \left[ \frac{1}{2} \int_{4\pi}
   \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \grad \phi \,.
   \\
-  4 \vec{F}^-
+  4 F^-
   &= \phi
   + 2 \vec{n} \vd \int_{4\pi}
   \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \grad \phi \,.
@@ -944,13 +944,13 @@ The integral on the right hand side is the same as in
   Eq.~\eqref{eq:anisotropicFicks}, which defined the anisotropic diffusion
   tensor. Our Marshak-like boundary approximation is
 \begin{equation}\label{eq:marshakAd}
-  4 \vec{F}^-(\vec{x}, t)
+  4 F^-(\vec{x}, t)
   = \phi(\vec{x}, t)
   + 2 \vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
 \end{equation}
 This is entirely analogous to the standard diffusion Marshak boundary condition,
 \begin{equation*}
-  4 \vec{F}^-(\vec{x}, t) = \phi(\vec{x}, t) + 2  D(\vec{x}) \vec{n} \vd \grad \phi(\vec{x}, t)\,.
+  4 F^-(\vec{x}, t) = \phi(\vec{x}, t) + 2  D(\vec{x}) \vec{n} \vd \grad \phi(\vec{x}, t)\,.
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
