@@ -11,7 +11,7 @@
 \section{Low-order spatial discretization}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Boundary conditions}
+\section{Flatland Boundary conditions}
 
 Angular distributions
 
@@ -35,204 +35,92 @@ Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\theta) = \delta(\theta-\sin\inv0.1)$
 These are the same angular distributions used in a boundary matching analysis
 in \cite{Dav2006}.
 
-\horizsep
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anisotropic diffusion boundary conditions}
 
-As a test problem, let's look at an optically thick one-dimensional problem
-with a specified incident boundary source on the left, and a reflecting
-boundary many mean free paths to the right. It has a total opacity $\sigma$, a
-scattering opacity $c\sigma$, and a uniform source $q$. Because the problem is
-optically thick (approximately semi-infinite), $f$ will have the infinite
-homogeneous medium value of $1/2\sigma$ for $-1 < \mu < 0$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Steady-state flatland channel}
+As a test problem, we consider a diffusive medium in flatland on
+the domain $0
+\le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
+vertically through the middle. The diffusive region has $\sigma=1$ and
+$\sigma_s=0.99$, and the channel has $\sigma=0.01$ and $\sigma_s=0.0099$. It has
+reflecting boundaries on the top, left, and right sides, and an incident
+boundary condition on the bottom. The geometry and cross sections are similar to Larsen
+and Trahan's VHTR problem \cite{Lar2009c}.
 
-For the ``exact'' solution, we use S$_{32}$ with the step characteristic
-discretization. A cell-centered diffusion approximation is used for
-the low-order solution. The ``anisotropic diffusion'' coefficients are
-calculated using step characteristic transport.
+We compare the AD method using three different boundary conditions for $f$ on
+the bottom surface: a reflecting boundary, a white boundary, and a vacuum
+boundary. The vacuum boundary is not consistent with our theory but
+is shown to gauge how much $\phi$ is affected by the choice of $\zeta$.
 
-\horizsep
-
-Instead of applying the true albedo-white boundary condition to the
-left hand side, we could use an incident isotropic source matched to the
-analytic expected albedo-white value. For the semi-consistent (not transport
-corrected) value,
-\begin{align*}
-  j^{\ell,\mathrm{in}} &= \frac{3}{4} \int_{-1}^{0} \abs{\mu'} f(0, \mu') \ud\mu' \\
-  &= \frac{3}{4} \int_{-1}^{0} \abs{\mu'} \frac{1}{2\sigma} \ud\mu' \\
-  &= \frac{1}{16\sigma} \,,
-  \\ 
-  \intertext{which corresponds to}
-  f(0, \mu) &=  \frac{1}{16\sigma} \,,\quad 0 < \mu \le 1\,.
-\end{align*}
-So the high order transport problem for $f$ effectively has an incident
-isotropic boundary on the left with incident current $1/16\sigma$.
-
-The semi-consistent boundary condition for $f$ yields the blue ``anisotropic''
-diffusion coefficient in
-Fig.~\ref{fig:bndycondDcoeff}.  The black line uses the transport-corrected
-boundary albedo.  Compare these to the red line, which is the
-standard diffusion coefficient of $1/3\sigma$, and to the red line, which
-is the na\"ive way of calculating the AD coefficients with an incident
-vacuum boundary of $j^{\ell,\mathrm{in}}=0$.
-\begin{figure}[htb]
-  \centering
-  \input{bndyconditions/dcoeff-bl-homog/include}
-  \caption{Standard and ``anisotropic'' (transport-calculated) diffusion
-  coefficients for the case with $\sigma=1$, $F^{\ell,\mathrm{in}}=0$.}
-  \label{fig:bndycondDcoeff}
-\end{figure}
-
-The boundary conditions on $f$ must be paired with consistent boundary
-conditions on the low-order problem for $\phi$,
-Eq.~\eqref{eq:bndyAnisotropicOnedSs}. In this simple semi-infinite problem,
-that evaluates to
-\begin{equation*}
-  F^{\ell,\mathrm{in}}
-  = \frac{1}{4} \phi(0)
-  + \frac{1}{2} j^{\ell,\mathrm{out}} \pder{\phi}{x}(0)
-  = \frac{1}{4} \phi(0)
-  + \frac{1}{2} \frac{1}{4\sigma} \pder{\phi}{x}(0) \,.
-\end{equation*}
-Compare this to the standard Marshak boundary condition used by the na\"ive AD
-method (where a vacuum incident boundary on $f$ gives $D(0)=1/6\sigma$):
-\begin{equation*}
-  F^{\ell,\mathrm{in}}
-  = \frac{1}{4} \phi(0)
-  + \frac{1}{2} D(0) \pder{\phi}{x}(0)
-  = \frac{1}{4} \phi(0)
-  + \frac{1}{2} \frac{1}{6\sigma} \pder{\phi}{x}(0) \,.
-\end{equation*}
+Figure~\ref{fig:bcChannelIsotropic} shows a line-out of the scalar flux
+$\phi(2.5,y)$, along the center
+of the channel. Standard diffusion fails because $\sigma=0.01$ leads to a very
+large diffusion coefficient, resulting in a nearly constant solution inside the
+channel. Anisotropic diffusion performs exceedingly well, and curiously the
+white boundary gives a better result than the reflecting boundary.
 
 \begin{figure}[htb]
   \centering
-  \hspace{-.6in}
-  \subfigure[$q=0.001$, $F^{\ell,\mathrm{in}}=0$]{
-  \input{bndyconditions/phi-bl-homog/include}
-  }
-  \hspace{-.2in}
-  \subfigure[$q=0$, $F^{\ell,\mathrm{in}}=1$]{
-  \input{bndyconditions/phi-bl-homog-nosource/include}
-  }
-  \hspace{-.6in}
-  \caption{Solutions with a semi-infinite homogeneous medium, $\sigma=1$,
-  $c=0.999$.}
-  \label{fig:bndycondSolutions}
+  \hspace{-.5in}
+  \input{channel_bc/isotropic-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux along the centerline of the channel with an isotropic
+  boundary condition at $y=0$.}
+  \label{fig:bcChannelIsotropic}
 \end{figure}
 
 \begin{figure}[htb]
   \centering
-  \hspace{-.6in}
-  \subfigure[$q=0.001$, $F^{\ell,\mathrm{in}}=0$]{
-  \input{bndyconditions/err-bl-homog/include}
-  }
-  \hspace{-.2in}
-  \subfigure[$q=0$, $F^{\ell,\mathrm{in}}=1$]{
-  \input{bndyconditions/err-bl-homog-nosource/include}
-  }
-  \hspace{-.6in}
-  \caption{Absolute errors with a semi-infinite homogeneous medium, $\sigma=1$,
-  $c=0.999$.}
-  \label{fig:bndycondErrors}
+  \hspace{-.5in}
+  \input{channel_bc/delta-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux along the centerline of the channel with a normal
+  boundary condition at $y=0$.}
+  \label{fig:bcChannelDelta}
 \end{figure}
 
 \begin{figure}[htb]
   \centering
-  \input{bndyconditions/plot-bl-homog-c/include}
-  \caption{Absolute error in $\phi$ at three points with a semi-infinite
-  homogeneous medium, vacuum boundary on the left, $\sigma=1$,
-  $q=\sigma(1-c)$, as a function of the scattering ratio $c$ for the three
-  methods.}
-  \label{fig:bndycondHomogC}
+  \hspace{-.5in}
+  \input{channel_bc/grazing-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux along the centerline of the channel with a grazing
+  boundary condition at $y=0$.}
+  \label{fig:bcChannelGrazing}
 \end{figure}
 
-\begin{figure}[htb]
+A visualization of the angular flux for each method (replacing Monte Carlo with
+an \SN\ solution), Fig.~\ref{fig:bcChannelIsotropicAngular}, helps explain the
+accuracy
+of the AD method and the difference between the reflecting and white boundary
+treatments. Even though AD cannot exactly model the peak of freely streaming
+photons in the channel (which the \SN\ angular flux shows at $\theta=3\pi/2$),
+it accurately approximates the angular flux shape driven by scattering from the
+diffusive region (the lobes on the left and right).
+The linear-in-angle diffusion approximation cannot represent any of these
+features.  
+
+\begin{figure}[htb!]
   \centering
-  \input{bndyconditions/plot-bl-homog-c-nosource/include}
-  \caption{Absolute error in $\phi$ at three points with a semi-infinite
-  homogeneous medium, incident source
-  boundary of $F^{\ell,\mathrm{in}}=1$ on the left, $\sigma=1$, $q=0$, as a
-  function of the scattering ratio $c$.}
-  \label{fig:bndycondHomogC}
-\end{figure}
-%
-%\begin{figure}[htb]
-%  \centering
-%  \input{bndyconditions/plot-bl-homog-left-inc-nosource/include}
-%  \caption{Error norms with a semi-infinite homogeneous medium, incident
-%  boundary on the left, $\sigma=1$, with a varying incident intensity on the
-%  left.}
-%  \label{fig:bndycondHomogC}
-%\end{figure}
-
-Standard diffusion approximates the intensity as
-\begin{equation*}
-  I_\mathrm{D}(x, \mu) \approx \frac{1}{2} \phi(x) - \frac{3}{2} \mu D(x) \pder{\phi}{x}(x)\,,
-\end{equation*}
-and AD approximates it as
-\begin{equation*}
-  I_\mathrm{AD}(x, \mu) \approx \frac{1}{2} \phi(x) - \mu f(x, \mu)
-  \pder{\phi}{x}(x)\,
-\end{equation*}
-where $f$ is determined by a transport problem. Normally, only the second
-moment of $f$ is calculated by accumulation during a transport sweep, but if we
-store the full angular form, we can plot $I_\mathrm{AD}(x, \mu)$.
-
-Fig.~\ref{fig:bndycondAdfOut} plots $f$ at the boundary and at one mean free
-path into the problem. The coefficient that gives $\int \mu^2 f(x,\mu) \ud \mu
-=D $ is $f=1/2\sigma$.
-
-\begin{figure}[htb]
-  \centering
-  \hspace{-.6in}
-  \subfigure[$x=0.00125$]{
-  \input{bndyconditions/adf-bl-homog-x0/include}
-  }
-  \hspace{-.2in}
-  \subfigure[$x=1$]{
-  \input{bndyconditions/adf-bl-homog-x1/include}
-  }
-  \hspace{-.6in}
-  \caption{Calculated values for $f$.}
-  \label{fig:bndycondAdfOut}
+  \vspace{-.25in}
+  \hspace{-.5in}
+  \input{channel_bc/angle-isotropic-cmfp/plot}
+  \hspace{-.5in}
+  \vspace{-.25in}
+  \caption{Angular flux $\psi(2.5, 1., \theta)$, in the centerline of the
+  channel one unit from the boundary.}
+  \label{fig:bcChannelIsotropicAngular}
 \end{figure}
 
-Figure~\ref{fig:bndycondAngularIntensity} plots the angular intensity at the
-boundary (a), half a mean free path away (b), and one mean free path away (c),
-for the four compared methods. 
-\begin{figure}[htb]
-  \centering
-  \hspace{-.6in}
-  \subfigure[$x=0.00125$]{
-  \input{bndyconditions/angle-bl-homog-x0/include}
-  }
-  \hspace{-.2in}
-  \subfigure[$x=0.5$]{
-  \input{bndyconditions/angle-bl-homog-x0-5/include}
-  }
-  \hspace{-.6in}
+The shape around $\theta=\pi/2$ gives insight into why the white boundary
+performs better in this problem: a reflecting boundary produces a peak in $f$
+along the channel, but a white boundary gives a more isotropic shape near that
+range, better matching the incident isotropic boundary condition. This suggests
+that the qualitatively best way to satisfy Eq.~\eqref{eq:zetaCondition} may be
+to have $\zeta$ take the shape of the true boundary condition.
 
-  \subfigure[$x=1$]{
-  \input{bndyconditions/angle-bl-homog-x1/include}
-  }
-  \caption{Angular intensity near a vacuum boundary in a semi-infinite
-  homogeneous medium.}
-  \label{fig:bndycondAngularIntensity}
-\end{figure}
-
-
-\clearpage
-\begin{figure}[htb]
-  \centering
-  \hspace{-.6in}
-  \subfigure[Scalar intensity]{
-  \input{bndyconditions/phi-bl-deltasource/include}
-  }
-  \hspace{-.2in}
-  \subfigure[Relative error]{
-  \input{bndyconditions/relerr-bl-deltasource/include}
-  }
-  \hspace{-.6in}
-  \caption{Incident delta source on the left, $\sigma=1$,
-  $c=0.999$, no internal source, vacuum on the right.}
-  \label{fig:bndycondSolutions}
-\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Steady-state flatland checkers}
 
