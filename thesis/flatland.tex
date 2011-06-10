@@ -9,13 +9,15 @@ geometry, which represents a 3-D problem that is invariant in the $z$ axis,
 where particles can travel at different polar angles out of the page. The
 constraint of living in the page reduces the phase space of the transport
 equation, as the flatland solution is only a function of the azimuthal angle
-rather than both azimuthal and polar angles. This reduction in phase space makes 
+$\theta$
+rather than both azimuthal and polar angles $\mu,\theta$. This reduction in
+phase space makes 
 flatland geometry a computationally less burdensome testing ground for new
 methods.
 
 Despite being easier computationally to solve, flatland has a few subtle quirks
-that need to be taken into account before implementing a solver in that
-geometry. Previous work in flatland \cite{Asa2008,Lar2009c} has shown that the
+that need to be understood before a flatland-geometry solver is implemented.
+Previous work in flatland \cite{Asa2008,Lar2009c} has shown that the
 diffusion coefficient for flatland geometry $\frac{1}{2\sigma}$ is different from
 the physical diffusion coefficients $\frac{1}{3\sigma}$, but the correct
 formulation for flatland diffusion boundary
@@ -25,58 +27,100 @@ strange geometry.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Transport in flatland}
-
-Two-dimensional $x$-$y$ geometry represents a three-dimensional problem that is
-invariant in the $z$ direction. 
-
-The general-geometry steady-state transport equation with isotropic scattering
-and an isotropic source is
-\begin{equation}\label{eq:generalTransport}
-  \vec{\Omega}\vd \grad I + \sigma I
-  = \frac{\sigma_s}{\omega_0} \int_{\Omega} I \ud\Omega + \frac{q}{\omega_0} \,.
+To aid in understanding the effect of the geometric constraints on the
+diffusion approximation, we write the steady-state transport equation with
+isotropic scattering as
+\begin{subequations} \label{eqs:ssTransport}
+\begin{equation}\label{eq:ssTransportVol}
+  \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega})
+  + \sigma(\vec{x}) I(\vec{x}, \vec{\Omega})
+  = \frac{1}{\omega_0} \phi(\vec{x}) \,,
+  \quad \vec{x} \in V \,,\ \vec{\Omega} \in \Omega\,.
 \end{equation}
+Here, we use
+\begin{align*}
+  I(\vec{x},\vec{\Omega}) &= \text{the steady-state angular intensity,} \\
+  \vec{\Omega} &= \text{the angular variable,} \\
+  \Omega &= \text{the domain of the angular variable,} \\
+  \omega_n &= \text{the $n$th moment of the angular variable, and} \\
+  \phi(\vec{x}) &= \text{the scalar intensity, the first angular moment of $I$.}
+\end{align*}
+The angular domains and definitions are defined in
+Table~\ref{tab:angularDomain}, and the moments $\omega_0$ are evaluated in
+Table~\ref{tab:angularMoments}. We consider a specified incident
+boundary condition:
+\begin{equation} \label{eq:ssBndy}
+  I(\vec{x}, \vec{\Omega}) = I^b(\vec{x}, \vec{\Omega})
+  \quad \vec{x} \in \partial V \,,\ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
+\end{subequations}
 
-\begin{sidewaystable}[hp]
+
+\begin{table}[htb]
   \centering
-  \renewcommand*{\arraystretch}{1.5}
-  \begin{tabular}{rcccccc}
+  \begin{tabular}{rccc}
 \toprule
    Geometry & $\vec{\Omega}$ & Domain $\Omega$ & $\ud\Omega$
-   & $\omega_0 \equiv \int_\Omega \ud\Omega$
-   & $\omega_1 \equiv \int_\Omega \abs{\vec{\Omega}\vd\vec{i}} \ud\Omega$
-   & $\omega_2 \equiv \int_\Omega (\vec{\Omega}\vd\vec{i})^2 \ud\Omega$
 \\ \midrule
    1D & $\mu$ & $-1 \le \mu \le 1$ & $\ud\mu$
-   & 2 & 1 & $\frac{2}{3}$
    \\
    2D & $\sqrt{1-\mu^2} \cos \theta \vec{i}
    + \sqrt{1-\mu^2} \sin \theta \vec{j}$
    & $-1 \le \mu \le 1$, $0 \le \theta < 2\pi$ & $\ud\mu \ud \theta$
-   & $4\pi$ & $2\pi$ & $\frac{4\pi}{3}$
    \\
    Flatland & $\cos \theta \vec{i} + \sin \theta \vec{j}$
    & $0 \le \theta < 2\pi$ & $\ud \theta$
-   & $2\pi$ & $4$ & $\pi$
    \\
    3D & $\mu \vec{i}
    + \sqrt{1-\mu^2} \cos \theta \vec{j}
    + \sqrt{1-\mu^2} \sin \theta \vec{k}$
    & $-1 \le \mu \le 1$, $0 \le \theta < 2\pi$ & $\ud\mu \ud \theta$
-   & $4\pi$ & $2\pi$ & $\frac{4\pi}{3}$
 \\ \bottomrule
   \end{tabular}
-  \caption{Geometry descriptions and identities.}
-  \label{tab:geometry}
-\end{sidewaystable}
+  \caption{Angular domains of the various geometries.}
+  \label{tab:angularDomain}
+\end{table}
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{rccc}
+\toprule
+   Geometry
+   & $\omega_0 \equiv \int_\Omega \ud\Omega$
+   & $\omega_1 \equiv \int_\Omega \abs{\vec{\Omega}\vd\vec{i}} \ud\Omega$
+   & $\omega_2 \equiv \int_\Omega (\vec{\Omega}\vd\vec{i})^2 \ud\Omega$
+\\ \midrule
+   1D & 2 & 1 & $\frac{2}{3}$
+   \\
+   2D & $4\pi$ & $2\pi$ & $\frac{4\pi}{3}$
+   \\
+   Flatland & $2\pi$ & $4$ & $\pi$
+   \\
+   3D & $4\pi$ & $2\pi$ & $\frac{4\pi}{3}$
+\\ \bottomrule
+  \end{tabular}
+  \caption{Angular moments in each geometry.}
+  \label{tab:angularMoments}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \subsection{An insightful comparison problem}
+To help understand the differences between flatland geometry and real life, we
+consider a simple purely absorbing transport problem that describes particles
+being emitted from one surface toward another.
+This is not a novel problem, so we will not labor over the derivation or
+results.
 
-On paper, the problem looks like Fig.~\ref{fig:chordFlatland}, where $\theta$
-is the azimuthal angle in both flatland and 2-D geometry. However, in flatland,
-the line of length $s$ is constrained to the plane, where in 2D, $s$ is the
-length of the distance projected onto the plane. The line actually 
+On paper, the problem looks like Fig.~\ref{fig:chordFlatland}. In 2D, the two
+gray surfaces and the gap extend infinitely into and out of the page.
+In the figure, $\theta$ is the azimuthal angle in both flatland and 2-D
+geometry. In flatland, the line of length $s$ is constrained to the plane,
+whereas in 2D, $s$ extends out of the plane (see Fig.~\ref{fig:chordXy}).
+
+For the purposes of comparison, we also view Fig.~\ref{fig:chordFlatland} as a
+sagittal section of an infinite cylinder; Fig.~\ref{fig:chordRz} shows a
+cross-sectional view.
+
 \begin{figure}[htb]
   \centering
   \includegraphics{chord-flatland}
@@ -94,61 +138,74 @@ length of the distance projected onto the plane. The line actually
   {A more full view of the chord length problem in 2-D geometry.
   The polar angle cosine is $\mu= \cos \varphi$, and the azimuthal angle is
   $\theta$.}
-  \label{fig:chordFlatland}
+  \label{fig:chordXy}
 \end{figure}
 
 \begin{figure}[htb]
   \centering
   \includegraphics{chord-rz}
-  \caption[A cross-section of the chord length problem in $r$--$z$
+  \caption[A cross-section of the chord length problem in cylindrical
   geometry.]%
-  {A cross-section of the chord length problem in $r$--$z$
+  {A cross-section of the chord length problem in cylindrical
   geometry. The orthogonal view looks like Fig.~\ref{fig:chordFlatland}.}
   \label{fig:chordRz}
 \end{figure}
 
-Flatland probability of reaching other side:
+\subsubsection{Derivation}
+
+The average probability of being emitted isotropically from the surface and
+reaching the other side, $\tau$ mean free paths away, without collision is
+\begin{align*}
+  p(\tau) = \int_{\vec{\Omega}\vd\vec{n}>0} \eexp^{-\tau s(\vec{\Omega}) }
+  f(\vec{\Omega}) \ud\Omega\,.
+\end{align*}
+Here, $f(\vec{\Omega})\ud\Omega$ is the probability of being emitted
+isotropically from a surface into $\ud\Omega$ about $\vec{\Omega}$, and $s$ is
+the distance to the other side along $\vec{\Omega}$ in units of $\tau$. The
+derivation of $f$ will be discussed in \S\ref{sec:isoSurface}.
+
+In flatland, simple geometry relates $s = 1/\sin\theta$, giving
 \begin{equation*}
-  p(\tau) = \frac{\int_{0}^{\pi} \eexp^{-\tau / \sin \theta} \sin \theta \ud
-  \theta}{\int_{0}^{\pi} \sin \theta \ud \theta}
-  = \frac{1}{2} \int_{0}^{\pi} \eexp^{-\tau / \sin \theta} \sin \theta \ud
-  \theta
+  p(\tau) = \int_{0}^{\pi} \eexp^{-\tau / \sin \theta} \frac{\sin \theta}{2}
+  \ud\theta\,.
 \end{equation*}
 
-2-D probability of reaching other side:
+In 2D, the polar direction modifies the length of $s$ by $\sqrt{1-\mu^2}$, and
+a coordinate transform from $\vec{j}$ to $\vec{k}$ allows us to re-express the
+integral as a simpler function of just $\mu$:
 \begin{equation*}
-  p(\tau) = \frac{\int_{0}^{\pi} \int_{-1}^{1} \eexp^{-\tau / \left(
+  p(\tau) = \int_{0}^{\pi} \int_{-1}^{1} \eexp^{-\tau / \left(
   \sqrt{1-\mu^2} \sin\theta \right)}
-  \sqrt{1-\mu^2} \sin\theta \ud\mu \ud \theta}
-  {\int_{0}^{\pi} \int_{-1}^{1} \sqrt{1-\mu^2} \sin\theta \ud\mu \ud\theta}
-  = \frac{\int_{0}^{2\pi} \int_{0}^{1} \eexp^{-\tau / \mu} \mu
-  \ud\mu \ud\theta }
-  {\int_{0}^{2\pi} \int_{0}^{1} \mu \ud\mu \ud\theta}
-  = 2 \int_{0}^{1} \eexp^{-\tau / \mu} \mu
-  \ud\mu
+  \frac{\sqrt{1-\mu^2} \sin\theta}{\pi} \ud\mu \ud \theta
+  = 2 \int_{0}^{1} \eexp^{-\tau / \mu} \mu \ud\mu\,.
 \end{equation*}
 
-Cylindrical probability of reaching other side:
+For cylindrical geometry, we consider $\theta$ in the cross-sectional plane
+(Fig.~\ref{fig:chordRz}) to give the equivalent problem of a circle in 2-D
+geometry.
 \begin{equation*}
-  p(\tau) = \frac{\int_{0}^{\pi} \int_{-1}^{1} \eexp^{-\tau \sin \theta / 
+  p(\tau) = \int_{0}^{\pi} \int_{-1}^{1} \eexp^{-\tau \sin \theta / 
   \sqrt{1-\mu^2}}
-  \sqrt{1-\mu^2} \sin\theta \ud\mu \ud \theta}
-  {\int_{0}^{\pi} \int_{-1}^{1} \sqrt{1-\mu^2} \sin\theta \ud\mu \ud\theta}
-  = \frac{1}{\pi} \int_{0}^{\pi} \int_{-1}^{1} \eexp^{-\tau \sin \theta / 
-  \sqrt{1-\mu^2}}
-  \sqrt{1-\mu^2} \sin\theta \ud\mu \ud \theta
+  \sqrt{1-\mu^2} \frac{\sin\theta}{\pi} \ud\mu \ud \theta\,.
 \end{equation*}
+
+\clearpage
+\subsubsection{Results}
+Evaluating those three probabilities for different values of $\tau$ gives
+Table~\ref{tab:collision}. The effect of ``living on the page'' is to have, on
+average, a shorter distance across a material, leading to a larger survival
+probability.
 
 \begin{table}[htb]
   \centering
-  \begin{tabular}{llll}
+  \begin{tabular}{clll}
 \toprule
-\phantom{10}$\tau$ & $r$--$z$ & Flatland & $x$--$y$
+\phantom{10}$\tau$ & \rz & Flatland & \xy
 \\ \midrule
-           0.01 & 0.990 & 0.985 & 0.981 \\
-\phantom{1}0.1 & 0.906 & 0.863 & 0.833 \\
-\phantom{1}1 & 0.404 & 0.274 & 0.219 \\
-\phantom{1}10 & 0.00772 & 1.63\EE{-5} & 7.10\EE{-6}
+          \phantom{0}0.01 & 0.990 & 0.985 & 0.981 \\
+\phantom{0}0.1\phantom{0} & 0.906 & 0.863 & 0.833 \\
+\phantom{0}1.\phantom{00} & 0.404 & 0.274 & 0.219 \\
+10.\phantom{00} & 0.00772 & 1.63\EE{-5} & 7.10\EE{-6}
  \\
 \bottomrule
   \end{tabular}
@@ -157,92 +214,178 @@ Cylindrical probability of reaching other side:
   \label{tab:collision}
 \end{table}
 
+Not sure if this problem was too helpful. Maybe I should just keep the figures
+differentiating flatland from 2D and leave out the problem, probabilities, and
+results.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \subsection{Monte Carlo sampling}
-\cite{Lew1984,Bro2004a}
-Direct sampling 
-probability distribution function (PDF)
-cumulative distribution function (CDF)
+The Monte Carlo method approximates the transport equation by tracking the
+random lives of statistically large numbers of particles as they traverse a
+problem. The behavior during their lifetime depends on probability distribution
+functions (PDFs) that describe how they are born, how far they travel without a
+collision, how they behave when they collide, and so on. 
+
+The general Monte Carlo process has been covered extensively elsewhere
+\cite{Lew1984,Bro2004a}; our focus in this section is to expound upon the
+distributions particular to flatland geometry. We briefly derive those PDFs,
+integrate them to get cumulative distribution functions
+(CDFs), and use the direct inversion method to show how a pseudo-random number
+generator (PRNG) may be used to determine particle behavior in flatland.
 
 \subsubsection{Isotropic volume source}
-An isotropic internal source, whether directly from an extraneous radiation
-source or indirectly from isotropic scattering, has an equal probability of
-entering any angle. The normalized  that
+A particle emitted from an isotropic internal source, whether an extraneous
+radiation source or an indirect isotropic scattering event, has an equal
+probability of entering any angle. In any geometry, the normalized PDF that
 represents this process is
+\begin{equation}\label{eq:volumeSource1}
+  f(\vec{\Omega}) \ud \Omega = c \ud \Omega \,,
+  \quad \vec{\Omega} \in \Omega \,,
+\end{equation}
+where (see Table~\ref{tab:angularDomain}) $\Omega$ is the angular domain of the
+geometry.
+Requiring the PDF to integrate to unity over its domain gives the
+geometry-independent normalization constant $c$:
+\begin{align*}
+  1 = \int_{\Omega} f(\vec{\Omega}) \ud\Omega
+  = c \int_{\Omega} \ud\Omega
+  \lra
+  c = \frac{1}{\omega_0}\,.
+\end{align*}
+Thus the angular distribution of an isotropic volume source is
+\begin{equation}\label{eq:volumeSource2}
+  f(\vec{\Omega}) \ud \Omega = \frac{\ud\Omega}{\omega_0} \,,
+  \quad \vec{\Omega} \in \Omega\,.
+\end{equation}
+
+In 2D, using the identities from Tables~\ref{tab:angularDomain}
+and~\ref{tab:angularMoments}, Eq.~\eqref{eq:volumeSource2} evaluates to the
+familiar
 \begin{equation*}
-  f(\theta) \ud \theta = \frac{1}{2\pi} \ud \theta\,, \quad \theta \in [0, 2\pi)\,.
+  f(\mu,\theta) \ud\mu\ud\theta = \frac{\ud\mu\ud\theta}{4\pi} 
+  = \frac{\ud\mu}{2}\frac{\ud\theta}{2\pi}
+  \,,
+  \quad -1\le \mu \le 1,\ 0 \le \theta < 2\pi\,,
 \end{equation*}
-To sample the angle that results from an isotropic event, we use the :
+which gives the separable CDF
 \begin{equation*}
-  F(\theta) = \int_{0}^{\theta} f(\theta') \ud \theta' = \frac{1}{2\pi}
-  \theta\,.
+  F(\mu,\theta) = F_1(\mu) F_2(\theta)
+  = \frac{1 + \mu}{2}\frac{\theta}{2\pi}\,,
+  \quad -1\le \mu \le 1,\ 0 \le \theta < 2\pi\,.
 \end{equation*}
+Setting $\xi_1 = F(\mu)$, $\xi_2 = F(\theta)$, solving for $\mu,\theta$, and
+introducing them back into the 2-D representation of $\vec{\Omega}$, we get the
+well-known result
+\begin{equation*}
+  \vec{\Omega} = \sqrt{1-\mu^2} \cos \theta \vec{i}
+   + \sqrt{1-\mu^2} \sin \theta \vec{j}
+  = \sqrt{1-(2\xi_1-1)^2} \cos(2\pi\xi_2) \vec{i}
+   + \sqrt{1-(2\xi_1-1)^2} \sin(2\pi\xi_2) \vec{j}\,.
+\end{equation*}
+
+In flatland, Eq.~\eqref{eq:volumeSource2} becomes the simpler
+\begin{equation*}
+  f(\theta) \ud\theta = \frac{\ud\theta}{2\pi} \,,
+  \quad 0 \le \theta < 2\pi\,,
+\end{equation*}
+yielding the CDF
+\begin{equation}\label{eq:volumeSourceFlatland}
+  F(\theta) = \frac{\theta}{2\pi}\,,
+  \quad 0 \le \theta < 2\pi\,,
+\end{equation}
 Setting $\xi_1 = F(\theta)$ and solving for $\theta = F\inv(\xi_1)$ gives the
 simple result that
 \begin{equation*}
   \theta = 2\pi \xi_1\,.
 \end{equation*}
-The particle's new angle is therefore
+The flatland particle's new angle is therefore
 \begin{equation*}
   \vec{\Omega} = \cos \theta \vec{i} + \sin \theta \vec{j}
-  = \cos 2\pi\xi_1\vec{i} + \sin 2\pi\xi_1 \vec{j}\,.
+  = \cos(2\pi\xi_1) \vec{i} + \sin(2\pi\xi_1) \vec{j}\,.
 \end{equation*}
 
-\subsubsection{Isotropic surface source}
+With only one independent variable that needs sampling, and the omission of
+the transcendental operation $\sqrt{1-\mu^2}$, the computational cost of a
+scattering event is significantly less in flatland than in 2D, leading to
+faster simulation times.
+
+\subsubsection{Isotropic surface source}\label{sec:isoSurface}
 Particles emitted from an isotropic surface source have a cosine distribution
 \cite{Gre2002}, which makes constant the radiation flux in each differential
 angle:
-\begin{equation}\label{eq:surfaceSource}
+\begin{equation}\label{eq:surfaceSource1}
   f(\vec{\Omega}) \ud \Omega = c \abs{\vec{\Omega}\vd \vec{n}} \ud \Omega \,,
-\vec{\Omega}\vd \vec{n} < 0 \,,
+\quad \vec{\Omega}\vd \vec{n} < 0 \,,
 \end{equation}
 where $c$ is a normalization constant.
 
-In 3D, with $\vec{n}=\vec{i}$ so $\abs{\vec{\Omega}\vd \vec{n}}=\mu$, this has
-the form
+Requiring the PDF to integrate to unity over its domain gives the
+normalization constant independent of geometry:
+\begin{align*}
+  1 &= \int_{\vec{\Omega}\vd \vec{n} < 0} f(\vec{\Omega}) \ud\Omega
+  \\
+  1 &= c \int_{\vec{\Omega}\vd \vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
+    \ud\Omega
+  \\
+  1 &=\frac{c}{2} \int_{\Omega} \abs{\vec{\Omega}\vd \vec{n}} \ud\Omega
+  \\
+  c &= \frac{2}{\omega_1}\,.
+\end{align*}
+With this, the PDF for an isotropic surface source,
+Eq.~\eqref{eq:surfaceSource1}, becomes
+\begin{equation}\label{eq:surfaceSource2}
+  f(\vec{\Omega}) \ud \Omega = \frac{2}{\omega_1} \abs{\vec{\Omega}\vd \vec{n}} \ud \Omega \,,
+\quad \vec{\Omega}\vd \vec{n} < 0 \,.
+\end{equation}
+In 3D, choosing $\vec{n}=\vec{i}$, this PDF is
 \begin{equation*}
-  f(\mu, \theta) \ud\mu \ud\theta = \frac{\mu \ud\mu}{2} \frac{\ud\theta}{2\pi}
-  \,,\quad 0 \le \mu < 1\,,\ 0 \le \theta < 2\pi\,,
+  f(\mu,\theta) \ud\mu \ud\theta
+  = \frac{1}{\pi} \mu \ud\mu \ud\theta
+  = (2 \mu \ud\mu) \frac{\ud\theta}{2\pi}\,,
 \end{equation*}
-a separable distribution that gives $\mu=\sqrt{\xi_1}$ and $\theta=2\pi \xi_2$.
+which gives the separable CDF
+\begin{equation*}
+  F(\mu,\theta) = (\mu^2) \frac{\theta}{2\pi}\,,
+\end{equation*}
+from which we can sample $\mu=\sqrt{\xi_1}$ and $\theta=2\pi \xi_2$.
 
-For flatland geometry, the representation is different. Let us choose
+In flatland, the surface source distribution is different. Let us choose
 $\vec{n} = -\vec{j}$ so that incident directions are inside
 $\theta \in [0, \pi)$.
-Applying the flatland identities in Table~\ref{tab:geometry} to
-Eq.~\eqref{eq:surfaceSource} gives
+Applying the flatland identities in Tables~\ref{tab:angularDomain}
+and~\ref{tab:angularMoments} to Eq.~\eqref{eq:surfaceSource1} gives the surface
+source PDF of
 \begin{equation*}
-  f(\theta) \ud\theta = c\abs{ -\sin \theta}
-  = c \sin \theta \,,\quad 0 \le \theta < \pi\,.
+  f(\theta) \ud\theta = \frac{2}{4} \, \abs{ -\sin \theta}\ud\theta
+  = \frac{1}{2} \sin \theta\ud\theta \,,\quad 0 \le \theta < \pi\,.
 \end{equation*}
-Integrating this gives
-\begin{equation*}
-  F(\theta) \ud\theta = c \left( 1-\cos\theta \right)
+Integrating, we find the CDF for particle emission from
+a surface source in flatland geometry to be
+\begin{equation}\label{eq:surfaceSourceFlatland}
+  F(\theta) = \frac{1}{2} \left( 1-\cos\theta \right)
   \,,\quad 0 \le \theta < \pi\,,
-\end{equation*}
-The constant $c$ should satisfy $F(\pi)=1$:
-\begin{equation*}
-  1 = c (1 - (-1) ) \lra c=\frac{1}{2}\,.
-\end{equation*}
-
-Thus, the CDF for particle emission from a surface source in flatland geometry
-is
-\begin{equation*}
-  F(\theta) \ud\theta = \frac{1}{2} \left( 1-\cos\theta \right)
-  \,,\quad 0 \le \theta < \pi\,.
-\end{equation*}
+\end{equation}
 Solving for $\theta = F\inv(\xi_1)$ gives a sampled angle for a surface source
 in flatland:
 \begin{equation*}
   \theta = \cos\inv(1 - 2\xi_1)\,.
 \end{equation*}
-Using the identity $\cos^2 \theta + \sin^2 \theta = 1$, the particle's new angle is
+Finally, we insert this into the flatland $\vec{\Omega}$ and use the identity
+$\cos^2 \theta + \sin^2 \theta = 1$ to reduce the number of transcendental
+functions. The direction of a particle from an isotropic surface source is
 \begin{align*}
   \vec{\Omega} &= \cos \theta \vec{i} + \sin \theta \vec{j} \\
   &=  \cos[ \cos\inv(1 - 2\xi_1) ] \vec{i} + \sin[ \cos\inv(1 - 2\xi_1) ] \vec{j} \\
   &= (1 - 2\xi_1) \vec{i} + \sqrt{1 - (1 - 2\xi_1)^2} \vec{j}\,.
 \end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Discrete ordinates quadrature}
+
+A standard practice in two-dimensional discrete ordinates (\SN)
+solvers is to create a quadrature set that only creates polar
+angles for the top half of a unit sphere, $\mu>0$, and to modify
+the ordinate weights to sum to $4\pi$ \cite{Zik1997}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diffusion in flatland}
@@ -252,7 +395,8 @@ is projected onto the 2-D plane. In contrast, flatland particles have one fewer
 dimension into which to leak: as we will see, the result is a larger diffusion
 coefficient.
 
-The differences in the identities shown in Table~\ref{tab:geometry} result not
+The differences in the identities shown in Table~\ref{tab:angularMoments}
+result not
 only in a different diffusion coefficient but also different boundary
 conditions. In this section, we derive boundary conditions from a steady-state
 transport equation with isotropic scattering. There is no loss of generality in
@@ -261,7 +405,7 @@ the derivation of the diffusion coefficient (see \S\ref{sec:diffusion}).
 
 To aid the reader in understanding whence the different coefficients in the
 diffusion equation arise, we use the geometric constants given in
-Table~\ref{tab:geometry}:
+Table~\ref{tab:angularMoments},
 \begin{equation*}
   \omega_n \equiv \int_\Omega \abs{\vec{\Omega} \vd \vec{i}}^n \ud \Omega\,,
 \end{equation*}
@@ -271,23 +415,6 @@ in flatland, $\vec{\Omega}$ lives on a $2\pi$ unit circle.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Interior diffusion approximation}
-The steady-state transport equation with isotropic scattering is
-\begin{subequations} \label{eqs:ssTransport}
-\begin{equation}\label{eq:ssTransportVol}
-  \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega})
-  + \sigma(\vec{x}) I(\vec{x}, \vec{\Omega})
-  = \frac{1}{\omega_0} \phi(\vec{x}) \,,
-  \quad \vec{x} \in V \,,\ \vec{\Omega} \in \Omega\,.
-\end{equation}
-Here, the scalar intensity is $\int_{\Omega} I \ud \Omega$, and the quantities
-$\omega_0$ and $\Omega$ are defined in Table~\ref{tab:geometry}: in flatland,
-$\omega_0=2\pi$; in 2D, $\omega_0=4\pi$. We consider a specified incident
-boundary condition:
-\begin{equation} \label{eq:ssBndy}
-  I(\vec{x}, \vec{\Omega}) = I^b(\vec{x}, \vec{\Omega})
-  \quad \vec{x} \in \partial V \,,\ \vec{\Omega} \vd \vec{n} < 0\,.
-\end{equation}
-\end{subequations}
 
 The diffusion approximation begins by assuming that $I$ is linear in angle:
 \begin{equation*}
@@ -496,7 +623,7 @@ which gives the approximate extrapolation distance of
 
 Now we repeat that analysis for flatland rather than real space. The first step
 is to consider a homogeneous, purely scattering transport problem in a
-semi-infinite plane. The transport equation~\eqref{eq:generalTransport} becomes
+semi-infinite plane. The transport equation~\eqref{eq:ssTransportVol} becomes
 \begin{subequations} \label{eqs:flatTransport}
 \begin{equation}\label{eq:flatTransportVol}
   \cos \theta \pder{I}{x} + \sin \theta \pder{I}{y} + \sigma I
@@ -675,4 +802,11 @@ Variational extrapolation distance:
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+The flatland geometry is a fictional geometry that can act as a computationally
+cheap test bed for methods development: it retains the spatial complexity of
+multi-dimensional problems, yet the angular treatment is easier. In Monte Carlo
+implementations, fewer random numbers are sampled per event and fewer expensive
+transcendental functions are evaluated. In the discrete ordinates method, only
+one azimuthal angle $\mu=0$ needs to be accounted for.
 

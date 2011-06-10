@@ -5,15 +5,12 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Compared methods}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Low-order spatial discretization}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flatland Boundary conditions}
+\subsection{Manufactured solutions}
 
-Angular distributions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Flatland boundary conditions}
 
 \begin{table}[htb]
   \centering
@@ -25,15 +22,66 @@ Isotropic & $I(\mu) = \frac{1}{2}$ & $I(\theta) = \frac{\pi}{2}$
 \\
 Normal & $I(\mu) = \delta(\mu-1)$ & $I(\theta) = \delta(\theta-\pi/2)$
 \\
-Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\theta) = \delta(\theta-\sin\inv0.1)$
+Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\theta) = \delta(\theta-\sin\inv.1)$
 \\ \bottomrule
   \end{tabular}
   \caption{Angular distributions used in boundary condition tests.}
   \label{tab:angularDistributions}
 \end{table}
 
+As a test problem, we consider a homogeneous flatland problem with a
+total cross section $\sigma=1$ and scattering ratio $c=0.99$. It lives on the
+domain $0 \le x \le 2$, $0 \le y \le 10$, with reflecting boundaries on the left,
+right, and top sides. The bottom side has a specified boundary
+condition with unit incident current, and we consider three different angular
+distributions.
+
+The first distribution is isotropic, $\psi^b(\theta) = \frac{1}{2}$. The second
+is a normally incident flux, with all particles entering
+perpendicular to the surface, $\psi^b(\theta) = \delta(\theta -
+\frac{\pi}{2})$. The third incident distribution is at a grazing angle, with 
+$\psi^b(\theta) = 10 \delta(\theta - \sin^{-1}.1)$.
 These are the same angular distributions used in a boundary matching analysis
 in \cite{Dav2006}.
+
+Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi_0$ along
+$x=1$ for an isotropic incident source. Because the left-hand sides of
+Eqs.~\eqref{eq:flatMarshak} and~\eqref{eq:flatVarBc} are the same, the
+differences in the solution are only due to the slightly different
+extrapolation distance.
+
+However, for the highly anisotropic normal and grazing cases,
+Figs.~\ref{fig:delta} and~\ref{fig:grazing}, the Marshak boundary fails to
+limit to the transport solution outside of the boundary layer. As
+expected, the variational boundary condition does a much better job of
+approximating the interior solution of the scalar flux.
+
+\begin{figure}[htb!]
+  \centering
+  \hspace{-.5in}
+  \input{diffusion_bc/isotropic-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux with an isotropic boundary condition.}
+  \label{fig:isotropic}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \hspace{-.5in}
+  \input{diffusion_bc/delta-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux with a normally incident boundary condition.}
+  \label{fig:delta}
+\end{figure}
+
+\begin{figure}[htb!]
+  \centering
+  \hspace{-.5in}
+  \input{diffusion_bc/grazing-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux with a grazing boundary condition.}
+  \label{fig:grazing}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion boundary conditions}
@@ -122,7 +170,11 @@ that the qualitatively best way to satisfy Eq.~\eqref{eq:zetaCondition} may be
 to have $\zeta$ take the shape of the true boundary condition.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \subsection{Steady-state flatland checkers}
+
+Here we consider a difficult problem that has repeating variations in both $x$
+and $y$ directions. It uses $c=0.99$, 
 
 \begin{figure}[htb]
   \centering
@@ -132,3 +184,15 @@ to have $\zeta$ take the shape of the true boundary condition.
   regions have $\sigma=1$, light regions have $\sigma=0.01$.}
   \label{fig:bcCheckersAdcoeff}
 \end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \hspace{-.5in}
+  \input{checkers_bc/isotropic-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux along $x=2$ of the checker problem with an isotropic
+  boundary condition at $y=0$.}
+  \label{fig:bcCheckersIsotropic}
+\end{figure}
+
+
