@@ -5,7 +5,7 @@
 \usepackage[T1]{fontenc}
 %\usepackage{txfonts}
 \usepackage{fourier}
-%\SetMathAlphabet{\mathcal}{normal}{OMS}{xmdcmsy}{m}{n}%revert calligraphy math
+\SetMathAlphabet{\mathcal}{normal}{OMS}{xmdcmsy}{m}{n}%revert calligraphy math
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % extra packages and shortcuts
 \usepackage{bm}
@@ -57,10 +57,10 @@
 \includeonly{%
 introduction,%
 trtBackground,%
-flatland,%
 adDerivation,%
 aponeDerivation,%
 implementation,%
+flatland,%
 simpleNumericalResults,%
 trtNumericalResults,%
 conclusion,%
@@ -163,18 +163,18 @@ problem of interest, radiation flow down a channel in ``flatland'' geometry.
 \mainmatter
 
 % note that chapter markers MUST go inside the ``include''-d file
-\include{introduction          }
-\include{trtBackground         }
-\include{adDerivation          }
-\include{aponeDerivation       }
-\include{implementation        }
-\include{flatland              }
+\include{introduction}
+\include{trtBackground}
+\include{adDerivation}
+\include{aponeDerivation}
+\include{implementation}
+\include{flatland}
 \include{simpleNumericalResults}
-\include{trtNumericalResults   }
-\include{conclusion            }
+\include{trtNumericalResults}
+\include{conclusion}
 
 %\appendix
-%\include{appendixLinearization }
+%\include{pytrt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAPHY

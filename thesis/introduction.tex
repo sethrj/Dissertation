@@ -3,20 +3,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}\label{chap:introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This is the introduction.
+This thesis extends an anisotropic diffusion method for infinite-medium,
+steady-state particle transport \cite{Mor2007,Lar2009c} to time-dependent
+nonlinear particle transport with arbitrary problem boundaries.
 
-Thermal radiative transfer \cite{Urb2006,McC2008a}, nonlinear radiative transfer
-\cite{Den2009}, radiative transfer and material temperature
-\cite{Gen2001,Mor2000}, thermal radiation transport \cite{McC2007,Dav2010},
+The past fifty years in which computers have been used to simulate radiative
+transfer problems \cite{Cam1964,Cam1969} have seen unbelievable
+increases in computer technology.
+Yet even today, with the need for increasingly accurate simulation of increasingly
+large and complex problems, computational power is still a limiting factor.
+This is especially true in the burgeoning field of Uncertainty Quantification
+(UQ), in which large numbers of computer simulations are needed to gauge the
+accuracy in the solution of a single problem. 
 
 Morel's tensor diffusion work \cite{Mor2007} says to use regular diffusion near
 problem boundaries, etc. It also talks about how only one transport sweep is
 needed.
 
-Material energy density \cite{Su2001}
-
 \section{Synopsis}
-The remainder of this thesis is organized into the following chapters:
+The remainder of this thesis is organized into the following chapters.
 
 \chaptersynopsis{chap:trtBackground}
 The assertions about the difficulty of computational modelling of thermal
@@ -67,6 +72,17 @@ discretization schemes, flatland diffusion boundary conditions, and anisotropic
 diffusion boundary conditions.
 
 \chaptersynopsis{chap:trtNumericalResults}
+Finally, we test the applicability of the anisotropic methods to the nonlinear
+TRT equations. To begin, we look at a few simple 1-D test problems, where the
+anisotropic methods merely ``smear'' the diffusion coefficients spatially. Then
+we move to more complicated flatland problems that simulate radiation flow
+through an optically thin channel, most applicable to the CRASH program.
+Additionally, we apply the AD method to some difficult 2-D problems in the
+literature that feature optically thick obstacles rather than optically thin
+streaming channels.
 
 \chaptersynopsis{chap:conclusion}
+The final chapter summarizes the results of the theory developed in this work
+and its application to TRT problems. We discuss possible improvements to the new
+methods and other future work.
 
