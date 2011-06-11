@@ -1,7 +1,7 @@
 % !TEX root = _individual/trtBackground.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Background: Thermal Radiative Transfer}
+\chapter{Background to Thermal Radiative Transfer}\label{chap:trtBackground}
 
 Thermal radiative transfer (TRT) is the nonlinear process describing the
 dominant form of energy transfer in a very hot material, such as the interior
@@ -174,6 +174,9 @@ The first approximation is to ``freeze'' the parameter $\beta$ at the beginning-
   \frac{1}{\beta^n}
   \pder{U_r}{t} \approx \sigma \int_{4\pi}  I \ud \Omega - \sigma c U_r \,.
 \end{equation}
+The process of freezing $\beta$ is equivalent to approximating the
+Planckian emission term with a Taylor series \cite{Kno2007}.
+
 Because the approximation to $\beta$ is an approximation to the rate of change
 in material energy, this equation no longer conserves the system's total
 energy. To enforce conservation of energy over a time step, we must set the

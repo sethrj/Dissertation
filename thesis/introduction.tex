@@ -1,7 +1,7 @@
 % !TEX root = _individual/introduction.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Introduction}
+\chapter{Introduction}\label{chap:introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This is the introduction.
 
@@ -16,3 +16,57 @@ needed.
 Material energy density \cite{Su2001}
 
 \section{Synopsis}
+The remainder of this thesis is organized into the following chapters:
+
+\chaptersynopsis{chap:trtBackground}
+The assertions about the difficulty of computational modelling of thermal
+radiative transfer are bolstered by presenting the equations themselves. We give
+a brief overview of existing approximations to the TRT regime and discuss how
+those approximations are used in our work. Particular emphasis is given to the
+semi-implicit treatment, which allows the nonlinear problem to be approximated
+by a system of linear equations.
+
+\chaptersynopsis{chap:adDerivation}
+With the transport equation in hand, we derive a new approximation to radiation
+transport, anisotropic diffusion. The derivation accounts for both the time
+dependence and boundary conditions. We then discuss some of the properties of
+the AD method and make predictions for its range of applicability.
+
+\chaptersynopsis{chap:aponeDerivation}
+The derivation for the time-dependent AD equations assumed that the solution
+changes very slowly in time, which can be a poor approximation when applied to
+TRT that leads to the nonphysical transfer of energy faster than the speed of
+light. This chapter addresses that shortcoming in two very different ways. The
+first is to apply the physically motivated but \emph{ad hoc} method of flux
+limiting to the AD formulation. The second is to modify the ansatz used in
+deriving the anisotropic diffusion equations, leading to the \APone\ method.
+
+\chaptersynopsis{chap:implementation}
+The leakage terms for anisotropic diffusion are more complex than standard
+diffusion: rather than a scalar diffusion coefficient, AD has a diffusion
+tensor. This necessitates unusual discretization schemes in all but the simplest
+of problems. We derive new discretization schemes for Cartesian \xy\ geometry
+that can account for the transverse leakage induced by the anisotropic diffusion
+tensor.
+
+\chaptersynopsis{chap:flatland}
+As mentioned earlier, the ``flatland'' geometry has recently proven to be a
+valuable test bed for new transport methods because of its smaller phase space
+and correspondingly easier solution. This chapter gives a thorough overview of
+the differences between flatland and true 3D geometries, with a focus on
+implementing flatland solvers. We also explore diffusion in flatland, not only
+deriving the prior result that the diffusion coefficient is different but also
+formulating correct diffusion boundary conditions. Finally, we present the AD
+equations in flatland geometry.
+
+\chaptersynopsis{chap:simpleNumericalResults}
+Before applying the anisotropic approximations to full nonlinear transport in
+multi-dimensional geometries, it is important that we test individual components
+of the derivation. We detail several steady-state problems that test the
+discretization schemes, flatland diffusion boundary conditions, and anisotropic
+diffusion boundary conditions.
+
+\chaptersynopsis{chap:trtNumericalResults}
+
+\chaptersynopsis{chap:conclusion}
+

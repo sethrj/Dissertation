@@ -1,7 +1,7 @@
 % !TEX root = _individual/flatland.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Flatland Geometry}
+\chapter{Flatland Geometry}\label{chap:flatland}
 
 Flatland geometry is a fictional two-dimensional space where particles are
 constrained to the page \cite{Abb1884,Asa2008}. This differs from standard 2-D
@@ -382,10 +382,30 @@ functions. The direction of a particle from an isotropic surface source is
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Discrete ordinates quadrature}
 
-A standard practice in two-dimensional discrete ordinates (\SN)
-solvers is to create a quadrature set that only creates polar
-angles for the top half of a unit sphere, $\mu>0$, and to modify
-the ordinate weights to sum to $4\pi$ \cite{Zik1997}.
+A standard practice in two-dimensional discrete ordinates (\SN) solvers is to
+create a quadrature set that only creates polar angles for the top half of a
+unit sphere, $\mu>0$, and to modify the ordinate weights to sum to $4\pi$
+\cite{Zik1997}. A properly designed quadrature set will also approach the
+integral identities of Table~\ref{tab:angularMoments} as the number of ordinates
+$N$ in the quadrature approaches infinity:
+\begin{equation*}
+  \omega_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
+\end{equation*}
+
+The most straightforward way of implementing the flatland geometry in an \SN\
+code is to create a special quadrature set consisting of ordinates that have a
+polar angle $\mu=0$. To retain compatibility with the isotropic scattering
+kernel, the quadrature weights are normalized so that they sum to $4\pi$
+instead of $2\pi$.
+
+Note that with this approach, visualizing $I(\theta)$ by only considering
+$I_m$ and not $w_m$ requires multiplying by a factor of two. Here is an
+example that uses the \verb|matplotlib| Python module's polar plot to view
+the flatland angular intensity:
+\begin{verbatim}
+    polar( [ angle.getPhi() for angle in quadrature_set ],
+           [ 2 * value for value in psi ] )
+\end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diffusion in flatland}
@@ -800,6 +820,14 @@ Variational extrapolation distance:
 \begin{equation*}
   z = \frac{\pi}{8} + \frac{4}{3\pi} \approx 0.81711
 \end{equation*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anisotropic diffusion in flatland}
+The derivation of the anisotropic diffusion method presented in
+chapter~\ref{chap:adDerivation} needs little modification to be formulated
+in the flatland geometry. The most notable change is in formulating the
+low-order boundary conditions.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}

@@ -1,13 +1,14 @@
 \documentclass[12pt, letterpaper, draft]{umthesis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
 % font choice
+\usepackage[T1]{fontenc}
+%\usepackage{txfonts}
 \usepackage{fourier}
 %\SetMathAlphabet{\mathcal}{normal}{OMS}{xmdcmsy}{m}{n}%revert calligraphy math
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % extra packages and shortcuts
-\SetMathAlphabet{\mathcal}{normal}{OMS}{xmdcmsy}{m}{n}%
 \usepackage{bm}
-\usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{microtype}
 \usepackage[pdftex]{graphicx}
@@ -29,6 +30,10 @@
 
 % New paragraph before lists only in thesis
 \newcommand{\prelistpar}{\par}
+
+% For use in the introduction
+\newcommand{\chaptersynopsis}[1]{%
+\subsubsection{Chapter~\ref{#1}: \nameref{#1}}}
 
 % float setup
 \renewcommand\floatpagefraction{.70}

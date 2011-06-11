@@ -1,0 +1,1 @@
+/Library/TeX/Root/texmf-dist/tex/latex/umthesis/umthesis.cls
