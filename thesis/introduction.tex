@@ -3,9 +3,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction}\label{chap:introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This thesis extends an anisotropic diffusion method for infinite-medium,
-steady-state particle transport \cite{Mor2007,Lar2009c} to time-dependent
-nonlinear particle transport with arbitrary problem boundaries.
+This thesis extends an anisotropic diffusion approximation to infinite-medium,
+steady-state particle transport \cite{Mor2007,Lar2009c}, using a new derivation
+to formulate an approximation to time-dependent nonlinear particle transport
+with arbitrary problem boundaries.
 
 The past fifty years in which computers have been used to simulate radiative
 transfer problems \cite{Cam1964,Cam1969} have seen unbelievable
@@ -14,11 +15,12 @@ Yet even today, with the need for increasingly accurate simulation of increasing
 large and complex problems, computational power is still a limiting factor.
 This is especially true in the burgeoning field of Uncertainty Quantification
 (UQ), in which large numbers of computer simulations are needed to gauge the
-accuracy in the solution of a single problem. 
+accuracy in the solution of a single problem.
 
-Morel's tensor diffusion work \cite{Mor2007} says to use regular diffusion near
-problem boundaries, etc. It also talks about how only one transport sweep is
-needed.
+It is one such problem in particular that inspired this work. The Center for
+RAdiative Shock Hydrodynamics (CRASH) program \cite{Crash2010} has the goal of
+computationally predicting the behavior of a laser-driven shock in a
+xenon-filled tube and providing ``error bars'' for that prediction. 
 
 \section{Synopsis}
 The remainder of this thesis is organized into the following chapters.
