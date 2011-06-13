@@ -6,7 +6,7 @@
 Thermal radiative transfer (TRT) is the nonlinear process describing the
 dominant form of energy transfer in a very hot material, such as the interior
 of a star or the
-target of a laser fusion experiment. The equations describing TRT are
+target of a laser fusion experiment. The equations that model TRT are
 time-dependent, contain strong nonlinearities, and reside in a large phase
 space. These difficulties make TRT the subject of significant work in methods
 development.
@@ -21,7 +21,7 @@ much theoretical work in the field neglects these complex phenomena by
   \item working in a fixed medium, disregarding material advection;
   \item assuming local thermodynamic equilibrium (LTE), which uses a single
     material temperature;
-  \item neglecting photon scattering, which VERIFY THIS tends to be small for
+  \item neglecting photon scattering, which tends to be comparatively small for
     very hot materials; and
   \item neglecting thermal conduction, since energy transfer is dominated by
     radiative transfer in the temperature regimes we consider.
@@ -327,27 +327,22 @@ we find equivalences between the two:
 \end{alignat*}
 Even though the original radiation transport equation was purely
 absorbing, the linearization scheme created a ``pseudoscattering''
-term that essentially emulates the absorption and reemission of
-radiation during a time step. The literature sometimes refers to an
+term that essentially emulates the absorption and isotropic reemission of
+radiation during a time step. The IMC literature often refers to the
 ``effective scattering opacity,''
 $\sigma_\text{es}^n \equiv \left(1 - f^n\right) \sigma^n$.
 
 Furthermore, if we take the zeroth angular moment of
 Eq.~\eqref{eq:linearizedGrayTransport} and let $\phi^{n+1}(\vec{x}) \equiv
-\frac{1}{4\pi} \int_{4\pi} I^{n+1}\ud \Omega$, then
-\begin{align*}
-  \frac{1}{c} \frac{\phi^{n+1} - \phi^n}{\Delta_t^n}
-  + \del \vd \vec{F}^{n+1}
- + \sigma^n \phi^{n+1}
- &=  \left(1 - f^n\right) \sigma^n \phi^{n+1} +f^n \sigma^n c U_r^n
-  + c Q^n
-  \\
+\frac{1}{4\pi} \int_{4\pi} I^{n+1}\ud \Omega$, then we find the radiation
+energy conservation equation over the time step to be
+\begin{equation}\label{eq:semiImplicitZeroth}
   \frac{1}{c} \frac{\phi^{n+1} - \phi^n}{\Delta_t^n}
   + \del \vd \vec{F}^{n+1} + f^n\sigma^n \phi^{n+1}
- &=  f^n \sigma^n c U_r^n + c Q^n\,.
-\end{align*}
-Thus, $f^n\sigma^n$ is sometimes known as the ``effective absorption opacity''
-$\sigma_\text{ea}^n$.
+ =  f^n \sigma^n c U_r^n + c Q^n\,.
+\end{equation}
+The quantity, $\sigma_\text{ea}^n \equiv f^n\sigma^n$ is known as the
+``effective absorption opacity.''
 
 \subsection{Solution process summary}
 The time-dependent radiation solution is stored in the linear time-dependent

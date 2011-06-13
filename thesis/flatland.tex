@@ -77,7 +77,7 @@ boundary condition:
    & $-1 \le \mu \le 1$, $0 \le \theta < 2\pi$ & $\ud\mu \ud \theta$
 \\ \bottomrule
   \end{tabular}
-  \caption{Angular domains of the various geometries.}
+  \caption{Angular variables in the various geometries.}
   \label{tab:angularDomain}
 \end{table}
 
@@ -385,8 +385,8 @@ functions. The direction of a particle from an isotropic surface source is
 A standard practice in two-dimensional discrete ordinates (\SN) solvers is to
 create a quadrature set that only creates polar angles for the top half of a
 unit sphere, $\mu>0$, and to modify the ordinate weights to sum to $4\pi$
-\cite{Zik1997}. A properly designed quadrature set will also approach the
-integral identities of Table~\ref{tab:angularMoments} as the number of ordinates
+\cite{Zik1997}. A properly designed quadrature set will also approach the 2-D
+moments of Table~\ref{tab:angularMoments} as the number of ordinates
 $N$ in the quadrature approaches infinity:
 \begin{equation*}
   \omega_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
@@ -396,9 +396,21 @@ The most straightforward way of implementing the flatland geometry in an \SN\
 code is to create a special quadrature set consisting of ordinates that have a
 polar angle $\mu=0$. To retain compatibility with the isotropic scattering
 kernel, the quadrature weights are normalized so that they sum to $4\pi$
-instead of $2\pi$.
+instead of $2\pi$. This way, none of the discrete ordinates logic has to be
+modified: all of the angular moments
+\begin{equation*}
+  \phi_n(\vec{x}) \approx \sum_{m=1}^{N} w_m \vec{\Omega}_m^n I_m
+\end{equation*}
+will give correct answers. Thus an anisotropic diffusion tensor $\Dtens$
+calculated in flatland will be 
 
-Note that with this approach, visualizing $I(\theta)$ by only considering
+This scaling has two notable side effects. First, because the weights are twice
+what they should be, the \SN\ angular moments approach twice the flatland
+moments $\omega_n$:
+\begin{equation*}
+  2 \omega_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
+\end{equation*}
+Also, with this approach, visualizing $I(\theta)$ by only considering
 $I_m$ and not $w_m$ requires multiplying by a factor of two. Here is an
 example that uses the \verb|matplotlib| Python module's polar plot to view
 the flatland angular intensity:
@@ -791,6 +803,7 @@ I^b(\vec{x}, \vec{\Omega}) \ud\Omega
   - \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma}
   \vec{n}\vd\grad \phi(\vec{x})\,.
 \end{equation}
+
 Essentially, we have shown that the flatland equivalent of the $W$ function,
 which we shall call $V$, can be approximated by
 \begin{equation}\label{eq:flatlandVariational}
@@ -807,19 +820,6 @@ and gives the extrapolation distance
   z = \frac{\int_{0}^{\pi} \sin \theta V(\theta) \ud\theta}{\int_{0}^{\pi}
   V(\theta) \ud\theta} =  \frac{\pi}{8} + \frac{4}{3\pi} \,.
 \end{equation*}
-% \left( \frac{3\pi^2 + 32}{24\pi} \right)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-
-``Marshak'' extrapolation distance:
-\begin{equation*}
-  z = \frac{\pi}{4} \approx 0.78540
-\end{equation*}
-Variational extrapolation distance:
-\begin{equation*}
-  z = \frac{\pi}{8} + \frac{4}{3\pi} \approx 0.81711
-\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion in flatland}
@@ -827,7 +827,6 @@ The derivation of the anisotropic diffusion method presented in
 chapter~\ref{chap:adDerivation} needs little modification to be formulated
 in the flatland geometry. The most notable change is in formulating the
 low-order boundary conditions.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
@@ -837,4 +836,13 @@ multi-dimensional problems, yet the angular treatment is easier. In Monte Carlo
 implementations, fewer random numbers are sampled per event and fewer expensive
 transcendental functions are evaluated. In the discrete ordinates method, only
 one azimuthal angle $\mu=0$ needs to be accounted for.
+
+We derived a Marshak diffusion boundary condition for flatland which uses $\pi
+\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}} \psi^b
+\ud\Omega$ and gives an extrapolation distance of about $0.7854$.
+The more accurate variational boundary condition given in
+Eq.~\eqref{eq:flatlandDiffusionVarBc} uses $\int_{\vec{\Omega}\vd\vec{n} < 0}
+\left[ \frac{\pi}{2} \abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2
+\right] \psi^b(\vec{x}, \vec{\Omega}) \ud\Omega$ with the extrapolation
+distance of about $0.8171$.
 
