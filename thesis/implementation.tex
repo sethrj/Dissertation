@@ -18,6 +18,12 @@ meaning longer solution times for the user. With this in mind, we seek in this
 chapter to find simple but accurate methods of solving the low-order system of
 equations for Anisotropic Diffusion on Cartesian meshes.
 
+The traditional method of discretizing the \Pone\ equations is to use a
+``staggered mesh'' where $\phi$ is cell-centered and $\vec{F}\vd \vec{n}$ is
+stored on the edges of each cell \cite{War2003}. This approach conserves
+radiation energy, but it does not conserve radiation momentum, an important
+quantity when coupling with hydrodynamics codes \cite{Pom1973}.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
@@ -91,6 +97,7 @@ opacity is invariant with respect to one of the coordinate system's axes, the
 transport solution for $f$ will only change along one axis, and the
 off-diagonal terms are zero. Larsen and Trahan's VHTR test problem
 \cite{Lar2009c} is an example of such a geometry.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gol'din-style discretization}
