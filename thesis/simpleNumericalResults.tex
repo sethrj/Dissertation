@@ -57,29 +57,32 @@ expected, the variational boundary condition does a much better job of
 approximating the interior solution of the scalar flux.
 
 \begin{figure}[htb!]
-  \centering
+  \centering\small
   \hspace{-.5in}
-  \input{diffusion_bc/isotropic-phi/plot}
+  \input{flatlandbc-channel/isotropic-phi/plot}
   \hspace{-.5in}
-  \caption{Scalar flux with an isotropic boundary condition.}
+  \caption{Scalar flux with an isotropic boundary condition in a homogeneous
+  flatland problem.}
   \label{fig:isotropic}
 \end{figure}
 
 \begin{figure}[htb!]
-  \centering
+  \centering\small
   \hspace{-.5in}
-  \input{diffusion_bc/delta-phi/plot}
+  \input{flatlandbc-channel/delta-phi/plot}
   \hspace{-.5in}
-  \caption{Scalar flux with a normally incident boundary condition.}
+  \caption{Scalar flux with a normally incident boundary condition in a
+  homogeneous flatland problem.}
   \label{fig:delta}
 \end{figure}
 
 \begin{figure}[htb!]
-  \centering
+  \centering\small
   \hspace{-.5in}
-  \input{diffusion_bc/grazing-phi/plot}
+  \input{flatlandbc-channel/grazing-phi/plot}
   \hspace{-.5in}
-  \caption{Scalar flux with a grazing boundary condition.}
+  \caption{Scalar flux with a grazing boundary condition in a homogeneous
+  flatland problem.}
   \label{fig:grazing}
 \end{figure}
 
@@ -110,9 +113,9 @@ channel. Anisotropic diffusion performs exceedingly well, and curiously the
 white boundary gives a better result than the reflecting boundary.
 
 \begin{figure}[htb]
-  \centering
+  \centering\small
   \hspace{-.5in}
-  \input{channel_bc/isotropic-phi/plot}
+  \input{adbc-channel/isotropic-phi/plot}
   \hspace{-.5in}
   \caption{Scalar flux along the centerline of the channel with an isotropic
   boundary condition at $y=0$.}
@@ -120,9 +123,9 @@ white boundary gives a better result than the reflecting boundary.
 \end{figure}
 
 \begin{figure}[htb]
-  \centering
+  \centering\small
   \hspace{-.5in}
-  \input{channel_bc/delta-phi/plot}
+  \input{adbc-channel/delta-phi/plot}
   \hspace{-.5in}
   \caption{Scalar flux along the centerline of the channel with a normal
   boundary condition at $y=0$.}
@@ -130,9 +133,9 @@ white boundary gives a better result than the reflecting boundary.
 \end{figure}
 
 \begin{figure}[htb]
-  \centering
+  \centering\small
   \hspace{-.5in}
-  \input{channel_bc/grazing-phi/plot}
+  \input{adbc-channel/grazing-phi/plot}
   \hspace{-.5in}
   \caption{Scalar flux along the centerline of the channel with a grazing
   boundary condition at $y=0$.}
@@ -151,14 +154,14 @@ The linear-in-angle diffusion approximation cannot represent any of these
 features.  
 
 \begin{figure}[htb!]
-  \centering
+  \centering\small
   \vspace{-.25in}
   \hspace{-.5in}
-  \input{channel_bc/angle-isotropic-cmfp/plot}
+  \input{adbc-channel/angle-isotropic-cmfp/plot}
   \hspace{-.5in}
   \vspace{-.25in}
-  \caption{Angular flux $\psi(2.5, 1., \theta)$, in the centerline of the
-  channel one unit from the boundary.}
+  \caption{Angular flux $\psi(2.5, 1., \theta)$ for the incident isotropic
+  problem, in the centerline of the channel one unit from the boundary.}
   \label{fig:bcChannelIsotropicAngular}
 \end{figure}
 
@@ -177,8 +180,8 @@ Here we consider a difficult problem that has repeating variations in both $x$
 and $y$ directions. It uses $c=0.99$, 
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=3in]{checkers_bc/adcoeff}
+  \centering\small
+  \includegraphics[width=3in]{adbc-checkers/adcoeff}
   \caption[Anisotropic diffusion coefficients for the checker problem.]{
   Anisotropic diffusion coefficients for the checker problem. Dark
   regions have $\sigma=1$, light regions have $\sigma=0.01$.}
@@ -186,9 +189,9 @@ and $y$ directions. It uses $c=0.99$,
 \end{figure}
 
 \begin{figure}[htb]
-  \centering
+  \centering\small
   \hspace{-.5in}
-  \input{checkers_bc/isotropic-phi/plot}
+  \input{adbc-checkers/isotropic-phi/plot}
   \hspace{-.5in}
   \caption{Scalar flux along $x=2$ of the checker problem with an isotropic
   boundary condition at $y=0$.}
