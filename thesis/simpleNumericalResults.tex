@@ -179,6 +179,12 @@ to have $\zeta$ take the shape of the true boundary condition.
 Here we consider a difficult problem that has repeating variations in both $x$
 and $y$ directions. It uses $c=0.99$, 
 
+The anisotropic diffusion coefficients are plotted as ellipses in
+Fig.~\ref{fig:bcCheckersAdcoeff}. The major axis is along the principal
+eigenvector of the diffusion tensor and is in length proportional to the
+principal eigenvalue; the more isotropic the tensor, the more circular the
+glyph. Red and larger ellipses represent larger AD coefficients.
+
 \begin{figure}[htb]
   \centering\small
   \includegraphics[width=3in]{adbc-checkers/adcoeff}
@@ -197,5 +203,16 @@ and $y$ directions. It uses $c=0.99$,
   boundary condition at $y=0$.}
   \label{fig:bcCheckersIsotropic}
 \end{figure}
+
+\begin{figure}[htb]
+  \centering\small
+  \hspace{-.5in}
+  \input{adbc-checkers/delta-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux along $x=2$ of the checker problem with a normal
+  boundary condition at $y=0$.}
+  \label{fig:bcCheckersDelta}
+\end{figure}
+
 
 
