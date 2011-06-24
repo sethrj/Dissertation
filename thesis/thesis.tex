@@ -1,4 +1,4 @@
-\documentclass[12pt, letterpaper]{umthesis}
+\documentclass[12pt, letterpaper, draft]{umthesis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsmath}
 % font choice
@@ -28,9 +28,6 @@
 \def\input@path{{/Users/seth/_research/figures/}}
 \makeatother
 
-% New paragraph before lists only in thesis
-\newcommand{\prelistpar}{\par}
-
 % For use in the introduction
 \newcommand{\chaptersynopsis}[1]{%
 \subsubsection{Chapter~\ref{#1}: \nameref{#1}}}
@@ -40,6 +37,16 @@
 \renewcommand\topfraction{.95}
 \renewcommand\bottomfraction{.95}
 \renewcommand\textfraction{.1}
+
+% Improve list and enum spacing
+\renewcommand{\itemhook}{\par\setstretch{1}%
+  \setlength{\topsep}{0pt}%
+  \setlength{\parskip}{0pt}%
+  \setlength{\partopsep}{.5\baselineskip}%
+  \setlength{\parsep}{0pt}%
+  \setlength{\itemsep}{0pt}%
+}
+\renewcommand{\enumhook}{\itemhook}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \author{Seth R.~Johnson}
