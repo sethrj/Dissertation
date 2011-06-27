@@ -1,21 +1,16 @@
 % !TEX root = _individual/adDerivation.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Anisotropic diffusion theory}\label{chap:adDerivation}
+\chapter{Anisotropic derivation and discussion}\label{chap:adDerivation}
 
 The previous work in anisotropic diffusion has only considered a steady-state
 problem in an infinite medium \cite{Lar2009c,Mor2007}. The new understanding of
-the AD method presented in this chapter provides a theoretical basis for
-using the AD method in time-dependent and nonlinear contexts, and it also
-addresses the heretofore unsolved problem of boundary conditions for the AD
-method.
-
-%For the anisotropic diffusion method, the most straightforward derivation
-%involves approximating not $I$ but a quantity which we shall term the
-%anisotropic intensity $\Psi$.
+the anisotropic diffusion approximation presented in this chapter provides a
+theoretical basis for using AD in time-dependent and nonlinear contexts, and it
+addresses boundary conditions for the AD method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Anisotropic transport equation}
+\section{A modified transport equation}\label{sec:capPsi}
 We begin by considering the gray radiation transport equation inside a time step
 $0 \le t \le \Delta_t$,
 with opacities frozen at some value $\sigma^\ast$ (which could be
@@ -81,9 +76,9 @@ Doing the same to the initial condition, Eq.~\eqref{eq:fullTransportInit}, gives
 \vec{\Omega}) \ud\Omega = \phi^i(\vec{x})\,, \vec{x} \in V  \,.
 \end{equation}
 \end{subequations}
-As discussed in \S\ref{sec:trtEquations}, the first two moments of the
-intensity are the scalar intensity $\phi=\int_{4\pi} I \ud\Omega$ and the
-radiation flux $\vec{F} = \int_{4\pi} \vec{\Omega} I \ud\Omega$.
+Here, we have used the first two moments of the
+intensity: the scalar intensity $\phi=\int_{4\pi} I \ud\Omega$, and the
+radiation flux $\vec{F} = \int_{4\pi} \vec{\Omega} I \ud\Omega$ (see \S\ref{sec:trtEquations}).
 Equations~\eqref{eqs:loEquations} form the first piece of the ``low-order'' set
 of equations for the AD method. As in many approximate methods, we will be
 seeking some closure for this equation with an approximation to the radiation
@@ -423,7 +418,7 @@ This Taylor series will enable, to leading order, the approximation of nonlocal
 quantities inside the operators $\lopinv{}{\cdot}$ by local quantities.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Approximating the streaming term}
+\subsection{Approximating the streaming integral term}
 The streaming term in Eq.~\eqref{eq:approxPsi1} is (see
 Eq.~\eqref{eq:inverseTransportFull}):
 \begin{align*}
@@ -473,7 +468,7 @@ because it is no longer a function of $s$:
 \end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Approximating the incident boundary term}
+\subsection{Approximating the incident boundary integral term}
 The incident boundary term in Eq.~\eqref{eq:approxPsi1} is
 \begin{multline*}
 -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
@@ -507,7 +502,7 @@ and we discard the $O(\epsilon^2)$ term. This gives
 \end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Approximating the reflecting boundary term}\label{sec:derReflBc}
+\subsection{Approximating the reflecting boundary integral term}\label{sec:derReflBc}
 For a moment, let us consider a problem without reflecting boundaries, so
 $\partial V_b = \partial V$. At this point, Eq.~\eqref{eq:approxPsi1} has been
 reduced to
@@ -596,7 +591,7 @@ This has the same form as the other approximations to the term, a property cruci
 to forming the anisotropic diffusion approximation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Completed approximation to the anisotropic intensity}
+\subsection{Anisotropic diffusion approximation to \texorpdfstring{$\Psi$}{Psi}}
 Substituting Eqs.~\eqref{eq:streamingApprox},~\eqref{eq:bndyApprox},
 and~\eqref{eq:reflApprox} into Eq.~\eqref{eq:approxPsi1} gives a nearly complete
 approximation to the anisotropic intensity:
@@ -661,10 +656,10 @@ We desire a simple low-order equation that provides a closure for the unknown
 radiation flux $\vec{F}(\vec{x},t)$ in the radiation conservation
 equation~\eqref{eq:loVol}.
 
-To get such a closure, we recall the property from Eq.~\eqref{eq:capPsiFirst}
-that the first moment of the anisotropic intensity is the radiation flux. We
-therefore apply this identity to our approximate anisotropic intensity from
-Eq.~\eqref{eq:approxPsi3}:
+We use the property from Eq.~\eqref{eq:capPsiFirst}
+that the first moment of $\Psi$ is the flux $\vec{F}$. Operating on 
+Eq.~\eqref{eq:approxPsi3} with $\int_{4\pi} \vec{\Omega} (\cdot) \ud\Omega$, we get
+the following simple expression:
 \begin{align} \nonumber
   \vec{F}(\vec{x}, t)
   &= \int_{4\pi} \vec{\Omega} \tilde \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
@@ -676,7 +671,8 @@ Eq.~\eqref{eq:approxPsi3}:
   \\ \label{eq:anisotropicFicks}
   &= - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
 \end{align}
-This resembles ``Fick's law,'' but instead of a scalar diffusion \emph{coefficient},
+This resembles ``Fick's law,'' but instead of a scalar diffusion
+\emph{coefficient},
 the anisotropic diffusion method has a diffusion \emph{tensor}, $\Dtens$, the
 second angular moment of $f$:
 \begin{equation}\label{eq:dDefinition}
@@ -684,25 +680,157 @@ second angular moment of $f$:
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation}
 
-Analogous to Fick's law for diffusion, it is
-substituted into the time-dependent conservation equation to provide a simple
-approximate equation for the scalar intensity:
-\begin{equation*}
-  -\grad \vd \Dtens \phi + \sigma^\ast \phi = \sigma^\ast ac T^4 + q_{r} \,.
-\end{equation*}
+Like Fick's law, Eq.~\eqref{eq:anisotropicFicks} is substituted into
+the low-order conservation equation~\eqref{eq:loVol}, giving a partial
+differential equation for $\phi$ inside the system as a function of \textsl{(i)}
+physical properties such as the opacity $\sigma$ and radiative emission $a c
+T^4$, and \textsl{(ii)} the second moment of the transport-calculated $f$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Boundary conditions}\label{sec:derBc}
-
-In this section, we use the boundary layer equations~\eqref{eqs:blCapPsi} to
-address the connected issues of appropriate boundary
-conditions for the low-order anisotropic diffusion equations and the boundary
-condition $\zeta$ used in the transport calculation for $f$.
+However, this ``Fick's law'' does not directly describe the behavior of $f$ or
+$\phi$ at the boundary. For boundary conditions that relate $\phi$, $f$, and
+$\zeta$, we turn to the boundary layer equations~\eqref{eqs:blCapPsi}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Incident boundary conditions}
-A boundary layer analysis 
-{\small [citation needed]}
+\subsection{Incident boundary condition}\label{sec:zeta}
+
+The unknown function $\zeta(\vec{x}, \vec{\Omega})$ that lives on the boundary
+is a degree of freedom introduced at the beginning of the anisotropic
+diffusion derivation. It allowed us to formulate a specified boundary condition
+such that the effect of $\zeta$ could be embedded in the anisotropic diffusion
+tensor $\Dtens$.
+
+To make use of this degree of freedom, we decide to enforce on the boundary the
+truth from Eq.~\eqref{eq:capPsiZeroth},
+\begin{equation*}
+  \int_{4\pi} \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  = 0 \,.
+\end{equation*}
+Note that our approximate $\tilde\Psi$ defined in Eq.~\eqref{eq:approxPsi3}
+does not generally satisfy this identity:
+\begin{align*}
+  0
+&\qeq \int_{4\pi} \tilde\Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
+\\
+0 &\qeq \int_{4\pi} \left[ - f(\vec{x}, \vec{\Omega}) \vec{\Omega}
+\vd \grad \phi(\vec{x}, t)\right]
+\ud\Omega
+\\
+0 &\qeq \int_{4\pi} \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega \,.
+\end{align*}
+However, on exterior source boundaries, because $\zeta$ is defined for incident
+directions and $f$ is known for exiting directions, we can choose $\zeta$ such
+that this identity holds true under certain conditions.
+
+Returning to the description of $f$ on an incident boundary in
+Eq.~\eqref{eq:fFullBndy}, we write
+\begin{align*}
+  \int_{4\pi} \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega
+  &= \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  + \int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega\,.
+\end{align*}
+Now we set the left hand side to zero, demanding that
+Eq.~\eqref{eq:capPsiZeroth} be satisfied:
+\begin{align}
+  \label{eq:zetaCondition1}
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  &= -\int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega \,.
+  \\ 
+  \intertext{Making the substitution $\vec{\Omega}\to -\vec{\Omega}$ on the
+  right hand side yields}
+  \label{eq:zetaCondition2}
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  &= \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} f(\vec{x}, -\vec{\Omega})\ud\Omega \,.
+\end{align}
+
+If $f(\vec{\Omega})$ is azimuthally symmetric about $\vec{n}$, then $f$ is only
+a function of the cosine angle between $\vec{\Omega}$ and $\vec{n}$:
+\begin{equation*}
+f(\vec{\Omega}) = \hat f( \vec{\Omega} \vd \vec{n})\,.
+\end{equation*}
+Now recall the definition of a reflecting boundary from
+Eq.~\eqref{eq:reflection},
+\begin{equation*}
+  \vec{\Omega}_r = \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\,.
+\end{equation*}
+Dotting the reflected vector with the normal vector $\vec{n}$,
+\begin{equation*}
+  \vec{\Omega}_r \vd \vec{n}
+  = \vec{\Omega} \vd \vec{n} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\vd \vec{n}
+  = - \vec{\Omega} \vd \vec{n}\,.
+\end{equation*}
+Thus,
+\begin{equation*}
+  \hat f( \vec{\Omega}_r \vd \vec{n}) = \hat f( -\vec{\Omega} \vd \vec{n})
+\end{equation*}
+and
+\begin{equation}\label{eq:aziSymResult}
+  f( \vec{\Omega}_r) = f( -\vec{\Omega} )\,.
+\end{equation}
+
+Therefore, Eq.~\eqref{eq:zetaCondition2} can be written
+\begin{equation}\label{eq:zetaCondition3}
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  = \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega}_r)\ud\Omega \,,
+\end{equation}
+which is satisfied by
+\begin{equation} \label{eq:zetaReflecting}
+  \zeta(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
+ \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0 \,.
+\end{equation}
+This is not the only definition that satisfies Eq.~\eqref{eq:zetaCondition1},
+but it straightforward and has the advantage that all half-space angular moments
+of $\zeta$ are equal to $f$, an identity that is used to derive Marshak-like
+boundary conditions later.
+
+An alternative condition can be derived that also assumes $f$ is azimuthally
+symmetric at the boundary. An azimuthally symmetric $f$ implies
+\begin{equation*}
+  \int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega
+  = \vec{n} 
+  \int_{\vec{\Omega} \vd \vec{n} > 0}
+  (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
+\end{equation*}
+We can then demand an azimuthally symmetric $\zeta$, so that
+Eq.~\eqref{eq:zetaCondition1} becomes
+\begin{align*}
+  -\vec{n} \int_{\vec{\Omega} \vd \vec{n} < 0}
+  (\vec{n} \vd \vec{\Omega}) \zeta(\vec{x}, \vec{\Omega})\ud\Omega
+  &= \vec{n} \int_{\vec{\Omega} \vd \vec{n} > 0}
+  (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega
+\\ 
+  \vec{n} \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \abs{\vec{n} \vd \vec{\Omega}} \zeta(\vec{x}, \vec{\Omega}) \ud\Omega
+  &= \vec{n} \int_{\vec{\Omega} \vd \vec{n} > 0}
+  (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{align*}
+which says that only the exiting component of the first moment of $f$ on the
+boundary need be preserved. This allows, for example, a ``white'' boundary
+condition on $f$:
+\begin{equation}\label{eq:zetaWhite}
+  \zeta(\vec{x}, \vec{\Omega})
+  = \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0}
+  (\vec{\Omega}' \vd \vec{n} ) f(\vec{x}, \vec{\Omega}') \ud\Omega'
+\end{equation}
+which is an isotropic distribution with the same ``strength'' as the exiting
+component of $f$. It does not have any relation to the actual strength or
+distribution of the intensity $I$ on the boundary.
+
+%This says that under the approximations, assumptions, and restrictions we made,
+%the transport equation for $f$ has reflecting boundaries everywhere, even
+%where the physical problem does \emph{not} have reflecting boundaries.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Low-order boundary condition}
+A boundary layer analysis \cite{Mal1991}
 shows that the transport boundary layer, the solution of
 Eqs.~\eqref{eqs:blCapPsi}, decays most rapidly under the condition
 \begin{equation} \label{eq:bcW}
@@ -736,117 +864,9 @@ or
   \vd \grad \phi(\vec{x}, t) \,.
 \end{equation}
 
-\subsubsection{Determining $\zeta$}\label{sec:determiningZeta}
-The unknown function $\zeta(\vec{x}, \vec{\Omega})$ that lives on the boundary
-is a degree of freedom introduced at the beginning of the anisotropic
-diffusion derivation. It allowed us to formulate a specified boundary condition
-such that the effect of $\zeta$ could be embedded in the anisotropic diffusion
-tensor $\Dtens$.
-
-To make use of this degree of freedom, we decide to enforce on the boundary the
-truth from Eq.~\eqref{eq:capPsiZeroth},
-\begin{equation*}
-  \int_{4\pi} \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
-  = 0 \,.
-\end{equation*}
-Note that our approximate $\tilde\Psi$ defined in Eq.~\eqref{eq:approxPsi3}
-does not generally satisfy this identity:
-\begin{align*}
-  0
-&\qeq \int_{4\pi} \tilde\Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
-\\
-0 &\qeq \int_{4\pi} \left[ - f(\vec{x}, \vec{\Omega}) \vec{\Omega}
-\vd \grad \phi(\vec{x}, t)\right]
-\ud\Omega
-\\
-0 &\qeq \int_{4\pi} \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega \,.
-\end{align*}
-However, on exterior source boundaries, because $\zeta$ is defined for incident
-directions and $f$ is known for exiting directions, we can choose $\zeta$ such
-that this identity is satisfied under certain conditions.
-
-Returning to the description of $f$ on an incident boundary in
-Eq.~\eqref{eq:fFullBndy}, we write
-\begin{align*}
-  \int_{4\pi} \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega
-  &= \int_{\vec{\Omega} \vd \vec{n} < 0}
-  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
-  + \int_{\vec{\Omega} \vd \vec{n} > 0}
-  \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega\,.
-\end{align*}
-Now we set the left hand side to zero, demanding that
-Eq.~\eqref{eq:capPsiZeroth} be satisfied:
-\begin{align} \nonumber
-  \int_{\vec{\Omega} \vd \vec{n} < 0}
-  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
-  &= -\int_{\vec{\Omega} \vd \vec{n} > 0}
-  \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega \,.
-  \\ 
-  \intertext{Making the substitution $\vec{\Omega}\to -\vec{\Omega}$ on the
-  right hand side yields}
-  \label{eq:zetaCondition}
-  \int_{\vec{\Omega} \vd \vec{n} < 0}
-  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
-  &= \int_{\vec{\Omega} \vd \vec{n} < 0}
-  \vec{\Omega} f(\vec{x}, -\vec{\Omega})\ud\Omega \,.
-\end{align}
-
-If $f(\vec{\Omega})$ is azimuthally symmetric about $\vec{n}$, then $f$ is only
-a function of the cosine angle between $\vec{\Omega}$ and $\vec{n}$:
-\begin{equation*}
-f(\vec{\Omega}) = \hat f( \vec{\Omega} \vd \vec{n})\,.
-\end{equation*}
-Now recall the definition of a reflecting boundary from
-Eq.~\eqref{eq:reflection},
-\begin{equation*}
-  \vec{\Omega}_r = \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\,.
-\end{equation*}
-Dotting the reflected vector with the normal vector $\vec{n}$,
-\begin{equation*}
-  \vec{\Omega}_r \vd \vec{n}
-  = \vec{\Omega} \vd \vec{n} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\vd \vec{n}
-  = - \vec{\Omega} \vd \vec{n}\,.
-\end{equation*}
-Thus,
-\begin{equation*}
-  \hat f( \vec{\Omega}_r \vd \vec{n}) = \hat f( -\vec{\Omega} \vd \vec{n})
-\end{equation*}
-and
-\begin{equation}\label{eq:aziSymResult}
-  f( \vec{\Omega}_r) = f( -\vec{\Omega} )\,.
-\end{equation}
-
-Therefore, if $f$ is azimuthally symmetric about $\vec{n}$ on the
-boundary, Eq.~\eqref{eq:zetaCondition} can be written
-\begin{equation}\label{eq:zetaCondition2}
-  \int_{\vec{\Omega} \vd \vec{n} < 0}
-  \vec{\Omega} \zeta(\vec{x}, \vec{\Omega})\ud\Omega
-  = \int_{\vec{\Omega} \vd \vec{n} < 0}
-  \vec{\Omega} f(\vec{x}, \vec{\Omega}_r)\ud\Omega \,,
-\end{equation}
-which is satisfied by
-\begin{equation} \label{eq:zeta}
-  \zeta(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
- \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0 \,.
-\end{equation}
-This is not the only definition that satisfies Eq.~\eqref{eq:zetaCondition},
-but it straightforward and has the advantage that all half-space angular moments
-of $\zeta$ are equal to $f$, an identity that is used to derive Marshak-like
-boundary conditions later.
-
-Now the boundary condition for $f$ in Eq.~\eqref{eq:fFullBndy} becomes
-\begin{equation} \label{eq:fFullBndy2}
-  f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
- \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
-\end{equation}
-This says that under the approximations, assumptions, and restrictions we made,
-the transport equation for $f$ has reflecting boundaries everywhere, even
-where the physical problem does \emph{not} have reflecting boundaries.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Low-order boundary conditions}
-With a definition for $\zeta$ in hand, we return to Eq.~\eqref{eq:bcInc1} and
-substitute Eq.~\eqref{eq:zeta}, dropping the argument $\vec{x}$ for brevity:
+If we use the reflecting boundary condition given by
+Eq.~\eqref{eq:zetaReflecting}, further simplifications are possible. We
+substitute $\zeta = f(\vec{\Omega}_r)$ into Eq.~\eqref{eq:bcInc1}:
 \begin{equation*}
   2\int_{\vec{\Omega}\vd \vec{n} < 0}
   W(\abs{\vec{\Omega} \vd \vec{n}}) I^b(\vec{\Omega}) \ud\Omega
@@ -873,9 +893,9 @@ integral, we get
   2\int_{\vec{\Omega}\vd \vec{n} > 0} W(\vec{\Omega} \vd \vec{n})
   \vec{\Omega} f(\vec{\Omega}) \ud\Omega \,.
 \end{align*}
-The boundary condition on $f$ from Eq.~\eqref{eq:fFullBndy2} in conjunction
+The boundary condition on $f$ from Eq.~\eqref{eq:zetaReflecting} in conjunction
 with Eq.~\eqref{eq:aziSymResult} give the equality $f(-\vec{\Omega}_r) =
-f(\vec{\Omega})$.
+f(\vec{\Omega})$, still under the condition that $f$ is azimuthally symmetric.
 
 The low-order, transport-consistent boundary condition for an incident source
 is therefore
@@ -887,6 +907,9 @@ is therefore
   \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega
   \vd \grad \phi(\vec{x}, t) \,.
 \end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Marshak-like boundary condition}
 This form has a particular advantage if we use the Marshak-like approximation
 that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBndy} becomes
 \begin{align*}
@@ -901,8 +924,8 @@ that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBndy} becomes
   + 4 \vec{n} \vd \left[ \int_{\vec{\Omega}\vd \vec{n} > 0} \vec{\Omega}
   \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \grad \phi \,.
   \\ 
-  \intertext{We chose the boundary condition on $f$ to ensure that it is an
-  even function of $\vec{\Omega}$ on the boundary. Therefore, the integrand in
+  \intertext{Because our chosen boundary condition of $f$ gives
+  $f(\vec{\Omega})=f(-\vec{\Omega})$, the integrand in
   brackets is an even function of $\vec{\Omega}$, so}
   4 F^-
   &= \phi
@@ -929,9 +952,16 @@ This is entirely analogous to the standard diffusion Marshak boundary condition,
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Reflecting boundary conditions}
-A reflecting boundary, as described by Eq.~\eqref{eq:fullTransportRefl}, 
-implies
+\subsection{Reflecting boundary condition}
+The final piece of the anisotropic diffusion equations is the low-order
+condition on a reflecting boundary, which is described by
+Eqs.~\eqref{eq:fullTransportRefl} and~\eqref{eq:reflection}:
+\begin{equation*}
+  I(\vec{x}, \vec{\Omega}, t)
+  = I(\vec{x}, \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}, t) \,.
+\end{equation*}
+This implies that there is no net flux of radiation energy normal to the
+boundary:
 \begin{equation}\label{eq:reflFirst}
   \vec{n} \vd \vec{F}(\vec{x}, t) = 0\,.
 \end{equation}
@@ -953,9 +983,10 @@ eigenvector of $\Dtens$:
 Interestingly, as shown in the discussion section, this is the case when $f$ is
 azimuthally symmetric about
 $\vec{n}$, which is exactly what we demanded of $f$ on non-reflecting boundaries.
+
 Therefore, in the interest of consistency with the other boundaries and with the
-property of the exact $I$, we use the low-order AD reflecting boundary condition
-of
+property of the exact intensity, we use the low-order AD reflecting boundary
+condition of
 \begin{equation}\label{eq:reflLo2}
   \vec{n} \vd \grad \phi(\vec{x}, t) = 0\,.
 \end{equation}
@@ -968,18 +999,82 @@ of
 %  n\conj D &= \lambda n\conj \,.
 %\end{align*}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Summary}
+We have now derived a full description of the time-dependent anisotropic
+diffusion equations in a finite medium. 
+
+The anisotropic diffusion method approximates the transport
+equations~\eqref{eqs:fullTransport} with a set of low-order equations for the
+scalar intensity $\phi$ that use a diffusion coefficient calculated from a
+simple high-order transport equation.
+
+The low order equation is the result of substituting the approximate Fick's law,
+Eq.~\eqref{eq:anisotropicFicks}, into the conservation equation~\eqref{eq:loVol}:
+\begin{equation*}
+\frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
+  - \grad \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
+  + \sigma^\ast(\vec{x}) \phi(\vec{x}, t)
+  = Q(\vec{x}, t) \,,
+  \quad \vec{x} \in V,\ 0 \le t \le \Delta_t \,.
+\end{equation*}
+From Eq.~\eqref{eq:loInit}, it has an initial condition
+\begin{equation*}
+\phi(\vec{x}, 0) = \phi^i(\vec{x})\,, \vec{x} \in V  \,.
+\end{equation*}
+The incident source boundary condition with the simpler Marshak-like
+approximation from Eq.~\eqref{eq:marshakAd} is
+\begin{equation*}
+  4 F^-(\vec{x}, t)
+  = \phi(\vec{x}, t)
+  + 2 \vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
+ \quad \vec{x} \in \partial V_b,\ 0 \le t \le \Delta_t \,.
+\end{equation*}
+The reflecting boundary condition from Eq.~\eqref{eq:reflLo2} is
+\begin{equation*}
+  \vec{n}\vd\grad \phi(\vec{x}, t) = 0 \,,
+ \quad \vec{x} \in \partial V_r,\ 0 \le t \le \Delta_t \,.
+\end{equation*}
+
+The diffusion tensor is defined in Eq.~\eqref{eq:dDefinition},
+\begin{equation*}
+  \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation*}
+Here, $f$ is the solution of the purely absorbing transport equation described by
+Eqs.~\eqref{eqs:fFull}:
+\begin{subequations} \label{eqs:fFull}
+  \begin{equation} \label{eq:fFullVol}
+    \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
+    + \sigma^\ast f (\vec{x}, \vec{\Omega})
+  = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
+  \end{equation}
+\begin{equation} \label{eq:fFullBndy}
+  f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x}, \vec{\Omega}) \,,
+ \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
+\begin{equation} \label{eq:fFullRefl}
+  f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
+ \quad \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
+\end{subequations}
+On $\partial V_b$ where $I$ is specified, $f$ can take
+several suitable forms as discussed in \S\ref{sec:zeta}, but we will usually
+take the condition from Eq.~\eqref{eq:zetaReflecting}:
+\begin{equation} \label{eq:fFullBndy2}
+  f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x}, \vec{\Omega}) = f(\vec{x},
+  \vec{\Omega}_r) \,,
+ \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
+\section{Anisotropic diffusion discussion}
 Even without numerical results for the anisotropic diffusion equations, a
 number of interesting and beneficial properties can be deduced from the
-low-order AD equations~\eqref{eq:loVol}, \eqref{eq:anisotropicFicks}, 
-\eqref{eq:marshakAd}, and \eqref{eq:reflLo2}; and from the transport equations
-for $f$, Eqs.~\eqref{eq:fFullVol},~\eqref{eq:fFullBndy2},
-and~\eqref{eq:fFullRefl}.
+low-order AD equations and the transport equations for $f$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Transport calculation for $f$}
+\subsection{Transport calculation for \texorpdfstring{$f$}{f}}
 
 The anisotropic diffusion tensors are calculated from $f$, the solution to the
 transport problem:
@@ -1136,7 +1231,7 @@ Because the solution for $f$ is strictly positive for all $\vec{\Omega}\in
 $\vec{a}$, this integral will always be positive. Therefore, $\Dtens$ is SPD.
 
 \subsubsection{Eigenvectors}
-As stated in \S\ref{sec:determiningZeta}, if $f(\vec{\Omega})$ is azimuthally
+As stated in \S\ref{sec:zeta}, if $f(\vec{\Omega})$ is azimuthally
 symmetric about some unit vector $\vec{a}$, then $f$ is only a function of the
 cosine angle
 between $\vec{\Omega}$ and $\vec{a}$:
@@ -1217,22 +1312,17 @@ more computationally expensive solver such as GMRES \cite{War2003}.
 Another property of the anisotropic diffusion approximation is that, like
 standard diffusion, it is parabolic \cite{Pom1982,Ols2000}, allowing
 radiation energy to propagate faster than the speed of light. The exact
-intensity always satisfies the relation
-\begin{align*}
-  \norm{\vec{F}} &= \norm{ \int_{4\pi} \vec{\Omega}) I \ud \Omega}
-  \\&\le \int_{4\pi} \norm{\vec{\Omega})} \abs{I} \ud \Omega 
-  \\
-  &\le \int_{4\pi} [1] I \ud\Omega
-  \\
-  \norm{\vec{F}} &\le \phi\,.
-\end{align*}
-
+intensity always satisfies the relation (see \S\ref{sec:fldBackground})
+\begin{equation*}
+  \norm{\vec{F}} \le \phi
+\end{equation*}
 Yet the new anisotropic Fick's law, Eq.~\eqref{eq:anisotropicFicks}, can violate
 this relation:
 \begin{equation*}
   \norm{\vec{F}} = \norm{\Dtens \vd \grad \phi}
 \end{equation*}
-if either $\Dtens$ or $\grad \phi$ is very large.
+if either $\Dtens$ or $\grad \phi$ is very large. The interpretation is also
+less clear than with standard diffusion.
 
 The anisotropic diffusion approximation for $\Psi$, as stated in
 Eq.~\eqref{eq:approxPsi3},
@@ -1253,7 +1343,8 @@ is $O(\epsilon)$. This is also different from standard diffusion, which has
 ``kinks'' in $\phi$ at material interfaces, where $D$ is discontinuous.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Relating the $\Psi$ equations to diffusion}\label{sec:adDiscDiff}
+\subsection{Relating the \texorpdfstring{$\Psi$}{Psi} equations to
+diffusion}\label{sec:adDiscDiff}
 Let us return to Eq.~\eqref{eq:capPsiVol}. Instead of using the integral
 transport equation to derive the AD method, we could approximate $\Psi$
 as a linear function in angle,
@@ -1284,8 +1375,8 @@ Taking the first moment of this equation and operating on it with $\int_{4\pi}
 + \frac{3}{4\pi} \left( \int_{4\pi}
   \vec{\Omega}\vec{\Omega}\vec{\Omega}\ud\Omega \right)
 \vd \grad \vd \vec{F}
-+ \frac{3}{4\pi} \left( \int_{4\pi} \vec{\Omega}\vec{\Omega}\ud\Omega \right)
-\vd \sigma^\ast \vec{F}
++ \sigma^\ast \frac{3}{4\pi} \left( \int_{4\pi}
+\vec{\Omega}\vec{\Omega}\ud\Omega \right) \vd\vec{F}
 \\
 = \frac{1}{4\pi} \left( \int_{4\pi} \vec{\Omega}\ud\Omega \right)
 \grad \vd\vec{F}
@@ -1313,12 +1404,135 @@ quasi-static approximation
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Flux-limited anisotropic diffusion}
+
+In the derivation of the anisotropic diffusion approximation, we assumed that
+the time derivative of the intensity varied slowly in time,
+$\frac{1}{c}\pder{I}{t} = O(\epsilon^2)$. That assumption effectively led to
+the same quasi-static approximation as standard diffusion, which permits the
+unphysical transfer of energy (radiation flux) in the problem.
+
+One means of addressing this issue is to apply a ``flux limiter'' as is done
+with diffusion (see \S\ref{sec:fldBackground}).
+
+MORE DISCUSSION HERE
+
+\begin{equation*}
+  \vec{F}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} \times 
+  \max\left( 1, \norm{\Dtens^{n}\vd \frac{\del \phi^{n}}{\phi^{n}}}
+  \right)\inv
+\end{equation*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anisotropic P$_1$}
+
+By expanding the low order phase space to include not just $\phi$ (the
+zeroth angular moment of $I$) but also $\vec{F}$ (the first angular moment of
+$I$), we hope to improve the accuracy of the anisotropic diffusion approximation
+without incurring a large storage or performance penalty. The procedure to
+derive the \APone\ approximation is virtually identical to that of AD, except we
+make a slightly different assumption about the strength of the time derivative
+of $I$.
+
+We begin with the transport equation for $\Psi$ derived in \S\ref{sec:capPsi},
+which is the exact transport equation with the isotropic component $\phi/4\pi$
+subtracted. 
+The first step is to separate $\Psi$ into an internal solution $\tilde\Psi$ and
+a boundary layer solution
+$\Psi_\mathrm{bl}$
+\begin{equation} \label{eq:ap1boundaryLayerPsi}
+  \Psi(\vec{x}, \vec{\Omega}, t)
+  = \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+  + \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)\,.
+\end{equation}
+
+\begin{subequations} \label{eqs:ap1tCapPsi}
+The internal transport equation accounts for the source term:
+\begin{multline} \label{eq:ap1tCapPsiVol}
+  \frac{1}{c} \pder{}{t}\tilde\Psi(\vec{x}, \vec{\Omega}, t)
+    + \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+    + \sigma^\ast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+  \\
+  = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
+  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)
+  \equiv \hat Q(\vec{x}, \vec{\Omega}, t)\,,
+  \qquad
+x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
+\end{multline}
+Its boundary condition, however, will take the form
+\begin{equation} \label{eq:ap1tCapPsiBndy}
+ \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
+  = - \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
+  + \eta(\vec{x}, \vec{\Omega}, t) \vec{F}^i(\vec{x})
+  \equiv \tilde\Psi^b(\vec{x}, \vec{\Omega}, t) \,,
+\end{equation}
+for $\vec{x} \in \partial V_b$, $\vec{\Omega} \vd \vec{n} < 0$,
+$0 \le t \le \Delta_t$. Here, the functions $\zeta$ and $\eta$, which live on
+the boundary for incident directions, are yet to be determined. The boundary
+condition also uses the first moment of the initial condition:
+\begin{equation} \label{eq:fluxInit}
+  \vec{F}^i(\vec{x}) \equiv \int_{4\pi} I^i(\vec{x}, \vec{\Omega}) \ud \Omega\,.
+\end{equation}
+On reflecting boundaries, the internal solution is reflecting:
+\begin{equation} \label{eq:ap1tCapPsiRefl}
+ \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
+  = \tilde\Psi(\vec{x}, \vec{\Omega}_r, t)
+  \equiv \tilde\Psi^b(\vec{x}, \vec{\Omega}, t) \,,
+\end{equation}
+for $\vec{x} \in \partial V_r$, $\vec{\Omega} \vd \vec{n} < 0$,
+$0 \le t \le \Delta_t$.
+Finally, the internal solution contains the same initial condition as
+Eq.~\eqref{eq:capPsiInit}:
+\begin{equation} \label{eq:ap1tCapPsiInit}
+ \tilde\Psi(\vec{x}, \vec{\Omega}, 0)
+ = \Psi^i(\vec{x}, \vec{\Omega}, t)\,.
+\end{equation}
+\end{subequations}
+
+The corresponding transport problem for $\Psi_\mathrm{bl}$ is defined to
+satisfy the transport equations for $\Psi$ using the definition in
+Eq.~\eqref{eq:ap1boundaryLayerPsi}.
+\begin{subequations} \label{eqs:blCapPsi}
+It has the same left-hand side as Eq.~\eqref{eq:capPsiBndy} but no internal
+source:
+\begin{equation} \label{eq:blCapPsiVol}
+  \frac{1}{c} \pder{}{t}\Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
+    + \vec{\Omega}\vd \grad \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
+    + \sigma^\ast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
+  = 0\,, \quad
+x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
+\end{equation}
+The incident boundary condition accounts for the true incident boundary source
+as well as the $\zeta$ term we introduced:
+\begin{equation} \label{eq:blCapPsiBndy}
+ \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
+  = I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+  + \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
+  \equiv \Psi_\mathrm{bl}^b(\vec{x}, \vec{\Omega}, t) \,.
+\end{equation}
+For $\vec{x} \in \partial V_r$, the boundary layer solution is reflecting:
+\begin{equation} \label{eq:blCapPsiRefl}
+ \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
+  = \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}_r, t)\,.
+\end{equation}
+Finally, because $\tilde\Psi$ accounts for the initial condition, the initial
+condition for $\Psi_\mathrm{bl}$ is zero:
+Eq.~\eqref{eq:capPsiInit}:
+\begin{equation} \label{eq:blCapPsiInit}
+ \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, 0)
+ = 0\,.
+\end{equation}
+\end{subequations}
+
+If we add Eqs.~\eqref{eqs:blCapPsi} to Eqs.~\eqref{eqs:tCapPsi}, we recover the
+original transport equation for $\Psi$. However, unlike the original transport
+equation,
+Eqs.~\eqref{eqs:tCapPsi} and~\eqref{eqs:blCapPsi} allow us to formulate boundary
+conditions for the anisotropic diffusion method.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
-The AD method approximates the transport equations~\eqref{eqs:fullTransport}
-with a set of
-low-order equations for the scalar intensity $\phi$ that use a diffusion
-coefficient calculated from a simple high-order transport equation.
-To derive the method, we:
+To derive the anisotropic diffusion method, we:
 \begin{enumerate}
   \item manipulated the radiation transport equation and conservation equation
     to get a differential transport equation for $\Psi$;
@@ -1338,53 +1552,10 @@ To derive the method, we:
   \item substituted $\vec{F}$ into the time-dependent particle conservation
     equation.
 \end{enumerate}
-
-The low order equation is the result of substituting the approximate Fick's law,
-Eq.~\eqref{eq:anisotropicFicks} into Eq.~\eqref{eq:loVol}:
-\begin{equation*}
-\frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
-  - \grad \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
-  + \sigma^\ast(\vec{x}) \phi(\vec{x}, t)
-  = Q(\vec{x}, t) \,,
-  \quad \vec{x} \in V,\ 0 \le t \le \Delta_t \,.
-\end{equation*}
-From Eq.~\eqref{eq:loInit}, it has an initial condition
-\begin{equation*}
-\phi(\vec{x}, 0) = \phi^i(\vec{x})\,, \vec{x} \in V  \,.
-\end{equation*}
-The incident source boundary condition with the simpler Marshak-like
-approximation from Eq.~\eqref{eq:marshakAd} is
-\begin{equation*}
-  4 F^-(\vec{x}, t)
-  = \phi(\vec{x}, t)
-  + 2 \vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
- \quad \vec{x} \in \partial V_b,\ 0 \le t \le \Delta_t \,.
-\end{equation*}
-The reflecting boundary condition from Eq.~\eqref{eq:reflLo2} is
-\begin{equation*}
-  \vec{n}\vd\grad \phi(\vec{x}, t) = 0 \,,
- \quad \vec{x} \in \partial V_r,\ 0 \le t \le \Delta_t \,.
-\end{equation*}
-
-The diffusion tensor is defined in Eq.~\eqref{eq:dDefinition},
-\begin{equation*}
-  \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
-  f(\vec{x}, \vec{\Omega}) \ud\Omega \,,
-\end{equation*}
-where $f$ is the solution of a purely absorbing transport equation with an
-isotropic source of unit strength and reflecting boundary conditions, as
-described in Eqs.~\eqref{eq:fFullVol},~\eqref{eq:fFullBndy2},
-and~\eqref{eq:fFullRefl}:
-\begin{equation*}
-    \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
-    + \sigma^\ast f (\vec{x}, \vec{\Omega})
-  = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
-\end{equation*}
-and
-\begin{equation*}
-  f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
- \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,.
-\end{equation*}
+The result of this procedure are two sets of equations. The first set of
+equations is a simple transport equation for $f$, whose second angular moment is
+the anisotropic diffusion tensor $\Dtens$. The second set of equations uses
+$\Dtens$ to approximate the flow of radiation inside a time step. 
 
 These equations limit to the standard diffusion approximation in a homogeneous
 medium, but they do not make the diffusion approximation that $I$ is linear in

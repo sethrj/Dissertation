@@ -132,7 +132,19 @@ has, the easier it is to solve.
 \subsection{Diffusion}\label{sec:diffusion}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Flux-limited diffusion}
+\subsection{Flux-limited diffusion}\label{sec:fldBackground}
+
+The radiation intensity satisfies the mathematical identity $\norm{F} \le \phi$,
+essentially limiting the leakage of radiation at a point to the radiation
+energy at that point. The identity can be proven using the triangle inequality:
+\begin{align*}
+  \norm{\vec{F}} &= \norm{ \int_{4\pi} \vec{\Omega} I \ud \Omega}
+  \\&\le \int_{4\pi} \norm{\vec{\Omega}} \abs{I} \ud \Omega 
+  \\
+  &\le \int_{4\pi} [1] I \ud\Omega
+  \\
+  \norm{\vec{F}} &\le \phi\,.
+\end{align*}
 
 \subsubsection{Flux limiters}
 
