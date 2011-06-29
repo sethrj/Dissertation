@@ -1,110 +1,591 @@
 % !TEX root = _individual/aponeDerivation.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Advanced time-dependent anisotropic theory}\label{chap:aponeDerivation}
-
-In this chapter, we 
+\chapter{Anisotropic P$_1$}\label{chap:aponeDerivation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flux-limited anisotropic diffusion}
+\section{Derivation}
 
-
-reference to FLD chapter
-
-\begin{equation*}
-  \vec{F}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} \times 
-  \max\left( 1, \norm{\Dtens^{n}\vd \frac{\del \phi^{n}}{\phi^{n}}}
-  \right)\inv
-\end{equation*}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Anisotropic \Pone}
 The anisotropic diffusion approximation effectively makes the same quasi-static
 approximation as diffusion by making the ansatz
-$\frac1c\pder{}{t}=O(\epsilon^2)$. If we instead assume that
-$\frac1c\pder{}{t}=O(\epsilon)$, a 
+$\frac1c\pder{}{t}=O(\epsilon^2)$. If we follow the derivation of the AD
+approximations but instead assume that $\frac1c\pder{}{t}=O(\epsilon)$, we will
+arrive at a different time-dependent expression for $\Psi$ that
+should better account for problems that vary less slowly in time.
+The new approximation that results effectively expands the low order phase
+space to include not just $\phi$ (the zeroth angular moment of $I$) but also
+$\vec{F}$ (the first angular moment of $I$). We will refer to this new method
+as ``anisotropic \Pone'' because of the analogy to the time-dependent \Pone\
+equations, which uses the same unknowns $\phi$ and $\vec{F}$.
 
-\subsection{Approximating the initial condition term}\label{sec:derPoneIc}
-The term accounting for the initial condition in
-Eq.~\eqref{eq:approxIntensity1} is (see Eqs.~\eqref{eqs:inverseTransport}):
-\begin{align*}
-  \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t) &=
-    \lopinv{i}{I^i - \frac1{4\pi} \phi^i}
-  \\
-  &= \left[ I^i - \frac1{4\pi} \phi^i \right]_{( \vec{x} - ct
-  \vec{\Omega}, \vec{\Omega})}
-    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
-    U( \norm{\vec{x} - \vec{x}_b} - ct)\,.
-\end{align*}
-This describes the contribution at $(\vec{x}, \vec{\Omega}, t)$ from particles
-that started at $t=0$ along the direction $\vec{\Omega}$, which have
-traveled a distance $ct$ to get to the current point. The Heaviside function
-$U$ is so that only particles that started in the interior are considered. The
-particles are attenuated by a factor $\eexp^{ -\tau}$ along their travel, so
-the contribution from this term in a non-vacuum is exponentially small at large
-times.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Interior and boundary layer transport equations}
 
-Now we approximate the terms in the bracket, which is the evaluated nonlocal
-initial condition. Let's expand the initial condition in spherical harmonics:
-\begin{equation*}
-  I^i(\vec{x}, \vec{\Omega}) = \frac{1}{4\pi} \phi^i(\vec{x})
-  + \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^n(\vec{x}) + \varphi(\vec{x}, \vec{\Omega})\,,
-\end{equation*}
-where $\varphi$ contains all the spherical moments of $I^i$ that are more than
-linearly anisotropic. Substituting the spherical harmonic expansion into
-$\mathrm{ \tilde i }$ cancels the isotropic component of the initial condition,
-leaving
-\begin{align} \nonumber
-  \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t)
-  &= \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^n(\vec{x})
-  + \varphi(\vec{x}, \vec{\Omega}) \right]_{( \vec{x} - ct \vec{\Omega},
-  \vec{\Omega})}
-    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
-    U( \norm{\vec{x} - \vec{x}_b} - ct)\,.
+We begin with the transport equation for $\Psi$ derived in \S\ref{sec:capPsi},
+which is the exact transport equation with the isotropic component $\phi/4\pi$
+subtracted. 
+The first step is to separate $\Psi$ into an internal solution $\tilde\Psi$ and
+a boundary layer solution
+$\Psi_\mathrm{bl}$
+\begin{equation} \label{eq:ap1boundaryLayerPsi}
+  \Psi(\vec{x}, \vec{\Omega}, t)
+  = \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+  + \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)\,.
+\end{equation}
+
+\begin{subequations} \label{eqs:ap1tCapPsi}
+The internal transport equation accounts for the source term:
+\begin{multline} \label{eq:ap1tCapPsiVol}
+  \frac{1}{c} \pder{}{t}\tilde\Psi(\vec{x}, \vec{\Omega}, t)
+    + \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+    + \sigma^\ast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
   \\
-  \intertext{Now we make the dubious but (perhaps for now) necessary
-  approximation of discarding the higher-order angular moments:} \nonumber
-  \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t)
-  &= \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^n(\vec{x}) \right]_{( \vec{x} - ct \vec{\Omega}, \vec{\Omega})}
-    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
-    U( \norm{\vec{x} - \vec{x}_b} - ct)\,.
-  \\
-  \intertext{At this point, we apply the same Taylor series expansion as in
-  Eq.~\eqref{eq:taylorPhi}, but this time to $\vec{F}^n$, allowing us to move
-  the term outside the bracket:} \nonumber
-  \mathrm{ \tilde i }(\vec{x}, \vec{\Omega}, t)
-  &= \left[ \frac{3}{4\pi} \right]_{( \vec{x} - ct \vec{\Omega}, \vec{\Omega})}
-    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})}
-    U( \norm{\vec{x} - \vec{x}_b} - ct)  \vec{\Omega} \vd \vec{F}^n(\vec{x})
-  \\ \nonumber
-  &= \lopinv{i}{\frac{3}{4\pi}} \vec{\Omega} \vd \vec{F}^n(\vec{x})\,.
-  \\\label{eq:tildeI}
-  &= g(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \vd \vec{F}^n(\vec{x})\,.
+  = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
+  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,,
+  \qquad
+x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
+\end{multline}
+Its boundary condition, however, will take the form
+\begin{equation} \label{eq:ap1tCapPsiBndy}
+ \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
+  = - \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
+  + \eta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x})
+  \equiv \tilde\Psi^b(\vec{x}, \vec{\Omega}, t) \,,
+\end{equation}
+for $\vec{x} \in \partial V_b$, $\vec{\Omega} \vd \vec{n} < 0$,
+$0 \le t \le \Delta_t$. Here, the functions $\zeta$ and $\eta$, which live on
+the boundary for incident directions, are yet to be determined. The boundary
+condition also uses the first moment of the initial condition:
+\begin{equation} \label{eq:fluxInit}
+  \vec{F}^i(\vec{x}) \equiv \int_{4\pi} I^i(\vec{x}, \vec{\Omega}) \ud \Omega\,.
+\end{equation}
+On reflecting boundaries, the internal solution is reflecting:
+\begin{equation} \label{eq:ap1tCapPsiRefl}
+ \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
+  = \tilde\Psi(\vec{x}, \vec{\Omega}_r, t)
+  \equiv \tilde\Psi^b(\vec{x}, \vec{\Omega}, t) \,,
+\end{equation}
+for $\vec{x} \in \partial V_r$, $\vec{\Omega} \vd \vec{n} < 0$,
+$0 \le t \le \Delta_t$.
+Finally, the internal solution contains the same initial condition as
+Eq.~\eqref{eq:capPsiInit}:
+\begin{equation} \label{eq:ap1tCapPsiInit}
+ \tilde\Psi(\vec{x}, \vec{\Omega}, 0)
+ = \Psi^i(\vec{x}, \vec{\Omega}, t)\,.
+\end{equation}
+\end{subequations}
+
+The corresponding transport problem for $\Psi_\mathrm{bl}$ is defined to
+satisfy the transport equations for $\Psi$ using the definition in
+Eq.~\eqref{eq:ap1boundaryLayerPsi}.
+\begin{subequations} \label{eqs:ap1blCapPsi}
+It has the same left-hand side as Eq.~\eqref{eq:capPsiBndy} but no internal
+source:
+\begin{equation} \label{eq:ap1blCapPsiVol}
+  \frac{1}{c} \pder{}{t}\Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
+    + \vec{\Omega}\vd \grad \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
+    + \sigma^\ast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
+  = 0\,, \quad
+x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
+\end{equation}
+The incident boundary condition accounts for the true incident boundary source
+as well as the $\zeta$ term we introduced:
+\begin{equation} \label{eq:ap1blCapPsiBndy}
+ \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
+  = I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+  + \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
+  - \eta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x})
+  \equiv \Psi_\mathrm{bl}^b(\vec{x}, \vec{\Omega}, t) \,.
+\end{equation}
+For $\vec{x} \in \partial V_r$, the boundary layer solution is reflecting:
+\begin{equation} \label{eq:ap1blCapPsiRefl}
+ \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
+  = \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}_r, t)\,.
+\end{equation}
+Finally, because $\tilde\Psi$ accounts for the initial condition, the initial
+condition for $\Psi_\mathrm{bl}$ is zero:
+Eq.~\eqref{eq:capPsiInit}:
+\begin{equation} \label{eq:ap1blCapPsiInit}
+ \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, 0)
+ = 0\,.
+\end{equation}
+\end{subequations}
+
+If we add Eqs.~\eqref{eqs:ap1blCapPsi} to Eqs.~\eqref{eqs:tCapPsi}, we recover
+the original transport equation for $\Psi$. The only difference from the
+AD derivation is in the form of the boundary condition, which is modified in
+anticipation of a different approximation to $\tilde\Psi$ that depends on
+$\vec{F}^i$.
+
+As was done in Eqs.~\eqref{eqs:inverseTransport}, the interior transport
+equation for $\tilde\Psi$ is expressed in an integral form, where we use the
+same linear operators $\lopinv{}{\cdot}$ as in
+Eq.~\eqref{eq:inverseTransportBrief}:
+\begin{align}\label{eq:ap1inverseTransportBrief}
+  \begin{split}
+    \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+    &\equiv
+    -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
+    +\lopinv{b}{\eta \vec{\Omega}\vd \vec{F}^i}_{\partial V_b}
+    + \lopinv{b}{\tilde\Psi(\vec{x}, \vec{\Omega}_r, t)}_{\partial V_r}
+  \\&\qquad
+    + \lopinv{i}{\Psi^i}
+    + \lopinv{v}{\frac{1}{4\pi} \grad \vd\vec{F} }
+    - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
+    \,.
+  \end{split}
 \end{align}
 
-Now we have another simple transport problem:
-\begin{equation*}
-  g(\vec{x}, \vec{\Omega}, t) = 
-  \lopinv{b}{0} + \lopinv{i}{\frac{3}{4\pi}} + \lopinv{v}{ 0 },
-\end{equation*}
-which describes a time-dependent transport problem with an isotropic initial
-condition but no source:
-\begin{subequations} \label{eqs:gFull}
-  \begin{equation} \label{eq:gFullVol}
-  \frac{1}{c} \pder{g}{t}(\vec{x}, \vec{\Omega}, t)
-    + \vec{\Omega}\vd \grad g(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast g (\vec{x}, \vec{\Omega}, t)
-  =  0 \,, \quad x \in V,\  0 \le t < \Delta_t, \ \vec{\Omega}
-  \in 4\pi\,,
-  \end{equation}
-with the initial condition
-\begin{equation} \label{eq:gFullInit}
- g(\vec{x}, \vec{\Omega}, 0) = \frac{3}{4\pi} \,,
- \quad \vec{x} \in V, \ \vec{\Omega} \in 4\pi\,,
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Asymptotic scaling}
+
+The crucial difference between \APone\ and AD is how the derivatives of $I$ are
+scaled.
+As with the AD approximation, we make an ansatz that the spatial gradients of
+the intensity are weak, the intensity varies slowly in time, and the solution is
+mildly (but not necessarily linearly) anisotropic:
+\begin{align} \label{eq:ap1ansatz}
+  I &= O(1), &
+  \grad I &= O(\epsilon), &
+  \frac{1}{c}\pder{I}{t} &= O(\epsilon), &
+  \int_{4\pi} \vec{\Omega} I\ud\Omega &= O(\epsilon).
+\end{align}
+Note here that the time derivative is scaled as $O(\epsilon)$, not
+$O(\epsilon^2)$ as with anisotropic diffusion. The consequence is that the
+contribution from the initial condition is \emph{not} $O(\epsilon^2)$.
+
+Like before, we discard the $O(\epsilon^2)$ term $\grad \vd\vec{F}$ that appears in
+Eq.~\eqref{eq:ap1inverseTransportBrief}. Unlike before, the $\Psi^i$ term
+remains.
+\begin{equation} \label{eq:ap1approxPsi1}
+  \tilde\Psi \approx 
+  -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
+  + \lopinv{b}{\eta \vec{\Omega}\vd \vec{F}^i}_{\partial V_b}
+  + \lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
+  + \lopinv{i}{\Psi^i}
+  - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
+  + O(\epsilon^2)
 \end{equation}
-and boundary conditions to be determined.
+
+The nonlocal variables buried in Eq.~\eqref{eq:approxPsi1} can still be expanded
+about the local spatiotemporal point, because both gradients are $O(\epsilon)$:
+\begin{equation} \label{eq:ap1taylorPhi}
+  \phi(\vec{x} - s \vec{\Omega}, t-s/c)
+  \sim \phi(\vec{x},t) - s \left( \frac{1}{c} \pder{}{t} + \vec{\Omega} \vd
+  \grad  \right) \phi (\vec{x}, t) + O(\epsilon^2) \sim \phi(\vec{x},t) +
+  O(\epsilon) \,.
+\end{equation}
+
+The volumetric source term is identical to that in anisotropic diffusion and was
+expanded in \S\ref{sec:adStreaming}:
+\begin{equation*}
+  - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
+  \approx  - \lopinv{v}{\frac{1}{4\pi}} \vec{\Omega}\vd \grad
+  \phi(\vec{x},t) \,.
+\end{equation*}
+
+As in \S\ref{sec:adIncident}, we expand $\phi$ in the boundary term:
+\begin{equation*}
+-\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
+  \approx  - \lopinv{v}{\zeta} \vec{\Omega}\vd \grad
+  \phi(\vec{x},t) \,.
+\end{equation*}
+For the other component of the boundary term, we expand the $O(\epsilon)$
+initial radiation flux $\vec{F}^i$ about $(\vec{x})$:
+\begin{align*} \nonumber
+\lopinv{b}{\eta \vec{\Omega}\vd \vec{F}^i}_{\partial V_b}
+&= \left[\eta(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}, t - s_b/c)
+    \vec{\Omega}\vd \vec{F}^i(\vec{x} - s_b\vec{\Omega}) \right]
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})} U(ct - s_b)
+    \\
+&\approx \left\{\eta(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}, t - s_b/c)
+\vec{\Omega}\vd \left[
+\vec{F}^i(\vec{x}) + O(\epsilon^2)\right] \right\}
+  \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})} U(ct - s_b)\,,
+\end{align*}
+or more simply,
+\begin{equation*}
+\lopinv{b}{\eta \vec{\Omega}\vd \vec{F}^i}_{\partial V_b}
+  \approx \lopinv{b}{\eta}_{\partial V_b}
+  \vec{\Omega}\vd \vec{F}^i(\vec{x}) \,.
+\end{equation*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Initial condition treatment}
+The integral equation~\eqref{eq:ap1approxPsi1} in the \APone\ derivation
+includes the contribution from the initial condition $\Psi^i$, which was not
+present in AD because of the assumption that the time dependence was
+$O(\epsilon^2)$:
+\begin{equation*}
+  \lopinv{i}{\Psi^i} = \Psi^i( \vec{x} - ct \vec{\Omega}, \vec{\Omega})
+    \eexp^{ -\tau(\vec{x}, \vec{x} - ct \vec{\Omega})} U( s_b - ct)
+\end{equation*}
+This is the contribution to $\Psi$ of uncollided particles that started
+inside the problem at $t=0$. As $t\to\infty$, as in the case of a steady-state
+problem, this term vanishes.
+
+The difficulty of treating this term is that the initial condition $\Psi^i
+\equiv I^i - \frac{1}{4\pi}\phi^i$ is an arbitrary function of both space and
+angle, and in its present form it would have to be fully stored in computer
+memory.  The point of developing the anisotropic approximations is to avoid the
+expense of calculating and retaining complex functions of space and angle, hence
+the restriction of the unknowns in the AD method to the low-order phase space
+$\phi(\vec{x})$. With the anisotropic \Pone\ approximation, we expand the
+low-order unknowns to include not just the zeroth moment $\phi$ of the intensity
+$I$ but also the first moment $\vec{F}$.  Therefore, we desire an approximate
+expression for $\Psi^i$ as a function of $\phi^i$ and $\vec{F}^i$.
+
+The most straightforward way to represent $\Psi^i$ is using the \Pone\
+approximation that the initial condition is linear in angle:
+\begin{equation*}
+  \Psi^i(\vec{x},\vec{\Omega})
+  \approx \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i(\vec{x}) \,.
+\end{equation*}
+We can now expand the nonlocal initial condition about the local point,
+\begin{align*}
+  \Psi^i( \vec{x} - ct \vec{\Omega}, \vec{\Omega})
+  & \approx  \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i( \vec{x} - ct \vec{\Omega})
+  \\
+  &\sim \frac{3}{4\pi} \vec{\Omega} \vd \left[ 
+  \vec{F}^i( \vec{x} ) + O(\epsilon^2) \right]
+  \\
+  &= \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}^i( \vec{x} ) \,,
+\end{align*}
+giving the approximation
+\begin{equation*}
+  \lopinv{i}{\Psi^i} \approx \lopinv{i}{\frac{3}{4\pi}} \vec{\Omega} \vd
+  \vec{F}^i( \vec{x} ) \,.
+\end{equation*}
+
+We have now reduced Eq.~\eqref{eq:ap1approxPsi1} to
+\begin{multline} \label{eq:ap1approxPsi2}
+  \tilde\Psi(\vec{x},\vec{\Omega},t)
+  \approx 
+  - \lopinv{v}{\frac{1}{4\pi}} \vec{\Omega}\vd \grad \phi(\vec{x},t)
+  + \lopinv{i}{\frac{3}{4\pi}} \vec{\Omega} \vd \vec{F}^i( \vec{x} )
+  \\
+  - \lopinv{b}{\zeta}_{\partial V_b} \vec{\Omega}\vd \grad \phi(\vec{x},t)
+  + \lopinv{b}{\eta}_{\partial V_b} \vec{\Omega}\vd \vec{F}^i(\vec{x})
+  + \lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
+\end{multline}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Reflecting boundary condition}
+Ignoring the reflecting boundary condition in Eq.~\eqref{eq:ap1approxPsi2}
+allows the equation's reformulation as
+\begin{equation*}
+  \tilde\Psi(\vec{x},\vec{\Omega},t)
+  \approx 
+ - f(\vec{x},\vec{\Omega},t) \vec{\Omega}\vd \grad \phi(\vec{x},t)
+ + g(\vec{x},\vec{\Omega},t) \vec{\Omega}\vd \vec{F}^i(\vec{x})\,.
+\end{equation*}
+We suppose for a moment that the reflecting boundary term can be approximated
+by a similar form, embedding it into the $f$ and $g$ expressions.
+
+As with the derivation for the anisotropic diffusion method, we desire the
+approximated reflecting boundary condition to be embedded in $f$ and $g$. To
+approximate the reflecting boundary condition term $\lopinv{b}{\cdot}_{\partial
+V_r}$, which describes uncollided particles reflected from the boundary
+during a time step, we follow a procedure identical to that performed in
+\S\ref{sec:derReflBc}.  It begins by substituting the approximate $\tilde\Psi$
+into the reflecting boundary term, and writing $\vec{\Omega}_r$ using
+Eq.~\eqref{eq:reflection}. 
+\begin{align*}
+  \lefteqn{\lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}}\qquad&
+  \\
+  &= \left[\tilde\Psi(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r, t - s_b/c)
+  \right]
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s_b \vec{\Omega})}
+    U(ct - s_b)
+  \\
+  &=\lopinv{b}{ - f(\vec{x} - s_b\vec{\Omega},\vec{\Omega}_r,t - s_b/c)
+  \vec{\Omega}_r\vd \grad \phi(\vec{x} - s_b\vec{\Omega}, t - s_b/c)}
+  \\
+  &\qquad + \lopinv{b}{ g(\vec{x} - s_b\vec{\Omega}, \vec{\Omega}_r, t - s_b/c)
+  \vec{\Omega}_r\vd \vec{F}^i(\vec{x} - s_b\vec{\Omega})}
+  \\
+  &= - \lopinv{b}{ f(\vec{x}_b,\vec{\Omega}_r,t_b)
+  \vec{\Omega}\vd \grad \phi(\vec{x}_b, t_b)}
+   + \lopinv{b}{ g(\vec{x}_b, \vec{\Omega}_r, t_b)
+  \vec{\Omega}\vd \vec{F}^i(\vec{x}_b)}
+  \\
+  &\qquad + \lopinv{b}{ f(\vec{x}_b,\vec{\Omega}_r,t_b)
+  2(\vec{\Omega} \vd \vec{n}) \vec{n} \vd \grad \phi(\vec{x}_b, t_b)}
+   - \lopinv{b}{ g(\vec{x}_b, \vec{\Omega}_r, t_b)
+  2(\vec{\Omega} \vd \vec{n}) \vec{n} \vd \vec{F}^i(\vec{x}_b)}\,.
+\end{align*}
+Because $\vec{n} \vd \grad \phi = \vec{n} \vd \vec{F}^i = 0$ on a
+reflecting boundary, the second pair of terms disappear, leaving
+\begin{equation*}
+\lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
+  \approx - \lopinv{b}{ f(\vec{x}_b,\vec{\Omega}_r,t_b)
+  \vec{\Omega}\vd \grad \phi(\vec{x}_b, t_b)}
+   + \lopinv{b}{ g(\vec{x}_b, \vec{\Omega}_r, t_b)
+  \vec{\Omega}\vd \vec{F}^i(\vec{x}_b)}
+\end{equation*}
+Expanding $\phi(\vec{x}_b, t_b)$ about $\phi(\vec{x}, t)$ and
+$\vec{F}^i(\vec{x}_b)$ about $\vec{F}^i(\vec{x})$ allows this to be
+approximated to $O(\epsilon^2)$ as
+\begin{equation*}
+  \lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
+  \approx
+  - \lopinv{b}{ f(\vec{x}_b,\vec{\Omega}_r,t_b)} \vec{\Omega}\vd \grad
+  \phi(\vec{x}, t)
+  + \lopinv{b}{ g(\vec{x}_b, \vec{\Omega}_r, t_b)}
+  \vec{\Omega}\vd \vec{F}^i(\vec{x})\,,
+\end{equation*}
+or, in the more simplified form,
+\begin{equation} \label{eq:ap1reflApprox}
+\lopinv{b}{\tilde\Psi(\vec{\Omega}_r)}_{\partial V_r}
+\approx  
+- \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}
+\vec{\Omega} \vd \grad \phi(\vec{x}, t)
++ \lopinv{b}{g(\vec{\Omega}_r)}_{\partial V_r}
+\vec{\Omega}\vd \vec{F}^i(\vec{x})
+\,.
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Anisotropic \Pone\ approximation to \texorpdfstring{$\Psi$}{Psi}}
+
+Now we have approximations for the boundary terms, the initial condition, and
+the volumetric terms that allow $I-\frac{1}{4\pi}\phi$ to be expressed in terms
+of local values of $\phi$ and $\vec{F}^i$.
+\begin{align} \nonumber
+\begin{split}
+ \tilde\Psi
+ &\approx 
+ - \lopinv{v}{\frac{1}{4\pi}} \vec{\Omega}\vd \grad \phi
+ + \lopinv{i}{\frac{3}{4\pi}} \vec{\Omega}\vd \vec{F}^i
+ - \lopinv{b}{\zeta}_{\partial V_b} \vec{\Omega}\vd \grad \phi
+ + \lopinv{b}{\eta}_{\partial V_b} \vec{\Omega}\vd \vec{F}^i
+ \\&\qquad
+ - \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r} \vec{\Omega}\vd \grad \phi
+ + \lopinv{b}{g(\vec{\Omega}_r)}_{\partial V_r} \vec{\Omega}\vd \vec{F}^i
+\end{split}
+\\
+\begin{split}
+ \tilde\Psi &= 
+- \left\{
+  \lopinv{b}{\zeta}_{\partial V_b} 
++ \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}
++ \lopinv{v}{\frac{1}{4\pi}}
+\right\} \vec{\Omega}\vd \grad \phi
+ \\&\qquad
++ \left\{
+  \lopinv{b}{\eta}_{\partial V_b} 
++ \lopinv{b}{g(\vec{\Omega}_r)}_{\partial V_r}
++ \lopinv{i}{\frac{3}{4\pi}}
+\right\} \vec{\Omega}\vd \vec{F}^i(\vec{x})
+\end{split}
+\\ \label{eq:ap1approxPsi3}
+\tilde\Psi(\vec{x}, \vec{\Omega}, t)
+&= - f(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
++ g(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x})
+\end{align}
+
+Here, we have defined
+\begin{equation*}
+  f(\vec{x}, \vec{\Omega})
+  \equiv
+  \lopinv{b}{\zeta}_{\partial V_b} 
++ \lopinv{b}{f(\vec{\Omega}_r)}_{\partial V_r}
++ \lopinv{i}{0}
++ \lopinv{v}{\frac{1}{4\pi}}\,,
+\end{equation*}
+which is the solution to a time-dependent integral transport equation (see
+Eqs.~\eqref{eqs:inverseTransport}). It is very similar to the anisotropic
+diffusion formulation for $f$ in Eqs.~\eqref{eqs:fFull}, except that now $f$
+varies in time. The differential transport equation for this modified $f$ is
+\begin{subequations} \label{eqs:ap1fFull}
+  \begin{equation} \label{eq:ap1fFullVol}
+    \pder{f}{t}(\vec{x}, \vec{\Omega},t)
+    + \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega},t)
+    + \sigma^\ast f(\vec{x}, \vec{\Omega},t)
+  = \frac{1}{4\pi} \,,
+  \quad x \in V,\ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t\,.
+\end{equation}
+It has boundary and initial conditions:
+\begin{alignat}{2} \label{eq:ap1fFullBndy}
+  f(\vec{x}, \vec{\Omega}, t) &= \zeta(\vec{x}, \vec{\Omega}, t) \,,
+ \quad && \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0
+ ,\  0 \le t \le \Delta_t\,,
+\\ \label{eq:ap1fFullRefl}
+  f(\vec{x}, \vec{\Omega}) &= f(\vec{x}, \vec{\Omega}_r) \,,
+ && \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0
+ ,\  0 \le t \le \Delta_t\,,
+\\ \label{eq:ap1fFullInit}
+  f(\vec{x}, \vec{\Omega}, 0) &= 0 \,,
+ && \vec{x} \in V, \ \vec{\Omega}\in 4\pi\,.
+\end{alignat}
 \end{subequations}
+
+In Eq.~\eqref{eq:ap1approxPsi3} we also defined
+\begin{equation*}
+  g(\vec{x}, \vec{\Omega})
+  \equiv
+  \lopinv{b}{\eta}_{\partial V_b} 
++ \lopinv{b}{g(\vec{\Omega}_r)}_{\partial V_r}
++ \lopinv{i}{\frac{3}{4\pi}}
++ \lopinv{v}{0}\,,
+\end{equation*}
+which is a slightly different time-dependent integral transport equation.
+Here, $g$ is the solution of a purely absorbing
+transport equation with a uniform, isotropic initial condition but without any
+volumetric source:
+\begin{subequations} \label{eqs:ap1gFull}
+  \begin{equation} \label{eq:ap1gFullVol}
+    \pder{g}{t}(\vec{x}, \vec{\Omega},t)
+    + \vec{\Omega}\vd \grad g(\vec{x}, \vec{\Omega},t)
+    + \sigma^\ast g(\vec{x}, \vec{\Omega},t)
+  = 0 \,,
+  \quad x \in V,\ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t\,,
+\end{equation}
+with boundary and initial conditions
+\begin{alignat}{2} \label{eq:ap1gFullBndy}
+  g(\vec{x}, \vec{\Omega}, t) &= \eta(\vec{x}, \vec{\Omega}, t) \,,
+ \quad && \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0
+ ,\  0 \le t \le \Delta_t\,,
+\\ \label{eq:ap1gFullRefl}
+  g(\vec{x}, \vec{\Omega}) &= g(\vec{x}, \vec{\Omega}_r) \,,
+  && \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0
+ ,\  0 \le t \le \Delta_t\,,
+\\ \label{eq:ap1gFullInit}
+g(\vec{x}, \vec{\Omega}, 0) &= \frac{3}{4\pi} \,,
+  && \vec{x} \in V, \ \vec{\Omega}\in 4\pi\,.
+\end{alignat}
+\end{subequations}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Approximate radiation flux}
+Now we have an equation for $\Psi(\vec{x}, \vec{\Omega}, t)$ as a
+function of
+\begin{itemize}
+  \item the simple transport equations $f(\vec{x}, \vec{\Omega}, t)$
+    and $g(\vec{x}, \vec{\Omega}, t)$,
+  \item the unknown scalar intensity $\phi(\vec{x},t)$, and
+  \item the initial radiation flux $\vec{F}^i(\vec{x})$.
+\end{itemize}
+
+From Eq.~\eqref{eq:capPsiFirst}, the first moment of $\Psi$ is the flux
+$\vec{F}$. Operating on Eq.~\eqref{eq:ap1approxPsi3} by $\int_{4\pi}
+\vec{\Omega} (\cdot) \ud\Omega$ gives an expression similar to 
+the following simple expression:
+\begin{align} \nonumber
+  \vec{F}(\vec{x}, t)
+  &= \int_{4\pi} \vec{\Omega} \tilde \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  \\ \nonumber
+  &= 
+  - \left[ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x}, \vec{\Omega}, t)
+  \ud\Omega \right]
+  \vd \grad \phi(\vec{x},t)
+  + \left[ \int_{4\pi} \vec{\Omega} \vec{\Omega} g(\vec{x}, \vec{\Omega}, t)
+  \ud\Omega \right]
+  \vd \vec{F}^i(\vec{x})
+  \\ \label{eq:ap1Ficks}
+  &= - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
+  + \Etens(\vec{x}) \vd \vec{F}^i(\vec{x})\,.
+\end{align}
+This resembles ``Fick's law,'' but instead of a scalar diffusion
+\emph{coefficient},
+the anisotropic diffusion method has a diffusion \emph{tensor}, $\Dtens$, the
+second angular moment of $f$:
+\begin{equation}\label{eq:ap1dDefinition}
+  \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation}
+
+\begin{equation}\label{eq:ap1eDefinition}
+  \Etens(\vec{x}, t) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  g(\vec{x}, \vec{\Omega}, t) \ud\Omega \,.
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Incident boundary conditions}
+Equations~\eqref{eqs:ap1fFull} and~\eqref{eqs:ap1gFull} do not completely
+describe the \APone\ method because we have not yet used the boundary layer
+equations~\eqref{eqs:ap1blCapPsi} or determined $\zeta$ and $\eta$.
+
+To determine $\zeta$ and $\eta$, we enforce the same relation that determined
+$\zeta$ in the AD derivation, Eq.~\eqref{eq:capPsiZeroth}:
+\begin{align*}
+  0 &= \int_{4\pi} \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  \\
+  0 &= \int_{4\pi} \left[  - f(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
++ g(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x})
+ \right]  \ud\Omega
+  \\
+  0 &=
+- \int_{4\pi} f(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \ud\Omega
+  \vd \grad \phi(\vec{x}, t)
++ \int_{4\pi} g(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \ud\Omega
+  \vd \vec{F}^i(\vec{x}) \,.
+\end{align*}
+Because we do not with $f$ and $g$ to depend on each other, on the unknown
+$\phi$, or on the known $\vec{F}^i$, we take this relationship to give two
+conditions on $\partial V_b$:
+\begin{equation*}
+  \int_{4\pi} f(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \ud\Omega = 0\,,
+  \qquad \text{and} \qquad
+  \int_{4\pi} g(\vec{x}, \vec{\Omega}, t) \vec{\Omega} \ud\Omega = 0\,.
+\end{equation*}
+Substituting $\zeta$ and $\eta$ for incoming directions, these give
+\begin{subequations} \label{eqs:ap1zetaCondition}
+\begin{align} \label{eq:ap1zetaCondition}
+- \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \zeta(\vec{x}, \vec{\Omega}, t)\ud\Omega
+ &=
+ \int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega}, t)\ud\Omega \,,
+\\ \label{eq:ap1etaCondition}
+- \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \eta(\vec{x}, \vec{\Omega}, t)\ud\Omega
+ &=
+ \int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} g(\vec{x}, \vec{\Omega}, t)\ud\Omega \,.
+\end{align}
+\end{subequations}
+
+Both of these relations are identical in form to the constraint on $f$,
+Eq.~\eqref{eq:zetaCondition1}. We shall simply restate the result of the
+constraint: given that $f$ (or $g$) is symmetric about $\vec{n}$, a reflecting
+boundary will satisfy Eqs.~\eqref{eqs:ap1zetaCondition}, as will any other
+angular distribution that preserves the first partial exiting moment.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Low-order boundary condition}
+Boundary conditions for the \APone\ approximation are formulated in the same
+manner as standard diffusion and anisotropic diffusion.
+Substituting Eq.~\eqref{eq:ap1blCapPsiBndy} into Eq.~\eqref{eq:bcW} gives a
+condition to enforce on the boundary:
+\begin{align*}
+  0 &= \int_{\vec{\Omega} \vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  \Psi_\mathrm{bl} (\vec{x}, \vec{\Omega}, t) \ud\Omega
+  \\
+  &= \int_{\vec{\Omega} \vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+ \left[ I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+  + \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
+  - \eta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x})\right]
+  \ud\Omega
+\end{align*}
+Under the assumption that we are using reflecting boundary conditions for $f$
+and $g$, we rearrange this equation and express $\zeta$ and $\eta$ in terms of
+outgoing values of $f$ and $g$ (see \S\ref{sec:zeta}):
+\begin{multline}\label{eq:ap1loBndy}
+  2 \int_{\vec{\Omega} \vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
+  I^b(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  \\
+  =
+ \phi(\vec{x}, t)
+  + 2\int_{\vec{\Omega}\vd \vec{n} > 0} W(\vec{\Omega} \vd \vec{n})
+  \vec{\Omega} f(\vec{x}, \vec{\Omega},t) \ud\Omega
+  \vd \grad \phi(\vec{x}, t) 
+  \\
+  - 2\int_{\vec{\Omega}\vd \vec{n} > 0} W(\vec{\Omega} \vd \vec{n})
+  \vec{\Omega} g(\vec{x}, \vec{\Omega},t) \ud\Omega
+  \vd \vec{F}^i(\vec{x}) 
+  \,.
+\end{multline}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implicit time-dependent formulation}

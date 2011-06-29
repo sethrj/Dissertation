@@ -4,16 +4,79 @@
 \chapter{Introduction}\label{chap:introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This thesis extends a steady-state, infinite-medium anisotropic diffusion (AD)
-approximation \cite{Mor2007,Lar2009c} using a systematic derivation from the
-transport equation that accounts for time-dependent behavior and arbitrary
-problem boundaries. Our motivation is to formulate and test an approximation to
-thermal radiative transfer (TRT) that is more accurate than diffusion yet much
-less expensive than a time-dependent transport calculation.
+Nuclear engineering is the field that develops tools to harness the power of the
+atomic nucleus and high-energy radiation related to it. It encompasses such
+disparate areas as plasma physics, radiation detection, nuclear reactor design,
+and atomic particle transport. The latter area is the study of how
+statistically large numbers of fundamental particles interact with (and are
+``transported'' through) matter; this
+phenomena accounts for the behavior of neutrons in a nuclear reactor,
+gamma rays in shielding applications, electrons in cancer therapy, and photons
+in radiative transfer problems. This thesis is concerned with a
+particular regime of radiative transfer known as thermal radiative transfer
+(TRT).
+
+The difficulty, expense, and impracticality of performing physical
+experiments in many fields has produced a tremendous drive to cheaply
+simulate physics. In conjunction with the exponentially
+increasing power and exponentially decreasing cost of computers,
+this has led to the rise of computational methods development:
+researching and implementing accurate, practical approximations to the physical
+equations that describe reality. Our work is in the field of computational
+particle transport, and our goal is to develop a new, accurate, inexpensive
+approximation to the equations of thermal radiative transfer.
+
+One recent advance in methods development is the anisotropic diffusion (AD)
+approximation, recently used to model steady-state neutron transport for VHTR
+simulations \cite{Lar2009c,Tra2011} but also independently formulated for
+steady-state photon transport \cite{Mor2007}. The radiation-oriented theory was
+not
+numerically modeled, but the neutron theory has shown very promising results.
+However, the steady-state, infinite-medium derivation used by the prior work is
+insufficient for modeling TRT problems, which typically change rapidly as a
+function of time and necessarily operate in a finite problem space. In the new
+work presented here, we derive a complete theory describing anisotropic
+diffusion for time-dependent transport problems in finite media. 
+
+Although the theory is developed for a general three-dimensional (3-D) space,
+true 3-D simulations are still expensive because of the expansive problem phase
+space: the transport equations operate in three spatial coordinates $(x,y,z)$,
+two angular coordinates $(\mu,\theta)$, and time $t$. Even two-dimensional (2-D)
+problems, which model a system invariant in the $z$ direction, operate in the
+space $(x,y,\mu,\theta,t)$. A ``toy'' geometry called \emph{flatland}
+\cite{Abb1884}, recently used in methods development \cite{Asa2008,Lar2009c},
+reduces the phase space to $(x,y,\theta,t)$ by constraining particles to a
+two-dimensional plane. Flatland retains the complexity of multi-dimensional
+space while decreasing the computational burden. A notable part of this thesis
+is the investigation and application of flatland to transport methods
+development.
+
+We test our new anisotropic diffusion theory with a range of numerical
+experiments, most of them using flatland geometry.  To start, we verify the
+newly formulated boundary conditions in a steady-state medium for simplicity. We
+then test several linear time-dependent radiation transport problems, which omit
+the nonlinear material--radiation coupling of TRT. In addition to flatland test
+problems, we compare the performance of AD against some 1-D and 2-D problems in
+the literature.
+
+One of the TRT test problems is 
+
+%As any engineering student knows from his heat transfer
+%class, conduction and convection transfer energy proportionally to the material
+%temperature $T$, but radiative energy transfer is proportional to the $T^4$ of
+%black-body emission.
+
+stiff systems with small and large time scales \cite{Kno2003}
+
+%This thesis extends a steady-state, infinite-medium anisotropic diffusion (AD)
+%approximation \cite{Mor2007,Lar2009c} using a systematic derivation from the
+%transport equation that accounts for time-dependent behavior and arbitrary
+%problem boundaries. Our motivation is to formulate and test an approximation to
+%thermal radiative transfer (TRT) that is more accurate than diffusion yet much
+%less expensive than a time-dependent transport calculation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Thermal radiative transfer}
-
 
 Thermal radiative transfer is the dominant form of energy transfer in very
 hot systems, such as the interior of a star or the target of a laser fusion

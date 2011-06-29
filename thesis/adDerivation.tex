@@ -9,6 +9,8 @@ the anisotropic diffusion approximation presented in this chapter provides a
 theoretical basis for using AD in time-dependent and nonlinear contexts, and it
 addresses boundary conditions for the AD method.
 
+The anisotropic diffusion equations are derived in general 3-D geometry.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A modified transport equation}\label{sec:capPsi}
 We begin by considering the gray radiation transport equation inside a time step
@@ -271,7 +273,7 @@ source:
     + \vec{\Omega}\vd \grad \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
     + \sigma^\ast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
   = 0\,, \quad
-x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
+x \in V, \ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t.
 \end{equation}
 The incident boundary condition accounts for the true incident boundary source
 as well as the $\zeta$ term we introduced:
@@ -405,9 +407,8 @@ terms that appear in Eq.~\eqref{eq:inverseTransportBrief}:
   + O(\epsilon^2)
 \end{equation}
 
-The ansatz about the gradients allows the nonlocal variables in
-Eq.~\eqref{eq:inverseTransportFull} to be expanded about
-the local spatiotemporal point:
+We can also expand the nonlocal variables in Eq.~\eqref{eq:inverseTransportFull}
+about the local spatiotemporal point in powers of $\epsilon$:
 \begin{equation} \label{eq:taylorPhi}
   \phi(\vec{x} - s \vec{\Omega}, t-s/c)
   \sim \phi(\vec{x},t) - s \left( \frac{1}{c} \pder{}{t} + \vec{\Omega} \vd
@@ -418,7 +419,7 @@ This Taylor series will enable, to leading order, the approximation of nonlocal
 quantities inside the operators $\lopinv{}{\cdot}$ by local quantities.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Approximating the streaming integral term}
+\subsection{Approximating the streaming integral term}\label{sec:adStreaming}
 The streaming term in Eq.~\eqref{eq:approxPsi1} is (see
 Eq.~\eqref{eq:inverseTransportFull}):
 \begin{align*}
@@ -469,6 +470,7 @@ because it is no longer a function of $s$:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Approximating the incident boundary integral term}
+\label{sec:adIncident}
 The incident boundary term in Eq.~\eqref{eq:approxPsi1} is
 \begin{multline*}
 -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
@@ -556,10 +558,10 @@ Eq.~\eqref{eq:inverseTransportBrief} yields
 \left(  \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n} \right)
   \vd \grad \phi(\vec{x} - s_b\vec{\Omega}, t - s_b/c) }
   \\
-  &= -\lopinv{b}{f(\vec{x}_b,\vec{\Omega}) \vec{\Omega} \vd \grad
-  \phi(\vec{x}_b,t)}
-  + \lopinv{b}{f(\vec{x}_b,\vec{\Omega}) 2(\vec{\Omega} \vd \vec{n}) \vec{n} \vd
-  \grad \phi(\vec{x}_b,t) } \,.
+  &= -\lopinv{b}{f(\vec{x}_b,\vec{\Omega}_r) \vec{\Omega} \vd \grad
+  \phi(\vec{x}_b,t_b)}
+  + \lopinv{b}{f(\vec{x}_b,\vec{\Omega}_r) 2(\vec{\Omega} \vd \vec{n}) \vec{n} \vd
+  \grad \phi(\vec{x}_b,t_b) } \,.
 \\ 
 \intertext{On a reflecting boundary at any point $\vec{x}_b$, the exact
 intensity satisfies $\vec{n} \vd
@@ -587,14 +589,15 @@ or, in the more simplified form,
 \vec{\Omega} \vd \grad \phi(\vec{x}, t) \,.
 \end{equation}
 
-This has the same form as the other approximations to the term, a property crucial
+This has the same form as the other approximations to the term, a property
+crucial
 to forming the anisotropic diffusion approximation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Anisotropic diffusion approximation to \texorpdfstring{$\Psi$}{Psi}}
 Substituting Eqs.~\eqref{eq:streamingApprox},~\eqref{eq:bndyApprox},
 and~\eqref{eq:reflApprox} into Eq.~\eqref{eq:approxPsi1} gives a nearly complete
-approximation to the anisotropic intensity:
+approximation to $I-\frac{1}{4\pi}\phi$:
 \begin{align} \nonumber
   \tilde\Psi
   &\approx 
@@ -658,7 +661,8 @@ equation~\eqref{eq:loVol}.
 
 We use the property from Eq.~\eqref{eq:capPsiFirst}
 that the first moment of $\Psi$ is the flux $\vec{F}$. Operating on 
-Eq.~\eqref{eq:approxPsi3} with $\int_{4\pi} \vec{\Omega} (\cdot) \ud\Omega$, we get
+Eq.~\eqref{eq:approxPsi3} by $\int_{4\pi} \vec{\Omega} (\cdot) \ud\Omega$, we
+get
 the following simple expression:
 \begin{align} \nonumber
   \vec{F}(\vec{x}, t)
@@ -836,7 +840,7 @@ Eqs.~\eqref{eqs:blCapPsi}, decays most rapidly under the condition
 \begin{equation} \label{eq:bcW}
   0 = \int_{\vec{\Omega} \vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
   \Psi_\mathrm{bl} (\vec{x}, \vec{\Omega}, t) \ud \Omega\,,\qquad \vec{x} \in
-  \partial V_b\,.
+  \partial V_b\,,\ 0 \le t \le \Delta_t\,.
 \end{equation}
 $W$ is related to Chandrasekhar's $H$-function \cite{Cha1960} and is
 well-approximated by a simple polynomial \cite{Mal1991}:
@@ -1367,7 +1371,7 @@ for $\Psi$, we get
   - \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
 \end{align*}
 (The function arguments have been omitted for brevity.)
-Taking the first moment of this equation and operating on it with $\int_{4\pi}
+Taking the first moment of this equation and operating on it by $\int_{4\pi}
 \vec{\Omega}(\cdot) \ud\Omega$ yields
 \begin{multline*}
 \frac{3}{4\pi} \left( \int_{4\pi} \vec{\Omega}\vec{\Omega}\ud\Omega \right) \vd
@@ -1415,120 +1419,15 @@ unphysical transfer of energy (radiation flux) in the problem.
 One means of addressing this issue is to apply a ``flux limiter'' as is done
 with diffusion (see \S\ref{sec:fldBackground}).
 
-MORE DISCUSSION HERE
+MORE DISCUSSION AND STUFF HERE
 
+The most straightforward flux limiter is the ``max'' limiter, which . A
+semi-implicit implementation of this limiter is
 \begin{equation*}
   \vec{F}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} \times 
   \max\left( 1, \norm{\Dtens^{n}\vd \frac{\del \phi^{n}}{\phi^{n}}}
-  \right)\inv
+  \right)\inv \,.
 \end{equation*}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Anisotropic P$_1$}
-
-By expanding the low order phase space to include not just $\phi$ (the
-zeroth angular moment of $I$) but also $\vec{F}$ (the first angular moment of
-$I$), we hope to improve the accuracy of the anisotropic diffusion approximation
-without incurring a large storage or performance penalty. The procedure to
-derive the \APone\ approximation is virtually identical to that of AD, except we
-make a slightly different assumption about the strength of the time derivative
-of $I$.
-
-We begin with the transport equation for $\Psi$ derived in \S\ref{sec:capPsi},
-which is the exact transport equation with the isotropic component $\phi/4\pi$
-subtracted. 
-The first step is to separate $\Psi$ into an internal solution $\tilde\Psi$ and
-a boundary layer solution
-$\Psi_\mathrm{bl}$
-\begin{equation} \label{eq:ap1boundaryLayerPsi}
-  \Psi(\vec{x}, \vec{\Omega}, t)
-  = \tilde\Psi(\vec{x}, \vec{\Omega}, t)
-  + \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)\,.
-\end{equation}
-
-\begin{subequations} \label{eqs:ap1tCapPsi}
-The internal transport equation accounts for the source term:
-\begin{multline} \label{eq:ap1tCapPsiVol}
-  \frac{1}{c} \pder{}{t}\tilde\Psi(\vec{x}, \vec{\Omega}, t)
-    + \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
-  \\
-  = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
-  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)
-  \equiv \hat Q(\vec{x}, \vec{\Omega}, t)\,,
-  \qquad
-x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
-\end{multline}
-Its boundary condition, however, will take the form
-\begin{equation} \label{eq:ap1tCapPsiBndy}
- \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
-  = - \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
-  + \eta(\vec{x}, \vec{\Omega}, t) \vec{F}^i(\vec{x})
-  \equiv \tilde\Psi^b(\vec{x}, \vec{\Omega}, t) \,,
-\end{equation}
-for $\vec{x} \in \partial V_b$, $\vec{\Omega} \vd \vec{n} < 0$,
-$0 \le t \le \Delta_t$. Here, the functions $\zeta$ and $\eta$, which live on
-the boundary for incident directions, are yet to be determined. The boundary
-condition also uses the first moment of the initial condition:
-\begin{equation} \label{eq:fluxInit}
-  \vec{F}^i(\vec{x}) \equiv \int_{4\pi} I^i(\vec{x}, \vec{\Omega}) \ud \Omega\,.
-\end{equation}
-On reflecting boundaries, the internal solution is reflecting:
-\begin{equation} \label{eq:ap1tCapPsiRefl}
- \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
-  = \tilde\Psi(\vec{x}, \vec{\Omega}_r, t)
-  \equiv \tilde\Psi^b(\vec{x}, \vec{\Omega}, t) \,,
-\end{equation}
-for $\vec{x} \in \partial V_r$, $\vec{\Omega} \vd \vec{n} < 0$,
-$0 \le t \le \Delta_t$.
-Finally, the internal solution contains the same initial condition as
-Eq.~\eqref{eq:capPsiInit}:
-\begin{equation} \label{eq:ap1tCapPsiInit}
- \tilde\Psi(\vec{x}, \vec{\Omega}, 0)
- = \Psi^i(\vec{x}, \vec{\Omega}, t)\,.
-\end{equation}
-\end{subequations}
-
-The corresponding transport problem for $\Psi_\mathrm{bl}$ is defined to
-satisfy the transport equations for $\Psi$ using the definition in
-Eq.~\eqref{eq:ap1boundaryLayerPsi}.
-\begin{subequations} \label{eqs:blCapPsi}
-It has the same left-hand side as Eq.~\eqref{eq:capPsiBndy} but no internal
-source:
-\begin{equation} \label{eq:blCapPsiVol}
-  \frac{1}{c} \pder{}{t}\Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
-    + \vec{\Omega}\vd \grad \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
-  = 0\,, \quad
-x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
-\end{equation}
-The incident boundary condition accounts for the true incident boundary source
-as well as the $\zeta$ term we introduced:
-\begin{equation} \label{eq:blCapPsiBndy}
- \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
-  = I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
-  + \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
-  \equiv \Psi_\mathrm{bl}^b(\vec{x}, \vec{\Omega}, t) \,.
-\end{equation}
-For $\vec{x} \in \partial V_r$, the boundary layer solution is reflecting:
-\begin{equation} \label{eq:blCapPsiRefl}
- \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
-  = \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}_r, t)\,.
-\end{equation}
-Finally, because $\tilde\Psi$ accounts for the initial condition, the initial
-condition for $\Psi_\mathrm{bl}$ is zero:
-Eq.~\eqref{eq:capPsiInit}:
-\begin{equation} \label{eq:blCapPsiInit}
- \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, 0)
- = 0\,.
-\end{equation}
-\end{subequations}
-
-If we add Eqs.~\eqref{eqs:blCapPsi} to Eqs.~\eqref{eqs:tCapPsi}, we recover the
-original transport equation for $\Psi$. However, unlike the original transport
-equation,
-Eqs.~\eqref{eqs:tCapPsi} and~\eqref{eqs:blCapPsi} allow us to formulate boundary
-conditions for the anisotropic diffusion method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
