@@ -5,12 +5,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Nuclear engineering is the field that develops tools to harness the power of the
-atomic nucleus and high-energy radiation related to it. It encompasses such
+atomic nucleus and high-energy radiation. It encompasses such
 disparate areas as plasma physics, radiation detection, nuclear reactor design,
 and atomic particle transport. The latter area is the study of how
 statistically large numbers of fundamental particles interact with (and are
-``transported'' through) matter; this
-phenomena accounts for the behavior of neutrons in a nuclear reactor,
+``transported'' through) matter: it
+accounts for the behavior of neutrons in a nuclear reactor,
 gamma rays in shielding applications, electrons in cancer therapy, and photons
 in radiative transfer problems. This thesis is concerned with a
 particular regime of radiative transfer known as thermal radiative transfer
@@ -18,9 +18,8 @@ particular regime of radiative transfer known as thermal radiative transfer
 
 The difficulty, expense, and impracticality of performing physical
 experiments in many fields has produced a tremendous drive to cheaply
-simulate physics. In conjunction with the exponentially
-increasing power and exponentially decreasing cost of computers,
-this has led to the rise of computational methods development:
+simulate physics. The exponentially increasing power and decreasing cost of
+computers have led to the rise of computational methods development:
 researching and implementing accurate, practical approximations to the physical
 equations that describe reality. Our work is in the field of computational
 particle transport, and our goal is to develop a new, accurate, inexpensive
@@ -41,7 +40,7 @@ work presented here, we derive a complete theory describing anisotropic
 diffusion for time-dependent transport problems in finite media. Furthermore,
 the new derivation framework allows the development of other ``anisotropic''
 approximations. One new member of this family is what we call the anisotropic
-$P_1$ method, which is presented in this thesis.
+\Pone\ method, which is also derived.
 
 Although the theory is developed for a general three-dimensional (3-D) space,
 true 3-D simulations are expensive because of the expansive problem phase
@@ -67,15 +66,17 @@ behavior in ``linear'' radiation transport problems, which omit the nonlinear
 material--radiation coupling of TRT.
 
 Finally, we apply the new AD approximations to thermal radiative transfer
-problems. We begin by comparing the performance of the new methods using
+problems. We begin with
 one-dimensional problems in the literature \cite{Rau2005}, and variations
-thereof. The primary comparison, though, is a flatland simulation
+thereof. The primary test bed, though, is a flatland simulation
 \cite{Joh2011} inspired by a particular TRT experiment---%
 the behavior of a laser-driven shock wave in a small tube filled with xenon
 gas---%
 in the Center for Radiative Shock Hydrodynamics (CRASH) program
 \cite{Crash2010}. In addition to the flatland problems, we test some difficult
-two-dimensional problems \cite{Mou2006}.
+two-dimensional problems \cite{Mou2006}. These comparisons provide a wide and
+fair assessment of the AD method, demonstrating both its limitations and its
+benefits.
 
 %This thesis extends a steady-state, infinite-medium anisotropic diffusion (AD)
 %approximation \cite{Mor2007,Lar2009c} using a systematic derivation from the
@@ -104,11 +105,9 @@ temperature $T$, and the radiation intensity $I$.
 The intensity $I$, analogous to the ``angular flux'' in the reactor physics
 world,
 describes the state and distribution of photons in space $\vec{x}$, angle
-$\vec{\Omega}$, and time $t$%
-\footnote{In this discussion, we ignore the frequency-dependent nature of light,
-because the AD approximation is more suitable to gray radiation treatment than
-multigroup.
-}. The spatial and temporal variables are self-explanatory; the angular
+$\vec{\Omega}$, and time $t$.
+(In this discussion, we ignore the frequency-dependent nature of radiation.)
+The spatial and temporal variables are self-explanatory; the angular
 variable essentially determines a photon's velocity${}=c\vec{\Omega}$, using
 the speed of light $c$. More photons headed in a certain direction at a certain
 point in space-time give rise to a larger value in the intensity---%
@@ -126,60 +125,167 @@ photon via the black body process, the lost material energy is transferred to
 the radiation field.
 
 The absorption of photons by the material, the black body emission process, and
-the straight-line travel of ``streaming'' photons constitute the essence of the
+the straight-line travel of ``streaming'' photons constitute the
 thermal radiative transfer process. The rate of absorption of photons is
 proportional to the opacity $\sigma$, analogous to the neutron cross section in
 reactor physics. Unlike the neutron cross section, the value of $\sigma$ is
-a very strong function of the material temperature.
+a very strong function of the material temperature, usually proportional to
+$T^{-3}$, so colder materials tend to be more opaque, or optically thick.
 
-In addition to the raw difficulty inherent in the partial differential
-nature of the transport equation, the nonlinearity in $\sigma$ and in $T^4$
-black body emission make the set of TRT equations more formidable than even
-neutron transport. Analytically solving the TRT equations even in the
-simplest problems is nearly impossible, hence the need for numerical solutions.
+Because of the inverse cubic proportionality of the opacity and the quartic
+proportionality of radiative emission, most TRT problems share a qualitative
+behavior.  The evolution of a system through time tends to show the problem
+equilibrating by the progressive deposition of energy within a few mean free
+paths of a hot region.  In other words, a layer of cold material will absorb
+a great quantity of radiation, heating up and beginning to emit radiation
+into the adjacent cold material. This time-dependent evolution is often called
+a radiation shock or Marshak wave \cite{Mar1958}.
+
+In summary, the thermal radiative transfer equations describe a physically
+complex phenomenon.  The transport equation alone is difficult to model, but
+the strong nonlinearity in $\sigma$ and in $T^4$ black body emission make the
+TRT equations particularly formidable.
+Analytically solving the TRT equations even in the simplest realistic problem
+is essentially impossible, hence the need for numerical solutions.
+The anisotropic diffusion approximation provides a new method for numerically
+solving the radiation transport aspect of the TRT equations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Overview of TRT solution methods}
 
-Numerically solving the TRT equations is far from trivial.  The equations have
+Numerically solving the TRT equations is no trivial matter. The
+equations have
 a large solution phase space and are strongly nonlinear; thus,
-they are difficult to solve accurately and quickly.
+they are difficult to solve accurately and quickly. Since the first
+simulations of radiative transfer at the dawn of the computer age
+\cite{Cam1964,Cam1969}, numerous computational solution methods have been
+formulated.  The more useful of these have been reviewed in countless
+articles \cite{Cam1964,Cam1969,Ols2000,Bru2002} and introductions
+\cite{Wol2008} elsewhere, but to give a proper context for the AD method, it is
+necessary to give a brief overview of them here.
 
-TODO FROM THIS POINT ON
+\subsection{Monte Carlo methods}
 
-The past fifty years in which computers have been used to simulate radiative
-transfer problems \cite{Cam1964,Cam1969} have seen major
-advancements in computer technology.
-Yet even today, with the need for increasingly accurate simulation of
-increasingly
-large and complex problems, computational power is still a limiting factor.
-This is especially true in the burgeoning field of uncertainty quantification
-(UQ), where many computer simulations are needed to gauge the
-accuracy of the solution of a single problem.
+Generally speaking, the Monte Carlo (MC) method is to model a random
+physical process by simulating the ``history'' of a statistically large number
+of particles \cite{Bro2004a}. Each stochastic aspect of particle transport---%
+birth, collision, scattering, etc.---%
+can be described by a set of probability distribution functions. Between
+events, the simulated particle travels along its stored direction
+$\vec{\Omega}$ from its stored position $\vec{x}$. The average behavior of
+large numbers of particles (and how large is ``large'' depends on the
+complexity of the problem) gives the solution. Each particle history can be
+expensive, and the accuracy of the solution is roughly proportional to the
+square root of the number of simulated particles: the Monte Carlo process
+gives accurate answers, but it is computationally expensive. 
 
-It is one such problem in particular that inspired this work. The Center for
-Radiative Shock Hydrodynamics (CRASH) program \cite{Crash2010} has the goal of
-computationally predicting the behavior of a laser-driven shock in a
-xenon-filled tube and providing ``error bars'' for that prediction. The accurate
-simulation of energy traveling down a hollow pipe, via the process of
-radiative transfer, is critical to modeling that problem. Several of the
-numerical test problems in this thesis are based loosely on the CRASH problem.
+For linear source-driven transport, which is used e.g.~in reactor analysis, the
+solution
+methodology is largely intuitive, because each particle is
+completely independent from every other. However, the nonlinear nature of the
+TRT equations---%
+specifically that the behavior of the photons influence the state of the
+material which in turn influences the behavior of other photons---%
+makes a Monte Carlo interpretation of TRT far from clear.
 
-Existing approximations to TRT, represented qualitatively in
-Fig.~\ref{fig:fidelity}, tend to be either accurate or fast. On
-the one hand are the full transport methods: Fleck and Cummings' Implicit Monte
-Carlo (IMC) method \cite{Fle1971} and the discrete ordinates (\SN) method
-\cite{Ada1998a}, both of which require significant time and large amounts of
-computer memory. On the other hand are coarse approximations such as the
-flux-limited diffusion (FLD) method \cite{Ols2000}, which makes a severe
-approximation to the transport equation that yields a set of relatively simple
-low-order equations. By developing a
-time-dependent anisotropic diffusion approximation, we hope to provide a
-\emph{via media}, where a mild increase in run time is exchanged for a
-significant increase in
-accuracy. The AD method could then be applied to the CRASH project or
-other TRT problems to yield
-realistic results in a realistic amount of time.
+The first really successful Monte Carlo method for simulating radiative
+transfer was Fleck and Cummings' implicit Monte Carlo (IMC) method
+\cite{Fle1971,Wol2008}, which is still widely used today \cite{Urb2006}.
+Through the
+mathematical process of linearization, it approximates the nonlinear terms in
+the TRT equations with linear terms over a short period of time. The
+linearization essentially models the process of absorption and
+black body re-emission of photons as isotropic ``pseudo-scattering.'' The linear
+transport equation that results is solved with Monte Carlo to calculate the
+end-of-time-step radiation intensity.
+
+Unlike linear MC methods, IMC does not limit to the exact solution with
+increasing number of particles. In addition to the statistical error incurred
+by the finite particle count, the linearization of the physics requires
+the imposition of both a temporal and a spatial grid. A further complication 
+arises because the space and time grids must be properly correlated: for
+example, a fine spatial grid with a large time step will produce the unphysical
+artifact known as a violation of the maximum principle.
+Additionally, to limit the statistical error (which typically shows up as
+random ``noise'' in the solution), the number of particles per
+space-time region must remain roughly constant. Finally, unlike linear Monte
+Carlo methods, which only need to tally aspects of each particle, IMC requires
+that the full state of the radiation intensity be stored in computer memory.
+Therefore, getting an accurate fine-mesh answer with IMC can take a very large
+amount of computer time and memory.
+
+Other radically different Monte Carlo methods \cite{Bro1989,NKa1991,Cha2007a}
+have been developed to simulate TRT, but they will not be discussed further.
+
+Even though the IMC method is approximate, it is generally accepted to give
+accurate answers and is thus used as the primary benchmark solution in
+our numerical experiments. 
+
+\subsection{Deterministic transport}
+The transport equation can also be modeled in a completely different fashion.
+Rather than using a ``stochastic'' interpretation of the physical process,
+this method
+uses a ``deterministic'' interpretation of the partial differential equation
+itself. Deterministic methods make mathematical approximations to the transport
+equation, replacing the continuous nature of the variables with discrete
+unknowns that can be represented on a computer. The result is a large system of
+linear equations that can be solved, typically in an iterative process.
+
+The most popular deterministic method by far is the discrete ordinates (\SN)
+transport method \cite{Lar2010}. It approximates the angular variable
+$\vec{\Omega}$ as a quadrature set of discrete directions. There are numerous
+ways to discretize the time and space variables, each of which adds the penalty
+of discretization error to the solution. In fact, the more subtle effects of
+spatial discretization errors were not understood until the late '90s
+\cite{Ada1998,Ada2001}.
+
+To use \SN\ for thermal radiative transfer problems, a linearization process
+similar to IMC's is performed; it too leads to a pseudo-scattering term.
+For purely absorbing steady-state problems, calculating an \SN\ solution is
+relatively inexpensive. (We shall take advantage of this property in our
+anisotropic diffusion approximation.) However, because of the pseudoscattering
+term, \SN\ solutions for TRT problems can converge very slowly.
+
+Like IMC, the \SN\ method requires the full solution of the radiation intensity
+$I$ to be stored at the end of each time step. As a transport method, it is
+computationally intensive and requires large amounts of storage. These
+requirements make high-fidelity transport solutions to some realistic problems
+beyond the capability of even today's computers.
+
+\subsection{The diffusion approximation}
+If true transport methods are out of reach, it becomes necessary to make
+coarser approximations to the transport equation.
+%The spherical harmonics (\PN)
+%expansion \cite{McC2008a} is the basis for the most popular of these.
+%It
+%is a different way to approximate the angular dependence of the radiation
+%intensity.
+The most popular course of action is to entirely eliminate the angular variable
+from the transport equation, greatly reducing both the computational difficulty
+and required storage.
+
+The diffusion approximation has been a mainstay of reactor analysis and TRT
+alike since the Manhattan project. In systems whose intensity (or neutron flux
+in the case of nuclear reactors) change very slowly as a function of space, time, and
+angle, it is possible to show \cite{Lar1975,Lar1983a} that the transport
+solution satisfies a relationship known as Fick's law. This ``law'' states that
+the flow of particles is only a function of the gradient of their density:
+particles diffuse from areas of high concentration to low concentration.
+
+Diffusion is often used far outside its theoretical range of applicability and
+can lead to physically inaccurate answers. A particular artifact of the
+diffusion approximation is that, in time-dependent transport, energy can
+move faster than the speed of light. One effective but \emph{ad hoc} means to
+counter this nonphysical effect is to use a ``flux limiter.''
+Flux-limited diffusion (FLD) can provide qualitatively accurate answers to
+certain TRT problems \cite{Ols2000}, and computationally it is very
+inexpensive, so it a common means of simulating TRT.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Contribution of this work}
+
+The different approximations to TRT are represented qualitatively in
+Fig.~\ref{fig:fidelity}.
 
 \begin{figure}[htb]
   \centering
@@ -189,74 +295,10 @@ realistic results in a realistic amount of time.
   \label{fig:fidelity}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Radiative transfer and anisotropic diffusion}
-We begin by making some approximations to the radiative transfer
-process that are common in methods development. By
-\textsl{(i)} averaging over energy to get a ``gray'' (monoenergetic) radiation
-intensity,
-\textsl{(ii)} assuming that the material is at local thermodynamic equilibrium,
-and
-\textsl{(iii)} neglecting material conduction and advection,
-we get a time-dependent radiation transport equation coupled to a single
-material energy equation. The coupling process is the nonlinear Planckian
-absorption and isotropic emission of photons: the hotter a material, the more
-photons it emits.  Because the ``opacity'' of the material---%
-the probability of a photon being absorbed during its flight---%
-also depends on material temperature, colder materials tend to be more opaque,
-or optically thick. The evolution of a system through time tends to show the
-problem equilibrating by the progressive deposition of energy within a few mean
-free paths of a hot region.
-
-The anisotropic diffusion derivation starts by considering the radiation
-transport equation over a time step. Rather than
-making the simple diffusion approximation that the radiation intensity $I$ is a
-linear function of angle, we use an integral transport equation in a novel way.
-By making certain assumptions about how slowly the solution changes in space
-and time, we can approximate the integral equation's nonlocal unknowns
-with local unknowns. Massaging the result gives a set of low-order tensor
-diffusion equations, where the AD tensor is calculated from a simple transport
-equation that falls out of the analysis. Because the AD method retains a more
-complicated representation of the radiation's angular behavior, we expect it
-to give more accurate answers over a wide range of problems, especially those
-where diffusion fails.
-
-%Previous work \cite{Lar2009c} with the AD approximation showed very promising
-%results in a steady-state Very High Temperature Reactor (VHTR) simulation;
-%qualitatively, it showed how the anisotropic diffusion tensor allows particles
-%to preferentially diffuse along a voided channel rather than acro
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Contribution of this work}
-
-Derivation is only a part of developing a new method: it is also
-crucial to run realistic numerical experiments that help determine the method's
-efficiency and efficacy. This necessitates implementing not only the new method
-but also its competitors. We have implemented
-diffusion, FLD, \Pone, \SN, and IMC in the \pytrt\ code \cite{Pytrt}, freely
-available to the public.
-
-As mentioned, the phase space for TRT is very large: the radiation intensity
-$I$ is a function of space $\vec{x}$, angle $\vec{\Omega}$, and time $t$;
-the material temperature $T(\vec{x},t)$ is also a time- and space-dependent
-quantity. Recently, a fictional ``flatland'' geometry has been successfully
-used as a test
-bed for new methods \cite{Lar2009c,Joh2011,Tra2011}. By restricting the travel
-of particles to a two-dimensional plane, one angular variable is eliminated,
-yet the complexity of multi-dimensional transport is retained. The
-reduced solution phase space corresponds to a reduction in computer run time:
-for Monte Carlo transport, the same number of particles yields a smaller
-variance in the solution, and the \SN\ method requires fewer ordinates in the
-quadrature set. Thus, we use flatland geometry for the majority of our test
-problems.
-Our extensive use of flatland has brought to light some
-interesting peculiarities of the geometry \cite{Joh2011a}; these ancillary
-results are presented in this thesis.
-
-In addition to flatland problems, we also examine the performance of the AD
-method in one-dimensional and two-dimensional problems seen in the
-literature. These give insight into how well AD performs in a wider variety of
-situations.
+With our development of anisotropic diffusion and its application to TRT, we
+hope to provide a new solution process that is much less expensive than
+full-fledged transport but more theoretically robust than standard diffusion or
+FLD.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Synopsis}
@@ -316,7 +358,9 @@ problems.
 \chaptersynopsis{chap:trtNumericalResults}
 Finally, we test the applicability of the anisotropic methods to the nonlinear
 TRT equations. To begin, we examine a few simple 1-D test problems, where the
-anisotropic methods merely ``smear'' the diffusion coefficients spatially. Then
+anisotropic methods merely ``smear'' the diffusion coefficients spatially.
+This provides a test bed for determining the robustness of the nonlinear
+treatment. Then
 we move to more complicated flatland problems that simulate radiation flow
 through an optically thin channel. (This is the qualitative configuration of
 the CRASH problem.)
