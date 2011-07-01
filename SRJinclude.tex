@@ -25,7 +25,7 @@ $ \hspace{\stretch{1}} \vspace{\baselineskip}}
 \newcommand{\pytrt}{\textsf{PyTRT}}
 
 % Research
-\newcommand{\lop}[1]{\mathcal{L}\!\left[#1\right]}
+%\newcommand{\lop}[1]{\mathcal{L}\!\left[#1\right]}
 \newcommand{\lopinv}[2]{\mathcal{I}_{#1}\!\left[#2\right]}
 \newcommand{\Dtens}{\mat{D}}
 \newcommand{\Etens}{\mat{E}}
@@ -34,12 +34,14 @@ $ \hspace{\stretch{1}} \vspace{\baselineskip}}
 \newcommand{\Pone}{P$_1$}
 \newcommand{\SN}{S$_N$}%{S$_\text{N}$}%{$S_N$}%
 \newcommand{\PN}{P$_N$}%{P$_\text{N}$}%{$P_N$}%
-\newcommand{\CN}{Crank--Nicolson} %Yes, it's Nic not Nich
-\newcommand{\Eddington}{\mathcal{E}} %whatever symbol I decided for Eddington
-\newcommand{\RadEn}{E} %whatever symbol I decide for radiation energy
-\newcommand{\Sigmatr}{\Sigma_{\mathit{tr}}}
-\newcommand{\xy}{$x$-$y$}
-\newcommand{\rz}{$r$-$z$}
+%\newcommand{\CN}{Crank--Nicolson} %Yes, it's Nic not Nich
+%\newcommand{\Eddington}{\mathcal{E}} %whatever symbol I decided for Eddington
+%\newcommand{\RadEn}{E} %whatever symbol I decide for radiation energy
+%\newcommand{\Sigmatr}{\Sigma_{\mathit{tr}}}
+\newcommand{\sigmast}{\sigma^{*\!}}
+\newcommand{\xy}{$x$--$y$}
+\newcommand{\xyz}{$x$--$y$--$z$}
+\newcommand{\rz}{$r$--$z$}
 
 % Program names
 \newcommand{\cpp}{\textsf{C\raisebox{0.2ex}{++}}}
@@ -56,12 +58,12 @@ $ \hspace{\stretch{1}} \vspace{\baselineskip}}
 \newcommand{\qeq}{\stackrel{\mathrm{?}}{=}}
 
 % Probability
-\newcommand{\expectation}[1]{\mathop{}\!\mathrm{E}\!\left[ #1 \right]}
-\DeclareMathOperator{\Var}{Var} % variance
+%\newcommand{\expectation}[1]{\mathop{}\!\mathrm{E}\!\left[ #1 \right]}
+%\DeclareMathOperator{\Var}{Var} % variance
 
 % Asymptotic analysis
-\DeclareMathOperator{\Ei}{Ei} % Exponential function
-\newcommand{\lapl}[1]{\mathcal{L}[{#1}]} %laplace
+%\DeclareMathOperator{\Ei}{Ei} % Exponential function
+%\newcommand{\lapl}[1]{\mathcal{L}[{#1}]} %laplace
 
 %change the Re and Im operators from fancy curly letters
 \DeclareMathOperator{\MathOpRe}{Re}
@@ -73,7 +75,7 @@ $ \hspace{\stretch{1}} \vspace{\baselineskip}}
 \newcommand{\iimag}{\mathrm{i}}
 
 % Finite differences
-\newcommand{\hot}{\text{h.o.t.}}
+%\newcommand{\hot}{\text{h.o.t.}}
 \newcommand{\inv}{^{-1}}
 
 % Numerical Linear Algebra
@@ -81,12 +83,12 @@ $ \hspace{\stretch{1}} \vspace{\baselineskip}}
 \newcommand{\norm}[1]{\left\| #1 \right\|} % double pipe
 \newcommand{\abs}[1]{\left| #1 \right|} % single pipe
 \newcommand{\eps}{\varepsilon}
-\DeclareMathOperator{\fl}{fl}
+%\DeclareMathOperator{\fl}{fl}
 
-\DeclareMathOperator{\acosh}{arccosh} 
+%\DeclareMathOperator{\acosh}{arccosh} 
 
 % Define a command to write a nice-looking element, e.g. 4,2 He
-\newcommand{\elem}[3]{\ensuremath{{}^{{#1}}_{{#2}}\mathrm{{#3}}}}
+%\newcommand{\elem}[3]{\ensuremath{{}^{{#1}}_{{#2}}\mathrm{{#3}}}}
 
 % Vector definitions
 \newcommand{\mat}[1]{\mathbf{#1}} %matrix is bold upright

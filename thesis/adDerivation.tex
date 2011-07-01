@@ -1,7 +1,7 @@
 % !TEX root = _individual/adDerivation.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Anisotropic derivation and discussion}\label{chap:adDerivation}
+\chapter{Anisotropic diffusion}\label{chap:adDerivation}
 
 The previous work in anisotropic diffusion has only considered a steady-state
 problem in an infinite medium \cite{Lar2009c,Mor2007}. The new understanding of
@@ -15,29 +15,30 @@ The anisotropic diffusion equations are derived in general 3-D geometry.
 \section{A modified transport equation}\label{sec:capPsi}
 We begin by considering the gray radiation transport equation inside a time step
 $0 \le t \le \Delta_t$,
-with opacities frozen at some value $\sigma^\ast$ (which could be
-$\sigma^n$ for a semi-implicit formulation, or $\sigma^{n+1,(k)}$ if
-Picard iteration \cite{Kel1995} is being used to converge the nonlinearities).
-The transport equation is:
+with opacities frozen at some value $\sigmast$ (which could be
+evaluated at the initial material temperature $T(0)$ for a semi-implicit
+formulation, or at some estimate $T(\Delta_t)$ if the nonlinearities are being
+converged).
+The transport equation for the radiation intensity $I$ is:
 \begin{subequations} \label{eqs:fullTransport}
 \begin{multline} \label{eq:fullTransportVol}
   \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast(\vec{x}) I (\vec{x}, \vec{\Omega}, t)
-    \\ = \frac{1}{4\pi} \sigma^\ast(\vec{x}) ac [T(\vec{x}, t)]^4
+    + \sigmast(\vec{x}) I (\vec{x}, \vec{\Omega}, t)
+    \\ = \frac{1}{4\pi} \sigmast(\vec{x}) ac [T(\vec{x}, t)]^4
     + \frac{1}{4\pi} q_{r}(\vec{x}, t)
     \equiv \frac{1}{4\pi} Q(\vec{x}, t) \,,
 \\
 x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi\,.
 \end{multline}
-It has incident radiation on some subset of the boundary, i.e.\ the Dirchlet
-boundary condition
+Some subset of the boundary has an incident radiation source,
+represented by the Dirichlet boundary condition
 \begin{equation} \label{eq:fullTransportBndy}
   I(\vec{x}, \vec{\Omega}, t) = I^b(\vec{x}, \vec{\Omega}, t) \,,
  \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0,
- \ 0 \le t \le \Delta_t\,,
+ \ 0 \le t \le \Delta_t\,.
 \end{equation}
-and a reflecting boundary condition on the rest of the boundary,
+The remainder of the boundary is specularly reflecting
 \begin{equation} \label{eq:fullTransportRefl}
   I(\vec{x}, \vec{\Omega}, t)
   = I(\vec{x}, \vec{\Omega}_r, t)
@@ -45,18 +46,17 @@ and a reflecting boundary condition on the rest of the boundary,
  \quad \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0,
  \ 0 \le t \le \Delta_t\,.
 \end{equation}
-It also has the initial condition
+Here, reflected angle on a boundary surface with outward normal $\vec{n}$ is defined for incident angles $\vec{\Omega} \vd \vec{n}<0$ as
+\begin{equation} \label{eq:reflection}
+  \vec{\Omega}_r = \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\,.
+\end{equation}
+The intensity has the initial condition
 \begin{equation} \label{eq:fullTransportInit}
  I(\vec{x}, \vec{\Omega}, 0) = I^i(\vec{x}, \vec{\Omega}) \,,
  \quad \vec{x} \in V, \ \vec{\Omega} \in 4\pi\,,
 \end{equation}
 which is usually the solution from the previous time step.
 \end{subequations}
-The reflected angle on a boundary surface with outward normal $\vec{n}$ is just
-\begin{equation} \label{eq:reflection}
-  \vec{\Omega}_r = \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}
-\end{equation}
-for incident angles, $\vec{\Omega} \vd \vec{n}<0$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The particle (or radiation energy) conservation equation is the zeroth moment of
@@ -67,8 +67,8 @@ Operating on Eq.~\eqref{eq:fullTransportVol} by $\int_{4\pi} (\cdot) \ud
 \begin{equation} \label{eq:loVol}
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
   + \grad \vd\vec{F}(\vec{x}, t)
-  + \sigma^\ast(\vec{x}) \phi(\vec{x}, t)
-  = \sigma^\ast(\vec{x}) ac [T(\vec{x}, t)]^4 + q_{r}(\vec{x}, t)
+  + \sigmast(\vec{x}) \phi(\vec{x}, t)
+  = \sigmast(\vec{x}) ac [T(\vec{x}, t)]^4 + q_{r}(\vec{x}, t)
   = Q(\vec{x}, t)\,,
 \end{equation}
 for $\vec{x} \in V$ and $0 \le t \le \Delta_t$.
@@ -96,7 +96,7 @@ and get
   - \frac{1}{4\pi} \phi \right]
     + \vec{\Omega}\vd \grad \left[ I
   - \frac{1}{4\pi} \phi \right]
-   + \sigma^\ast \left[ I
+   + \sigmast \left[ I
   - \frac{1}{4\pi} \phi \right]
   = 0 + \frac{1}{4\pi} \grad \vd\vec{F} -
   \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
@@ -110,15 +110,15 @@ we have a transport equation for $\Psi$:
 \begin{equation} \label{eq:capPsiVol}
   \frac{1}{c} \pder{}{t}\Psi(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \Psi(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast(\vec{x}) \Psi(\vec{x}, \vec{\Omega}, t)
+    + \sigmast(\vec{x}) \Psi(\vec{x}, \vec{\Omega}, t)
   = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
   \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,,
 \end{equation}
 which has the same domain as the original transport equation: $\vec{x} \in
-\partial V_b$, $\vec{\Omega} \vd \vec{n} < 0$, $0 \le t \le \Delta_t$. The
+V$, $\vec{\Omega} \in 4\pi$, $0 \le t \le \Delta_t$. The
 transport equation for $I$ satisfies Eq.~\eqref{eq:capPsiVol} exactly.
-No approximations have been made, but now instead of an isotropic source term
-on the right hand side, we have an anisotropic source term that depends on the
+No approximation is made by using this form. However, instead of having an isotropic source term
+on the right hand side, the equation for $\Psi$ has an anisotropic source term that depends on the
 unknowns $\phi$ and $\vec{F}$.
 
 The quantity $\Psi$ can be thought of as a spherical harmonic expansion
@@ -126,7 +126,7 @@ of $I$ with the first (isotropic) term removed, then reconstituted: it is a full
 representation of the anisotropic components of $\Psi$. By definition, $\Psi$
 satisfies two important identities.
 \begin{subequations} \label{eqs:capPsiIdentities}
-Its zeroth moment is identically zero:
+Its zeroth angular moment is identically zero:
 \begin{equation} \label{eq:capPsiZeroth}
   \int_{4\pi} \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
   = \int_{4\pi} I \ud\Omega
@@ -143,6 +143,7 @@ and its first moment is the radiation flux:
   = \vec{F}(\vec{x}, t)\,.
 \end{equation}
 \end{subequations}
+All higher moments of $\Psi$ are identical to those of $I$.
 
 Now we formulate boundary conditions for $\Psi$ from the transport equation.
 For specified incident radiation boundaries, we subtract $\phi/4\pi$ from 
@@ -157,8 +158,7 @@ Eq.~\eqref{eq:fullTransportBndy}:
  \Psi(\vec{x}, \vec{\Omega}, t) 
   &=I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)\,,
 \end{align}
-
-We do the same with a reflecting boundary by subtracting $\phi/4\pi$ from 
+Likewise, $\phi/4\pi$ is subtracted from the reflecting boundary condition, 
 Eq.~\eqref{eq:fullTransportBndy}:
 \begin{align}\nonumber
   I(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
@@ -166,10 +166,8 @@ Eq.~\eqref{eq:fullTransportBndy}:
    - \frac{1}{4\pi} \phi(\vec{x}, t)\,.
   \\ \label{eq:capPsiRefl}
  \Psi(\vec{x}, \vec{\Omega}, t) 
-  &= \Psi(\vec{x}, \vec{\Omega}_r, t)
+  &= \Psi(\vec{x}, \vec{\Omega}_r, t)\,.
 \end{align}
-for $\vec{x} \in \partial V_r$, $\vec{\Omega} \vd \vec{n} < 0$,
-$0 \le t \le \Delta_t$.
 
 Finally, to get an initial condition for $\Psi$, we
 multiply the low-order initial condition \eqref{eq:loInit} by $1/4\pi$ and
@@ -177,20 +175,20 @@ subtract it from the initial condition for the intensity,
 Eq.~\eqref{eq:fullTransportInit}:
 \begin{align}\nonumber
   I(\vec{x}, \vec{\Omega}, 0) - \frac{1}{4\pi}\phi(\vec{x}, 0)
- &= I^i(\vec{x}, \vec{\Omega} - \frac1{4\pi} \phi^i(\vec{x})
+ &= I^i(\vec{x}, \vec{\Omega}) - \frac1{4\pi} \phi^i(\vec{x})
  \\ \label{eq:capPsiInit}
  \Psi(\vec{x}, \vec{\Omega}, 0)
  &\equiv \Psi^i(\vec{x}, \vec{\Omega}, t)
- \,,
+ \,.
 \end{align}
-for $\vec{x} \in V$, $\vec{\Omega} \in 4\pi$.
 
 Equations \eqref{eq:capPsiVol},~\eqref{eq:capPsiBndy},%
-~\eqref{eq:capPsiRefl}, and~\eqref{eq:capPsiInit} comprise the transport
+~\eqref{eq:capPsiRefl}, and~\eqref{eq:capPsiInit} constitute the transport
 equation for $\Psi$; they are satisfied by the exact transport solution. No
 approximations have been made, but we have effectively replaced an isotropic
 source on the right-hand side with an anisotropic source that depends on
-angular moments of the intensity.
+angular moments of the intensity. This form is the starting point of the AD
+derivation.
 
 A later discussion section, \S\ref{sec:adDiscDiff}, describes how Fick's law can
 be derived from the equations for $\Psi$
@@ -207,7 +205,7 @@ transport equation for $\Psi$ and assuming that the gradients and anisotropy
 of the solution are small. Some care must be taken in deriving
 a suitable boundary condition, because we desire a simple expression for
 $\vec{F}$ that only depends on \textsl{(i)} the low-order unknown $\phi$ and
-\textsl{(ii)} something analogous to the diffusion coefficient that depends only
+\textsl{(ii)} some quantity that depends only
 on problem data such as $\sigma$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,11 +220,12 @@ $\Psi_\mathrm{bl}$:
 \end{equation}
 
 \begin{subequations} \label{eqs:tCapPsi}
-  The internal transport equation is just like Eq.~\eqref{eq:capPsiBndy}:
+  The internal transport equation resembles Eq.~\eqref{eq:capPsiBndy} and
+  accounts for the right hand side of the equation:
 \begin{multline} \label{eq:tCapPsiVol}
   \frac{1}{c} \pder{}{t}\tilde\Psi(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+    + \sigmast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
   \\
   = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
   \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)
@@ -234,7 +233,8 @@ $\Psi_\mathrm{bl}$:
   \qquad
 x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
 \end{multline}
-However, we will define incident boundary conditions for this internal solution
+However, it does not need to use a physical boundary condition. We will
+define the incident boundary condition for the internal solution
 to be
 \begin{equation} \label{eq:tCapPsiBndy}
  \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
@@ -244,7 +244,7 @@ to be
 for $\vec{x} \in \partial V_b$, $\vec{\Omega} \vd \vec{n} < 0$,
 $0 \le t \le \Delta_t$. The function $\zeta$, which lives on the boundary for
 incident directions, is yet
-to be determined. This unusual boundary condition will be justified later.
+to be determined.
 The reflecting boundary condition is effectively unchanged from
 Eq.~\eqref{eq:capPsiRefl}:
 \begin{equation} \label{eq:tCapPsiRefl}
@@ -254,7 +254,7 @@ Eq.~\eqref{eq:capPsiRefl}:
 \end{equation}
 for $\vec{x} \in \partial V_r$, $\vec{\Omega} \vd \vec{n} < 0$,
 $0 \le t \le \Delta_t$.
-Finally, the internal solution contains the same initial condition as
+Finally, the internal solution has the same initial condition as
 Eq.~\eqref{eq:capPsiInit}:
 \begin{equation} \label{eq:tCapPsiInit}
  \tilde\Psi(\vec{x}, \vec{\Omega}, 0)
@@ -263,7 +263,7 @@ Eq.~\eqref{eq:capPsiInit}:
 \end{subequations}
 
 The corresponding transport problem for $\Psi_\mathrm{bl}$ is defined to
-satisfy the transport equations for $\Psi$ using the definition in
+satisfy the exact transport equations for $\Psi$ using the definition in
 Eq.~\eqref{eq:boundaryLayerPsi}.
 \begin{subequations} \label{eqs:blCapPsi}
 It has the same left-hand side as Eq.~\eqref{eq:capPsiBndy} but no internal
@@ -271,7 +271,7 @@ source:
 \begin{equation} \label{eq:blCapPsiVol}
   \frac{1}{c} \pder{}{t}\Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
+    + \sigmast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
   = 0\,, \quad
 x \in V, \ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t.
 \end{equation}
@@ -339,7 +339,7 @@ the internal solution $\tilde\Psi$ as an integral:
   \vec{x})/\norm{\vec{x}'-\vec{x}}$ is 
   \begin{equation} \label{eq:fullTauDefinition}
     \tau(\vec{x}, \vec{x}') = \int_{0}^{\norm{\vec{x} -
-    \vec{x}'}} \sigma^\ast(\vec{x}-s\vec{\Omega}) \ud s \,.
+    \vec{x}'}} \sigmast(\vec{x}-s\vec{\Omega}) \ud s \,.
   \end{equation}
   The quantity $s_b$ is the distance to the boundary along $-\vec{\Omega}$ from
   $\vec{x}$.
@@ -629,7 +629,7 @@ transport equation with a uniform, isotropic source:
 \begin{subequations} \label{eqs:fFull}
   \begin{equation} \label{eq:fFullVol}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
-    + \sigma^\ast f (\vec{x}, \vec{\Omega})
+    + \sigmast f (\vec{x}, \vec{\Omega})
   = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
   \end{equation}
 with to-be-determined boundary conditions where the incident radiation $I$ is specified,
@@ -805,17 +805,17 @@ symmetric at the boundary. An azimuthally symmetric $f$ implies
 \end{equation*}
 We can then demand an azimuthally symmetric $\zeta$, so that
 Eq.~\eqref{eq:zetaCondition1} becomes
-\begin{align*}
+\begin{align} \nonumber
   -\vec{n} \int_{\vec{\Omega} \vd \vec{n} < 0}
   (\vec{n} \vd \vec{\Omega}) \zeta(\vec{x}, \vec{\Omega})\ud\Omega
   &= \vec{n} \int_{\vec{\Omega} \vd \vec{n} > 0}
   (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega
-\\ 
-  \vec{n} \int_{\vec{\Omega} \vd \vec{n} < 0}
+\\ \label{eq:zetaGeneral}
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
   \abs{\vec{n} \vd \vec{\Omega}} \zeta(\vec{x}, \vec{\Omega}) \ud\Omega
-  &= \vec{n} \int_{\vec{\Omega} \vd \vec{n} > 0}
+  &= \int_{\vec{\Omega} \vd \vec{n} > 0}
   (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
-\end{align*}
+\end{align}
 which says that only the exiting component of the first moment of $f$ on the
 boundary need be preserved. This allows, for example, a ``white'' boundary
 condition on $f$:
@@ -984,7 +984,7 @@ eigenvector of $\Dtens$:
 \begin{equation*}
   \vec{n} \vd \Dtens(\vec{x}) = \lambda \vec{n}\,.
 \end{equation*}
-Interestingly, as shown in the discussion section, this is the case when $f$ is
+Interestingly, as shown in the discussion section \ref{sec:eigenvectors}, this is the case when $f$ is
 azimuthally symmetric about
 $\vec{n}$, which is exactly what we demanded of $f$ on non-reflecting boundaries.
 
@@ -1018,7 +1018,7 @@ Eq.~\eqref{eq:anisotropicFicks}, into the conservation equation~\eqref{eq:loVol}
 \begin{equation*}
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
   - \grad \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
-  + \sigma^\ast(\vec{x}) \phi(\vec{x}, t)
+  + \sigmast(\vec{x}) \phi(\vec{x}, t)
   = Q(\vec{x}, t) \,,
   \quad \vec{x} \in V,\ 0 \le t \le \Delta_t \,.
 \end{equation*}
@@ -1050,7 +1050,7 @@ Eqs.~\eqref{eqs:fFull}:
 \begin{subequations} \label{eqs:fFull}
   \begin{equation} \label{eq:fFullVol}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
-    + \sigma^\ast f (\vec{x}, \vec{\Omega})
+    + \sigmast f (\vec{x}, \vec{\Omega})
   = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
   \end{equation}
 \begin{equation} \label{eq:fFullBndy}
@@ -1084,7 +1084,7 @@ The anisotropic diffusion tensors are calculated from $f$, the solution to the
 transport problem:
 \begin{equation*}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
-    + \sigma^\ast f (\vec{x}, \vec{\Omega})
+    + \sigmast f (\vec{x}, \vec{\Omega})
   = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
 \end{equation*}
 with the boundary condition
@@ -1096,9 +1096,9 @@ with the boundary condition
 This is a purely absorbing transport problem with a unit isotropic source,
 reflecting boundary conditions, and the same opacities as the physical problem
 being simulated. It is steady-state, although it needs to be recalculated at
-every time step as $\sigma^*$ changes.\footnote{The problem for $f$ would also
+every time step as $\sigmast$ changes.\footnote{The problem for $f$ would also
 have to be recalculated at every iteration on the nonlinearities if the user
-wishes to converge $\sigma^* \to \sigma^{n+1}$.}
+wishes to converge $\sigmast \to \sigma^{n+1}$.}
 
 Because it is purely absorbing, if the boundaries are many mean free paths
 apart, an \SN\ solution of $f$ will take just over one transport sweep to
@@ -1112,6 +1112,12 @@ fraction of a mean free path (e.g., a voided channel), and a very fine angular
 quadrature set is used (one with ordinates that are nearly perpendicular to the
 boundary), then $f$ will take many iterations to converge.
 
+The convergence problem can be obviated somewhat by taking advantage of a
+loophole left in the boundary condition function $\zeta$. Because the condition
+$\int_{4\pi} \vec{\Omega} f \ud\Omega$ allows for other angular shapes on the
+boundary, as shown by Eq.~\eqref{eq:zetaGeneral}, we could replace the
+offending boundary with one that converges more quickly.
+
 Another desirable property of $f$ is that, because it is a steady-state
 solution, and because only the second moment
 $D^{ij}=\int_{4\pi} \Omega^i \Omega^j f \ud\Omega$ needs to be calculated, the
@@ -1119,7 +1125,7 @@ full angle-dependent solution does not need to be stored! This is a tremendous
 advantage compared to time-dependent transport, which requires the
 memory-intensive storage of $I(\vec{x},\vec{\Omega},t)$.
 
-If the problem is homogeneous ($\sigma^*$ is constant), then the solution is
+If the problem is homogeneous ($\sigmast$ is constant), then the solution is
 $f=1/(4\pi\sigma)$. Taking the second moment of $f$ then yields
 \begin{equation*}
   \Dtens = \frac{1}{4\pi\sigma} \int_{4\pi} \vec{\Omega} \vec{\Omega} \ud \Omega
@@ -1234,7 +1240,7 @@ Because the solution for $f$ is strictly positive for all $\vec{\Omega}\in
 4\pi$, and $(\vec{\Omega} \vd \vec{a})^2$ is positive for non-zero
 $\vec{a}$, this integral will always be positive. Therefore, $\Dtens$ is SPD.
 
-\subsubsection{Eigenvectors}
+\subsubsection{Eigenvectors}\label{sec:eigenvectors}
 As stated in \S\ref{sec:zeta}, if $f(\vec{\Omega})$ is azimuthally
 symmetric about some unit vector $\vec{a}$, then $f$ is only a function of the
 cosine angle
@@ -1366,7 +1372,7 @@ for $\Psi$, we get
 \begin{align*}
   \frac{1}{c} \pder{}{t} \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F} \right]
   + \vec{\Omega}\vd \grad \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F} \right]
-  + \sigma^\ast \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F} \right]
+  + \sigmast \left[ \frac{3}{4\pi} \vec{\Omega} \vd \vec{F} \right]
   &= \frac{1}{4\pi} \grad \vd\vec{F}
   - \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
 \end{align*}
@@ -1379,7 +1385,7 @@ Taking the first moment of this equation and operating on it by $\int_{4\pi}
 + \frac{3}{4\pi} \left( \int_{4\pi}
   \vec{\Omega}\vec{\Omega}\vec{\Omega}\ud\Omega \right)
 \vd \grad \vd \vec{F}
-+ \sigma^\ast \frac{3}{4\pi} \left( \int_{4\pi}
++ \sigmast \frac{3}{4\pi} \left( \int_{4\pi}
 \vec{\Omega}\vec{\Omega}\ud\Omega \right) \vd\vec{F}
 \\
 = \frac{1}{4\pi} \left( \int_{4\pi} \vec{\Omega}\ud\Omega \right)
@@ -1393,7 +1399,7 @@ quantities to very manageable expressions: $\int_{4\pi}
 multiples of $\vec{\Omega}$ integrated over the unit sphere are zero. Thus,
 \begin{equation*}
   \frac{1}{c} \pder{}{t} \vec{F}
-  + \sigma^\ast \vec{F}
+  + \sigmast \vec{F}
   =
   - \frac{1}{3} \grad \phi\,.
 \end{equation*}
@@ -1404,7 +1410,7 @@ Now if we neglect the time derivative of the radiation flux, making the
 quasi-static approximation
 \cite{Dud1976}, we recover Fick's law:
 \begin{equation*}
-\vec{F}(\vec{x}, t) = -\frac{1}{3\sigma^\ast(\vec{x})} \grad\phi(\vec{x}, t) \,.
+\vec{F}(\vec{x}, t) = -\frac{1}{3\sigmast(\vec{x})} \grad\phi(\vec{x}, t) \,.
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

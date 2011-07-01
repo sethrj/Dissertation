@@ -214,5 +214,37 @@ glyph. Red and larger ellipses represent larger AD coefficients.
   \label{fig:bcCheckersDelta}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Linear time-dependent behavior}
 
+Before considering the complex nonlinear behavior of TRT, we should
+independently analyze how the newly developed methods behave in linear,
+time-dependent problems with time-independent opacities.
+
+\subsection{Blast wave}
+
+Ran a test problem inside a channel with a ``blast wave'' initial condition. It
+resides in $0 \le x \le 3$, $-1.1 \le y \le 1.1$, with a thin region inside
+$-.1 \le y \le .1$. It has reflecting boundary conditions everywhere.
+
+The initial condition is
+\begin{equation*}
+  \phi(x,y) = 0.001 + a \eexp^{-100 (x^2 + y^2) }
+\end{equation*}
+where $a$ is a normalization constant that gives a total initial $\int \phi
+\ud V$ of $100 + 0.001 V$. We use $\sigma=1$ inside the channel, $\sigma=10$
+outside, $c=0.99$ everywhere. We run it out to time $t=3$ looking at different
+time steps.
+\begin{figure}[htb]
+  \centering\small
+  \subfigure[$\Delta_t=0.02$]{\hspace{-.1in}\input{ap1-blastpipe/002-phi-center/plot}\hspace{-.1in}}%
+  \subfigure[$\Delta_t=0.05$]{\hspace{-.1in}\input{ap1-blastpipe/005-phi-center/plot}\hspace{-.1in}}
+  \subfigure[$\Delta_t=0.10$]{\hspace{-.1in}\input{ap1-blastpipe/010-phi-center/plot}\hspace{-.1in}}%
+  \subfigure[$\Delta_t=0.20$]{\hspace{-.1in}\input{ap1-blastpipe/020-phi-center/plot}\hspace{-.1in}}
+  \subfigure[$\Delta_t=0.50$]{\hspace{-.1in}\input{ap1-blastpipe/050-phi-center/plot}\hspace{-.1in}}%
+  \subfigure[$\Delta_t=1.00$]{\hspace{-.1in}\input{ap1-blastpipe/100-phi-center/plot}\hspace{-.1in}}
+  \caption{Time-dependent linear blast wave problem for different time steps
+  $\Delta_t$, evaluated at $t=3$ along the channel centerline at $y=0$.}
+  \label{fig:blastAp1Results}
+\end{figure}
 

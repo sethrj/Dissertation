@@ -27,19 +27,24 @@ particle transport, and our goal is to develop a new, accurate, inexpensive
 approximation to the equations of thermal radiative transfer.
 
 One recent advance in methods development is the anisotropic diffusion (AD)
-approximation, recently used to model steady-state neutron transport for VHTR
-simulations \cite{Lar2009c,Tra2011} but also independently formulated for
-steady-state photon transport \cite{Mor2007}. The radiation-oriented theory was
-not
-numerically modeled, but the neutron theory has shown very promising results.
-However, the steady-state, infinite-medium derivation used by the prior work is
-insufficient for modeling TRT problems, which typically change rapidly as a
-function of time and necessarily operate in a finite problem space. In the new
+approximation, recently used to model steady-state neutron transport for
+nuclear reactor analysis, viz.~a very high temperature reactor
+(VHTR) mock-up \cite{Lar2009c,Tra2011}, for which AD showed very promising
+results. The AD
+method was also independently formulated for steady-state photon transport
+\cite{Mor2007}, but it was not numerically tested.
+Both derivations assumed an infinite medium operating at steady state.
+Those two assumptions rarely hold for TRT problems, which typically change
+rapidly as a
+function of time and necessarily operate in a finite space. In the new
 work presented here, we derive a complete theory describing anisotropic
-diffusion for time-dependent transport problems in finite media. 
+diffusion for time-dependent transport problems in finite media. Furthermore,
+the new derivation framework allows the development of other ``anisotropic''
+approximations. One new member of this family is what we call the anisotropic
+$P_1$ method, which is presented in this thesis.
 
 Although the theory is developed for a general three-dimensional (3-D) space,
-true 3-D simulations are still expensive because of the expansive problem phase
+true 3-D simulations are expensive because of the expansive problem phase
 space: the transport equations operate in three spatial coordinates $(x,y,z)$,
 two angular coordinates $(\mu,\theta)$, and time $t$. Even two-dimensional (2-D)
 problems, which model a system invariant in the $z$ direction, operate in the
@@ -51,22 +56,26 @@ space while decreasing the computational burden. A notable part of this thesis
 is the investigation and application of flatland to transport methods
 development.
 
-We test our new anisotropic diffusion theory with a range of numerical
-experiments, most of them using flatland geometry.  To start, we verify the
-newly formulated boundary conditions in a steady-state medium for simplicity. We
-then test several linear time-dependent radiation transport problems, which omit
-the nonlinear material--radiation coupling of TRT. In addition to flatland test
-problems, we compare the performance of AD against some 1-D and 2-D problems in
-the literature.
+To verify the accuracy of the newly developed anisotropic theory, we need to
+compare its performance and accuracy against that of existing, proven methods.
+Therefore, we compare the AD method against its competitors in several numerical
+experiments, most of them using flatland geometry. Due to the complexity of
+the thermal radiative transfer process, we first test individual aspects of the
+theory. In particular, we verify the predicted boundary conditions in several
+steady-state flatland problems \cite{Joh2011a}, and we test the time-dependent
+behavior in ``linear'' radiation transport problems, which omit the nonlinear
+material--radiation coupling of TRT.
 
-One of the TRT test problems is 
-
-%As any engineering student knows from his heat transfer
-%class, conduction and convection transfer energy proportionally to the material
-%temperature $T$, but radiative energy transfer is proportional to the $T^4$ of
-%black-body emission.
-
-stiff systems with small and large time scales \cite{Kno2003}
+Finally, we apply the new AD approximations to thermal radiative transfer
+problems. We begin by comparing the performance of the new methods using
+one-dimensional problems in the literature \cite{Rau2005}, and variations
+thereof. The primary comparison, though, is a flatland simulation
+\cite{Joh2011} inspired by a particular TRT experiment---%
+the behavior of a laser-driven shock wave in a small tube filled with xenon
+gas---%
+in the Center for Radiative Shock Hydrodynamics (CRASH) program
+\cite{Crash2010}. In addition to the flatland problems, we test some difficult
+two-dimensional problems \cite{Mou2006}.
 
 %This thesis extends a steady-state, infinite-medium anisotropic diffusion (AD)
 %approximation \cite{Mor2007,Lar2009c} using a systematic derivation from the
@@ -78,23 +87,74 @@ stiff systems with small and large time scales \cite{Kno2003}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Thermal radiative transfer}
 
-Thermal radiative transfer is the dominant form of energy transfer in very
-hot systems, such as the interior of a star or the target of a laser fusion
-experiment. The equations that describe TRT not only have a large solution
-phase space but also are strongly nonlinear; thus, they are difficult to solve
-accurately and quickly.
+As alluded to earlier, thermal radiative transfer models the behavior of
+energy-transferring photons in hot materials. Radiation is the primary means of
+heat transfer in a number of relevant physical problems such as stellar
+astrophysics and fusion experiments. These systems operate at the extreme
+temperatures necessary to apply the TRT model used in this thesis.
+
+Engineering students know from their heat transfer classes that conduction and
+convection transfer energy proportionally to the material
+temperature $T$, but radiative energy transfer via black-body emission is
+proportional to $T^4$. Thus, when $T$ is very large, conduction and convection
+can be neglected. Several other reasonable assumptions reduce the phenomena of
+TRT to the coupling of two variables: the space- and time-dependent material
+temperature $T$, and the radiation intensity $I$.
+
+The intensity $I$, analogous to the ``angular flux'' in the reactor physics
+world,
+describes the state and distribution of photons in space $\vec{x}$, angle
+$\vec{\Omega}$, and time $t$%
+\footnote{In this discussion, we ignore the frequency-dependent nature of light,
+because the AD approximation is more suitable to gray radiation treatment than
+multigroup.
+}. The spatial and temporal variables are self-explanatory; the angular
+variable essentially determines a photon's velocity${}=c\vec{\Omega}$, using
+the speed of light $c$. More photons headed in a certain direction at a certain
+point in space-time give rise to a larger value in the intensity---%
+an example (outside of TRT) could be an ``intense'' flashlight being shone in
+one's eyes.  The time-dependent behavior of the intensity is described by the
+Boltzmann transport equation \cite{Dud1976}, sometimes referred to in the
+astrophysics literature as the transfer equation \cite{Mih1984}.
+The transport equation will be discussed in further detail later.
+
+The second quantity, the material temperature $T$, is a measure of the amount
+of energy stored in the atoms and electrons in the problem. When an electron
+absorbs a photon, the material energy increases by exactly the amount that the
+radiation intensity lost by the absorption event. As the material emits a
+photon via the black body process, the lost material energy is transferred to
+the radiation field.
+
+The absorption of photons by the material, the black body emission process, and
+the straight-line travel of ``streaming'' photons constitute the essence of the
+thermal radiative transfer process. The rate of absorption of photons is
+proportional to the opacity $\sigma$, analogous to the neutron cross section in
+reactor physics. Unlike the neutron cross section, the value of $\sigma$ is
+a very strong function of the material temperature.
+
+In addition to the raw difficulty inherent in the partial differential
+nature of the transport equation, the nonlinearity in $\sigma$ and in $T^4$
+black body emission make the set of TRT equations more formidable than even
+neutron transport. Analytically solving the TRT equations even in the
+simplest problems is nearly impossible, hence the need for numerical solutions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Historical overview}
+\section{Overview of TRT solution methods}
+
+Numerically solving the TRT equations is far from trivial.  The equations have
+a large solution phase space and are strongly nonlinear; thus,
+they are difficult to solve accurately and quickly.
+
+TODO FROM THIS POINT ON
 
 The past fifty years in which computers have been used to simulate radiative
-transfer problems \cite{Cam1964,Cam1969} have seen unbelievable
+transfer problems \cite{Cam1964,Cam1969} have seen major
 advancements in computer technology.
 Yet even today, with the need for increasingly accurate simulation of
 increasingly
 large and complex problems, computational power is still a limiting factor.
 This is especially true in the burgeoning field of uncertainty quantification
-(UQ), where large numbers of computer simulations are needed to gauge the
+(UQ), where many computer simulations are needed to gauge the
 accuracy of the solution of a single problem.
 
 It is one such problem in particular that inspired this work. The Center for
@@ -106,19 +166,19 @@ radiative transfer, is critical to modeling that problem. Several of the
 numerical test problems in this thesis are based loosely on the CRASH problem.
 
 Existing approximations to TRT, represented qualitatively in
-Fig.~\ref{fig:fidelity}, are essentially either very accurate or very fast. On
+Fig.~\ref{fig:fidelity}, tend to be either accurate or fast. On
 the one hand are the full transport methods: Fleck and Cummings' Implicit Monte
 Carlo (IMC) method \cite{Fle1971} and the discrete ordinates (\SN) method
 \cite{Ada1998a}, both of which require significant time and large amounts of
-computer memory. On the other hand are such coarse approximations as the
+computer memory. On the other hand are coarse approximations such as the
 flux-limited diffusion (FLD) method \cite{Ols2000}, which makes a severe
 approximation to the transport equation that yields a set of relatively simple
 low-order equations. By developing a
 time-dependent anisotropic diffusion approximation, we hope to provide a
-\emph{via media} where a mild increase in run time is exchanged for a
+\emph{via media}, where a mild increase in run time is exchanged for a
 significant increase in
-accuracy. The AD method could then be applied to the CRASH project, or many
-other TRT problems, to yield
+accuracy. The AD method could then be applied to the CRASH project or
+other TRT problems to yield
 realistic results in a realistic amount of time.
 
 \begin{figure}[htb]
@@ -169,9 +229,6 @@ where diffusion fails.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contribution of this work}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Numerical experiments}
-
 Derivation is only a part of developing a new method: it is also
 crucial to run realistic numerical experiments that help determine the method's
 efficiency and efficacy. This necessitates implementing not only the new method
@@ -196,7 +253,7 @@ Our extensive use of flatland has brought to light some
 interesting peculiarities of the geometry \cite{Joh2011a}; these ancillary
 results are presented in this thesis.
 
-In addition to flatland problems, we also look at the performance of the AD
+In addition to flatland problems, we also examine the performance of the AD
 method in one-dimensional and two-dimensional problems seen in the
 literature. These give insight into how well AD performs in a wider variety of
 situations.
@@ -253,14 +310,16 @@ Before applying the anisotropic approximations to full nonlinear transport in
 multi-dimensional geometries, it is important that we test individual components
 of the derivation. We detail several steady-state problems that test the
 discretization schemes, flatland diffusion boundary conditions, and anisotropic
-diffusion boundary conditions.
+diffusion boundary conditions. We also test some simple, linear transport
+problems.
 
 \chaptersynopsis{chap:trtNumericalResults}
 Finally, we test the applicability of the anisotropic methods to the nonlinear
-TRT equations. To begin, we look at a few simple 1-D test problems, where the
+TRT equations. To begin, we examine a few simple 1-D test problems, where the
 anisotropic methods merely ``smear'' the diffusion coefficients spatially. Then
 we move to more complicated flatland problems that simulate radiation flow
-through an optically thin channel, most applicable to the CRASH program.
+through an optically thin channel. (This is the qualitative configuration of
+the CRASH problem.)
 Additionally, we apply the AD method to some difficult 2-D problems in the
 literature that feature optically thick obstacles rather than optically thin
 streaming channels.

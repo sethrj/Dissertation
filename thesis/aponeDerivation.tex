@@ -38,7 +38,7 @@ The internal transport equation accounts for the source term:
 \begin{multline} \label{eq:ap1tCapPsiVol}
   \frac{1}{c} \pder{}{t}\tilde\Psi(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+    + \sigmast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
   \\
   = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
   \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,,
@@ -57,7 +57,7 @@ $0 \le t \le \Delta_t$. Here, the functions $\zeta$ and $\eta$, which live on
 the boundary for incident directions, are yet to be determined. The boundary
 condition also uses the first moment of the initial condition:
 \begin{equation} \label{eq:fluxInit}
-  \vec{F}^i(\vec{x}) \equiv \int_{4\pi} I^i(\vec{x}, \vec{\Omega}) \ud \Omega\,.
+  \vec{F}^i(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} I^i(\vec{x}, \vec{\Omega}) \ud \Omega\,.
 \end{equation}
 On reflecting boundaries, the internal solution is reflecting:
 \begin{equation} \label{eq:ap1tCapPsiRefl}
@@ -84,7 +84,7 @@ source:
 \begin{equation} \label{eq:ap1blCapPsiVol}
   \frac{1}{c} \pder{}{t}\Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
-    + \sigma^\ast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
+    + \sigmast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
   = 0\,, \quad
 x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
 \end{equation}
@@ -211,7 +211,7 @@ or more simply,
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Initial condition treatment}
+\subsection{Initial condition treatment}\label{sec:ap1ic}
 The integral equation~\eqref{eq:ap1approxPsi1} in the \APone\ derivation
 includes the contribution from the initial condition $\Psi^i$, which was not
 present in AD because of the assumption that the time dependence was
@@ -401,14 +401,14 @@ varies in time. The differential transport equation for this modified $f$ is
   \begin{equation} \label{eq:ap1fFullVol}
     \pder{f}{t}(\vec{x}, \vec{\Omega},t)
     + \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega},t)
-    + \sigma^\ast f(\vec{x}, \vec{\Omega},t)
+    + \sigmast f(\vec{x}, \vec{\Omega},t)
   = \frac{1}{4\pi} \,,
-  \quad x \in V,\ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t\,.
+  \qquad x \in V,\ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t\,.
 \end{equation}
 It has boundary and initial conditions:
 \begin{alignat}{2} \label{eq:ap1fFullBndy}
   f(\vec{x}, \vec{\Omega}, t) &= \zeta(\vec{x}, \vec{\Omega}, t) \,,
- \quad && \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0
+ \qquad && \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0
  ,\  0 \le t \le \Delta_t\,,
 \\ \label{eq:ap1fFullRefl}
   f(\vec{x}, \vec{\Omega}) &= f(\vec{x}, \vec{\Omega}_r) \,,
@@ -437,14 +437,14 @@ volumetric source:
   \begin{equation} \label{eq:ap1gFullVol}
     \pder{g}{t}(\vec{x}, \vec{\Omega},t)
     + \vec{\Omega}\vd \grad g(\vec{x}, \vec{\Omega},t)
-    + \sigma^\ast g(\vec{x}, \vec{\Omega},t)
+    + \sigmast g(\vec{x}, \vec{\Omega},t)
   = 0 \,,
-  \quad x \in V,\ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t\,,
+  \qquad x \in V,\ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t\,,
 \end{equation}
 with boundary and initial conditions
 \begin{alignat}{2} \label{eq:ap1gFullBndy}
   g(\vec{x}, \vec{\Omega}, t) &= \eta(\vec{x}, \vec{\Omega}, t) \,,
- \quad && \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0
+ \qquad && \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0
  ,\  0 \le t \le \Delta_t\,,
 \\ \label{eq:ap1gFullRefl}
   g(\vec{x}, \vec{\Omega}) &= g(\vec{x}, \vec{\Omega}_r) \,,
@@ -469,8 +469,8 @@ function of
 
 From Eq.~\eqref{eq:capPsiFirst}, the first moment of $\Psi$ is the flux
 $\vec{F}$. Operating on Eq.~\eqref{eq:ap1approxPsi3} by $\int_{4\pi}
-\vec{\Omega} (\cdot) \ud\Omega$ gives an expression similar to 
-the following simple expression:
+\vec{\Omega} (\cdot) \ud\Omega$ gives an expression similar to the anisotropic
+diffusion Fick's law:
 \begin{align} \nonumber
   \vec{F}(\vec{x}, t)
   &= \int_{4\pi} \vec{\Omega} \tilde \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
@@ -483,22 +483,22 @@ the following simple expression:
   \ud\Omega \right]
   \vd \vec{F}^i(\vec{x})
   \\ \label{eq:ap1Ficks}
-  &= - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
-  + \Etens(\vec{x}) \vd \vec{F}^i(\vec{x})\,.
+  &= - \Dtens(\vec{x},t) \vd \grad \phi(\vec{x},t)
+  + \Etens(\vec{x},t) \vd \vec{F}^i(\vec{x})\,.
 \end{align}
-This resembles ``Fick's law,'' but instead of a scalar diffusion
-\emph{coefficient},
-the anisotropic diffusion method has a diffusion \emph{tensor}, $\Dtens$, the
-second angular moment of $f$:
+Here, we have defined the second moment of the time-dependent $f$ as
 \begin{equation}\label{eq:ap1dDefinition}
-  \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
-  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+  \Dtens(\vec{x},t) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega},t) \ud\Omega \,,
 \end{equation}
-
+and the second moment of the time-dependent $g$ as
 \begin{equation}\label{eq:ap1eDefinition}
-  \Etens(\vec{x}, t) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  \Etens(\vec{x},t) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
   g(\vec{x}, \vec{\Omega}, t) \ud\Omega \,.
 \end{equation}
+
+Unlike Fick's law, Eq.~\eqref{eq:ap1Ficks} incorporates the initial condition of
+the first moment, $\vec{F}^i$, making it closer to the $P_1$ equations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Incident boundary conditions}
@@ -552,8 +552,6 @@ constraint: given that $f$ (or $g$) is symmetric about $\vec{n}$, a reflecting
 boundary will satisfy Eqs.~\eqref{eqs:ap1zetaCondition}, as will any other
 angular distribution that preserves the first partial exiting moment.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Low-order boundary condition}
 Boundary conditions for the \APone\ approximation are formulated in the same
 manner as standard diffusion and anisotropic diffusion.
 Substituting Eq.~\eqref{eq:ap1blCapPsiBndy} into Eq.~\eqref{eq:bcW} gives a
@@ -587,87 +585,303 @@ outgoing values of $f$ and $g$ (see \S\ref{sec:zeta}):
   \,.
 \end{multline}
 
+If we use the Marshak-like approximation $W(\mu)\approx 2\mu$,
+Eq.~\eqref{eq:ap1loBndy} reduces to a form similar to that constructed for
+anisotropic diffusion, Eq.~\eqref{eq:marshakAd}.
+\begin{align}\nonumber
+  \lefteqn{2\int_{\vec{\Omega}\vd \vec{n} < 0}
+  ( 2\abs{\vec{\Omega} \vd \vec{n}} ) I^b(\vec{\Omega}) \ud\Omega}\qquad
+\\ \nonumber
+  &= \phi
+  + 2\int_{\vec{\Omega}\vd \vec{n} > 0} ( 2\vec{\Omega} \vd \vec{n} )
+  \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \grad \phi
+  - 2\int_{\vec{\Omega}\vd \vec{n} > 0} ( 2\vec{\Omega} \vd \vec{n} )
+  \vec{\Omega} g(\vec{\Omega}) \ud\Omega \vd \vec{F}^i
+\\ \nonumber
+  4 F^-
+  &= \phi
+  + 4 \vec{n} \vd \left[ \int_{\vec{\Omega}\vd \vec{n} > 0} \vec{\Omega}
+  \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \grad \phi
+  - 4 \vec{n} \vd \left[ \int_{\vec{\Omega}\vd \vec{n} > 0} \vec{\Omega}
+  \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \vec{F}^i
+\\ \nonumber
+  4 F^-
+  &= \phi
+  + 2 \vec{n} \vd \int_{4\pi} \vec{\Omega} \vec{\Omega} f \ud\Omega \vd \grad
+  \phi
+  - 2 \vec{n} \vd \int_{4\pi} \vec{\Omega} \vec{\Omega} g \ud\Omega \vd \grad
+  \phi
+\\ \label{eq:ap1marshak}
+  4 F^-(\vec{x}, t)
+  &= \phi(\vec{x}, t)
+  + 2 \vec{n} \vd \Dtens(\vec{x},t) \vd \grad \phi(\vec{x}, t)
+  - 2 \vec{n} \vd \Etens(\vec{x},t) \vd \vec{F}^i(\vec{x}) \,.
+\end{align}
+The Marshak form can also be written by substituting $\vec{F}$ from
+Eq.~\eqref{eq:ap1Ficks}:
+\begin{equation} \label{eq:ap1marshak2}
+  4 F^-(\vec{x}, t)
+  = \phi(\vec{x}, t)
+  - 2 \vec{n} \vd \vec{F}(\vec{x}, t) \,.
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Reflecting boundary condition}
+On a reflecting boundary, $I(\vec{x},\vec{\Omega},t) =
+I(\vec{x},\vec{\Omega}_r,t)$, with $\vec{\Omega}_r$ defined in
+Eq.~\eqref{eq:reflection} as
+\begin{equation*}
+  \vec{\Omega}_r = \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\,.
+\end{equation*}
+As stated before, this identity implies
+\begin{equation*}
+  \vec{n}\vd \grad I = \vec{n} \vd \grad \phi = 0\,,
+\end{equation*}
+as well as
+\begin{equation*}
+  \vec{n}\vd\vec{F}=0\,.
+\end{equation*}
+We substitute Eq.~\eqref{eq:ap1Ficks} into this last identity to give
+\begin{equation}\label{eq:ap1LoRefl1}
+  - \vec{n}\vd \Dtens(\vec{x},t) \vd \grad \phi(\vec{x},t)
+  + \vec{n}\vd \Etens(\vec{x},t) \vd \vec{F}^i(\vec{x}) = 0\,.
+\end{equation}
+
+Reconciling this expression with $\vec{n} \vd \grad \phi=0$ requires the same
+jiggery-pokery as the reflecting boundary for anisotropic diffusion. In essence,
+the nature of $\Dtens$ generally allows a gradient along a surface to induce a
+net flow of radiation across that surface. However, if $\vec{n}$ is an
+eigenvector of $\Dtens$ (see \S\ref{sec:eigenvectors}), and of $\Etens$,
+Eq.~\eqref{eq:ap1LoRefl1} can be written
+\begin{equation*}
+  - D(\vec{x},t) \vec{n} \vd \grad \phi(\vec{x},t)
+  + E(\vec{x},t) \vec{n} \vd \vec{F}^i(\vec{x}) = 0\,.
+\end{equation*}
+Because $\vec{n}\vd\vec{F}=0$, $\vec{n}\vd\vec{F}^i$ should also be equal to
+zero:
+\begin{align}\nonumber
+  - D(\vec{x},t) \vec{n} \vd \grad \phi(\vec{x},t) &= 0  
+  \\ \label{eq:ap1LoRefl2}
+  \vec{n} \vd \grad \phi(\vec{x},t) &= 0\,.
+\end{align}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Implicit time-dependent formulation}
-To take the implicit Euler approximation of Eq.~\eqref{eq:anisotropicP1}, we
-average over the time step $0 < t < \Delta_t$, and approximate the
-time-average unknowns by their values at $t^{n+1} = t^i + \Delta_t$. This
-procedure yields an approximate but numerically convenient equation,
-\begin{equation}\label{eq:implicitFlux1}
-  \vec{F}^{n+1}(\vec{x}) = \mat{E}^{n+1} (\vec{x}) \vd \vec{F}^n(\vec{x})
-  - \Dtens^{n+1}(\vec{x}) \vd \grad \phi^{n+1} (\vec{x}) 
-\end{equation}
+\subsection{Summary}
+We briefly recap the equations derived in the previous sections that describe
+the anisotropic \Pone\ approximation.
 
-\begin{subequations} \label{eqs:implicitD}
-The implicit approximation to $\Dtens$ is
-\begin{equation}\label{eq:implicitDtens}
-  \Dtens^{n+1} = \int_{4\pi} \vec{\Omega} \vec{\Omega} \:
-  f^{n+1}(\vec{x}, \vec{\Omega}) \ud\Omega\,,
-\end{equation}
-and the transport equation~\eqref{eqs:fFull} for $f$ discretized implicitly
-over time is:
+First, we have the low-order conservation equations~\eqref{eqs:loEquations} for
+$\phi$,
 \begin{equation*}
-  \frac{f^{n+1} - f^{0}}{c \Delta_t}
-  + \vec{\Omega} \vd \grad f^{n+1}
-  + \sigma^\ast f^{n+1}
-  =  \frac{1}{4\pi} \,,
+  \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
+  + \grad \vd \vec{F}(\vec{x},t)
+  + \sigmast(\vec{x}) \phi(\vec{x}, t)
+  = Q(\vec{x}, t) \,,
+  \qquad \vec{x} \in V,\ 0 \le t \le \Delta_t \,,
 \end{equation*}
-with appropriate boundary conditions and the initial condition $f^{0}=0$. This
-can be rearranged to the form of a steady-state transport solve, with modified
-opacities:
-\begin{equation} \label{eq:implicitF}
-  \vec{\Omega} \vd \grad f^{n+1}
-  + \left[ \sigma^\ast + \frac{1}{c \Delta_t} \right]f^{n+1}
-  =  \frac{1}{4\pi} \,.
-\end{equation}
-This transport equation takes only one ``sweep'' to solve!
-\end{subequations}
-
-\begin{subequations} \label{eqs:implicitE}
-Likewise, the implicit approximation to $\mat{E}$ is
-\begin{equation}\label{eq:implicitEtens}
-  \mat{E}^{n+1} = \int_{4\pi} \vec{\Omega} \vec{\Omega} \:
-  g^{n+1}(\vec{x}, \vec{\Omega}) \ud\Omega\,,
-\end{equation}
-and the transport equation~\eqref{eqs:gFull} for $g$ discretized implicitly
-over time is:
+with the initial condition
 \begin{equation*}
-  \frac{g^{n+1} - g^{0}}{c \Delta_t}
-  + \vec{\Omega} \vd \grad g^{n+1}
-  + \sigma^\ast g^{n+1}
-=  0 \,,
+\phi(\vec{x}, 0) = \phi^i(\vec{x})\,, \vec{x} \in V  \,.
 \end{equation*}
-with appropriate boundary conditions and the initial condition
-$g^{0}=\frac{3}{4\pi}$. This too can be rearranged! Substituting the
-isotropic initial condition $g^i$,
-\begin{equation} \label{eq:implicitG}
-  \vec{\Omega} \vd \grad g^{n+1}
-  + \left[ \sigma^\ast + \frac{1}{c \Delta_t} \right]g^{n+1}
-  = \frac{1}{c \Delta_t} \frac{3}{4\pi} \,.
-\end{equation}
-This transport equation \emph{also} takes only one ``sweep'' to solve, but
-there is another glaringly obvious fact that will make our lives even easier:
-with the implicit approximation, $g^{n+1} = \frac{3}{c \Delta t} f^{n+1}$!
-\end{subequations}
 
-Therefore, $\mat{E}^{n+1} =  \frac{3}{c \Delta t} \mat{D}^{n+1}$, so
-Eq.~\eqref{eq:implicitFlux1} becomes
-\begin{equation}\label{eq:implicitFlux}
-  \vec{F}^{n+1}(\vec{x}) =  \frac{3}{c \Delta t} \Dtens^{n+1} (\vec{x}) \vd
-  \vec{F}^n(\vec{x})
-  - \Dtens^{n+1}(\vec{x}) \vd \grad \phi^{n+1} (\vec{x}) \,.
-\end{equation}
-Our implicit approximation comprises this approximation to the first moment,
-Eq.~\eqref{eq:implicitFlux}, and the transport equation used to calculate
-$\Dtens$, Eqs.~\eqref{eqs:implicitD}.
+The \APone\ method expresses $\vec{F}$ as a time-dependent function that
+incorporates the initial condition $\vec{F}^i$. From Eq.~\eqref{eq:ap1Ficks},
+\begin{equation*}
+  \vec{F}(\vec{x}, t)
+= - \Dtens(\vec{x},t) \vd \grad \phi(\vec{x},t)
+  + \Etens(\vec{x},t) \vd \vec{F}^i(\vec{x})\,.
+\end{equation*}
+Here, $\Dtens$ and $\Etens$ are the second angular moments of $f$ and $g$,
+respectively, which are solutions to simple transport equations.
+
+The transport equation for $f$ is similar to the formulation of $f$ in the
+anisotropic diffusion method, Eqs.~\eqref{eqs:fFull}, but it is time-dependent
+with an initial condition equal to zero. We expressed $f$ in
+Eqs.~\eqref{eqs:ap1fFull} as
+\begin{equation*}
+    \pder{f}{t}(\vec{x}, \vec{\Omega},t)
+    + \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega},t)
+    + \sigmast f(\vec{x}, \vec{\Omega},t)
+  = \frac{1}{4\pi} \,,
+  \qquad x \in V,\ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t\,,
+\end{equation*}
+with boundary and initial conditions
+\begin{alignat*}{2}
+  f(\vec{x}, \vec{\Omega}, t) &= \zeta(\vec{x}, \vec{\Omega}, t) \,,
+ \qquad && \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0
+ ,\  0 \le t \le \Delta_t\,,
+\\
+  f(\vec{x}, \vec{\Omega}, t) &= f(\vec{x}, \vec{\Omega}_r, t) \,,
+ && \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0
+ ,\  0 \le t \le \Delta_t\,,
+\\
+  f(\vec{x}, \vec{\Omega}, 0) &= 0 \,,
+ && \vec{x} \in V, \ \vec{\Omega}\in 4\pi\,.
+\end{alignat*}
+The function $\zeta$ should satisfy the identity from
+Eq.~\eqref{eq:ap1zetaCondition},
+\begin{equation*}
+- \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \zeta(\vec{x}, \vec{\Omega}, t)\ud\Omega
+ =
+ \int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} f(\vec{x}, \vec{\Omega}, t)\ud\Omega \,.
+\end{equation*}
+Again, $f$ is related to the low-order equation for $\vec{F}$ through the second
+angular moment:
+\begin{equation*}
+  \Dtens(\vec{x},t) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega},t) \ud\Omega \,,
+\end{equation*}
+
+The quantity $g$ is the solution of a similar transport equation, given in
+Eqs.~\eqref{eqs:ap1gFull}:
+\begin{equation*}
+  \pder{g}{t}(\vec{x}, \vec{\Omega},t)
+  + \vec{\Omega}\vd \grad g(\vec{x}, \vec{\Omega},t)
+  + \sigmast g(\vec{x}, \vec{\Omega},t)
+  = 0 \,,
+  \qquad x \in V,\ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t\,,
+\end{equation*}
+with boundary and initial conditions
+\begin{alignat*}{2}
+  g(\vec{x}, \vec{\Omega}, t) &= \eta(\vec{x}, \vec{\Omega}, t) \,,
+ \qquad && \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0
+ ,\  0 \le t \le \Delta_t\,,
+\\
+  g(\vec{x}, \vec{\Omega}, t) &= g(\vec{x}, \vec{\Omega}_r, t) \,,
+  && \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0
+ ,\  0 \le t \le \Delta_t\,,
+\\
+g(\vec{x}, \vec{\Omega}, 0) &= \frac{3}{4\pi} \,,
+  && \vec{x} \in V, \ \vec{\Omega}\in 4\pi\,.
+\end{alignat*}
+The boundary condition $\eta$ should satisfy the identity from
+Eq.~\eqref{eq:ap1etaCondition},
+\begin{equation*}
+- \int_{\vec{\Omega} \vd \vec{n} < 0}
+ \vec{\Omega} \eta(\vec{x}, \vec{\Omega}, t)\ud\Omega
+ =
+ \int_{\vec{\Omega} \vd \vec{n} > 0}
+  \vec{\Omega} g(\vec{x}, \vec{\Omega}, t)\ud\Omega \,.
+\end{equation*}
+The second angular moment of $g$ is the tensor $\Etens$:
+\begin{equation*}
+  \Etens(\vec{x},t) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  g(\vec{x}, \vec{\Omega}, t) \ud\Omega \,.
+\end{equation*}
+
+We have two low-order boundary conditions. The first is expressible as a
+Marshak-like boundary condition relating $\vec{F}$ to $\phi$ on a surface with
+incident radiation, given in Eq.~\eqref{eq:ap1marshak2} and valid if $\eta$ and
+$\zeta$ are set to be reflecting boundary conditions:
+\begin{equation*}
+  4 F^-(\vec{x}, t)
+  = \phi(\vec{x}, t)
+  - 2 \vec{n} \vd \vec{F}(\vec{x}, t) \,,\qquad
+   \vec{x} \in \partial V_b,\ 0 \le t \le \Delta_t \,.
+\end{equation*}
+
+The second boundary condition, presented in Eq.~\eqref{eq:ap1LoRefl2} under
+certain assumptions about the nature of $\Dtens$ and $\Etens$, is for reflecting
+boundaries:
+\begin{equation*}
+  \vec{n} \vd \grad \phi(\vec{x},t) = 0\,,\qquad
+   \vec{x} \in \partial V_r,\ 0 \le t \le \Delta_t \,.
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 
+The biggest approximation in deriving the \APone method was to approximate
+$\Psi^i$ as a linear function in angle. Essentially, this implies that at the
+end of a time step, all uncollided particles from the initial condition started
+with a \Pone-like approximation, and all collided particles are treated with
+arbitrary anisotropy.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Implicit time-dependent formulation}
+To take the implicit Euler approximation of Eq.~\eqref{eq:ap1Ficks}, we
+average over the time step $0 \le t \le \Delta_t$, and approximate the
+time-average unknowns by their values at the end of the time step, $t=\Delta_t$.
+This
+procedure yields an approximate but numerically convenient equation,
+\begin{equation}\label{eq:ap1implicitFlux1}
+  \vec{F}(\vec{x}) = \mat{E} (\vec{x}) \vd \vec{F}^i(\vec{x})
+  - \Dtens(\vec{x}) \vd \grad \phi (\vec{x})  \,.
+\end{equation}
+For simplicity of notation, we assume that variables without a time parameter or
+initial condition mark $(\cdot)^i$ are evaluated at the end of the time step:
+$\phi(\vec{x})\equiv\phi(\vec{x},\Delta_t)$.
+
+\begin{subequations} \label{eqs:ap1implicitD}
+The implicit approximation to the diffusion tensor $\Dtens$ is
+\begin{equation}\label{eq:ap1implicitDtens}
+  \Dtens(\vec{x}) = \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation}
+and the transport equation~\eqref{eq:ap1fFullVol} for $f$ discretized implicitly
+over time is:
+\begin{equation*}
+  \frac{f - f^i}{c \Delta_t}
+  + \vec{\Omega} \vd \grad f
+  + \sigmast f
+  =  \frac{1}{4\pi} \,,
+\end{equation*}
+with appropriate boundary conditions and the initial condition $f^i=0$. This
+can be rearranged to the form of a steady-state transport solve, with modified
+opacities:
+\begin{equation} \label{eq:ap1implicitF}
+  \vec{\Omega} \vd \grad f
+  + \left[ \sigmast + \frac{1}{c \Delta_t} \right]f
+  = \frac{1}{4\pi} \,.
+\end{equation}
+Just like the anisotropic diffusion version of $f$, this transport equation
+takes only one ``sweep'' to solve. The value of 
+\end{subequations}
+
+\begin{subequations} \label{eqs:ap1implicitE}
+Likewise, the implicit approximation to $\mat{E}$ is
+\begin{equation}\label{eq:ap1implicitEtens}
+  \mat{E} = \int_{4\pi} \vec{\Omega} \vec{\Omega} \:
+  g(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation}
+and the transport equation~\eqref{eqs:ap1gFull} for $g$ discretized implicitly
+over time is:
+\begin{equation*}
+  \frac{g - g^i}{c \Delta_t}
+  + \vec{\Omega} \vd \grad g
+  + \sigmast g
+=  0 \,,
+\end{equation*}
+with appropriate boundary conditions and the initial condition
+$g^i=\frac{3}{4\pi}$. This too can be rearranged! Substituting the
+isotropic initial condition $g^i$,
+\begin{equation} \label{eq:ap1implicitG}
+  \vec{\Omega} \vd \grad g
+  + \left[ \sigmast + \frac{1}{c \Delta_t} \right]g
+  = \frac{1}{c \Delta_t} \frac{3}{4\pi} \,.
+\end{equation}
+This transport equation \emph{also} takes only one ``sweep'' to solve, but
+there is another glaringly obvious fact that will make our lives even easier:
+with the implicit approximation, $g = \frac{3}{c \Delta t} f$!
+\end{subequations}
+
+Therefore, $\mat{E} =  \frac{3}{c \Delta t} \mat{D}$, so
+Eq.~\eqref{eq:ap1implicitFlux1} becomes
+\begin{equation}\label{eq:ap1implicitFlux}
+  \vec{F}(\vec{x}) =  \frac{3}{c \Delta t} \Dtens (\vec{x}) \vd
+  \vec{F}^i(\vec{x})
+  - \Dtens(\vec{x}) \vd \grad \phi (\vec{x}) \,.
+\end{equation}
+Our implicit approximation comprises this approximation to the first moment,
+Eq.~\eqref{eq:ap1implicitFlux}, and the transport equation used to calculate
+$\Dtens$, Eqs.~\eqref{eqs:ap1implicitD}.
+
 \subsection{Time dependence}
 Starting here, we only consider the implicit Euler discretization of the
 \APone\ equations. \emph{However}, the fact that we can calculate
-$\mat{E}^{n+1}$ and $\Dtens^{n+1}$ however we want means that we could do crazy
+$\mat{E}$ and $\Dtens$ however we want means that we could do crazy
 stuff like, for example, using a Monte Carlo transport solve to yield
 coefficients that take into account the finite speed of the particles, yielding
 true time-averaged values for the two tensors, and possibly obviating the error
@@ -675,18 +889,18 @@ inherent in implicit time discretization.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Limit for large time steps}
-As $\Delta_t\to \infty$, the modified opacity in Eq.~\eqref{eq:implicitF}
-approaches the true space-dependent opacity $\sigma^\ast$. Thus, $\Dtens$
+As $\Delta_t\to \infty$, the modified opacity in Eq.~\eqref{eq:ap1implicitF}
+approaches the true space-dependent opacity $\sigmast$. Thus, $\Dtens$
 approaches the same $\Dtens$ as the standard anisotropic diffusion method. In
 an infinite homogeneous medium, $f\to 1/4\pi \sigma$ so $\Dtens \to
 \mat{I}/3\sigma$, the standard diffusion result.
 
 For these large time steps, the contribution of the initial condition
-$\vec{F}^n$ should approach zero, so $\mat{E}^{n+1}$ should approach $
+$\vec{F}^i$ should approach zero, so $\mat{E}$ should approach $
 \mat{0}$. We find that it does, because the effect of the initial condition
-in Eq.~\eqref{eq:implicitG} diminishes exponentially for large time steps. Thus,
-for $c \Delta_t \gg \sigma^\ast$, $g^{n+1}=0$ and therefore
-$\mat{E}^{n+1}=\mat{0}$.
+in Eq.~\eqref{eq:ap1implicitG} diminishes exponentially for large time steps. Thus,
+for $c \Delta_t \gg \sigmast$, $g=0$ and therefore
+$\mat{E}=\mat{0}$.
 
 Therefore, in the limit of large time steps, the \APone\ method limits to the
 standard AD method. This is good!
@@ -697,81 +911,87 @@ not a local factor as in \Pone.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Limit for small time steps}
 TODO the same analysis makes it clear that as $\Delta_t \to 0$,
-$\Dtens^{n+1}$ approaches $\mat{0}$ and $\mat{E}^{n+1}$ approaches $\mat{I}$,
+$\Dtens$ approaches $\mat{0}$ and $\mat{E}$ approaches $\mat{I}$,
 yielding
 \begin{equation*}
-  \vec{F}^{n+1} \approx \vec{F}^{n}
+  \vec{F} \approx \vec{F}^i
 \end{equation*}
 as $\Delta_t \to 0$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Infinite homogeneous medium case}
-In an infinite homogeneous medium, Eq.~\eqref{eq:implicitFlux} limits to a
+In an infinite homogeneous medium, Eq.~\eqref{eq:ap1implicitFlux} limits to a
 form, obviating the error inherent in implicit discretizations.
 of the implicitly time-discretized \Pone\ equation.
 
-The solution to Eq.~\eqref{eq:implicitF} is
+The solution to Eq.~\eqref{eq:ap1implicitF} is
 \begin{equation*}
-  f^{n+1}
-  = \frac{1}{4\pi} \frac{1}{\sigma^\ast + 1 /c \Delta_t}
-  = \frac{1}{4\pi} \frac{\sigma^\ast}{\sigma^\ast} \frac{c \Delta t}{1 + \sigma^\ast c \Delta_t}
-  = \frac{1}{4\pi \sigma} ( 1 - \alpha^n) \,,
+  f
+  = \frac{1}{4\pi} \frac{1}{\sigmast + 1 /c \Delta_t}
+  = \frac{1}{4\pi} \frac{\sigmast}{\sigmast} \frac{c \Delta t}{1 + \sigmast c \Delta_t}
+  = \frac{1}{4\pi \sigma} ( 1 - \alpha) \,,
 \end{equation*}
-where $\alpha^n = 1/ \sigma^\ast c \Delta_t$. (This has a physical
-interpretation, because $\sigma^\ast c \Delta_t$ is the number of mean free
-paths a photon travels inside a time step.) Equation~\eqref{eq:implicitDtens}
+where $\alpha = 1/ \sigmast c \Delta_t$. (This has a physical
+interpretation, because $\sigmast c \Delta_t$ is the number of mean free
+paths a photon travels inside a time step.) Equation~\eqref{eq:ap1implicitDtens}
 then gives
 \begin{equation*}
-  \Dtens = \frac{1}{3 \sigma} ( 1 - \alpha^n) \mat{I}\,.
+  \Dtens = \frac{1}{3 \sigma} ( 1 - \alpha) \mat{I}\,.
 \end{equation*}
 
-The solution to Eq.~\eqref{eq:implicitG} is
+The solution to Eq.~\eqref{eq:ap1implicitG} is
 \begin{equation*}
-  g^{n+1}
-  = \frac{1}{c \Delta_t} \frac{3}{4\pi} \frac{1}{\sigma^\ast + 1 /c \Delta_t}
-  = \frac{3}{4\pi} \frac{1}{1 + \sigma^\ast c \Delta_t}
-  = \frac{3}{4\pi} \alpha^n \,.
+  g
+  = \frac{1}{c \Delta_t} \frac{3}{4\pi} \frac{1}{\sigmast + 1 /c \Delta_t}
+  = \frac{3}{4\pi} \frac{1}{1 + \sigmast c \Delta_t}
+  = \frac{3}{4\pi} \alpha \,.
 \end{equation*}
-Equation~\eqref{eq:implicitEtens} then gives
+Equation~\eqref{eq:ap1implicitEtens} then gives
 \begin{equation*}
-  \mat{E} = \alpha^n \mat{I}\,.
+  \mat{E} = \alpha \mat{I}\,.
 \end{equation*}
 
-Substituting $\Dtens$ and $\mat{E}$ into Eq.~\eqref{eq:implicitFlux}, we get the
+Substituting $\Dtens$ and $\mat{E}$ into Eq.~\eqref{eq:ap1implicitFlux}, we get the
 infinite-medium solution
 \begin{align*}
-  \vec{F}^{n+1}(\vec{x})
-  &= \alpha^n \mat{I} \vd \vec{F}^n(\vec{x})
-  - \frac{1}{3 \sigma} ( 1 - \alpha^n) \mat{I} \vd \grad \phi^{n+1} (\vec{x}) 
+  \vec{F}(\vec{x})
+  &= \alpha \mat{I} \vd \vec{F}^i(\vec{x})
+  - \frac{1}{3 \sigma} ( 1 - \alpha) \mat{I} \vd \grad \phi (\vec{x}) 
   \\
-  &= \alpha^n \vec{F}^n(\vec{x})
-  - \frac{1}{3 \sigma} ( 1 - \alpha^n) \grad \phi^{n+1} (\vec{x})\,.
+  &= \alpha \vec{F}^i(\vec{x})
+  - \frac{1}{3 \sigma} ( 1 - \alpha) \grad \phi (\vec{x})\,.
 \end{align*}
 
 We can reshape the \Pone\ equations into this exact form:
 \begin{align*}
-  \frac{\vec{F}^{n+1} - \vec{F}^n}{c \Delta_t} + \frac{1}{3} \grad \phi^{n+1}
-  + \sigma^\ast \vec{F}^{n+1} &= 0
+  \frac{\vec{F} - \vec{F}^i}{c \Delta_t} + \frac{1}{3} \grad \phi
+  + \sigmast \vec{F} &= 0
   \\
-  \vec{F}^{n+1} - \vec{F}^n 
-  + \sigma^\ast c \Delta_t \vec{F}^{n+1}
-  &= - c \Delta_t \frac{1}{3} \grad \phi^{n+1}
+  \vec{F} - \vec{F}^i 
+  + \sigmast c \Delta_t \vec{F}
+  &= - c \Delta_t \frac{1}{3} \grad \phi
   \\
-  \left[ 1 + \sigma^\ast c \Delta_t \right] \vec{F}^{n+1}
-  &= \vec{F}^n - \sigma^\ast c \Delta_t \frac{1}{3\sigma^\ast} \grad \phi^{n+1}
+  \left[ 1 + \sigmast c \Delta_t \right] \vec{F}
+  &= \vec{F}^i - \sigmast c \Delta_t \frac{1}{3\sigmast} \grad \phi
   \\
-  \vec{F}^{n+1}
-  &= \frac{1}{1 + \sigma^\ast c \Delta_t} \vec{F}^n - \frac{\sigma^\ast c
-  \Delta_t}{1 + \sigma^\ast c \Delta_t} \frac{1}{3\sigma^\ast} \grad \phi^{n+1}
+  \vec{F}
+  &= \frac{1}{1 + \sigmast c \Delta_t} \vec{F}^i - \frac{\sigmast c
+  \Delta_t}{1 + \sigmast c \Delta_t} \frac{1}{3\sigmast} \grad \phi
   \\
-  \vec{F}^{n+1}
-  &= \alpha^n \vec{F}^n - (1 - \alpha^n) \frac{1}{3\sigma^\ast} \grad \phi^{n+1}
+  \vec{F}
+  &= \alpha \vec{F}^i - (1 - \alpha) \frac{1}{3\sigmast} \grad \phi
 \end{align*}
 
-Ta-da! Our approximation of the previous time step in \S\ref{sec:derIc} as
+Ta-da! Our approximation of the previous time step in \S\ref{sec:ap1ic} as
 being linear in angle is really what gives the undesirable $\frac13\grad\phi$
-(which has an incorrect wave speed). It may be possible to either improve that
-approximation by supposing $f$ for the previous time step is like $f$ from the
-current time step (and same with $g$), which would definitely not be the case
-if $\Delta_t$ is changing from one time step to the next.
+(which yields the incorrect energy propagation speed). It may be possible to make some better approximation to how we represent $\Psi^i$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+The anisotropic \Pone\ approximation was derived using the same procedure as 
+time-dependent anisotropic diffusion. The assumption of a stronger time
+dependence of $I$ led to the retention of the initial condition $\Psi^i$ in the
+approximate equation for $\Psi$. To avoid the expensive storage of the full form
+of $\Psi^i$, we applied the $P_1$ approximation to $\Psi^i$, expanding it as a
+linear-in-angle function.
 

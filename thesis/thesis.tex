@@ -1,5 +1,7 @@
-\documentclass[12pt, letterpaper, draft]{umthesis}
+\documentclass[12pt,letterpaper]{umthesis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[inner=1.5in,outer=1in,top=1in,bottom=1in,headheight=0pt]{geometry}
+
 \usepackage{amsmath}
 % font choice
 \usepackage[T1]{fontenc}
@@ -48,8 +50,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \author{Seth R.~Johnson}
-\title{An Anisotropic Diffusion Approximation to Time-dependent Nonlinear
-Radiation Transport}
+\title{Efficient Anisotropic Approximations to Time-dependent Particle
+Transport}
 
 \program{Nuclear Engineering and Radiological Sciences}
 \degree{Doctor of Philosophy}
@@ -70,10 +72,13 @@ flatland,%
 simpleNumericalResults,%
 trtNumericalResults,%
 conclusion,%
-appendixLinearization,%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
+
+% let ``align'' break anywhere
+\allowdisplaybreaks
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FRONT MATTER
 \frontmatter
@@ -102,17 +107,21 @@ problem of interest, radiation flow down a channel in ``flatland'' geometry.
 \end{finalabstract}
 \makecopyright
 
-%\begin{frontispiece}
-%  This is an optional quotation.\\
-%  ---Seth R.~Johnson
-%\end{frontispiece}
+\begin{frontispiece}
+\begin{flushleft}
+For in much wisdom is much vexation,\hfill\\
+\hspace{1.5em}and he who increases knowledge increases sorrow.
+\end{flushleft}
+---Eccl.~1:18
+%THIS PAGE INTENTIONALLY NOT LEFT BLANK
+\end{frontispiece}
 
 \begin{dedication}
   To my parents, Doug and Carol.
 \end{dedication}
 
 \begin{acknowledgments}
-  To be determined.
+  To be revealed dramatically.
 \begin{comment}
   This dissertation would not have been possible without a lifetime of others
   building me up. The foremost of these mentors are my parents, who helped my

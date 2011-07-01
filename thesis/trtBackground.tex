@@ -12,7 +12,7 @@ space. These difficulties make TRT the subject of significant work in methods
 development.
 
 A full representation of the physics in
-those high-energy-density regimes often includes the consideration of moving
+the high-energy-density regime often includes the consideration of moving
 relativistic materials, different electron and ion temperatures, photon
 scattering, and thermal conduction in the material \cite{Mih1984}. However,
 much theoretical work in the field neglects these complex phenomena by
@@ -23,7 +23,7 @@ much theoretical work in the field neglects these complex phenomena by
   \item neglecting photon scattering, which tends to be comparatively small for
     very hot materials; and
   \item neglecting thermal conduction, since energy transfer is dominated by
-    radiative transfer in the temperature regimes we consider.
+    radiation in the temperature regimes we consider.
 \end{itemize}
 
 A further simplification often used for methods development is the ``gray''
@@ -46,7 +46,7 @@ the radiative transfer equation,
   + \vec{\Omega} \vd \del I +
  \sigma I
   = \frac{\sigma c U_r}{4\pi} 
-  + \frac{c Q}{4\pi} \,,
+  + \frac{c q_r}{4\pi} \,,
 \end{equation}
 and the material energy balance equation
 \begin{equation} \label{eq:fullGrayMaterial}
@@ -68,7 +68,7 @@ The notation and omitted parameters in Eqs.~\eqref{eqs:fullGrayTRT} are:
   \\
   \sigma &= \sigma(\vec{x}, T) &&= \text{the absorption opacity,} 
   \\
-  Q &= Q(\vec{x}) &&= \text{an extraneous isotropic radiation energy source,}
+  q_r &= q_r(\vec{x}) &&= \text{an extraneous isotropic radiation energy source,}
   \\
   U_m &= U_m(\vec{x}, T) &&= \text{the material energy density,}
   \\
@@ -86,13 +86,23 @@ of the Planckian emission function:
   U_r(T) \equiv aT^4 = \frac{1}{c} \int_{4\pi} \int_{0}^{\infty}B(\nu, T) \ud
   \nu \ud \Omega \,.
 \end{equation}
-The material energy density is related only to the material's temperature:
+The material energy density is a function of the material's temperature and specific
+heat capacity $c_v$, which is the amount of energy per unit
+volume needed to change the material's temperature:
 \begin{equation} \label{eq:matEnergyDens}
   U_m(T) = \int_{0}^{T} c_v(T') \ud T' \,.
 \end{equation}
-The specific heat capacity $c_v(T)$ is the amount of energy per unit
-volume needed to change the material's temperature.
 \end{subequations}
+
+\subsection{Angular moments of $I$}
+
+\subsection{Typical quantitative physics behavior}
+$c_v$ in an ideal gas is a constant
+
+$\sigma \propto T^{-3}$ 
+
+\subsection{Discussion}
+
 %The zeroth moment of $I$ is equal to the radiation energy density scaled by the
 %speed of light:
 %\begin{equation*}
@@ -107,6 +117,11 @@ The scalar
 intensity is the energy density of the radiation scaled by the speed of light:
 $\phi=cE$, so integrating $\phi$ over a volume at time $t$ and dividing by $c$
 gives the amount of energy in the radiation field in that volume.
+
+Initial conditions and boundary conditions
+
+stiff systems with small and large time scales \cite{Kno2003}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Radiation transport approximations}\label{sec:trtApproxMethods}
 
@@ -121,15 +136,26 @@ has, the easier it is to solve.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implicit Monte Carlo}
 
+\begin{itemize}
+  \item linearized $\sigma$, $B$ (semi-implicit)
+  \item typical MC is exact, whereas nonlinearities in IMC incur spatial
+    discretization and $O(\Delta_t)$ linearization error
+  \item expensive: storage of particle census
+\end{itemize}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Discrete ordinates}
 
+Additional spatial, angular, and temporal discretization errors
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spherical harmonics}
-\cite{McC2008a}
+\cite{Ols2000,McC2008a}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Diffusion}\label{sec:diffusion}
+
+Angular approximations
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Flux-limited diffusion}\label{sec:fldBackground}
@@ -154,17 +180,12 @@ energy at that point. The identity can be proven using the triangle inequality:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Semi-implicit linearization}
 
-To solve the TRT equations with deterministic methods,\footnote{The Implicit
-Monte Carlo scheme of Fleck and Cummings \cite{Fle1971} gives a result very
-similar to the semi-implicit discretization. The difference is that Monte
-Carlo does not need to approximate the time dependence implicitly.} we use the
+To solve the TRT equations with deterministic methods, we use the
 semi-implicit time
 discretization scheme \cite{Kno1999a,Kno2001,Low2004} where some important
 unknowns are treated implicitly in
-time, and other unknowns are treated explicitly. By choosing the intensity $I$
-and equilibrium radiation energy density $U_r$ to be the implicit variables and 
-by treating the opacity $\sigma$ and another material property explicitly,
-Eqs.~\eqref{eqs:fullGrayTRT} can be formulated as a time-dependent linear
+time, and other unknowns are treated explicitly. 
+Equations~\eqref{eqs:fullGrayTRT} can be formulated as a time-dependent linear
 transport equation over a time step $t^n < t < t^{n+1}$.
 
 \subsection{Linearizing the material energy equation}
@@ -236,20 +257,11 @@ We solve Eq.~\eqref{eq:semiImplicitMaterial} for $U_r^{n+1}$ in order to
 eliminate the implicit dependence of the transport equation on the material
 energy equation.
 \begin{align} \nonumber
-  U_r^{n+1} - U_r^n
-  &= \beta^n \Delta_t^n \sigma^n\int_{4\pi} I^{n+1}\ud \Omega
-   - c \beta^n \Delta_t^n \sigma^n U_r^{n+1}
-   \\ \nonumber
   U_r^{n+1} [ 1 + c \beta^n \Delta_t^n \sigma^n ]
   &= \beta^n \Delta_t^n \sigma^n\int_{4\pi} I^{n+1}\ud \Omega + U_r^n
    \\ \nonumber
   U_r^{n+1}
   &= \frac1c \frac{ c \beta^n \Delta_t^n \sigma^n }{ 1 + c \beta^n \Delta_t^n \sigma^n}
-  \int_{4\pi} I^{n+1}\ud \Omega + \frac1{ 1 + c \beta^n \Delta_t^n \sigma^n}
-  U_r^n
-  \\ \nonumber
-  U_r^{n+1}
-  &= \left[1 - \frac{1 }{ 1 + c \beta^n \Delta_t^n \sigma^n} \right]
   \int_{4\pi} I^{n+1}\ud \Omega + \frac1{ 1 + c \beta^n \Delta_t^n \sigma^n}
   U_r^n
   \\ \label{eq:urNPlusOne}
@@ -283,17 +295,17 @@ the equation is time-averaged:
   = \frac{\sigma^n c}{4\pi} \left[
   \frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} U_r \ud t \right]
   + \frac{1}{4\pi}\left[
-  \frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} Q \ud t \right] \,.
+  \frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} q_r \ud t \right] \,.
 \end{multline*}
-Since the extraneous energy source $Q$ is assumed to be known \emph{a priori},
-we let its time-averaged value be $Q^n$. As in the material equation, we apply
+Since the extraneous energy source $q_r$ is assumed to be known \emph{a priori},
+we let its time-averaged value be $q_r^n$. As in the material equation, we apply
 the implicit Euler approximation to $I$ and $U_r$:
 \begin{equation*}
   \frac{1}{c} \frac{I^{n+1} - I^n}{\Delta_t^n}
   + \vec{\Omega} \vd \del I^{n+1}
  + \sigma^n I^{n+1}
  = \frac{\sigma^n c}{4\pi} U_r^{n+1}
-  + \frac{c}{4\pi} Q^n \,.
+  + \frac{c}{4\pi} q_r^n \,.
 \end{equation*}
 Finally, we substitute $U_r^{n+1}$ from Eq.~\eqref{eq:urNPlusOne},
 which was derived from the material equation Eq.~\eqref{eq:fullGrayMaterial}:
@@ -302,14 +314,14 @@ which was derived from the material equation Eq.~\eqref{eq:fullGrayMaterial}:
   + \vec{\Omega} \vd \del I^{n+1}
  + \sigma^n I^{n+1}
  &= \frac{\sigma^n c}{4\pi} \left[ \left(1 - f^n\right) \frac1c \int_{4\pi} I^{n+1}\ud \Omega + f^n U_r^n \right]
-  + \frac{c}{4\pi} Q^n
+  + \frac{c}{4\pi} q_r^n
   \\ \label{eq:linearizedGrayTransport}
   \frac{1}{c} \frac{I^{n+1} - I^n}{\Delta_t^n}
   + \vec{\Omega} \vd \del I^{n+1}
  + \sigma^n I^{n+1}
  &=  \left(1 - f^n\right) \sigma^n \frac{1}{4\pi} \int_{4\pi} I^{n+1}\ud \Omega
  + \frac{1}{4\pi} f^n \sigma^n c U_r^n
-  + \frac{1}{4\pi} c Q^n \,.
+  + \frac{1}{4\pi} c q_r^n \,.
 \end{align}
 
 \subsection{Comments}\label{sec:trtLinearizedComments}
@@ -332,7 +344,7 @@ we find equivalences between the two:
   \left(1 - f^n\right) \sigma^n &\leftrightarrow \Sigma_s &&= \text{the scattering cross
   section,} 
   \\
-  f^n \sigma^n c U_r^n + c Q^n &\leftrightarrow q &&= \text{the isotropic source for time
+  f^n \sigma^n c U_r^n + c q_r^n &\leftrightarrow q &&= \text{the isotropic source for time
   step $n$,}
   \\
   v   &\leftrightarrow c &&= \text{the particle velocity.}
@@ -351,7 +363,7 @@ energy conservation equation over the time step to be
 \begin{equation}\label{eq:semiImplicitZeroth}
   \frac{1}{c} \frac{\phi^{n+1} - \phi^n}{\Delta_t^n}
   + \del \vd \vec{F}^{n+1} + f^n\sigma^n \phi^{n+1}
- =  f^n \sigma^n c U_r^n + c Q^n\,.
+ =  f^n \sigma^n c U_r^n + c q_r^n\,.
 \end{equation}
 The quantity, $\sigma_\text{ea}^n \equiv f^n\sigma^n$ is known as the
 ``effective absorption opacity.''
@@ -369,7 +381,7 @@ initial material energy density $U_m^n$, the solution process follows.
   \item Linearize the system. Using the starting temperature $T^n$, calculate
     the frozen $\sigma^n$ and $\beta^n$ in each spatial cell. Use
     Eq.~\eqref{eq:fleckFactor} to calculate $f^n$, which in turn is used to
-    calculate the linearized isotropic source $f^n \sigma^n c U_r^n + c Q^n$
+    calculate the linearized isotropic source $f^n \sigma^n c U_r^n + c q_r^n$
     and the effective scattering cross section $\left(1 - f^n\right) \sigma^n$.
     If using a diffusion method to approximate the transport solution, the
     absorption cross sections and diffusion coefficients must be recalculated.
