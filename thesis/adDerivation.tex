@@ -14,12 +14,9 @@ The anisotropic diffusion equations are derived in general 3-D geometry.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A modified transport equation}\label{sec:capPsi}
 We begin by considering the gray radiation transport equation inside a time step
-$0 \le t \le \Delta_t$,
-with opacities frozen at some value $\sigmast$ (which could be
-evaluated at the initial material temperature $T(0)$ for a semi-implicit
-formulation, or at some estimate $T(\Delta_t)$ if the nonlinearities are being
-converged).
-The transport equation for the radiation intensity $I$ is:
+$0 \le t \le \Delta_t$, with opacities frozen at some value $\sigmast$ that
+satisfies $\sigma(0) \le \sigmast \le \sigma(\Delta_t)$. The transport equation
+for the radiation intensity $I$ is:
 \begin{subequations} \label{eqs:fullTransport}
 \begin{multline} \label{eq:fullTransportVol}
   \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
@@ -1076,6 +1073,28 @@ take the condition from Eq.~\eqref{eq:zetaReflecting}:
 Even without numerical results for the anisotropic diffusion equations, a
 number of interesting and beneficial properties can be deduced from the
 low-order AD equations and the transport equations for $f$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Specific application to nonlinear radiation transport}
+By leaving the specific value of $\sigmast$ open-ended, we allow for multiple
+nonlinear treatments in the approximation to $\vec{F}$. For example, the
+semi-implicit treatment would be lagging the opacity, $\sigmast \approx
+\sigma(t=0)$. If nonlinear convergence were desired, perhaps via JFNK
+\cite{Kno2004}, $\sigmast$ would assume the value of the opacity at the current
+estimated temperature.
+
+Furthermore, because the anisotropic Fick's law is not directly related to the
+energy conservation equation, virtually \emph{any} solution technique or time
+discretization scheme can be applied to the approximate radiation equation. One
+must only keep in mind that $\Dtens$ is explicitly dependent on $\sigma$, which
+depends on $t$.
+
+As formulated, the time-dependent anisotropic diffusion method is more general
+than just TRT applications. We only demanded that the source term is isotropic,
+implicitly allowing for isotropic scattering in addition to isotropic black body
+emission. (Linearly anisotropic sources may even be accounted for: see
+\cite{Kel2010} for an application of steady-state infinite medium anisotropic
+diffusion with linearly anisotropic scattering in reactors.)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transport calculation for \texorpdfstring{$f$}{f}}
