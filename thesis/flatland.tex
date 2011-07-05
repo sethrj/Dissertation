@@ -43,7 +43,7 @@ Here, we use
   \vec{\Omega} &= \text{the angular variable,} \\
   \Omega &= \text{the domain of the angular variable,} \\
   \omega_n &= \text{the $n$th moment of the angular variable, and} \\
-  \phi(\vec{x}) &= \text{the scalar intensity, the first angular moment of $I$.}
+  \phi(\vec{x}) &= \text{the scalar intensity, the zeroth angular moment of $I$.}
 \end{align*}
 The angular domains and definitions are defined in
 Table~\ref{tab:angularDomain}, and the moments $\omega_0$ are evaluated in
@@ -276,12 +276,13 @@ which gives the separable CDF
 Setting $\xi_1 = F(\mu)$, $\xi_2 = F(\theta)$, solving for $\mu,\theta$, and
 introducing them back into the 2-D representation of $\vec{\Omega}$, we get the
 well-known result
-\begin{equation*}
-  \vec{\Omega} = \sqrt{1-\mu^2} \cos \theta \vec{i}
-   + \sqrt{1-\mu^2} \sin \theta \vec{j}
-  = \sqrt{1-(2\xi_1-1)^2} \cos(2\pi\xi_2) \vec{i}
-   + \sqrt{1-(2\xi_1-1)^2} \sin(2\pi\xi_2) \vec{j}\,.
-\end{equation*}
+\begin{align*}
+  \vec{\Omega} &= \sqrt{1-\mu^2} \cos \theta \vec{i}
+  + \sqrt{1-\mu^2} \sin \theta \vec{j}
+\\
+  &= \sqrt{1-(2\xi_1-1)^2} \cos(2\pi\xi_2) \vec{i}
+  + \sqrt{1-(2\xi_1-1)^2} \sin(2\pi\xi_2) \vec{j}\,.
+\end{align*}
 
 In flatland, Eq.~\eqref{eq:volumeSource2} becomes the simpler
 \begin{equation*}
@@ -433,7 +434,7 @@ only in a different diffusion coefficient but also different boundary
 conditions. In this section, we derive boundary conditions from a steady-state
 transport equation with isotropic scattering. There is no loss of generality in
 ignoring the time dependence because of the quasi-static approximation made in
-the derivation of the diffusion coefficient (see \S\ref{sec:diffusion}).
+the derivation of the diffusion coefficient (see \S\ref{sec:bgDiffusion}).
 
 To aid the reader in understanding whence the different coefficients in the
 diffusion equation arise, we use the geometric constants given in
@@ -764,20 +765,20 @@ In our simple transport problem, $\vec{\Omega} \vd \grad \phi=\sin\theta
 \pder{\phi_0}{y}$. We wish our boundary condition to preserve the value of
 $\varphi$ when the diffusion method is used:
 \begin{align*}
- \varphi = 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
+ \varphi &= 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
  I^b(\theta) \ud\theta
+ \\
  &= 
   2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
  \left( \frac{1}{2\pi} \phi -
   \frac{1}{\sigma} \sin\theta \pder{\phi_0}{y}\right)\ud\theta
 \\
-\int_{0}^{\pi} \left( \frac{\pi}{2} \sin\theta + 2 \sin^2\theta \right)
- I^b(\theta) \ud\theta
  &= 
 \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin\theta + 2 \sin^2\theta
 \right)\ud\theta
- \phi -
- \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin^2\theta + 2 \sin^3\theta \right)\ud\theta \frac{1}{\sigma} \pder{\phi_0}{y}
+ \,\phi -
+ \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin^2\theta + 2 \sin^3\theta \right)\ud\theta
+  \,\frac{1}{\sigma} \pder{\phi_0}{y}
   \\
  &= 
  \frac{1}{2\pi} \left( \frac{\pi}{2} [2] + 2 \frac{\pi}{2}
@@ -837,12 +838,13 @@ implementations, fewer random numbers are sampled per event and fewer expensive
 transcendental functions are evaluated. In the discrete ordinates method, only
 one azimuthal angle $\mu=0$ needs to be accounted for.
 
-We derived a Marshak diffusion boundary condition for flatland which uses $\pi
-\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}} \psi^b
-\ud\Omega$ and gives an extrapolation distance of about $0.7854$.
+We derived a Marshak diffusion boundary condition for flatland which uses only
+the first moment of the incident boundary source, $\pi
+\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}} I^b
+\ud\Omega$, and gives an extrapolation distance of about $0.7854$.
 The more accurate variational boundary condition given in
 Eq.~\eqref{eq:flatlandDiffusionVarBc} uses $\int_{\vec{\Omega}\vd\vec{n} < 0}
 \left[ \frac{\pi}{2} \abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2
-\right] \psi^b(\vec{x}, \vec{\Omega}) \ud\Omega$ with the extrapolation
+\right] I^b(\vec{x}, \vec{\Omega}) \ud\Omega$ with the extrapolation
 distance of about $0.8171$.
 

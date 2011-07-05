@@ -195,7 +195,11 @@ Through the
 mathematical process of linearization, it approximates the nonlinear terms in
 the TRT equations with linear terms over a short period of time. The
 linearization essentially models the process of absorption and
-black body re-emission of photons as isotropic ``pseudo-scattering.'' The linear
+black body re\"emission%
+\footnote{For a full discussion of the di\ae resis, refer to R.~McClarren's seminal
+work on the inclusion of pretentious footnotes in a dissertation
+\cite[p.18]{McC2007}.}%
+of photons as isotropic ``pseudo-scattering.'' The linear
 transport equation that results is solved with Monte Carlo to calculate the
 end-of-time-step radiation intensity.
 
@@ -208,13 +212,15 @@ example, a fine spatial grid with a large time step will produce the unphysical
 artifact known as a violation of the maximum principle.
 Additionally, to limit the statistical error (which typically shows up as
 random ``noise'' in the solution), the number of particles per
-space-time region must remain roughly constant. Finally, unlike linear Monte
+space-time region must remain roughly constant, typically $O(10)$ particles per
+cell \cite{McC2008}. Finally, unlike linear Monte
 Carlo methods, which only need to tally aspects of each particle, IMC requires
 that the full state of the radiation intensity be stored in computer memory.
 Therefore, getting an accurate fine-mesh answer with IMC can take a very large
 amount of computer time and memory.
 
-Other radically different Monte Carlo methods \cite{Bro1989,NKa1991,Cha2007a}
+Other radically different Monte Carlo methods \cite{Bro1989,NKa1991,Cha2007a,
+Den2004}
 have been developed to simulate TRT, but they will not be discussed further.
 
 Even though the IMC method is approximate, it is generally accepted to give
