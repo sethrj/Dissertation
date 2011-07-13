@@ -126,14 +126,14 @@ $\Psi$ satisfies the identities
 
 %In order to formulate transport-matched boundary conditions, 
 To proceed, we write $\Psi$ as the sum of
-an ``internal" solution $\tilde\Psi$ and a ``boundary layer" solution
+an ``interior" solution $\tilde\Psi$ and a ``boundary layer" solution
 $\Psi_\mathrm{bl}$:
 \begin{equation} \label{eq:boundaryLayerPsi}
   \Psi(\vec{x}, \vec{\Omega})
   = \tilde\Psi(\vec{x}, \vec{\Omega})
   + \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega})\,.
 \end{equation}
-The internal transport equation is just like Eq.~\eqref{eq:capPsiVol}:
+The interior transport equation is just like Eq.~\eqref{eq:capPsiVol}:
 \begin{subequations} \label{eqs:tCapPsi}
 \begin{equation} \label{eq:tCapPsiVol}
   \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega})
@@ -141,7 +141,7 @@ The internal transport equation is just like Eq.~\eqref{eq:capPsiVol}:
   = \frac{1}{4\pi} \grad \vd\vec{J}(\vec{x}) -
   \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})\,.
 \end{equation}
-We define incident boundary conditions for this internal solution
+We define incident boundary conditions for this interior solution
 to be
 \begin{equation}\label{eq:tCapPsiBndy}
  \tilde\Psi(\vec{x}, \vec{\Omega}) 
@@ -150,7 +150,7 @@ to be
 \end{equation}
 \end{subequations}
 where $\zeta$ is a to-be-determined function on the boundary.
-The boundary layer solution complements the internal solution, but is expected
+The boundary layer solution complements the interior solution, but is expected
 to tend to zero rapidly with distance from the outer boundary. Its transport
 equation has no internal source, and its boundary condition is
 Eq.~\eqref{eq:tCapPsiBndy} subtracted from Eq.~\eqref{eq:capPsiBndy}:

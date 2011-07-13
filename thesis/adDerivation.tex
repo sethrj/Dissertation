@@ -184,7 +184,7 @@ Equations \eqref{eq:capPsiVol},~\eqref{eq:capPsiBndy},%
 equation for $\Psi$; they are satisfied by the exact transport solution. No
 approximations have been made, but we have effectively replaced an isotropic
 source on the right-hand side with an anisotropic source that depends on
-angular moments of the intensity. This form is the starting point of the AD
+the zeroth and first moments of the intensity. This form is the starting point of the AD
 derivation.
 
 A later discussion section, \S\ref{sec:adDiscDiff}, describes how Fick's law can
@@ -208,7 +208,7 @@ on problem data such as $\sigma$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Modification for boundary condition treatment}
 In order to formulate transport-matched boundary conditions, we separate $\Psi$
-into an internal solution $\tilde\Psi$ and a boundary layer solution
+into an interior solution $\tilde\Psi$ and a boundary layer solution
 $\Psi_\mathrm{bl}$:
 \begin{equation} \label{eq:boundaryLayerPsi}
   \Psi(\vec{x}, \vec{\Omega}, t)
@@ -217,7 +217,7 @@ $\Psi_\mathrm{bl}$:
 \end{equation}
 
 \begin{subequations} \label{eqs:tCapPsi}
-  The internal transport equation resembles Eq.~\eqref{eq:capPsiBndy} and
+  The interior transport equation resembles Eq.~\eqref{eq:capPsiBndy} and
   accounts for the right hand side of the equation:
 \begin{multline} \label{eq:tCapPsiVol}
   \frac{1}{c} \pder{}{t}\tilde\Psi(\vec{x}, \vec{\Omega}, t)
@@ -231,7 +231,7 @@ $\Psi_\mathrm{bl}$:
 x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
 \end{multline}
 However, it does not need to use a physical boundary condition. We will
-define the incident boundary condition for the internal solution
+define the incident boundary condition for the interior solution
 to be
 \begin{equation} \label{eq:tCapPsiBndy}
  \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
@@ -251,7 +251,7 @@ Eq.~\eqref{eq:capPsiRefl}:
 \end{equation}
 for $\vec{x} \in \partial V_r$, $\vec{\Omega} \vd \vec{n} < 0$,
 $0 \le t \le \Delta_t$.
-Finally, the internal solution has the same initial condition as
+Finally, the interior solution has the same initial condition as
 Eq.~\eqref{eq:capPsiInit}:
 \begin{equation} \label{eq:tCapPsiInit}
  \tilde\Psi(\vec{x}, \vec{\Omega}, 0)
@@ -260,8 +260,9 @@ Eq.~\eqref{eq:capPsiInit}:
 \end{subequations}
 
 The corresponding transport problem for $\Psi_\mathrm{bl}$ is defined to
-satisfy the exact transport equations for $\Psi$ using the definition in
-Eq.~\eqref{eq:boundaryLayerPsi}.
+complement the interior solution, satisfying the exact transport equations for
+$\Psi$ using the definition in Eq.~\eqref{eq:boundaryLayerPsi} and tending to
+zero rapidly with distance from the outer boundary.
 \begin{subequations} \label{eqs:blCapPsi}
 It has the same left-hand side as Eq.~\eqref{eq:capPsiBndy} but no internal
 source:
@@ -297,18 +298,19 @@ Eq.~\eqref{eq:capPsiInit}:
 If we add Eqs.~\eqref{eqs:blCapPsi} to Eqs.~\eqref{eqs:tCapPsi}, we recover the
 original transport equation for $\Psi$. However, unlike the original transport
 equation,
-Eqs.~\eqref{eqs:tCapPsi} and~\eqref{eqs:blCapPsi} allow us to formulate boundary
+the separation of the interior and boundary layer transport equations allows us
+to formulate boundary
 conditions for the anisotropic diffusion method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Integral transport equation}
+\subsection{Integral transport equation}\label{sec:integralTransport}
 The integral transport equation is formulated \cite{Pri2010} by taking the
 right-hand side of a transport equation to be a known quantity, then integrating
 along the characteristic ray $\vec{\Omega}$, accumulating particles born along
-the ray and attenuating by collisions during their flight. Instead of considering
+the ray and attenuating by collisions during their flight. Instead of using
 the integral
 transport equation for $I$, we invert Eqs.~\eqref{eqs:tCapPsi} to express
-the internal solution $\tilde\Psi$ as an integral:
+the interior solution $\tilde\Psi$ as an integral:
 \begin{subequations} \label{eqs:inverseTransport}
   \begin{align} \label{eq:inverseTransportFull}
   \begin{split}
@@ -343,8 +345,8 @@ the internal solution $\tilde\Psi$ as an integral:
 \end{subequations}
 
 For brevity, we write Eq.~\eqref{eq:inverseTransportFull} as a sum of linear
-operators, each of which corresponds to the local contribution of a nonlocal
-particle source:
+operators, each of which corresponds to the contribution of a nonlocal
+particle source to the local point $(\vec{x},t)$:
 \begin{align} \nonumber
   \tilde\Psi(\vec{x}, \vec{\Omega}, t)
     &\equiv \lopinv{b}{\tilde\Psi^b}
@@ -368,11 +370,12 @@ No approximations or assumptions at all have been made yet. As a
 result, the inverse equation~\eqref{eq:inverseTransportFull} still contains
 the unknowns $\phi$ and $\vec{F}$ (as well as the exiting $\tilde\Psi$ on
 any reflecting boundaries), and the local value of
-$\tilde\Psi$ depends on the global value of those unknowns.
+$\tilde\Psi$ depends on the value of those unknowns along the entire
+characteristic ray.
 
-Our goal is to make reasonable approximations to this equation that yield a
+Our goal is to make reasonable assumptions that reduce this equation to a
 low-order approximation to $\vec{F}=\int_{4\pi}\vec{\Omega} \tilde\Psi
-\ud\Omega$, one which
+\ud\Omega$ that
 depends only on local unknowns and nonlocal knowns.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -426,13 +429,12 @@ Eq.~\eqref{eq:inverseTransportFull}):
     t-s/c)
     \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
-    \ud s
+    \ud s\,.
 \end{align*}
 This integral describes the contribution from the volumetric source  along
 $\vec{\Omega}$, evaluated at a prior
 point in time ($t-s/c$, the point along $s$ at which a particle would travel
-to $\vec{x}$ at time $t$), attenuated by the medium along the way (the
-$\eexp^{ -\tau }$ factor).
+to $\vec{x}$ at time $t$), attenuated by the medium along the way by collisions.
 
 We now make our first approximation by expanding the distant $\phi(\vec{x} - s
 \vec{\Omega}, t-s/c)$ about the local $\phi(\vec{x}, t)$ using
@@ -442,10 +444,7 @@ Eq.~\eqref{eq:taylorPhi}. Thus,
   = \grad \left[ \phi(\vec{x}, t) + O(\epsilon) \right]
   = \grad \phi(\vec{x}, t) + O(\epsilon^2).
 \end{equation*}
-The expansion is a good approximation if $\phi$ is smooth, especially because the
-$\eexp^{ -\tau }$ term exponentially attenuates the non-local components of the
-Taylor series as $s$ increases, assuming $\sigma\ne 0$ along the ray
-$\vec{\Omega}$.
+The expansion is a good approximation if $\phi$ is smooth.
 
 We can now move the unknown $\phi$ outside the integral,
 because it is no longer a function of $s$:
@@ -465,6 +464,9 @@ because it is no longer a function of $s$:
   \,.
 \end{align}
 
+Thus the function of nonlocal unknowns has been approximated by a nonlocal known, the
+$\lopinv{v}{\cdot}$ term, and a local unknown, $\phi(\vec{x},t)$.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Approximating the incident boundary integral term}
 \label{sec:adIncident}
@@ -480,8 +482,8 @@ The incident boundary term in Eq.~\eqref{eq:approxPsi1} is
 \end{multline*}
 It accounts for particles that start their life at a specified incident boundary
 inside the current time step and stream along $\vec{\Omega}$, attenuated by
-$\eexp^{-\tau}$ along their path. As the optical thickness between
-$(\vec{x})$ and the boundary increases, this term vanishes
+collisions along their path. As the optical thickness between
+$\vec{x}$ and the boundary increases, this term vanishes
 exponentially fast.
 
 Now we apply the Taylor series expansion from Eq.~\eqref{eq:taylorPhi} to
@@ -518,7 +520,7 @@ reduced to
 \end{align*}
 Now the decision to choose the particular form for the boundary condition in
 Eq.~\eqref{eq:tCapPsiBndy}
-is clear: under the systematic approximations made so far, the internal solution
+is clear: under the systematic approximations made so far, the interior solution
 $\tilde\Psi$ can be written
 \begin{equation*}
   \tilde\Psi(\vec{x}, \vec{\Omega}, t)
@@ -622,14 +624,14 @@ Here, we have defined
 which is an integral transport equation (see Eqs.~\eqref{eqs:inverseTransport}).
 Converting the integral transport equation to a differential
 transport equation, we see that $f$ is the solution of a purely absorbing
-transport equation with a uniform, isotropic source:
+problem with a uniform, isotropic source:
 \begin{subequations} \label{eqs:fFull}
   \begin{equation} \label{eq:fFullVol}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
     + \sigmast f (\vec{x}, \vec{\Omega})
   = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
   \end{equation}
-with to-be-determined boundary conditions where the incident radiation $I$ is specified,
+with to-be-determined boundary conditions where the incident radiation is specified,
 \begin{equation} \label{eq:fFullBndy}
   f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x}, \vec{\Omega}) \,,
  \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
@@ -648,7 +650,7 @@ accordingly restricted $\zeta$ to a function constant within the time step.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Approximate radiation flux}
-Now we have an equation for $\Psi(\vec{x}, \vec{\Omega}, t)$ as a
+Now we have an equation for $\tilde\Psi(\vec{x}, \vec{\Omega}, t)$ as a
 separable
 function of this simple transport equation $f(\vec{x}, \vec{\Omega})$ and the
 scalar intensity $\phi(\vec{x},t)$.
@@ -716,7 +718,7 @@ does not generally satisfy this identity:
 \vd \grad \phi(\vec{x}, t)\right]
 \ud\Omega
 \\
-0 &\qeq \int_{4\pi} \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega \,.
+\vec{0} &\qeq \int_{4\pi} \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega \,.
 \end{align*}
 However, on exterior source boundaries, because $\zeta$ is defined for incident
 directions and $f$ is known for exiting directions, we can choose $\zeta$ such
@@ -731,8 +733,7 @@ Eq.~\eqref{eq:fFullBndy}, we write
   + \int_{\vec{\Omega} \vd \vec{n} > 0}
   \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega\,.
 \end{align*}
-Now we set the left hand side to zero, demanding that
-Eq.~\eqref{eq:capPsiZeroth} be satisfied:
+Now we set the left hand side to zero to satisfy $\int_{4\pi} \tilde\Psi \ud\Omega = 0$:
 \begin{align}
   \label{eq:zetaCondition1}
   \int_{\vec{\Omega} \vd \vec{n} < 0}
@@ -791,17 +792,16 @@ but it straightforward and has the advantage that all half-space angular moments
 of $\zeta$ are equal to $f$, an identity that is used to derive Marshak-like
 boundary conditions later.
 
-An alternative condition can be derived that also assumes $f$ is azimuthally
-symmetric at the boundary. An azimuthally symmetric $f$ implies
+A more general condition than Eq.~\eqref{eq:zetaReflecting}, also valid if $f$ is
+azimuthally symmetric for outgoing directions, is to substitute the identity
 \begin{equation*}
   \int_{\vec{\Omega} \vd \vec{n} > 0}
   \vec{\Omega} f(\vec{x}, \vec{\Omega})\ud\Omega
   = \vec{n} 
   \int_{\vec{\Omega} \vd \vec{n} > 0}
-  (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
+  (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega
 \end{equation*}
-We can then demand an azimuthally symmetric $\zeta$, so that
-Eq.~\eqref{eq:zetaCondition1} becomes
+into Eq.~\eqref{eq:zetaCondition1} to give
 \begin{align} \nonumber
   -\vec{n} \int_{\vec{\Omega} \vd \vec{n} < 0}
   (\vec{n} \vd \vec{\Omega}) \zeta(\vec{x}, \vec{\Omega})\ud\Omega
@@ -818,7 +818,7 @@ boundary need be preserved. This allows, for example, a ``white'' boundary
 condition on $f$:
 \begin{equation}\label{eq:zetaWhite}
   \zeta(\vec{x}, \vec{\Omega})
-  = \frac{1}{4\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0}
+  = \frac{1}{\pi} \int_{\vec{\Omega}' \vd \vec{n} > 0}
   (\vec{\Omega}' \vd \vec{n} ) f(\vec{x}, \vec{\Omega}') \ud\Omega'
 \end{equation}
 which is an isotropic distribution with the same ``strength'' as the exiting
@@ -1037,7 +1037,7 @@ The reflecting boundary condition from Eq.~\eqref{eq:reflLo2} is
  \quad \vec{x} \in \partial V_r,\ 0 \le t \le \Delta_t \,.
 \end{equation*}
 
-The diffusion tensor is defined in Eq.~\eqref{eq:dDefinition},
+The anisotropic diffusion tensor is defined in Eq.~\eqref{eq:dDefinition},
 \begin{equation*}
   \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
@@ -1058,7 +1058,6 @@ Eqs.~\eqref{eqs:fFull}:
   f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
  \quad \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
-\end{subequations}
 On $\partial V_b$ where $I$ is specified, $f$ can take
 several suitable forms as discussed in \S\ref{sec:zeta}, but we will usually
 take the condition from Eq.~\eqref{eq:zetaReflecting}:
@@ -1067,6 +1066,7 @@ take the condition from Eq.~\eqref{eq:zetaReflecting}:
   \vec{\Omega}_r) \,,
  \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
+\end{subequations}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion discussion}
@@ -1100,48 +1100,38 @@ diffusion with linearly anisotropic scattering in reactors.)
 \subsection{Transport calculation for \texorpdfstring{$f$}{f}}
 
 The anisotropic diffusion tensors are calculated from $f$, the solution to the
-transport problem:
-\begin{equation*}
-    \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
-    + \sigmast f (\vec{x}, \vec{\Omega})
-  = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
-\end{equation*}
-with the boundary condition
-\begin{equation*}
-  f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
- \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,.
-\end{equation*}
-
-This is a purely absorbing transport problem with a unit isotropic source,
+purely absorbing transport problem in Eqs.~\eqref{eqs:fFull}  with a unit
+isotropic source,
 reflecting boundary conditions, and the same opacities as the physical problem
 being simulated. It is steady-state, although it needs to be recalculated at
 every time step as $\sigmast$ changes.\footnote{The problem for $f$ would also
-have to be recalculated at every iteration on the nonlinearities if the user
-wishes to converge $\sigmast \to \sigma^{n+1}$.}
+have to be recalculated at every iteration if it were desired to converge all
+nonlinearities in the diffusion solve.}
 
-Because it is purely absorbing, if the boundaries are many mean free paths
-apart, an \SN\ solution of $f$ will take just over one transport sweep to
-solve.
-%The reflecting boundaries mean that, if a Gauss--Seidel type
-%implementation \cite{Zik2000a} is used, all but the first boundary surface
-The transport equation has no scattering source to converge.
-There is, however, a caveat because of the opposing reflecting boundaries. If
+Were it not for the reflecting boundary condition, a discrete ordinates (\SN)
+solution for $f$ would take only one transport sweep to complete, because there
+is no scattering source to converge. However, because the boundary conditions
+rely on exiting values of $f$, it will in practice take more than one. The
+larger the optical thickness between boundaries, the faster the convergence will
+be: this poses a problem if
 two boundaries on opposite sides of the problem are separated by only a
-fraction of a mean free path (e.g., a voided channel), and a very fine angular
+fraction of a mean free path (e.g., a voided channel), especially if a very fine
+angular
 quadrature set is used (one with ordinates that are nearly perpendicular to the
-boundary), then $f$ will take many iterations to converge.
+boundary).
 
 The convergence problem can be obviated somewhat by taking advantage of a
 loophole left in the boundary condition function $\zeta$. Because the condition
 $\int_{4\pi} \vec{\Omega} f \ud\Omega$ allows for other angular shapes on the
 boundary, as shown by Eq.~\eqref{eq:zetaGeneral}, we could replace the
-offending boundary with one that converges more quickly.
+offending reflecting boundary with a white boundary, which should converge more
+quickly.
 
 Another desirable property of $f$ is that, because it is a steady-state
-solution, and because only the second moment
-$D^{ij}=\int_{4\pi} \Omega^i \Omega^j f \ud\Omega$ needs to be calculated, the
-full angle-dependent solution does not need to be stored! This is a tremendous
-advantage compared to time-dependent transport, which requires the
+solution, and because only the second angular moment
+needs to be calculated, the
+full angle-dependent solution does not need to be stored. This is a tremendous
+advantage over traditional time-dependent transport methods, which require the
 memory-intensive storage of $I(\vec{x},\vec{\Omega},t)$.
 
 If the problem is homogeneous ($\sigmast$ is constant), then the solution is
@@ -1171,7 +1161,7 @@ Equivalently, the component in row $i$, column $j$ of $\Dtens$ is
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,,
 \end{equation}
 where $\Omega^i$ is the $i$th component of the angular vector $\vec{\Omega}$
-(e.g., $i=1$ corresponds to $\mu$).
+(e.g., $i=1$ corresponds to the polar cosine angle $\mu$).
 
 \subsubsection{Fick's law}
 Fick's law for diffusion states that a gradient in $\phi$ will induce particles
@@ -1182,7 +1172,7 @@ to flow from the area of higher density to lower density along the gradient:
 
 The anisotropic diffusion tensor implies that a gradient in $\phi$ can induce
 particle flow in a direction \emph{other than the direction of the gradient}. In
-2-D, the anisotropic Fick's law looks like:
+2-D, the anisotropic Fick's law has the form
 \begin{align*}
   \vec{F} &= - \Dtens \vd \grad \phi
   \\
@@ -1210,15 +1200,15 @@ diffusion gives the leakage term
   F^x = - D \pder{\phi}{x}\,.
 \end{equation*}
 
-However, anisotropic diffusion 
+However, anisotropic diffusion has the following leakage term:
 \begin{equation*}
-  F^x = - D^{xx} \pder{\phi}{x} - D^{yx} \pder{\phi}{y}\,,
+  F^x = - D^{xx} \pder{\phi}{x} - D^{yx} \pder{\phi}{y}\,.
 \end{equation*}
 We refer to the leakage normal to the face, $- D^{xx} \pder{\phi}{x}$, as
-``normal'' leakage; the leakage perpendicular to the face, $- D^{yx}
+``normal'' leakage; the leakage along the face, $- D^{yx}
 \pder{\phi}{y}$, we term the ``transverse'' leakage. As we will see in
 chapter~\ref{chap:implementation}, the transverse leakage adds a layer of
-complexity in anisotropic diffusion discretization schemes that is not present
+complexity to anisotropic diffusion discretization schemes that is not present
 in standard diffusion discretizations.
 
 \subsubsection{Limited magnitude}
@@ -1230,8 +1220,8 @@ As $\sigma\to0$ locally, $D\to \infty$. An infinite diffusion coefficient in a
 region gives a spatially constant $\phi$, which is virtually always an
 unphysical solution.
 
-In contrast to standard diffusion, the anisotropic diffusion approximation gives
-a \emph{nonlocal} diffusion tensor. Since $f(\vec{x}, \vec{\Omega})$ remains
+In contrast to standard diffusion, the anisotropic diffusion approximation has
+a \emph{nonlocal} dependence on $\sigma$ through $f(\vec{x}, \vec{\Omega})$. Since $f$ remains
 bounded, even when $\sigma=0$ at some point, $\Dtens$ will also remain bounded.
 
 \subsubsection{Symmetric positive definiteness}
@@ -1272,8 +1262,9 @@ If $\vec{a}$ is an eigenvector of $\Dtens$, then
 \begin{equation*}
   \Dtens \vd \vec{a} = \lambda \vec{a}\,,
 \end{equation*}
-where $\lambda$ is a constant. Dotting Eq.~\eqref{eq:dDefinition} with
-$\vec{a}$ and omitting the $\vec{x}$ parameter for brevity, we find
+where $\lambda$ is a constant. Taking the dot product of the diffusion tensor's
+definition in Eq.~\eqref{eq:dDefinition} and
+$\vec{a}$, omitting the $\vec{x}$ parameter for brevity, we find
 \begin{align*}
   \Dtens \vd \vec{a}
   &= \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \vec{a}
@@ -1287,7 +1278,7 @@ If $f$ is azimuthal about $\vec{a}$, then
   &= \int_{4\pi} (\vec{\Omega} \vd \vec{a}) \vec{\Omega}
     \hat f(\vec{\Omega} \vd \vec{a}) \ud\Omega \,.
 \end{align*}
-We change the angular coordinates so that $\vec{i}=\vec{a}$, which means
+We choose an angular coordinate system where $\vec{i}=\vec{a}$, giving
 $\vec{\Omega} \vd \vec{a}=\mu$:
 \begin{align*}
   \Dtens \vd \vec{a}
@@ -1295,7 +1286,7 @@ $\vec{\Omega} \vd \vec{a}=\mu$:
   \left( \mu \vec{a} + \sqrt{1-\mu^2} \cos \theta \vec{u} + \sqrt{1-\mu^2} \sin
   \theta \vec{v} \right) \hat f(\mu) \ud\mu \ud\theta \,.
 \end{align*}
-Because $\hat f$ is not a function of $\theta$, the integrand is an
+Because $\hat f$ is \emph{not} a function of $\theta$, the integrand is an
 odd function of $\theta$, so the $\vec{u}$ and $\vec{v}$ components are zero.
 \begin{align*}
   \Dtens \vd \vec{a}
@@ -1315,23 +1306,24 @@ If the opacity of the problem varies only along one particular direction
 $\vec{a}$, then the
 solution $f(\vec{x},\vec{\Omega})$ is only a function of $\vec{x}\vd \vec{a}$
 and $\vec{\Omega} \vd \vec{a}$. Then, $\vec{a}$ is an eigenvector of $\Dtens$,
-and the SPD property implies that vectors perpendicular to $\vec{a}$ are also
+and the SPD property implies that vectors perpendicular to $\vec{a}$ are \emph{also}
 eigenvectors of $\Dtens$.
 
 Thus, if $\sigma$ in a 3-D problem varies only along
-the $x$ axis, then the vectors along \emph{each} axis are
+the $x$ axis, then the vectors along \emph{each} primary axis are
 eigenvectors of $\Dtens$: i.e., the diffusion tensor has only
 components along the diagonal, and there is no transverse leakage on any
 Cartesian face in the problem. For example, the 2-D VHTR problem in
 \cite{Lar2009c} featured a total cross section that varied only along the $x$
 axis. Therefore, even though the physical problem was a function of $(x,y)$
-because of the isotropic source term, the diffusion tensor had
+because of the problem's source term, the diffusion tensor had
 $D^{xy}=D^{yx}=0$, allowing the use of a very simple spatial discretization.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Properties of the anisotropic diffusion approximation}
 
-The previous section showed that $\Dtens$ is SPD. The ``anisotropic Fick's law''
+The previous section showed that $\Dtens$ is SPD, which implies that the
+anisotropic diffusion is self-adjoint. The ``anisotropic Fick's law''
 in Eq.~\eqref{eq:anisotropicFicks} is therefore self-adjoint, so many reasonable
 discretizations of the anisotropic diffusion equations will be SPD as well,
 allowing
@@ -1339,7 +1331,7 @@ solution by the conjugate gradient (CG) method \cite{Tre1997}. This is in
 contrast to quasidiffusion methods (see \S\ref{sec:bgPn}), which require a
 more computationally expensive solver such as GMRES \cite{War2003}.
 
-Another property of the anisotropic diffusion approximation is that, like
+Another property of the time-dependent anisotropic diffusion approximation is that, like
 standard diffusion, it is parabolic \cite{Pom1982,Ols2000}, allowing
 radiation energy to propagate faster than the speed of light. The exact
 intensity always satisfies the relation (see \S\ref{sec:bgFld})
@@ -1349,18 +1341,20 @@ intensity always satisfies the relation (see \S\ref{sec:bgFld})
 Yet the new anisotropic Fick's law, Eq.~\eqref{eq:anisotropicFicks}, can violate
 this relation:
 \begin{equation*}
-  \norm{\vec{F}} = \norm{\Dtens \vd \grad \phi}
+  \norm{\vec{F}} = \norm{\Dtens \vd \grad \phi} \le \phi
 \end{equation*}
 if either $\Dtens$ or $\grad \phi$ is very large. The interpretation is also
 less clear than with standard diffusion.
 
-The anisotropic diffusion approximation for $\Psi$, as stated in
-Eq.~\eqref{eq:approxPsi3},
+TODO: fix these next two paragraphs
+
+The anisotropic diffusion approximation for $I$ is
 \begin{equation*}
-\Psi(\vec{x}, \vec{\Omega}, t) = - f(\vec{x}, \vec{\Omega})
-\vec{\Omega}\vd \grad \phi(\vec{x}, t)\,,
+I(\vec{x}, \vec{\Omega}, t)
+=  \frac{1}{4\pi}\phi(\vec{x}, t) + \tilde\Psi(\vec{x}, \vec{\Omega}, t)
+= - f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,.
 \end{equation*}
-is $O(\epsilon)$. The transport solution for $f$ is $O(1)$; it is roughly the
+The transport solution for $f$ is $O(1)$; it is roughly the
 same magnitude as the opacity in the problem. $\grad \phi$ is $O(\epsilon)$.
 Multiplying the equation by $\vec{\Omega}$ and integrating yields an $O(1)$
 diffusion tensor and the $O(\epsilon)$ gradient, so $\vec{F}$ is $O(\epsilon)$
@@ -1396,8 +1390,8 @@ for $\Psi$, we get
   &= \frac{1}{4\pi} \grad \vd\vec{F}
   - \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
 \end{align*}
-(The function arguments have been omitted for brevity.)
-Taking the first moment of this equation and operating on it by $\int_{4\pi}
+The function parameters have been omitted for brevity.
+Taking the first angular moment of this equation with $\int_{4\pi}
 \vec{\Omega}(\cdot) \ud\Omega$ yields
 \begin{multline*}
 \frac{3}{4\pi} \left( \int_{4\pi} \vec{\Omega}\vec{\Omega}\ud\Omega \right) \vd
@@ -1416,15 +1410,13 @@ Taking the first moment of this equation and operating on it by $\int_{4\pi}
 Now, basic vector identities \cite{Lar2007} reduce the parenthesized
 quantities to very manageable expressions: $\int_{4\pi}
 \vec{\Omega}\vec{\Omega}\ud\Omega=\frac{4\pi}{3}\Identitytens$, and the odd
-multiples of $\vec{\Omega}$ integrated over the unit sphere are zero. Thus,
+multiples of $\vec{\Omega}$ integrated over the unit sphere are zero. Simplified,
+the equation becomes the standard \Pone\ equation:
 \begin{equation*}
   \frac{1}{c} \pder{}{t} \vec{F}
   + \sigmast \vec{F}
-  =
-  - \frac{1}{3} \grad \phi\,.
+  = - \frac{1}{3} \grad \phi\,.
 \end{equation*}
-This is the standard \Pone{} equation, although it was formulated in an
-admittedly unusual way.
 
 Now if we neglect the time derivative of the radiation flux, making the
 quasi-static approximation, we recover Fick's law:
@@ -1467,7 +1459,7 @@ To derive the anisotropic diffusion method, we:
   \item made assumptions about the strength of the solution's gradients and
     anisotropy;
   \item used Taylor series to approximate nonlocal unknowns with local
-    unknowns and discarding small terms;
+    unknowns and discarded small terms;
   \item applied a transport-matching procedure to $\Psi_\mathrm{bl}$ 
     and used the identity $\int_{4\pi} \Psi \ud\Omega=0$ to find boundary
     conditions for $f$ and $\phi$;
@@ -1476,15 +1468,16 @@ To derive the anisotropic diffusion method, we:
   \item substituted $\vec{F}$ into the time-dependent particle conservation
     equation.
 \end{enumerate}
-The result of this procedure are two sets of equations. The first set of
-equations is a simple transport equation for $f$, whose second angular moment is
+This procedure results in two simple sets of equations. The first set
+is a simple transport equation for $f$, whose second angular moment is
 the anisotropic diffusion tensor $\Dtens$. The second set of equations uses
 $\Dtens$ to approximate the flow of radiation inside a time step. 
 
 These equations limit to the standard diffusion approximation in a homogeneous
-medium, but they do not make the diffusion approximation that $I$ is linear in
+medium, but they do not make the diffusion approximation that the radiation
+intensity is linear in
 angle. We therefore expect the AD method to give much more accurate answers
-where $I$ is a complex function of angle.
+where the intensity is a complex function of angle.
 Chapters~\ref{chap:simpleNumericalResults}
 and~\ref{chap:trtNumericalResults} will put this expectation to the test.
 

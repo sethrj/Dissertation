@@ -23,8 +23,9 @@ Taylor expansion would yield an extra term:
 resulting in
 \begin{equation*}
   \vec{F}(\vec{x}, t)
-  \approx - \Dtens \vd \grad \phi(\vec{x},t)
-  + \left\{ \int_{4\pi} \vec{\Omega} \lopinv{v}{ \frac1{4\pi} } \ud\Omega
+  \approx - \left\{ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x},\vec{\Omega},t) \ud\Omega
+  \right\} \vd \grad \phi(\vec{x},t)
+  + \left\{ \int_{4\pi} \vec{\Omega} f(\vec{x},\vec{\Omega},t) \ud\Omega
   \right\} \grad \vd \vec{F}(\vec{x},t)
 \end{equation*}
 
