@@ -1,0 +1,58 @@
+// dot -O -Tpdf semi-implicit-blank.dot && open semi-implicit-blank.dot.pdf
+digraph G {
+//size="7.0, 4.0"
+ranksep=0.5
+subgraph cluster_0 {
+label="Initial conditions"
+	node [shape = box, fontsize = 11 ];
+	phi [label="  "];
+	um [label="  "];
+}
+subgraph cluster_1 {
+label="Problem physics"
+	node [shape = box, fontsize = 11 ];
+	sigmamodel [label="  "];
+	cvmodel [label="  "];
+	radsource [label="  "];
+	deltat [label="  "];
+}
+subgraph cluster_2 {
+label="Linear transport equation"
+	node [shape = box, fontsize = 11 ];
+	sigmat [label="  "];
+	sigmas [label="  "];
+	q [label="  "];
+	ddt [label="  "];
+	node [shape = box, style=dotted ];
+	dcoeff [label="  "]
+	fldcoeff [label="  "]
+}
+	node [shape = box, fontsize = 11  ];
+	tmat [label="  "]
+	sigma [label="  "]
+	beta [label="  "]
+	f [label="  "]
+	tmat -> um;
+	beta -> cvmodel;
+	beta -> tmat;
+	sigma -> tmat;
+	sigma -> sigmamodel;
+	f -> sigma;
+	f -> beta;
+	f -> deltat;
+// time derivative
+	ddt -> deltat;
+	ddt -> phi;
+// physics
+	sigmat -> sigma;
+	sigmas -> sigma;
+	sigmas -> f;
+	q -> radsource;
+	q -> f;
+	edge[style=dotted];
+	dcoeff -> sigma;
+	fldcoeff -> sigma;
+	fldcoeff -> phi;
+//}
+}
+

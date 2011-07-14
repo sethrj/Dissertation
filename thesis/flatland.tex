@@ -541,10 +541,10 @@ In 1-D, 2-D, and 3-D geometries, this evaluates to
 = \phi + 2 D \vec{n} \vd \grad \phi\,,
 \end{equation*}
 but in flatland it is
-\begin{equation*}
+\begin{equation}\label{eq:flatlandDiffusionMarshak}
 \pi F^{-}
 = \phi + \frac{\pi}{2} D \vec{n} \vd \grad \phi\,.
-\end{equation*}
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Variational boundary condition} \label{sec:varBndy}
@@ -749,8 +749,8 @@ low-order boundary conditions.
 
 We begin with a time-dependent transport equation with isotropic scattering,
 using the angular moments from Table~\ref{tab:angularMoments}:
-\begin{subequations} \label{eqs:fullTransport}
-\begin{multline} \label{eq:fullTransportVol}
+\begin{subequations} \label{eqs:flatfullTransport}
+\begin{multline} \label{eq:flatfullTransportVol}
   \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega}, t)
     + \sigmast(\vec{x}) I (\vec{x}, \vec{\Omega}, t)
@@ -761,13 +761,13 @@ using the angular moments from Table~\ref{tab:angularMoments}:
 x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in \Omega\,.
 \end{multline}
 We take the case of an incident radiation source on the boundary:
-\begin{equation} \label{eq:fullTransportBndy}
+\begin{equation} \label{eq:flatfullTransportBndy}
   I(\vec{x}, \vec{\Omega}, t) = I^b(\vec{x}, \vec{\Omega}, t) \,,
- \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0,
  \ 0 \le t \le \Delta_t\,.
 \end{equation}
 The intensity has the initial condition
-\begin{equation} \label{eq:fullTransportInit}
+\begin{equation} \label{eq:flatfullTransportInit}
  I(\vec{x}, \vec{\Omega}, 0) = I^i(\vec{x}, \vec{\Omega}) \,,
  \quad \vec{x} \in V, \ \vec{\Omega} \in \Omega\,,
 \end{equation}
@@ -776,10 +776,10 @@ which is usually the solution from the previous time step.
 For the sake of simplicity, we do not consider reflecting boundaries, as their
 formulation is identical to the previous derivation of the AD approximation.
 
-Operating on Eq.~\eqref{eq:fullTransportVol} by $\int_{\Omega} (\cdot) \ud
+Operating on Eq.~\eqref{eq:flatfullTransportVol} by $\int_{\Omega} (\cdot) \ud
 \Omega$ gives the radiation energy conservation equation,
-\begin{subequations} \label{eqs:loEquations}
-\begin{equation} \label{eq:loVol}
+\begin{subequations} \label{eqs:flatloEquations}
+\begin{equation} \label{eq:flatloVol}
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
   + \grad \vd\vec{F}(\vec{x}, t)
   + \sigmast(\vec{x}) \phi(\vec{x}, t)
@@ -787,16 +787,16 @@ Operating on Eq.~\eqref{eq:fullTransportVol} by $\int_{\Omega} (\cdot) \ud
   = Q(\vec{x}, t)\,,
 \end{equation}
 for $\vec{x} \in V$ and $0 \le t \le \Delta_t$.
-Doing the same to the initial condition, Eq.~\eqref{eq:fullTransportInit}, gives 
-\begin{equation} \label{eq:loInit}
-\phi(\vec{x}, 0) = \int_{4\pi}  I^i(\vec{x},
+Doing the same to the initial condition, Eq.~\eqref{eq:flatfullTransportInit}, gives 
+\begin{equation} \label{eq:flatloInit}
+\phi(\vec{x}, 0) = \int_{\Omega}  I^i(\vec{x},
 \vec{\Omega}) \ud\Omega = \phi^i(\vec{x})\,, \vec{x} \in V  \,.
 \end{equation}
 \end{subequations}
-Adding $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:loVol},
+Adding $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:flatloVol},
 multiplying by $\frac{1}{\omega_0}$, and subtracting from
-Eq.~\eqref{eq:fullTransportVol}, we cancel the isotropic radiation source to get
-\begin{equation} \label{eq:capPsiVol}
+Eq.~\eqref{eq:flatfullTransportVol}, we cancel the isotropic radiation source to get
+\begin{equation} \label{eq:flatcapPsiVol}
   \frac{1}{c} \pder{}{t}\Psi(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \Psi(\vec{x}, \vec{\Omega}, t)
     + \sigmast(\vec{x}) \Psi(\vec{x}, \vec{\Omega}, t)
@@ -804,30 +804,30 @@ Eq.~\eqref{eq:fullTransportVol}, we cancel the isotropic radiation source to get
   \frac{1}{\omega_0} \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,,
 \end{equation}
 where we have defined
-\begin{equation} \label{eq:capPsi}
+\begin{equation} \label{eq:flatcapPsi}
   \Psi(\vec{x}, \vec{\Omega}, t) \equiv I(\vec{x}, \vec{\Omega}, t) -
   \frac{1}{\omega_0} \phi(\vec{x}, t)\,.
 \end{equation}
 As before, by construction, its zeroth angular moment is zero, and its first
 angular moment is $\vec{F}$.
 
-Subtracting $\phi/\omega_0$ from Eq.~\eqref{eq:fullTransportBndy} gives the
+Subtracting $\phi/\omega_0$ from Eq.~\eqref{eq:flatfullTransportBndy} gives the
 boundary condition
-\begin{equation} \label{eq:capPsiBndy}
+\begin{equation} \label{eq:flatcapPsiBndy}
  \Psi(\vec{x}, \vec{\Omega}, t) 
-  =I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)\,,
+  =I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{\omega_0} \phi(\vec{x}, t)\,,
 \end{equation}
-and subtracting from Eq.~\eqref{eq:fullTransportInit} gives the initial
+and subtracting from Eq.~\eqref{eq:flatfullTransportInit} gives the initial
 condition
 \begin{equation} 
-\label{eq:capPsiInit}
+\label{eq:flatcapPsiInit}
  \Psi(\vec{x}, \vec{\Omega}, 0)
- = I^i(\vec{x}, \vec{\Omega}) - \frac1{4\pi} \phi^i(\vec{x})
+ = I^i(\vec{x}, \vec{\Omega}) - \frac1{\omega_0} \phi^i(\vec{x})
  \equiv \Psi^i(\vec{x}, \vec{\Omega}, t)
  \,.
 \end{equation}
-Equations \eqref{eq:capPsiVol},~\eqref{eq:capPsiBndy},%
-~\eqref{eq:capPsiRefl}, and~\eqref{eq:capPsiInit} form the transport
+Equations \eqref{eq:flatcapPsiVol},~\eqref{eq:flatcapPsiBndy},
+and~\eqref{eq:flatcapPsiInit} form the transport
 equation for $\Psi$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -835,7 +835,7 @@ equation for $\Psi$.
 
 We separate $\Psi$ into an interior solution $\tilde\Psi$ and a boundary layer
 solution $\Psi_\mathrm{bl}$:
-\begin{equation} \label{eq:boundaryLayerPsi}
+\begin{equation} \label{eq:flatboundaryLayerPsi}
   \Psi(\vec{x}, \vec{\Omega}, t)
   = \tilde\Psi(\vec{x}, \vec{\Omega}, t)
   + \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)\,,
@@ -843,55 +843,55 @@ solution $\Psi_\mathrm{bl}$:
 defined so that the boundary solution tends rapidly to zero away from the
 problem's exterior surface.
 
-\begin{subequations} \label{eqs:tCapPsi}
+\begin{subequations} \label{eqs:flattCapPsi}
   The interior transport equation accounts for the right hand side of the equation:
-\begin{multline} \label{eq:tCapPsiVol}
+\begin{multline} \label{eq:flattCapPsiVol}
   \frac{1}{c} \pder{}{t}\tilde\Psi(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega}, t)
     + \sigmast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
   \\
-  = \frac{1}{4\pi} \grad \vd\vec{F}(\vec{x}, t) -
-  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x}, t)
+  = \frac{1}{\omega_0} \grad \vd\vec{F}(\vec{x}, t) -
+  \frac{1}{\omega_0} \vec{\Omega}\vd \grad \phi(\vec{x}, t)
   \equiv \hat Q(\vec{x}, \vec{\Omega}, t)\,,
-  \qquad
-x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
+  \quad
+x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in \Omega.
 \end{multline}
 We define the incident boundary condition for the interior solution
 to be
-\begin{equation} \label{eq:tCapPsiBndy}
+\begin{equation} \label{eq:flattCapPsiBndy}
  \tilde\Psi(\vec{x}, \vec{\Omega}, t) 
   = - \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
   \equiv \tilde\Psi^b(\vec{x}, \vec{\Omega}, t) \,,
 \end{equation}
 and the interior solution has the same initial condition as
-Eq.~\eqref{eq:capPsiInit}:
-\begin{equation} \label{eq:tCapPsiInit}
+Eq.~\eqref{eq:flatcapPsiInit}:
+\begin{equation} \label{eq:flattCapPsiInit}
  \tilde\Psi(\vec{x}, \vec{\Omega}, 0)
  = \Psi^i(\vec{x}, \vec{\Omega}, t)\,.
 \end{equation}
 \end{subequations}
 
-\begin{subequations} \label{eqs:blCapPsi}
+\begin{subequations} \label{eqs:flatblCapPsi}
 The boundary layer solution has no internal source:
-\begin{equation} \label{eq:blCapPsiVol}
+\begin{equation} \label{eq:flatblCapPsiVol}
   \frac{1}{c} \pder{}{t}\Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
     + \sigmast(\vec{x}) \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t)
   = 0\,, \quad
-x \in V, \ \vec{\Omega} \in 4\pi,\  0 \le t \le \Delta_t.
+x \in V, \ \vec{\Omega} \in \Omega.,\  0 \le t \le \Delta_t.
 \end{equation}
 The incident boundary condition accounts for the true incident boundary source
 as well as the $\zeta$ term we introduced:
-\begin{equation} \label{eq:blCapPsiBndy}
+\begin{equation} \label{eq:flatblCapPsiBndy}
  \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
-  = I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+  = I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{\omega_0} \phi(\vec{x}, t)
   + \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
   \equiv \Psi_\mathrm{bl}^b(\vec{x}, \vec{\Omega}, t) \,.
 \end{equation}
 Because $\tilde\Psi$ accounts for the initial condition, the initial
 condition for $\Psi_\mathrm{bl}$ is zero:
-Eq.~\eqref{eq:capPsiInit}:
-\begin{equation} \label{eq:blCapPsiInit}
+Eq.~\eqref{eq:flatcapPsiInit}:
+\begin{equation} \label{eq:flatblCapPsiInit}
  \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, 0)
  = 0\,.
 \end{equation}
@@ -925,20 +925,16 @@ same form as that given in \S\ref{sec:integralTransport}:
     + \lopinv{i}{\Psi^i}
     + \lopinv{v}{\hat Q}
 \end{align*}
-However, $\hat Q$ is defined in terms of $\omega_0$ rather than $4\pi$, so the
+However, $\hat Q$ is defined in terms of $\omega_0$ rather than $\omega_0$, so the
 flatland integral transport equation for the interior solution becomes
-\begin{align} \label{eq:inverseTransportBrief}
-  \begin{split}
+\begin{align} \label{eq:flatinverseTransportBrief}
     \tilde\Psi(\vec{x}, \vec{\Omega}, t)
     &\equiv
-    -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V_b}
-    + \lopinv{b}{\tilde\Psi(\vec{x}, \vec{\Omega}_r, t)}_{\partial V_r}
+    -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V}
     + \lopinv{i}{\Psi^i}
-  \\&\qquad
-    + \lopinv{v}{\frac{1}{4\pi} \grad \vd\vec{F} }
-    - \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
+    + \lopinv{v}{\frac{1}{\omega_0} \grad \vd\vec{F} }
+    - \lopinv{v}{\frac{1}{\omega_0} \vec{\Omega}\vd \grad \phi}
     \,.
-  \end{split}
 \end{align}
 
 blah blah simplifications, it's exactly the same as before
@@ -948,48 +944,175 @@ The result of these machinations is an approximate expression for $\tilde\Psi$:
 \begin{align} \nonumber
   \tilde\Psi
   &\approx 
-- \lopinv{b}{\zeta}_{\partial V_b} \vec{\Omega}\vd \grad \phi
-- \lopinv{v}{\frac{1}{4\pi}}  \vec{\Omega}\vd \grad \phi
-\\ \label{eq:approxPsi2}
+- \lopinv{b}{\zeta}_{\partial V} \vec{\Omega}\vd \grad \phi
+- \lopinv{v}{\frac{1}{\omega_0}}  \vec{\Omega}\vd \grad \phi
+\\ \label{eq:flatapproxPsi2}
   \tilde\Psi &= 
-- \left\{ \lopinv{b}{\zeta}_{\partial V_b} 
-+ \lopinv{v}{\frac{1}{4\pi}} \right\} \vec{\Omega}\vd \grad \phi
-\\ \label{eq:approxPsi3}
+- \left\{ \lopinv{b}{\zeta}_{\partial V} 
++ \lopinv{v}{\frac{1}{\omega_0}} \right\} \vec{\Omega}\vd \grad \phi
+\\ \label{eq:flatapproxPsi3}
 \tilde\Psi(\vec{x}, \vec{\Omega}, t) &= - f(\vec{x}, \vec{\Omega})
 \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,.
 \end{align}
 Here, $f$ is a flatland transport problem with a unit isotropic source, just
 like in the standard derivation:
-\begin{subequations} \label{eqs:fFull}
-  \begin{equation} \label{eq:fFullVol}
+\begin{subequations} \label{eqs:flatfFull}
+  \begin{equation} \label{eq:flatfFullVol}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
     + \sigmast f (\vec{x}, \vec{\Omega})
-  = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in \Omega\,,
+  = \frac{1}{\omega_0} \,, \quad x \in V,\ \vec{\Omega} \in \Omega\,,
   \end{equation}
 with to-be-determined boundary conditions where the incident radiation is specified,
-\begin{equation} \label{eq:fFullBndy}
+\begin{equation} \label{eq:flatfFullBndy}
   f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x}, \vec{\Omega}) \,,
- \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
 \end{subequations}
 
-We use the property from Eq.~\eqref{eq:capPsiFirst}
-that the first moment of $\Psi$ is the flux $\vec{F}$. Operating on 
-Eq.~\eqref{eq:approxPsi3} by $\int_{4\pi} \vec{\Omega} (\cdot) \ud\Omega$, we
-get
-the following simple expression:
+Operating on Eq.~\eqref{eq:flatapproxPsi3} by $\int_{\Omega} \vec{\Omega} (\cdot)
+\ud\Omega$ gives the anisotropic Fick's law, where all of the information about
+the geometry is embedded in $\Dtens$ and the transport equation for $f$:
 \begin{align} \nonumber
   \vec{F}(\vec{x}, t)
-  &= \int_{4\pi} \vec{\Omega} \tilde \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
+  &= \int_{\Omega} \vec{\Omega} \tilde \Psi(\vec{x}, \vec{\Omega}, t) \ud\Omega
   \\ \nonumber
   &= 
-  - \left[ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x}, \vec{\Omega})
+  - \left[ \int_{\Omega} \vec{\Omega} \vec{\Omega} f(\vec{x}, \vec{\Omega})
   \ud\Omega \right]
   \vd \grad \phi(\vec{x},t)
-  \\ \label{eq:anisotropicFicks}
+  \\ \label{eq:flatanisotropicFicks}
   &= - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
 \end{align}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Boundary conditions}
+
+Demanding that the zeroth moment of $f$ be zero on the boundary gives a
+condition for $\zeta$, the same as Eq.~\eqref{eq:zetaGeneral}.
+\begin{equation*}
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \abs{\vec{n} \vd \vec{\Omega}} \zeta(\vec{x}, \vec{\Omega}) \ud\Omega
+  = \int_{\vec{\Omega} \vd \vec{n} > 0}
+  (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega\,.  
+\end{equation*}
+This can be interpreted as a reflecting boundary as in
+Eq.~\eqref{eq:zetaReflecting}, 
+\begin{equation*}
+  \zeta(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0 \,.
+\end{equation*}
+It can also take the form of a white boundary, where $\zeta$ is isotropic:
+\begin{align*}
+  \int_{\vec{\Omega} \vd \vec{n} < 0}
+  \abs{\vec{n} \vd \vec{\Omega}} \ud\Omega\, \zeta(\vec{x}) 
+  &= \int_{\vec{\Omega} \vd \vec{n} > 0}
+  (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega
+  \\
+  \frac{\omega_1}{2} \zeta(\vec{x}) 
+  &= \int_{\vec{\Omega} \vd \vec{n} > 0}
+  (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega
+  \\
+  \zeta(\vec{x},\vec{\Omega})
+  &= \frac{2}{\omega_1} \int_{\vec{\Omega}' \vd \vec{n} > 0}
+  (\vec{\Omega}' \vd \vec{n} ) f(\vec{x}, \vec{\Omega}') \ud\Omega'\,.
+\end{align*}
+This is the general-geometry form of Eq.~\eqref{eq:zetaWhite}, where
+$\frac{2}{\omega_1}=\frac{1}{\pi}$ in normal space but $\frac{2}{\omega_1}=2$ in
+flatland.
+
+To derive low-order incident boundary conditions, we take the same approach as
+\S\ref{sec:varBndy}, where we \textsl{(i)}~set up a homogeneous,
+purely scattering problem with uniform incident boundary conditions, then
+\textsl{(ii)}~hypothesized a leading-order isotropic exiting intensity, and
+\textsl{(iii)}~derived an expression for the magnitude of the intensity far from
+the boundary. We desire the magnitude of $\Psi_\mathrm{bl}$, formulated in 
+Eqs.~\eqref{eqs:flatblCapPsi}, to approach zero under the variational
+approximation in flatland.
+
+First, we rewrite the variational condition Eq.~\eqref{eq:varBoundary} in terms
+of a general coordinate system rather than $\vec{n}=-\vec{j}$:
+\begin{equation}\label{eq:varBoundaryGeneral}
+  \varphi = 2 \int_{\vec{\Omega}\vd \vec{n} < 0}
+  \left[ \frac{\pi}{4} \abs{\vec{\Omega}\vd \vec{n}} + \left( \vec{\Omega}\vd \vec{n}
+  \right)^2 \right] I^b(\vec{\Omega})
+  \ud \Omega\,.
+\end{equation}
+Now, using $\Psi_\mathrm{bl}^b$ rather than $I^b$,
+setting $\varphi=\phi(\infty)$ to zero, and substituting $\Psi_\mathrm{bl}^b$ from
+Eq.~\eqref{eq:flatblCapPsiBndy}, we have the flatland variational boundary
+condition
+\begin{equation*}% \label{eq:varBoundaryAd}
+  0 = 2 \int_{\vec{\Omega}\vd \vec{n} < 0}
+  \left[ \frac{\pi}{4} \abs{\vec{\Omega}\vd \vec{n}}
+  + \left( \vec{\Omega}\vd \vec{n}
+  \right)^2 \right]
+  \left[ I^b(\vec{\Omega}) - \frac{1}{2\pi} \phi
+  + \zeta(\vec{\Omega}) \vec{\Omega}\vd \grad \phi \right]
+  \ud \Omega\,.
+\end{equation*}
+Rearranging, we find the flatland variational boundary condition to be the
+following:
+\begin{equation}\label{eq:flatBcInc1}
+  \int_{\vec{\Omega}\vd \vec{n} < 0}
+  \left[ \frac{\pi}{2} \abs{\vec{\Omega}\vd \vec{n}}
+  + 2\left( \vec{\Omega}\vd \vec{n}
+  \right)^2 \right] I^b(\vec{\Omega}) \ud \Omega
+  =
+  \phi
+  -
+  \int_{\vec{\Omega}\vd \vec{n} < 0}
+  \left[ \frac{\pi}{2} \abs{\vec{\Omega}\vd \vec{n}}
+  + 2\left( \vec{\Omega}\vd \vec{n} \right)^2 \right]
+  \zeta(\vec{\Omega}) \vec{\Omega} \ud \Omega \vd \grad \phi
+  \,.
+\end{equation}
+This reduces to the variational flatland diffusion boundary
+condition, Eq.~\eqref{eq:flatlandDiffusionVarBc}, when the problem is
+homogeneous ($\xi=(2\pi\sigma)\inv$), and it is analogous to the boundary
+condition in Eq.~\eqref{eq:bcInc1}.
+
+We can also formulate a ``Marshak'' boundary condition for flatland anisotropic
+diffusion by using only the first angular moment rather than the variational
+condition. Using Eq.~\eqref{eq:flatblCapPsiBndy} and simplifying, we find the
+relation
+\begin{align*}
+  0 &= \int_{\vec{\Omega}\vd \vec{n} < 0}
+  \abs{\vec{\Omega}\vd \vec{n}} \Psi_\mathrm{bl}^b(\vec{\Omega}) \ud \Omega
+  \\
+  0 &= \int_{\vec{\Omega}\vd \vec{n} < 0}
+  \abs{\vec{\Omega}\vd \vec{n}} 
+  \left[ I^b(\vec{\Omega}) - \frac{1}{2\pi} \phi
+  + \zeta(\vec{\Omega}) \vec{\Omega}\vd \grad \phi \right] \ud \Omega
+  \\
+  0 &= \int_{\vec{\Omega}\vd \vec{n} < 0}
+  \abs{\vec{\Omega}\vd \vec{n}} I^b(\vec{\Omega}) \ud \Omega
+  -  \frac{4}{2} \frac{1}{2\pi} \phi
+  + \int_{\vec{\Omega}\vd \vec{n} < 0} (- \vec{\Omega}\vd
+  \vec{n}) \zeta(\vec{\Omega}) \vec{\Omega} \ud \Omega \vd \grad \phi
+  \\
+  0 &= F^-
+  - \frac{1}{\pi} \phi
+  - \vec{n} \vd \int_{\vec{\Omega}\vd \vec{n} < 0} \vec{\Omega} \vec{\Omega}\,
+  \zeta(\vec{\Omega}) \ud \Omega \vd \grad \phi\,.
+\end{align*}
+If we take the reflecting form of $\zeta$ from Eq.~\eqref{eq:zetaReflecting},
+then we can replace $\zeta(\vec{\Omega})$ with $f(\vec{\Omega}_r)$ and use the
+fact that it is an even function of $\Omega$ to write the above equation as
+\begin{align*}
+  \pi F^-
+  &= \phi
+  + \pi \vec{n} \vd \left[ \frac{1}{2} \int_{\Omega} \vec{\Omega}
+  \vec{\Omega}\, f(\vec{\Omega}) \ud \Omega \right] \vd \grad \phi
+  \\
+  \pi F^-
+  &= \phi
+  + \frac{\pi}{2} \vec{n} \vd \Dtens \vd \grad \phi\,.
+\end{align*}
+The above equation mirrors the 3-D geometry Marshak condition for anisotropic
+diffusion in Eq.~\eqref{eq:marshakAd}.  In a homogeneous medium,
+$\Dtens=\Identitytens D$, and the flatland AD Marshak boundary condition
+reduces to the flatland diffusion Marshak boundary condition of
+Eq.~\eqref{eq:flatlandDiffusionMarshak}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
