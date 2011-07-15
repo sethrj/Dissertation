@@ -453,7 +453,8 @@ For the $n$th time step, given the initial radiation field $I^{n}$ and the
 initial material energy density $U_m^n$, the solution process follows.
 \begin{enumerate}
   \item \emph{Linearize the system.} Calculate the starting temperature $T^n$
-    from the stored material energy density $U_m^n$. Using the temperature,
+    from the stored material energy density $U_m^n$ by inverting the integral in
+    Eq.~\eqref{eq:matEnergyDens}. Using the temperature,
     calculate
     the frozen $\sigma^n$ and $\beta^n$ in each spatial cell. Use
     Eq.~\eqref{eq:fleckFactor} to calculate $f^n$, which in turn is used to
@@ -466,13 +467,12 @@ initial material energy density $U_m^n$, the solution process follows.
     implicit discretization, this solution uses the stored value of the radiation
     field at the end of the time step, $I^n$.
     
-  \item \emph{Update the material temperature.} Because of the linearization of
+  \item \emph{Update the material energy $U_m^{n+1}$.}
+    Because of the linearization of
     $\beta$, the linearized estimate of the new material emission term in
     Eq.~\eqref{eq:urNPlusOne} is not directly related to the temperature:
-    $U_r^{n+1} \ne a (T^{n+1})^4$. To calculate the material
-    temperature, we must first calculate the material energy using
-    Eq.~\eqref{eq:matenConservationUpdate2}, and then invert the integral in
-    Eq.~\eqref{eq:matEnergyDens} to solve for $T^{n+1}$ given $U_m^{n+1}$.
+    $U_r^{n+1} \ne a (T^{n+1})^4$. Instead, the material energy must be calculated
+    using Eq.~\eqref{eq:matenConservationUpdate2}.
 \end{enumerate}
 
 Figure~\ref{fig:semiImplicitFlowchart} shows how the problem physics and the

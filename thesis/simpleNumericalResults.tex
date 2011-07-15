@@ -5,9 +5,32 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Low-order spatial discretization}
+\section{Discretization error}
 
-\subsection{Manufactured solutions}
+\subsection{Low-order spatial discretization: manufactured solutions}
+
+\begin{figure}[htb]
+  \centering\small
+  \input{manufactured/convergence-multisolve-offdiag/plot}
+  \caption[Solution error (absolute volume-weighted 2-norm) in the
+  finite difference discretization schemes.]{Solution error (absolute
+  volume-weighted 2-norm) in the finite difference discretization schemes. The
+  slopes of $\Delta_x^{2}$, $\Delta_x^{1.5}$, and
+  $\Delta_x$, respectively.}
+  \label{fig:manuConvergence}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics{manufactured/offdiag-contours}
+  \caption[Solution contours for the manufactured solutions test.]{
+  Solution contours for the manufactured solutions test. The red dashed line is
+  the Diagonal scheme, the blue dashed line is the Gol'din scheme, cyan and green
+  are the nine-point schemes, and the thin black line is the analytic solution.}
+  \label{fig:manuSolution}
+\end{figure}
+
+\subsection{Transport discretization}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flatland boundary conditions}
