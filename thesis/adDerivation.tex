@@ -3,17 +3,27 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Anisotropic diffusion}\label{chap:adDerivation}
 
+Existing radiation transport methods, the most common of which were presented in
+the last chapter, approximate the angular dependence of the intensity each in an
+utterly different way. The crudest of these, diffusion, has only one unknown
+$\phi$ at each point in space and time; the more complex such as \SN\ have many
+unknowns, leading to greater accuracy but greater computer run time and memory
+usage. In this chapter, we derive the anisotropic diffusion method, which
+approximates the intensity in such a way as to retain an arbitrary amount of
+anisotropy (like a true transport method) while solving for a single unknown
+(like a diffusion method).
+
 The previous work in anisotropic diffusion has only considered a steady-state
-problem in an infinite medium \cite{Lar2009c,Mor2007}. The new understanding of
+problem in an infinite medium \cite{Lar2009c,Mor2007}. The new derivation of
 the anisotropic diffusion approximation presented in this chapter provides a
 theoretical basis for using AD in time-dependent and nonlinear contexts, and it
-addresses boundary conditions for the AD method.
-
-The anisotropic diffusion equations are derived in general 3-D geometry.
+furthermore addresses boundary conditions for the AD method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A modified transport equation}\label{sec:capPsi}
-We begin by considering the gray radiation transport equation inside a time step
+
+We begin by considering the 3-D gray radiation transport equation inside a time
+step
 $0 \le t \le \Delta_t$, with opacities frozen at some value $\sigmast$ that
 satisfies $\sigma(0) \le \sigmast \le \sigma(\Delta_t)$. The transport equation
 for the radiation intensity $I$ is:

@@ -33,8 +33,9 @@ much work in the methods development field neglects these complex phenomena by
   \item neglecting photon scattering, which tends to be small;
   \item neglecting thermal conduction, since energy transfer is dominated by
     radiation at high temperatures;
-  \item applying the ``gray'' approximation to the frequency dependence by
-    integrating the full transport equation over all energy, averaging the
+  \item applying the ``gray'' (monoenergetic) approximation to the frequency
+    dependence by integrating the full transport equation over all $\nu$, averaging 
+    the
     opacities with a suitable \emph{a priori} weighting function \cite{Lar1983a}.
 \end{itemize}
 
@@ -167,7 +168,7 @@ moment) yields the ``scalar intensity''
 \end{align}
 For our work, it is usually more convenient to refer to $\phi$ than to the
 radiation energy density (compare, for example, \cite{Den2007} to
-\cite{Kno1999a}). In fact, since in our computational experiments we use the
+\cite{Kno1999a}). In fact, since our computational experiments use the
 scaled system of variables $c=a=1$, our later results can use ``scalar
 intensity'' and ``radiation energy density'' interchangeably.
 
@@ -178,12 +179,12 @@ radiation flux is defined as
   I(\vec{x},\vec{\Omega}, t) \ud \Omega \,.
 \end{equation}
 Analogous to the ``neutron current'' $\vec{J}$ in reactor physics, the
-radiation flux is the net rate of energy flowing through a point.
+radiation flux is the net rate and direction of energy flowing through a point.
 
 At any particular point in space and time, the radiation intensity $I$ is
 generally a complicated function of angle.%
-\footnote{See \cite{Ada2001a} for an example of how complicated a function of
-angle the transport solution can be in even a simple reactor physics problem.}
+%\footnote{See \cite{Ada2001a} for an example of how complicated a function of
+%angle the transport solution can be in even a simple reactor physics problem.}
 For example, at the edge of a
 radiation shock wave, the distribution is highly peaked in the directions
 pointed away from the hot region, because that is the source of the photons. In
@@ -193,8 +194,9 @@ the intensity is nearly isotropic (almost uniform in angle).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Semi-implicit linearization}\label{sec:bgSemiImplicit}
 
-The anisotropic diffusion approximation is intended for use in a deterministic
-manner. It is therefore necessary to discuss \emph{discretization} schemes,
+The anisotropic diffusion approximation is best implemented as a deterministic
+method. It is
+therefore necessary to discuss \emph{discretization} schemes,
 where the continuous unknowns in Eqs.~\eqref{eqs:explanTRT} are approximated
 with discrete unknowns. In this section, we tackle the discretization of the
 time variable in the context of \emph{linearization}, where the nonlinear
@@ -807,6 +809,6 @@ rather than the arithmetic average
 In this chapter, we gave an overview of the equations underlying thermal
 radiative transfer, as well as some existing techniques for solving the
 equations. We presented some of the strengths and weaknesses of several
-deterministic methods that will compete with our anisotropic diffusion methods,
-for better methods are developed by better understanding of deficiencies.
+deterministic methods that will compete with our anisotropic diffusion
+approximation.
 

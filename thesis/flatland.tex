@@ -3,24 +3,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Flatland Geometry}\label{chap:flatland}
 
-Flatland geometry is a fictional two-dimensional space where particles are
-constrained to the page \cite{Abb1884,Asa2008}. This differs from standard 2-D
-geometry, which represents a 3-D problem that is invariant in the $z$ axis,
-where particles can travel at different polar angles out of the page. The
-constraint of living in the page reduces the phase space of the transport
-equation, as the flatland solution is only a function of the azimuthal angle
-$\theta$
-rather than both azimuthal and polar angles $\mu,\theta$. This reduction in
-phase space makes 
-flatland geometry a computationally less burdensome testing ground for new
-methods.
+Flatland geometry is a fictional space where particles are
+constrained to travel in a two-dimensional plane \cite{Abb1884,Asa2008}. This
+differs from standard 2-D
+geometry, which is a slice of a 3-D problem that is invariant in the $z$ axis.
+Because the flatland phase space is
+$(x,y,\theta)$ with \emph{one} angular variable $\theta$, rather than the
+standard 2D $(x,y,\mu,\theta)$ with \emph{two} angular variables $\mu$ and
+$\theta$, flatland is a computationally simpler testing ground that retains the
+complexity of multidimensional geometry. For this reason, flatland has recently
+been used in the development and testing of multi-D transport methods
+\cite{Lar2009c,Joh2011,Tra2011}.
 
 To briefly illustrate the difference between flatland and 2-D geometry, we
-look at an infinite gap between two materials with a width $\tau$---%
-on paper, it looks like Fig.~\ref{fig:chordFlatland}. If this is actually a
-2-D problem, the two gray surfaces and the gap extend infinitely into and out of
-the page, as shown in Fig.~\ref{fig:chordXy}.
-
+view an infinite gap between two materials. The flatland problem and the
+two-dimensional projection are identical, shown in Fig.~\ref{fig:chordFlatland}.
+%
 \begin{figure}[htb]
   \centering
   \includegraphics{chord-flatland}
@@ -30,7 +28,11 @@ the page, as shown in Fig.~\ref{fig:chordXy}.
   distance across the gap.}
   \label{fig:chordFlatland}
 \end{figure}
-
+%
+However, in the 2-D case, the figure is merely a slice of a three-dimensional
+problem where the two gray rectangles and the gap are infinite in extent
+(Fig.~\ref{fig:chordXy}).
+%
 \begin{figure}[htb]
   \centering
   \includegraphics{chord-xyz}
@@ -40,6 +42,7 @@ the page, as shown in Fig.~\ref{fig:chordXy}.
   $\theta$.}
   \label{fig:chordXy}
 \end{figure}
+
 %For the purposes of comparison, we also consider Fig.~\ref{fig:chordFlatland} as
 %a sagittal view of an infinite cylinder; Fig.~\ref{fig:chordRz} shows a
 %cross-sectional view.
@@ -54,17 +57,12 @@ the page, as shown in Fig.~\ref{fig:chordXy}.
 %  \label{fig:chordRz}
 %\end{figure}
 
-Despite being easier computationally to solve, flatland has a few subtle quirks
-that need to be understood before a flatland-geometry solver is implemented.
-Previous work in flatland \cite{Asa2008,Lar2009c} has shown that the
+Despite being easier computationally to solve, flatland has a few subtle quirks.
+For example, previous work in flatland \cite{Asa2008,Lar2009c} has shown that the
 diffusion coefficient for flatland geometry $\frac{1}{2\sigma}$ is different
-from
-the physical diffusion coefficients $\frac{1}{3\sigma}$, but accurate boundary conditions for the flatland
-diffusion equations have not been derived. Clearly, an accurate diffusion
-boundary condition is imperative for benchmarking new transport methods against
-diffusion solutions. Thus, in the following we derive ``Marshak''
-and ``variational'' boundary conditions for the flatland diffusion
-equation. We also present Monte Carlo sampling algorithms tailored to flatland
+from the physical diffusion coefficients $\frac{1}{3\sigma}$, but accurate
+boundary conditions for the flatland diffusion equations have not been derived.
+We also present Monte Carlo sampling algorithms tailored to flatland
 geometry, as well as a quick description of how 2-D \SN\ transport can easily be
 adapted to flatland.
 
@@ -75,8 +73,22 @@ AD approximation in flatland geometry for use in our benchmark problems.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \section{Transport in flatland}
+
+The flatland transport equation describes particle emission, absorption, and
+movement in the flatland geometry.
+Because the time-dependent and nonlinear terms of thermal radiative transfer are
+not affected by the choice of geometry, we constrain our discussion in this
+section to a steady-state problem. Furthermore, the behavior of specular
+reflection is identical in any geometry, so we only take the case of a specified
+incident boundary condition. Our application of the flatland transport equation
+has only isotropic emission (and ``pseudo-scattering'' if the linearized
+transport equation is used), so we limit our study to the case of isotropic
+scattering.
+
 To begin, we write the steady-state transport equation with isotropic scattering
-as
+in a new ``general geometry'' form valid both for flatland and real space (1-D,
+2-D,
+and 3-D):
 \begin{subequations} \label{eqs:ssTransport}
 \begin{equation}\label{eq:ssTransportVol}
   \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega})
@@ -88,14 +100,14 @@ Here, we use
 \begin{align*}
   I(\vec{x},\vec{\Omega}) &= \text{the steady-state angular intensity,} \\
   \vec{\Omega} &= \text{the angular variable,} \\
-  \Omega &= \text{the domain of the angular variable,} \\
+  \Omega &= \text{the domain of the angular variable (the ``unit sphere''),} \\
   \omega_n &= \text{the $n$th angular moment, and} \\
   \phi(\vec{x}) &= \text{the scalar intensity, the zeroth angular moment of $I$.}
 \end{align*}
-The angular domains and definitions are defined in
+The angular variables $\vec{\Omega}$ and domains $\Omega$ are defined in
 Table~\ref{tab:angularDomain}, and the moments $\omega_0$ are evaluated in
-Table~\ref{tab:angularMoments}. For simplicity, we take the case where $I$ is
-specified for incident directions on the boundary:
+Table~\ref{tab:angularMoments}. The specified incident radiation
+boundary:
 \begin{equation} \label{eq:ssBndy}
   I(\vec{x}, \vec{\Omega}) = I^b(\vec{x}, \vec{\Omega})
   \quad \vec{x} \in \partial V \,,\ \vec{\Omega} \vd \vec{n} < 0\,.
@@ -149,21 +161,38 @@ specified for incident directions on the boundary:
   \label{tab:angularMoments}
 \end{table}
 
+The so-called ``unit sphere''---%
+the domain of the angular variable $\vec{\Omega}$---%
+differs among the geometries. In 3-D, $\norm{\vec{\Omega}}=1$, so valid angles
+lie on the surface of a sphere of unit radius. In 2-D, those angles are
+projected onto a slice through the sphere's middle, so that
+$\norm{\vec{\Omega}} \le 1$: valid angles are on a unit disc. Angles on the edge
+of the disc---the unit circle---represent particles traveling along the slice,
+and angles inside the unit circle are the projection of 3-D angles traveling with a
+non-zero polar angle cosine. Flatland geometry allows only angles on the unit
+circle, $\norm{\vec{\Omega}}=1$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Monte Carlo sampling}
+
+In testing the anisotropic diffusion approximation, we use the Monte Carlo
+method to generate the reference solutions.
 The Monte Carlo method approximates the transport equation by tracking the
 random lives of statistically large numbers of particles as they traverse a
 problem. The behavior during their lifetime depends on probability distribution
 functions (PDFs) that describe how they are born, how far they travel without a
-collision, how they behave when they collide, and so on. 
+collision, how they behave when they collide, and so on.
 
 The general Monte Carlo process has been covered extensively elsewhere
 \cite{Lew1984,Bro2004a}; our focus in this section is to expound upon the
-distributions particular to flatland geometry. We briefly derive those PDFs,
+distributions particular to flatland geometry.
+We briefly derive those PDFs,
 integrate them to get cumulative distribution functions
-(CDFs), and use the direct inversion method to show how a pseudo-random number
-generator may be used to determine particle behavior in flatland.
+(CDFs), and use the direct inversion method to show how a uniformly sampled
+pseudo-random number $\xi \in [0,1)$ may be used to determine particle behavior
+in flatland. Because the geometry tracking routines of steady state Monte Carlo
+and Fleck and Cummings' IMC are identical, the results in this section are
+applicable any flatland Monte Carlo implementation.
 
 \subsubsection{Isotropic volume source}
 A particle emitted from an isotropic internal source, whether an extraneous
@@ -171,18 +200,18 @@ radiation source or an indirect isotropic scattering event, has an equal
 probability of entering any angle. In any geometry, the normalized PDF that
 represents this process is
 \begin{equation}\label{eq:volumeSource1}
-  f(\vec{\Omega}) \ud \Omega = c \ud \Omega \,,
+  f(\vec{\Omega}) \ud \Omega = \alpha \ud \Omega \,,
   \quad \vec{\Omega} \in \Omega \,,
 \end{equation}
 where (see Table~\ref{tab:angularDomain}) $\Omega$ is the angular domain of the
-geometry.
+geometry and $\alpha$ is a normalization constant.
 Requiring the PDF to integrate to unity over its domain gives the
-geometry-independent normalization constant $c$:
+following value for $\alpha$ in any geometry:
 \begin{align*}
   1 = \int_{\Omega} f(\vec{\Omega}) \ud\Omega
-  = c \int_{\Omega} \ud\Omega
+  = \alpha \int_{\Omega} \ud\Omega
   \lra
-  c = \frac{1}{\omega_0}\,.
+  \alpha = \frac{1}{\omega_0}\,.
 \end{align*}
 Thus the angular distribution of an isotropic volume source is
 \begin{equation}\label{eq:volumeSource2}
@@ -205,7 +234,8 @@ which gives the separable CDF
   = \frac{1 + \mu}{2}\frac{\theta}{2\pi}\,,
   \quad -1\le \mu \le 1,\ 0 \le \theta < 2\pi\,.
 \end{equation*}
-Setting $\xi_1 = F(\mu)$, $\xi_2 = F(\theta)$, solving for $\mu,\theta$, and
+Setting two uniformly sampled random numbers $\xi_1 = F(\mu)$ and
+$\xi_2 = F(\theta)$, solving for $\mu$ and $\theta$, and
 introducing them back into the 2-D representation of $\vec{\Omega}$, we get the
 well-known result
 \begin{align*}
@@ -227,7 +257,8 @@ yielding the CDF
   \quad 0 \le \theta < 2\pi\,,
 \end{equation}
 Setting $\xi_1 = F(\theta)$ and solving for $\theta = F\inv(\xi_1)$ gives the
-simple relation
+following simple relation between an isotropically sampled angle $\theta$ and a
+uniformly sampled random number $\xi_1$:
 \begin{equation*}
   \theta = 2\pi \xi_1\,.
 \end{equation*}
@@ -239,38 +270,35 @@ The flatland particle's new angle is therefore
 
 With only one independent variable that needs sampling, and the omission of
 the transcendental operation $\sqrt{1-\mu^2}$, the computational cost of a
-scattering event is significantly less in flatland than in 2-D, leading to
+scattering event is less in flatland than in 2-D, leading to
 faster simulation times.
 
 \subsubsection{Isotropic surface source}\label{sec:isoSurface}
 Particles emitted from an isotropic surface source have a cosine distribution
-\cite{Gre2002}, which makes equal the radiation flux in each differential
+\cite{Gre2002}, which has a constant radiation flux in each differential
 angle:
 \begin{equation}\label{eq:surfaceSource1}
-  f(\vec{\Omega}) \ud \Omega = c \abs{\vec{\Omega}\vd \vec{n}} \ud \Omega \,,
+  f(\vec{\Omega}) \ud \Omega = \alpha \abs{\vec{\Omega}\vd \vec{n}} \ud \Omega \,,
 \quad \vec{\Omega}\vd \vec{n} < 0 \,,
 \end{equation}
-where $c$ is a normalization constant.
-
-Requiring the PDF to integrate to unity over its domain gives the
-normalization constant independent of geometry:
+where $\alpha$ is a normalization constant.
+Requiring the PDF to integrate to unity over its domain gives $\alpha$
 \begin{align*}
-  1 &= \int_{\vec{\Omega}\vd \vec{n} < 0} f(\vec{\Omega}) \ud\Omega
+  1 &= \int_{\vec{\Omega}\vd \vec{n} < 0} \left[ \alpha \abs{\vec{\Omega}\vd
+  \vec{n}} \right] \ud\Omega
   \\
-  1 &= c \int_{\vec{\Omega}\vd \vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
-    \ud\Omega
+  1 &=\frac{\alpha}{2} \int_{\Omega} \abs{\vec{\Omega}\vd \vec{n}} \ud\Omega
   \\
-  1 &=\frac{c}{2} \int_{\Omega} \abs{\vec{\Omega}\vd \vec{n}} \ud\Omega
-  \\
-  c &= \frac{2}{\omega_1}\,.
+  \alpha &= \frac{2}{\omega_1}\,,
 \end{align*}
-With this, the PDF for an isotropic surface source,
+so that the PDF for an isotropic surface source,
 Eq.~\eqref{eq:surfaceSource1}, becomes
 \begin{equation}\label{eq:surfaceSource2}
   f(\vec{\Omega}) \ud \Omega = \frac{2}{\omega_1} \abs{\vec{\Omega}\vd \vec{n}} \ud \Omega \,,
 \quad \vec{\Omega}\vd \vec{n} < 0 \,.
 \end{equation}
-In 3-D, choosing $\vec{n}=\vec{i}$, this PDF is
+
+In 3-D, choosing $\vec{n}=\vec{i}$, the isotropic surface PDF is
 \begin{equation*}
   f(\mu,\theta) \ud\mu \ud\theta
   = \frac{1}{\pi} \mu \ud\mu \ud\theta
@@ -283,17 +311,17 @@ which gives the separable CDF
 from which we can sample $\mu=\sqrt{\xi_1}$ and $\theta=2\pi \xi_2$.
 
 In flatland, the surface source distribution is different. Let us choose
-$\vec{n} = -\vec{j}$ so that incident directions are inside
+$\vec{n} = -\vec{j}$ so that incident directions are in the range
 $\theta \in [0, \pi)$.
-Applying the flatland identities in Tables~\ref{tab:angularDomain}
+Using the flatland identities in Tables~\ref{tab:angularDomain}
 and~\ref{tab:angularMoments} to Eq.~\eqref{eq:surfaceSource1} gives the surface
 source PDF of
 \begin{equation*}
   f(\theta) \ud\theta = \frac{2}{4} \, \abs{ -\sin \theta}\ud\theta
   = \frac{1}{2} \sin \theta\ud\theta \,,\quad 0 \le \theta < \pi\,.
 \end{equation*}
-Integrating, we find the CDF for particle emission from
-a surface source in flatland geometry to be
+Integrating, we obtain the CDF for particle emission from
+a surface source in flatland geometry:
 \begin{equation}\label{eq:surfaceSourceFlatland}
   F(\theta) = \frac{1}{2} \left( 1-\cos\theta \right)
   \,,\quad 0 \le \theta < \pi\,,
@@ -326,7 +354,8 @@ $N$ in the quadrature approaches infinity:
 \end{equation*}
 
 The most straightforward way of implementing the flatland geometry in an \SN\
-code is to create a special quadrature set consisting of ordinates that have a
+code with only isotropic scattering is to create a special quadrature set
+consisting of ordinates that have a single
 polar angle $\mu=0$. To retain compatibility with the isotropic scattering
 kernel, the quadrature weights are normalized so that they sum to $4\pi$
 instead of $2\pi$. This way, none of the discrete ordinates logic has to be
@@ -343,31 +372,31 @@ moments $\omega_n$:
 \begin{equation*}
   2 \omega_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
 \end{equation*}
-Also, with this approach, visualizing $I(\theta)$ by only considering
-$I_m$ and not $w_m$ requires multiplying by a factor of two. Here is an
-example that uses the \verb|matplotlib| Python module's polar plot to view
-the flatland angular intensity:
-\begin{verbatim}
-    polar( [ angle.getPhi() for angle in quadrature_set ],
-           [ 2 * value for value in psi ] )
-\end{verbatim}
+Also, with this approach, visualizing $I(\theta)$ by plotting
+$I_m$ as a function of $\theta_m$ requires multiplying by a factor of two.
+% Here is an
+%example that uses the \verb|matplotlib| Python module's polar plot to view
+%the flatland angular intensity:
+%\begin{verbatim}
+%    polar( [ angle.getPhi() for angle in quadrature_set ],
+%           [ 2 * value for value in psi ] )
+%\end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diffusion in flatland}
 
-In 2-D geometry, particles diffuse in three dimensions, although their density
-is projected onto the 2-D plane. In contrast, flatland particles have one fewer
-dimension into which to leak: as we will see, the result is a larger diffusion
-coefficient.
-
-The differences in the angular moments shown in Table~\ref{tab:angularMoments},
+An accurate diffusion formulation
+is imperative for benchmarking the anisotropic diffusion
+approximation against diffusion solutions.
+The angular moments in Table~\ref{tab:angularMoments},
 \begin{equation*}
   \omega_n \equiv \int_\Omega \abs{\vec{\Omega} \vd \vec{i}}^n \ud \Omega\,,
 \end{equation*}
-result not
-only in a different diffusion coefficient but also different boundary
-conditions. In this section, we derive flatland diffusion boundary conditions
-from a steady-state transport equation with isotropic scattering.
+determine the constants in the diffusion coefficient and boundary conditions.
+Previous work has given the flatland diffusion coefficient to be $1/2\sigma$,
+and in the following section we derive ``Marshak'' and ``variational'' boundary
+conditions for the flatland diffusion equation. (We published a summary of
+our work in \cite{Joh2011a}.)
 %There is no loss of generality in
 %ignoring the time dependence because of the quasi-static approximation made in
 %the derivation of the diffusion coefficient (see \S\ref{sec:bgDiffusion}).
@@ -387,14 +416,15 @@ The zeroth angular moment of $I$ determines $f$:
 = \int_\Omega\ud\Omega f + 0
 = \omega_0 f \,,
 \end{equation*}
-so $f = \phi/\omega_0$. Similarly, the first moment of $I$ gives $g$:
+and the first moment of $I$ determines $g$:
 \begin{equation*}
   \vec{F} = \int_\Omega \vec{\Omega} I \ud \Omega
 = f \int_\Omega \vec{\Omega} \ud\Omega
   + \vec{g} \vd \int_\Omega \vec{\Omega}\vec{\Omega} \ud\Omega
-= \omega_2 \vec{g} \,,
+= \omega_2 \vec{g} \,.
 \end{equation*}
-so $\vec{g} = \vec{F}/\omega_2$. This is the \Pone\ approximation for $I$ in the different geometries:
+Thus is the \Pone\ approximation to the radiation intensity in ``general
+geometry'' form,
 \begin{equation}\label{eq:ssPone}
   I(\vec{x}, \vec{\Omega})
   \approx \frac{1}{\omega_0} \phi(\vec{x})
@@ -435,7 +465,7 @@ flatland, $\omega_2/\omega_0 = \pi / (2\pi) = 1/2$. Thus, $D=(3\sigma)\inv$ in
 2-D but $D=(2\sigma)\inv$ in flatland.
 
 Substituting Fick's law back into the linear-in-angle approximation,
-Eq.~\eqref{eq:ssPone}, we get the diffusion approximation to the angular
+Eq.~\eqref{eq:ssPone}, gives the diffusion approximation to the angular
 intensity:
 \begin{align} \nonumber
   I(\vec{x}, \vec{\Omega})
@@ -448,13 +478,13 @@ intensity:
   - \frac{1}{\sigma(\vec{x})}
   \vec{\Omega} \vd \grad \phi(\vec{x}) \right] \,.
 \end{align}
-In 2-D, Eq.~\eqref{eq:diffusionIntensity} evaluates to the standard result
+In normal space this is
 \begin{equation*}
  I(\vec{x}, \vec{\Omega})
 = \frac{1}{4\pi} \left[ \phi(\vec{x}) - \frac{1}{\sigma(\vec{x})} \vec{\Omega}
 \vd \grad \phi(\vec{x}) \right] \,,
 \end{equation*}
-and in flatland, it is
+and in flatland, the diffusion approximation is
 \begin{equation}\label{eq:flatlandDiffusion}
  I(\vec{x}, \vec{\Omega})
 = \frac{1}{2\pi} \left[ \phi(\vec{x}) - \frac{1}{\sigma(\vec{x})} \vec{\Omega}
@@ -491,13 +521,6 @@ F^{-}
 \frac{1}{\omega_0} \phi \left( \frac{\omega_1}{2} \right) 
   + \frac{1}{\omega_0}\frac{1}{\sigma} \vec{n} \vd
   \int_{\vec{\Omega}\vd \vec{n} < 0 } \vec{\Omega} \vec{\Omega} \ud\Omega
-  \vd \grad \phi
-\\
-F^{-}
-&=
-\frac{\omega_1}{2\omega_0} \phi 
-  + \frac{1}{\omega_0}\frac{1}{\sigma} \vec{n} \vd
-  \left( \int_{\vec{\Omega}\vd \vec{n} < 0 } \vec{\Omega} \vec{\Omega} \ud\Omega \right)
   \vd \grad \phi
 \\
 F^{-}
@@ -555,15 +578,15 @@ boundary condition is not $\abs{\vec{\Omega}\vd\vec{n}}$ but rather
 $W(\abs{\vec{\Omega}\vd\vec{n}})$, where $W$ is related to Chandrasekhar's
 $H$-function \cite{Cha1960}:
 \begin{equation} \label{eq:chandraW}
-  W(\mu) = \frac{\sqrt{3}}{2} \mu H(\mu) \,.
+  W(\mu) = \frac{\sqrt{3}}{2} \mu H(\mu) \,,
 \end{equation}
-In general geometries, this leads to the extrapolation distance of
+which gives an extrapolation distance of
 \begin{align*}
   z_0 = \frac{\int_{0}^{1} \mu W(\mu) \ud \mu}{\int_{0}^{1} W(\mu) \ud
   \mu} \approx 0.7104\,.
 \end{align*}
 
-In real-world geometries, a variational analysis \cite{Mal1991} can be used to
+A variational analysis \cite{Mal1991} has been used to
 derive a very accurate approximation to $W$:
 \begin{equation*}
 W(\mu) \approx \mu + \tfrac{3}{2} \mu^2 \,,
@@ -579,7 +602,7 @@ which gives the approximate extrapolation distance of
 %constant in angle, and making a particular demand.
 
 Now we repeat that analysis for flatland rather than real space. The first step
-is to consider a homogeneous, purely scattering transport problem in a
+is to form a homogeneous, purely scattering transport problem in a
 semi-infinite flatland plane. The transport equation~\eqref{eq:ssTransportVol} becomes
 \begin{subequations} \label{eqs:flatTransport}
 \begin{equation}\label{eq:flatTransportVol}
@@ -634,10 +657,14 @@ For $m=0$, the conservation equation, Eq.~\eqref{eq:flatMoments} evaluates to
   \pder{\phi_{1}}{y} = 0\,.
 \end{equation*}
 That means the radiation flux is a constant, and because $\phi_1(\infty)=0$,
-that constant is zero.
+that constant is zero. Physically, a constant $\phi_1$ means that at every
+point, the rate of energy being transferred away from the boundary is balanced
+by energy moving toward the boundary. This logically follows from the lack of
+absorption in the problem: at steady-state, the only means of energy loss is
+through exiting the boundary.
 
 Evaluating Eq.~\eqref{eq:flatMoments} for $m=1$ and using the result that
-$\phi_{1}=0$, we find
+$\phi_{1}=0$, we obtain
 \begin{equation*}
   \pder{\phi_{2}}{y}
   + \sigma \phi_{1}
@@ -680,7 +707,7 @@ magnitude of the intensity as $y\to\infty$:
 \end{equation}
 
 We wish our boundary condition to preserve the value of
-$\varphi$ when the diffusion method is used, so we subsitute the diffusion
+$\varphi$ when the diffusion method is used, so we substitute the diffusion
 approximation, Eq.~\eqref{eq:flatlandDiffusion}:
 \begin{align*}
  \varphi &= 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
@@ -688,28 +715,34 @@ approximation, Eq.~\eqref{eq:flatlandDiffusion}:
  \\
  &= 
   2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
- \left( \frac{1}{2\pi} \phi -
+ \left( \frac{1}{2\pi} \phi_0 -
   \frac{1}{\sigma} \sin\theta \pder{\phi_0}{y}\right)\ud\theta
 \\
  &= 
 \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin\theta + 2 \sin^2\theta
 \right)\ud\theta
- \,\phi -
+ \,\phi_0 -
  \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin^2\theta + 2 \sin^3\theta \right)\ud\theta
   \,\frac{1}{\sigma} \pder{\phi_0}{y}
   \\
  &= 
  \frac{1}{2\pi} \left( \frac{\pi}{2} [2] + 2 \frac{\pi}{2}
-\right) \phi
+\right) \phi_0
 -
 \frac{1}{2\pi} \left( \frac{\pi}{2} \left[ \frac{\pi}{2} \right] + 2 \left[
 \frac{4}{3} \right] \right) \frac{1}{\sigma} \pder{\phi_0}{y}
 \\
  &= 
-  \phi
+  \phi_0
 - \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma} \pder{\phi_0}{y}
 \,.
 \end{align*}
+This relationship between $\phi$ and its directional gradient yields the same
+value for $\varphi$ when using diffusion as the true incident boundary does
+using transport, under the condition of a semi-infinite, homogeneous, purely
+scattering problem and an isotropic exiting value for $I$. Problems where the
+diffusion approximation is valid satisfy that condition to leading order.
+
 In this problem, we chose a boundary surface normal of $\vec{n}=-\vec{j}$. Now
 replacing $\sin \theta$ with $-\vec{\Omega}\vd\vec{n}$, we get the general
 boundary condition for flatland diffusion,
@@ -718,9 +751,9 @@ boundary condition for flatland diffusion,
 \abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
 I^b(\vec{x}, \vec{\Omega}) \ud\Omega
 = 
-  \phi(\vec{x})
+  \phi_0(\vec{x})
   - \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma}
-  \vec{n}\vd\grad \phi(\vec{x})\,.
+  \vec{n}\vd\grad \phi_0(\vec{x})\,.
 \end{equation}
 
 %Essentially, we have shown that the flatland equivalent of the $W$ function,
@@ -790,12 +823,12 @@ for $\vec{x} \in V$ and $0 \le t \le \Delta_t$.
 Doing the same to the initial condition, Eq.~\eqref{eq:flatfullTransportInit}, gives 
 \begin{equation} \label{eq:flatloInit}
 \phi(\vec{x}, 0) = \int_{\Omega}  I^i(\vec{x},
-\vec{\Omega}) \ud\Omega = \phi^i(\vec{x})\,, \vec{x} \in V  \,.
+\vec{\Omega}) \ud\Omega = \phi^i(\vec{x})\,, \qquad \vec{x} \in V  \,.
 \end{equation}
 \end{subequations}
 Adding $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:flatloVol},
 multiplying by $\frac{1}{\omega_0}$, and subtracting from
-Eq.~\eqref{eq:flatfullTransportVol}, we cancel the isotropic radiation source to get
+Eq.~\eqref{eq:flatfullTransportVol}, the isotropic radiation source cancels, leaving
 \begin{equation} \label{eq:flatcapPsiVol}
   \frac{1}{c} \pder{}{t}\Psi(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \Psi(\vec{x}, \vec{\Omega}, t)
@@ -808,7 +841,7 @@ where we have defined
   \Psi(\vec{x}, \vec{\Omega}, t) \equiv I(\vec{x}, \vec{\Omega}, t) -
   \frac{1}{\omega_0} \phi(\vec{x}, t)\,.
 \end{equation}
-As before, by construction, its zeroth angular moment is zero, and its first
+As before, by construction, the zeroth angular moment of $\Psi$ is zero, and its first
 angular moment is $\vec{F}$.
 
 Subtracting $\phi/\omega_0$ from Eq.~\eqref{eq:flatfullTransportBndy} gives the
@@ -925,7 +958,7 @@ same form as that given in \S\ref{sec:integralTransport}:
     + \lopinv{i}{\Psi^i}
     + \lopinv{v}{\hat Q}
 \end{align*}
-However, $\hat Q$ is defined in terms of $\omega_0$ rather than $\omega_0$, so the
+However, $\hat Q$ is defined in terms of $\omega_0$ rather than $4\pi$, so the
 flatland integral transport equation for the interior solution becomes
 \begin{align} \label{eq:flatinverseTransportBrief}
     \tilde\Psi(\vec{x}, \vec{\Omega}, t)
@@ -976,8 +1009,7 @@ The result of these machinations is an approximate expression for $\tilde\Psi$:
 \tilde\Psi(\vec{x}, \vec{\Omega}, t) &= - f(\vec{x}, \vec{\Omega})
 \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,.
 \end{align}
-Here, $f$ is a flatland transport problem with a unit isotropic source, just
-like in the standard derivation:
+Here, $f$ is a flatland transport problem with an isotropic source of unit strength:
 \begin{subequations} \label{eqs:flatfFull}
   \begin{equation} \label{eq:flatfFullVol}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
@@ -1051,11 +1083,12 @@ It can also take the form of a white boundary, where $\zeta$ is isotropic:
   (\vec{\Omega}' \vd \vec{n} ) f(\vec{x}, \vec{\Omega}') \ud\Omega'\,.
 \end{align*}
 This is the general-geometry form of Eq.~\eqref{eq:zetaWhite}, where
-$\frac{2}{\omega_1}=\frac{1}{\pi}$ in normal space but $\frac{2}{\omega_1}=2$ in
+$\frac{2}{\omega_1}=\frac{1}{\pi}$ in real space but $\frac{2}{\omega_1}=2$ in
 flatland.
 
 To derive low-order incident boundary conditions, we take the same approach as
-\S\ref{sec:varBndy}, where we \textsl{(i)}~set up a homogeneous,
+in the derivation of the variational flatland diffusion boundary condition in
+\S\ref{sec:varBndy}, where we \textsl{(i)}~formed a homogeneous,
 purely scattering problem with uniform incident boundary conditions, then
 \textsl{(ii)}~hypothesized a leading-order isotropic exiting intensity, and
 \textsl{(iii)}~derived an expression for the magnitude of the intensity far from
@@ -1063,18 +1096,16 @@ the boundary. We desire the magnitude of $\Psi_\mathrm{bl}$, formulated in
 Eqs.~\eqref{eqs:flatblCapPsi}, to approach zero under the variational
 approximation in flatland.
 
-First, we rewrite the variational condition Eq.~\eqref{eq:varBoundary} in terms
-of a general coordinate system rather than $\vec{n}=-\vec{j}$:
+First, we write the variational condition Eq.~\eqref{eq:varBoundary} as:
 \begin{equation}\label{eq:varBoundaryGeneral}
   \varphi = 2 \int_{\vec{\Omega}\vd \vec{n} < 0}
   \left[ \frac{\pi}{4} \abs{\vec{\Omega}\vd \vec{n}} + \left( \vec{\Omega}\vd \vec{n}
   \right)^2 \right] I^b(\vec{\Omega})
   \ud \Omega\,.
 \end{equation}
-Now, using $\Psi_\mathrm{bl}^b$ rather than $I^b$,
-setting $\varphi=\phi(\infty)$ to zero, and substituting $\Psi_\mathrm{bl}^b$ from
-Eq.~\eqref{eq:flatblCapPsiBndy}, we have the flatland variational boundary
-condition
+Now, using $\Psi_\mathrm{bl}^b$ from Eq.~\eqref{eq:flatblCapPsiBndy} rather than $I^b$,
+and setting $\varphi=\int_\Omega \Psi_\mathrm{bl}(\infty)\ud\Omega=0$,
+we have the flatland variational boundary condition
 \begin{equation*}% \label{eq:varBoundaryAd}
   0 = 2 \int_{\vec{\Omega}\vd \vec{n} < 0}
   \left[ \frac{\pi}{4} \abs{\vec{\Omega}\vd \vec{n}}
@@ -1102,13 +1133,11 @@ following:
 \end{equation}
 This reduces to the variational flatland diffusion boundary
 condition, Eq.~\eqref{eq:flatlandDiffusionVarBc}, when the problem is
-homogeneous ($\xi=(2\pi\sigma)\inv$), and it is analogous to the boundary
+homogeneous, giving $\xi=(2\pi\sigma)\inv$, and it is analogous to the boundary
 condition in Eq.~\eqref{eq:bcInc1}.
 
 We can also formulate a ``Marshak'' boundary condition for flatland anisotropic
-diffusion by using only the first angular moment rather than the variational
-condition. Using Eq.~\eqref{eq:flatblCapPsiBndy} and simplifying, we find the
-relation
+diffusion by using only the first angular moment of $\Psi_\mathrm{bl}$:
 \begin{align*}
   0 &= \int_{\vec{\Omega}\vd \vec{n} < 0}
   \abs{\vec{\Omega}\vd \vec{n}} \Psi_\mathrm{bl}^b(\vec{\Omega}) \ud \Omega
@@ -1142,8 +1171,9 @@ fact that it is an even function of $\Omega$ to write the above equation as
   &= \phi
   + \frac{\pi}{2} \vec{n} \vd \Dtens \vd \grad \phi\,.
 \end{align*}
-The above equation mirrors the 3-D geometry Marshak condition for anisotropic
-diffusion in Eq.~\eqref{eq:marshakAd}.  In a homogeneous medium,
+This ``Marshak'' flatland boundary condition for anisotropic diffusion mirrors
+the 3-D geometry condition in Eq.~\eqref{eq:marshakAd}. Additionally, in a homogeneous
+medium,
 $\Dtens= D \Identitytens = \frac{1}{2\sigma} \Identitytens$, and the flatland AD
 Marshak boundary condition
 reduces to the flatland diffusion Marshak boundary condition of
@@ -1174,4 +1204,8 @@ the transport problem itself---%
 which still uses a unit isotropic source---%
 and the boundary conditions, which closely resemble the flatland diffusion
 conditions derived earlier.
+
+With the flatland versions of anisotropic diffusion and the benchmark methods in
+hand, we will evaluate the performance of the AD approximation with numerical
+experiments.
 
