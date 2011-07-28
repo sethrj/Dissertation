@@ -124,13 +124,16 @@ x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in 4\pi.
 \end{equation}
 The incident boundary condition accounts for the true incident boundary source
 as well as the $\zeta$ and $\eta$ terms we introduced:
-\begin{equation} \label{eq:ap1blCapPsiBndy}
+\begin{align} \label{eq:ap1blCapPsiBndy}
+\begin{split}
  \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
-  = I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+&= I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
   + \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
-  - \eta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x})
-  \equiv \Psi_\mathrm{bl}^b(\vec{x}, \vec{\Omega}, t) \,.
-\end{equation}
+ - \eta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x})
+ \\
+ &\equiv \Psi_\mathrm{bl}^b(\vec{x}, \vec{\Omega}, t) \,.
+\end{split}
+\end{align}
 For $\vec{x} \in \partial V_r$, the boundary layer solution is reflecting:
 \begin{equation} \label{eq:ap1blCapPsiRefl}
  \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
@@ -594,9 +597,11 @@ condition to enforce on the boundary:
   \Psi_\mathrm{bl} (\vec{x}, \vec{\Omega}, t) \ud\Omega
   \\
   &= \int_{\vec{\Omega} \vd \vec{n} < 0} W(\abs{\vec{\Omega} \vd \vec{n}})
- \left[ I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+ \Bigg[ I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{4\pi} \phi(\vec{x}, t)
+  \\
+  &\hspace{2in}
   + \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
-  - \eta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x})\right]
+  - \eta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \vec{F}^i(\vec{x}) \Bigg]
   \ud\Omega
 \end{align*}
 Under the assumption that we are using reflecting boundaries for $\zeta$
@@ -919,7 +924,7 @@ In fact, these are exactly the equations for $f$ and $g$ of the anisotropic
 \Pone\ method, except with the streaming $\vec{\Omega}\vd \grad$ terms dropped.
 In deriving this representation of the \Pone\ equation, $\phi$ is approximated 
 implicitly in time, but $\vec{F}$ is treated as a continuous function of time.
-This suggests that,despite appearing continuous in time, the \APone\ equation is 
+This suggests that, despite appearing continuous in time, the \APone\ equation is 
 only first order accurate in time because of the Taylor expansion of $\phi$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

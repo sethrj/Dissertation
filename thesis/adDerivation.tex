@@ -401,24 +401,59 @@ yield a simple relationship between $\vec{F}$ and $\phi$.
 \subsection{Asymptotic ansatz and expansions}
 To simplify the integral transport
 equation~\eqref{eq:inverseTransportBrief}, it is necessary to make some
-approximations. We make an ansatz that the spatial gradients of the intensity
-are weak, the intensity varies slowly in time, and the solution is mildly
+approximations. We make an ansatz that the spatial gradients
+are weak, the speed of light is large, and the solution is mildly
 (but not necessarily linearly) anisotropic:
 \begin{align} \label{eq:ansatz}
   I &= O(1), &
-  \grad I &= O(\epsilon), &
-  \frac{1}{c}\pder{I}{t} &= O(\epsilon^2), &
-  \vec{F} = \int_{4\pi} \vec{\Omega} I\ud\Omega &= O(\epsilon).
+  \sigmast &= O(1), &
+  I - \frac{\phi}{4\pi} = \Psi &= O(\epsilon), &
+  \grad &= O(\epsilon), &
+  \frac1c &= O(\epsilon^2) \,.
 \end{align}
-These scalings are similar to those used in an asymptotic derivation of the
-standard diffusion equation. However, rather than taking an asymptotic expansion
-of the transport equations for $I$, we apply the scaling to the integral
-equation for $\tilde\Psi$.
+These scalings are the same as in an asymptotic derivation of the standard
+diffusion equation \cite{Mor2000}, where the intensity is expanded as
+\begin{equation*}
+  I \sim I^{(0)} + I^{(1)} \epsilon + I^{(2)} \epsilon^2 + \cdots\,.
+\end{equation*}
+That asymptotic analysis shows that in a diffusive problem, the leading-order
+intensity is isotropic:
+\begin{equation*}
+  I^{(0)} = \frac{\phi}{4\pi}\,,
+\end{equation*}
+and the $O(\epsilon)$ term $I^{(1)}$ is anisotropic. The analysis therefore
+implies $\phi=O(1)$ and $\vec{F}=O(\epsilon)$. With this ansatz, the transport
+equation for $\Psi$ has the scaling
+\begin{equation} \label{eq:capPsiVolScaled}
+  \underbrace{\frac{1}{c} \pder{}{t}\Psi}_{O(\epsilon^3)}
++ \underbrace{\vec{\Omega}\vd \grad \Psi}_{O(\epsilon^2)}
++ \underbrace{\sigmast \Psi}_{O(\epsilon)}
+  =
+- \underbrace{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}_{O(\epsilon)}
++ \underbrace{\frac{1}{4\pi} \grad \vd\vec{F}}_{O(\epsilon^2)}
++ \underbrace{\frac{1}{c} \Psi^i \delta(t)}_{O(\epsilon^3)} \,.
+\end{equation}
+Here, as in the derivation of the integral transport equation in \cite{Pri2010},
+we have embedded the initial condition for the transport equation as a
+delta-in-time source term. We may correspondingly write the integral transport
+equation for $\Psi$ in the interior as
+\begin{equation*}
+  \Psi = 
+  - \epsilon \lopinv{v}{\frac{1}{4\pi} \vec{\Omega}\vd \grad \phi}
+  + \epsilon^2 \lopinv{v}{\frac{1}{4\pi} \grad \vd\vec{F} }
+  + \epsilon^3 \lopinv{i}{\Psi^i}\,.
+\end{equation*}
+Rather than taking an asymptotic expansion of the differential transport
+equation for $I$ to find a linear-in-angle form for $\Psi$, we apply the
+scaling to the integral equation for $\Psi$ to find an anisotropic form.
 
-The contribution from $\grad \vd\vec{F}$ is $O(\epsilon^2)$, as the term
+Returning to the integral form of $\tilde\Psi$ in
+Eq.~\eqref{eq:inverseTransportBrief}, where we have modified the boundary
+condition terms, we see that
+the contribution from $\grad \vd\vec{F}$ is $O(\epsilon^2)$, as the term
 contains an $O(\epsilon)$ derivative as well as the $O(\epsilon)$ radiation
 flux (first moment). Additionally, the contribution from the initial condition is
-$O(\epsilon^2)$. Neglecting those terms in Eq.~\eqref{eq:inverseTransportBrief},
+$O(\epsilon^3)$. Neglecting those terms in Eq.~\eqref{eq:inverseTransportBrief},
 the integral transport equation becomes:
 \begin{equation} \label{eq:approxPsi1}
   \tilde\Psi \approx 
@@ -1066,20 +1101,19 @@ The anisotropic diffusion tensor is defined in Eq.~\eqref{eq:dDefinition},
 \end{equation*}
 Here, $f$ is the solution of the purely absorbing transport equation described by
 Eqs.~\eqref{eqs:fFull}:
-\begin{subequations} \label{eqs:fFull}
-  \begin{equation} \label{eq:fFullVol}
+  \begin{equation*}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
     + \sigmast f (\vec{x}, \vec{\Omega})
   = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
-  \end{equation}
-\begin{equation} \label{eq:fFullBndy}
+  \end{equation*}
+\begin{equation*}
   f(\vec{x}, \vec{\Omega}) = \zeta(\vec{x}, \vec{\Omega}) \,,
  \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
-\end{equation}
-\begin{equation} \label{eq:fFullRefl}
+\end{equation*}
+\begin{equation*}
   f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
  \quad \vec{x} \in \partial V_r, \ \vec{\Omega} \vd \vec{n} < 0\,.
-\end{equation}
+\end{equation*}
 On $\partial V_b$ where $I$ is specified, $f$ can take
 several suitable forms as discussed in \S\ref{sec:zeta}, but we will usually
 take the condition from Eq.~\eqref{eq:zetaReflecting}:
@@ -1088,10 +1122,9 @@ take the condition from Eq.~\eqref{eq:zetaReflecting}:
   \vec{\Omega}_r) \,,
  \quad \vec{x} \in \partial V_b, \ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
-\end{subequations}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Anisotropic diffusion discussion}
+\section{Discussion}
 Even without numerical results for the anisotropic diffusion equations, a
 number of interesting and beneficial properties can be deduced from the
 low-order AD equations and the transport equations for $f$.
@@ -1380,35 +1413,40 @@ The first assumptions we made in deriving the anisotropic diffusion
 approximation were, from Eq.~\eqref{eq:ansatz}, that
 \begin{align*}
   I &= O(1), &
-  \grad I &= O(\epsilon), &
-  \frac{1}{c}\pder{I}{t} &= O(\epsilon^2), &
-  \vec{F} = \int_{4\pi} \vec{\Omega} I\ud\Omega &= O(\epsilon).
+  \sigmast &= O(1), &
+  I - \frac{\phi}{4\pi} = \Psi &= O(\epsilon), &
+  \grad &= O(\epsilon), &
+  \frac1c &= O(\epsilon^2) \,.
 \end{align*}
 It is justifiable to test how consistently these assumptions match the resulting
 approximation to $I$,
 \begin{equation*}
 I(\vec{x}, \vec{\Omega}, t)
 = \frac{1}{4\pi}\phi(\vec{x}, t) + \tilde\Psi(\vec{x}, \vec{\Omega}, t)
-= - f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,.
+= \frac{1}{4\pi}\phi(\vec{x}, t)
+- f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,.
 \end{equation*}
-
-The transport solution for $f$ is $O(1)$; it is roughly the
-same magnitude as the opacity in the problem.
-Furthermore, because $f$ is continuous in space, the diffusion tensor is also
-continuous. The solution for $\phi$ therefore has a smooth first
+The leading order of $I$ is indeed isotropic. To analyze the anisotropic term,
+we write the scaled transport solution for $f$ as
+\begin{equation*}
+  \epsilon \vec{\Omega}\vd \grad f + \sigma f = \frac{1}{4\pi}\,,
+\end{equation*}
+which shows $f=O(1)$.
+Furthermore, because $f$ is continuous in space, the diffusion tensor $\Dtens$
+is also continuous, and the solution for $\phi$ therefore has a smooth first
 derivative,%
 \footnote{
-The smooth result differs from standard diffusion, which has
-``kinks'' in $\phi$ at discontinuous material interfaces, where $D$ is
+The smooth ``boundary layer'' at a material interface differs from standard
+diffusion, which has ``kinks'' in $\phi$ but no boundary layer at discontinuous
+material interfaces, where $D$ is
 discontinuous. The exact solution to $I$ has both a ``kink'' and a boundary
 layer.
 }
-a fact that is compatible with the supposition that $\grad \phi$
-is $O(\epsilon)$. Because $\phi$ is $O(1)$, $I$ is also $O(1)$.
-Multiplying the equation for $I$ by $\vec{\Omega}$ and integrating yields an
-$O(1)$
-diffusion tensor and the $O(\epsilon)$ gradient, so $\vec{F}$ is also
-$O(\epsilon)$.
+a fact that meshes well with the supposition that spatial gradients of the
+result are $O(\epsilon)$. 
+Therefore, the anisotropic component $I-\frac{\phi}{4\pi}$ is $O(\epsilon)$ as
+expected: it is the product of an $O(1)$ term, $f$, and an $O(\epsilon)$
+term, $\grad \phi$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Relating the \texorpdfstring{$\Psi$}{Psi} equations to

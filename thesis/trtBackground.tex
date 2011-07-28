@@ -547,7 +547,7 @@ intensity with a quadrature set of $M$ angles $\vec{\Omega}_m$ with weights $w_m
 \end{equation*}
 Applying this angular approximation to Eq.~\eqref{eq:siTransport} gives $M$
 equations,
-\begin{equation}\label{eq:siTransport}
+\begin{equation}\label{eq:snTransport}
   \frac{I_{m}^{n+1} - I_{m}^n}{c \Delta_t^n}
   + \vec{\Omega}_{m} \vd \del I_{m}^{n+1}
   + \sigma^n I^{n+1}
@@ -562,7 +562,7 @@ scalar intensity in the scattering term:
 The discrete can also be coupled at the boundaries of a problem, e.g.~via
 specular reflection.
 
-To interpret Eq.~\eqref{eq:siTransport} as a linear algebraic expression, we
+To interpret Eq.~\eqref{eq:snTransport} as a linear algebraic expression, we
 rearrange it slightly:
 \begin{equation*}
   \left( \vec{\Omega}_{m} \vd \del + \frac{1}{c\Delta_t^n}
