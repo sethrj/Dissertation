@@ -29,8 +29,8 @@
 ``Flatland'' geometry is a fictional space in which particles are constrained to
 travel in a 2D plane \cite{Asa2008}. Because the flatland phase space is
 $(x,y,\theta)$ with \emph{one} angular variable $\theta$, rather than the
-standard 2D $(x,y,\mu,\theta)$ with \emph{two} angular variables $\mu$ and
-$\theta$, flatland is a computationally simpler testing ground that retains the
+standard 2D $(x,y,\mu,\omega)$ with \emph{two} angular variables $\mu$ and
+$\omega$, flatland is a computationally simpler testing ground that retains the
 complexity of multidimensional geometry. For this reason, flatland has recently
 been used in the development and testing of multi-D transport methods
 \cite{Lar2009c,Joh2011,Tra2011}.
@@ -43,7 +43,10 @@ boundary condition is imperative for benchmarking new transport methods against
 diffusion solutions. Thus, in the following we \textsl{(i)} derive ``Marshak''
 and ``variational'' boundary conditions for the flatland diffusion equation,
 and \textsl{(ii)} demonstrate the accuracy of these results via numerical
-simulations. 
+simulations.
+
+\emph{Note: should we do as one reviewer suggested and change $\theta$ to
+$\omega$, the more standard notation for the azimuthal angle?}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analysis}
@@ -140,8 +143,8 @@ It is known that the Marshak boundary condition is heuristic and that
 a more accurate boundary condition for diffusion can be derived from an
 asymptotic matched boundary layer analysis \cite{Mal1991}. However, a simpler
 method of deriving a more accurate (than Marshak) boundary condition is to use
-a variational analysis \cite{Mal1991}. Here, we adapt the variational analysis
-to flatland geometry.
+a variational analysis \cite{Mal1991}.
+A shorter but equivalent analysis, adapted to flatland geometry, follows.
 
 We consider a steady-state, homogeneous, purely scattering transport problem in
 a semi-infinite plane, $-\infty < x < \infty$, $0 < y < \infty$,
@@ -226,10 +229,10 @@ $\alpha$:
  &= \frac{\varphi}{2}\,.
 \end{align*}
 At the boundary $y=0$, $\psi=\psi^b$ for incident angles $0 \le \theta < \pi$.
-The
-variational analysis makes the reasonable approximation that, to leading order,
-the exiting particles are isotropically distributed,
-$\psi(0,\theta)=\psi^\text{out}$.
+
+The true variational analysis reveals that certain trial functions
+allow an exiting angular distribution that is isotropic to second order, so
+we make the ``variational'' approximation that $\psi(0,\theta)=\psi^\text{out}$.
 The previous equation then yields
 \begin{equation*}
  \int_{0}^{\pi} (\alpha \sin\theta + \sin^2\theta)
@@ -298,6 +301,9 @@ perpendicular to the surface, $\psi^b(\theta) = \delta(\theta -
 \frac{\pi}{2})$. The third incident distribution is at a grazing angle, with 
 $\psi^b(\theta) = 10 \delta(\theta - \sin^{-1}.1)$.
 
+We compare a Monte Carlo solution with a finite difference diffusion
+implementation on a fine spatial grid.
+
 Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi_0$ along
 $x=1$ for an isotropic incident source. Because the left-hand sides of
 Eqs.~\eqref{eq:flatMarshak} and~\eqref{eq:flatVarBc} are the same, the
@@ -335,6 +341,22 @@ approximates the scalar flux in the interior of the system.
   \hspace{-.5in}
   \caption{Scalar flux with a grazing boundary condition.}
   \label{fig:grazing}
+\end{figure}
+
+\emph{Note: should we do as one reviewer suggested and use relative errors
+instead of ``eyeball-norm'' plots? I have prepared Fig.~\ref{fig:relative} and
+propose replacing Figs.~1 and~3 with it.}
+%As with the variational boundary condition for 2-D geometry, the flatland
+%variational boundary condition gives an interior scalar flux accurate to within
+%a few percent.
+\begin{figure}[h!]
+  \centering
+  \hspace{-.5in}
+  \input{flatlandbc-channel/relative-errors/plot}
+  \hspace{-.5in}
+  \caption{Relative errors ($\phi/\phi_\text{MC} - 1$) of the three tested
+  distributions.}
+  \label{fig:relative}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

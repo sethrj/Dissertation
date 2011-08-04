@@ -41,7 +41,8 @@ of the AD equation did not address boundary conditions:\ numerical simulations
 to test the equations used heuristic boundary conditions.
 
 Here we present a new derivation of the AD approximation in which the AD
-equation and boundary conditions are both obtained systematically. Also, we
+equation and boundary conditions are both obtained systematically using an
+integral transport equation. Also, we
 numerically test the AD equation and the proposed boundary conditions on a
 ``flatland" VHTR-like problem driven by a boundary source, and we demonstrate
 that the results are highly accurate. 
@@ -394,7 +395,8 @@ to Larsen
 and Trahan's VHTR problem \cite{Lar2009c}.
 
 The anisotropic diffusion equations and boundary conditions were implemented
-in the \pytrt\ transport code \cite{Pytrt}. For comparison
+in the \pytrt\ transport code \cite{Pytrt} using a finite difference scheme
+and executed with a very fine grid. For comparison
 purposes, Monte Carlo and standard diffusion were also implemented and plotted.
 We compare the AD method using three different boundary conditions for $f$ on
 the bottom surface: a reflecting boundary, a white boundary, and a vacuum

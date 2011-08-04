@@ -3,12 +3,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Background to Thermal Radiative Transfer}\label{chap:trtBackground}
 
-In order to elucidate the derivatio of the anisotropic
+To elucidate the derivation of the anisotropic
 diffusion approximation, it is necessary to delve deeper into the physical
 process of radiation transport. As discussed in the introduction,
 thermal radiative transfer is the physical process of energy transfer via
 high-energy photons in hot materials. Because the TRT equations and
-approximations have been probed and reviewed in countless other works
+approximations have been probed and reviewed in other works
 \cite{Mih1984,Pom1973,Cas2004,Wol2008}, our aim is a concise explanation of the
 physics relevant to the anisotropic diffusion approximation and its immediate
 application, rather than a thorough overview of the extensive field of radiation
@@ -17,7 +17,7 @@ discuss their advantages and shortcomings.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Equations of transfer}\label{sec:bgTrtEquations}
-Thermal radiative transfer describes how high-energy photons move energy about
+Thermal radiative transfer describes the motion of high-energy photons
 in a very hot material, such as the interior of a star or the target of a laser
 fusion experiment. The equations that model TRT are time-dependent, contain
 strong nonlinearities, and reside in a large phase space.
@@ -40,12 +40,14 @@ much work in the methods development field neglects these complex phenomena by
 \end{itemize}
 
 For the purposes of discussion and the later AD derivation, we consider a
-general, 3-D universe, where the spatial coordinates are
+general, 3-D universe, where the spatial coordinates $x$, $y$, and $z$ define a
+spatial point
 \begin{equation*}
   \vec{x}
   = x \vec{i} + y \vec{j} + z \vec{k}\,,
 \end{equation*}
-and the angular coordinates are the unit vector
+and the angular coordinates $\mu$ and $\theta$ define an arbitrary unit
+vector denoting the direction of flight:
 \begin{equation*}
   \vec{\Omega}
   = \mu \vec{i}
@@ -101,8 +103,8 @@ materials in different parts of the problem.
 Equation~\eqref{eq:explanTransport} is a transport equation for $I$. The first
 two terms describe how photons ``stream'' in time and space: if the
 other terms were zero, Eq.~\eqref{eq:explanTransport} would reduce to a
-wave equation with a wave speed of $c$. However, because the photons are moving
-through a material, there is a chance they will collide with the material,
+wave equation with a wave speed of $c$. However, because the photons move 
+through a material, there is a chance they will collide with its electrons,
 hence the \emph{collision} term $\sigma I$. The first term on the right-hand
 side represents particles emitted via the isotropic temperature-dependent
 process of \emph{black body emission}. The additional term $q_r$ is an extraneous
@@ -110,8 +112,8 @@ isotropic radiation source that emits with an energy density (energy per
 volume per time) of $q_r$.
 
 The material equation~\eqref{eq:explanMaterial} describes an energy balance in
-the material. On the left-hand side is the time rate of change in the material
-energy density. The first term on the right hand side exactly mirrors the collision term in the
+the material. The left-hand side is the time rate of change in the material
+energy density. The first term on the right-hand side exactly mirrors the collision term in the
 radiation equation: it is a ``gain'' term corresponding to photons that
 collided with (were absorbed by) the material. The second term describes the loss
 of energy from the material when it emits black body radiation.
@@ -134,19 +136,27 @@ be compatible with multiple solution techniques.
 
 \subsection{The radiation intensity}
 
-In radiative transfer, the frequency-dependent intensity $I$ is the
-energy-weighted radiation path
-length density, similar to the angular flux $\psi$ in reactor physics:
-\begin{equation*}
-  I(\vec{x},\vec{\Omega},\nu, t) = c h\nu N(\vec{x},\vec{\Omega},\nu, t)\,,
-\end{equation*}
-where $h\nu$ is the photon energy and $N$ is the photon density,
+The state of the photons in a system is described by the radiation photon
+density,
 \begin{align*}
   N(\vec{x},\vec{\Omega}, \nu, t) \ud V \ud \Omega
   &= \topbox{the number of photons inside the differential volume $\ud V$
   about $\vec{x}$, traveling in the directions $\Omega$ about
   $\vec{\Omega}$, inside the frequencies $\ud \nu$ about $\nu$, at time $t$.}
 \end{align*}
+However, because the photon energy $h\nu$ determines the energy
+density of the radiation, and because the reaction rate with the material
+depends on the photons' speed $c$, the radiation field is almost always written
+as the \emph{radiative intensity},
+\begin{equation*}
+  I(\vec{x},\vec{\Omega},\nu, t) = c h\nu N(\vec{x},\vec{\Omega},\nu, t)\,.
+\end{equation*}
+The frequency-dependent intensity $I$ is an energy-weighted radiation path
+length density, similar to the angular flux $\psi$ in reactor physics.%
+\footnote{Note that $\psi$ is not weighted by energy, because neutrons' energy
+primarily determines their interaction cross section; photons in contrast are
+the means of energy transfer in the regimes considered in this thesis.}
+
 Integrating over all energy gives the gray intensity, which we use from this point forward:
 \begin{equation*}
   I(\vec{x},\vec{\Omega}, t)
@@ -182,13 +192,13 @@ Analogous to the ``neutron current'' $\vec{J}$ in reactor physics, the
 radiation flux is the net rate and direction of energy flowing through a point.
 
 At any particular point in space and time, the radiation intensity $I$ is
-generally a complicated function of angle.%
+generally a complicated function of angle.
 %\footnote{See \cite{Ada2001a} for an example of how complicated a function of
 %angle the transport solution can be in even a simple reactor physics problem.}
 For example, at the edge of a
 radiation shock wave, the distribution is highly peaked in the directions
 pointed away from the hot region, because that is the source of the photons. In
-other parts of the problem where the system is closer to an equilibrium state,
+parts of the problem where the system is closer to an equilibrium state,
 the intensity is nearly isotropic (almost uniform in angle).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -197,18 +207,18 @@ the intensity is nearly isotropic (almost uniform in angle).
 The anisotropic diffusion approximation is best implemented as a deterministic
 method. It is
 therefore necessary to discuss \emph{discretization} schemes,
-where the continuous unknowns in Eqs.~\eqref{eqs:explanTRT} are approximated
-with discrete unknowns. In this section, we tackle the discretization of the
+in which the continuous unknowns in Eqs.~\eqref{eqs:explanTRT} are approximated
+with discrete unknowns. In this section, we discuss the discretization of the
 time variable in the context of \emph{linearization}, where the nonlinear
 aspects of the TRT equations are approximated to allow a linear algebraic
 representation of the system of unknowns, facilitating their solution on a
 computer.
 
 The common
-``semi-implicit'' scheme \cite{Kno1999a,Kno2001,Low2004} uses operator splitting
+``semi-implicit'' scheme uses operator splitting
 to decouple the radiation and material equations inside a time step; the
 remaining time-dependent unknowns are treated with the backward Euler
-discretization.
+discretization \cite{Kno1999a,Kno2001,Low2004}.
 Like Fleck and Cummings' IMC method \cite{Fle1971}, this technique
 yields a linear transport equation with a pseudo-scattering term. Because of the
 extensive use of this
@@ -217,7 +227,7 @@ other tested methods, and because the semi-implicit scheme for radiation
 transport is usually glossed over in other works, we derive
 it here in a practical level of detail.
 
-For the semi-implicit discretization, it is more convenient to write
+For the semi-implicit discretization, it is convenient to write
 Eqs.~\eqref{eqs:explanTRT} in a slightly altered form:
 \begin{subequations} \label{eqs:semiTRT}
 \begin{equation} \label{eq:semiTransport}
@@ -249,9 +259,15 @@ the radiation energy density $\phi/c$ is equal to
 $U_r$.  The quantity $U_r$ is \emph{not} equal to the energy density stored in
 the material, $U_m$.
 
+Note here that Eqs.~\eqref{eqs:semiTRT} are two equations with three unknowns:
+$I$, $U_r$, and $U_m$. However, $U_r$ and $U_m$ are material properties,
+explicit functions of the material temperature $T$, so there are only two
+underlying unknowns, one describing the radiation state and the other
+describing the material state.
+
 \subsection{Linearizing the material energy equation}
 
-First, we define a parameter $\beta$ as a function of
+To proceed, we define a parameter $\beta$ as a function of
 Eqs.~\eqref{eq:matEnergyDens} and~\eqref{eq:radEnergyDens}:
 \begin{equation} \label{eq:beta}
   \beta(\vec{x}, T) \equiv \pder{U_r}{U_m} 
@@ -271,32 +287,40 @@ beginning-of-time-step temperature $T^n$:
   \beta[\vec{x},T(\vec{x},t)] \approx \beta[\vec{x},T(\vec{x},t^n)]
   = \beta(\vec{x}, T^n) \equiv \beta^n(\vec{x})\,,
 \end{equation*}
-so Eq.~\eqref{eq:semiMaterial} becomes
+so Eq.~\eqref{eq:semiMaterial} becomes for $t^n < t < t^{n+1}$
 \begin{equation}\label{eq:frozenBeta}
   \frac{1}{\beta^n}
   \pder{U_r}{t} \approx \sigma \phi - \sigma c U_r \,.
 \end{equation}
 The process of freezing $\beta$ is equivalent to approximating the
-Planckian emission term with a Taylor series \cite{Kno2007}.
-
-Because the approximation to $\beta$ is an approximation to the rate of change
-in material energy, this equation no longer conserves the system's total
-energy. To enforce conservation of energy over a time step, we must set the
-material energy change over a time step to the time-integrated approximation:
-\begin{align}
-  \nonumber
-  \int_{t^n}^{t^{n+1}}  \pder{U_m}{t}\ud t &= \frac{1}{\beta^n}
-  \int_{t^n}^{t^{n+1}} \pder{U_r}{t}\ud t
-  \\
-  \nonumber
-  U_m^{n+1} - U_m^n &= \frac{1}{\beta^n} \left[ U_r^{n+1} - U_r^n \right]
+material energy term using two first-order Taylor series:
+\begin{align} \nonumber
+  U_m(t^{n+1})
+  &\approx U_m(t^n) + (t^{n+1} - t^n) \pder{U_m}{t}\bigg|_{t^n} + O( (t^{n+1} - t^n)^2)
+  \\ \nonumber
+  U_m^{n+1}
+  &= U_m^n + \Delta_t \pder{U_m}{U_r}\bigg|_{t^n} \pder{U_r}{t}\bigg|_{t^n}
+  + O( \Delta_t^2 )
+  \\ \nonumber
+   U_m^{n+1}
+   &= U_m^n + \Delta_t \frac{1}{\beta^n} \left[ \frac{U_r^{n+1} - U_r^n}{\Delta_t} +
+  O(\Delta_t) \right]
+  + O( \Delta_t^2 )
+  \\ \nonumber
+   U_m^{n+1}
+  &= U_m^n + \frac{U_r^{n+1} - U_r^n}{\beta^n} + O( \Delta_t^2 )
   \\
   \label{eq:matenConservationUpdate}
-  U_m^{n+1} &=  U_m^n + \frac{U_r^{n+1} - U_r^n}{\beta^n}\,.
+  U_m^{n+1}
+  &\approx U_m^n + \frac{U_r^{n+1} - U_r^n}{\beta^n} \,.
 \end{align}
-%Thus, the expression of $\tpder{U_m}{t}$ in terms of $\tpder{U_r}{t}$
 
-The next approximation is to explicitly freeze the opacity $\sigma$ in
+Because the freezing of $\beta$ approximates the rate of change
+in material energy, Eq.~\eqref{eq:frozenBeta} no longer conserves the system's
+total energy. To enforce conservation of energy over a time step, we use
+Eq.~\eqref{eq:matenConservationUpdate}.
+
+The next approximation explicitly freezes the opacity $\sigma$ in
 Eq.~\eqref{eq:frozenBeta}:
 \begin{equation*}
   \frac{1}{\beta^n}
@@ -339,7 +363,7 @@ energy equation.
   U_r^n
   \\ \label{eq:urNPlusOne}
   U_r^{n+1}
-  &= \left(1 - f^n\right) \frac1c \phi^{n+1} + f^n U_r^n
+  &= \left(1 - f^n\right) \frac1c \phi^{n+1} + f^n U_r^n \,,
 \end{align}
 where we have defined the Fleck factor \cite{Fle1971} as
 \begin{equation} \label{eq:fleckFactor}
@@ -357,7 +381,7 @@ material energy, \textsl{(ii)} the time-integrated absorption from the radiation
 \end{equation}
 
 \subsection{Linearizing the transport equation}
-The next step is to apply identical approximations to the nonlinear radiation
+Next, we apply the same approximations to the nonlinear radiation
 transport equation~\eqref{eq:semiTransport}. As with the material equation,
 the
 opacities are ``frozen'' at their beginning-of-time-step values $\sigma^n$, and
@@ -376,7 +400,8 @@ the equation is time-averaged:
   + \frac{1}{4\pi}\left[
   \frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} q_r \ud t \right] \,.
 \end{multline*}
-As in the material equation, we apply the implicit Euler approximation to the radiation and
+As in the material equation, we apply the implicit backward Euler approximation
+to the radiation and
 material unknowns, $I$ and $U_r$:
 \begin{equation*}
   \frac{1}{c} \frac{I^{n+1} - I^n}{\Delta_t^n}
@@ -434,7 +459,7 @@ we find equivalences between the two:
   v   &\leftrightarrow c &&= \text{the particle velocity.}
 \end{alignat*}
 Even though the original radiation transport equation was purely
-absorbing, the linearization scheme created a ``pseudoscattering''
+absorbing, the linearization scheme created a ``pseudo-scattering''
 term that essentially emulates the absorption and isotropic re\"emission of
 radiation during a time step. The IMC literature often refers to the
 ``effective scattering opacity,''
@@ -450,7 +475,26 @@ energy conservation equation over the time step to be
 The quantity $\sigma_\text{ea}^n \equiv f^n\sigma^n$ is known as the
 ``effective absorption opacity.''
 
-\subsection{Solution process summary}
+\subsection{Summary}
+
+The semi-implicit linearization decouples the material energy and radiation
+transport equations inside a time step, yielding a linear transport
+equation~\eqref{eq:linearizedGrayTransport} with pseudo-scattering:
+\begin{equation*}
+  \frac{1}{c} \frac{I^{n+1} - I^n}{\Delta_t^n}
+  + \vec{\Omega} \vd \del I^{n+1}
+ + \sigma^n I^{n+1}
+ =  \left(1 - f^n\right) \sigma^n \frac{1}{4\pi} \phi^{n+1}
+ + \frac{1}{4\pi} f^n \sigma^n c U_r^n
+  + \frac{1}{4\pi} q_r^n \,,
+\end{equation*}
+and a material energy update equation~\eqref{eq:matenConservationUpdate2}:
+\begin{equation*}
+  U_m^{n+1} = U_m^n + f^n \sigma^n \Delta_t^n
+  \left[ \phi^{n+1} - c U_r^n \right] \,.
+\end{equation*}
+
+
 For the $n$th time step, given the initial radiation field $I^{n}$ and the
 initial material energy density $U_m^n$, the solution process follows.
 \begin{enumerate}
@@ -503,16 +547,16 @@ independent of the method used.
 
 Each approximation applied to the transport
 equation introduces a source of error. The angular approximations to $I$
-introduce definite errors that are particularly hard to assess. Asymptotic
+introduce errors that are particularly hard to assess. Asymptotic
 analysis can be used to describe quantitative regimes of applicability of most
-methods, but we will confine our discussion here to some of the qualitative
+methods \cite{Lar1983a,Ada1998a,Mor2000}, but we will confine our discussion
+here to some of the qualitative
 unphysical behavior introduced by the angular approximations.
 
-Innumerable spatial discretizations exist. Typically, a
+Innumerable spatial discretization schemes exist. Typically, a
 spatial discretization will introduce a local error into the solution with some
 relation to the grid size. In the diffusion (and anisotropic diffusion) methods,
-the most convenient methods to use are often finite difference schemes
-\cite{Lev2007}.
+finite difference schemes are commonly used \cite{Lev2007}.
 
 Furthermore, the treatment of the time dependence of the TRT equations is a lengthy
 topic \cite{Low2004}. As in other partial differential equations, the
@@ -523,11 +567,11 @@ Because of the stiff nature of the TRT equations \cite{Kno2003}, unstable explic
 methods such as forward Euler are practically unusable in this application.
 Furthermore, the operator split in the semi-implicit treatment produces an
 $O(\Delta_t)$ linearization error. Typically, then,
-higher-order methods require not only more complex discretization schemes but also
-iteration on the nonlinearities or the
-application of Jacobi-free Newton--Krylov techniques. In our work, we will use
+higher-order methods require not only complex discretization schemes but also
+iteration on the nonlinearities (or the
+application of Jacobi-free Newton--Krylov techniques). In our work, we will use
 only the simple semi-implicit linearization with the backward Euler implicit time
-discretization, so our discussion of the methods in this section will represent
+discretization. Thus, our discussion of the methods in this section will represent
 the transport equation in the linearized form
 \begin{equation}\label{eq:siTransport}
   \frac{1}{c} \frac{I^{n+1} - I^n}{\Delta_t^n}
@@ -540,27 +584,28 @@ the transport equation in the linearized form
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Discrete ordinates}
 
-The discrete ordinates (\SN) method approximates the angular dependence of the
-intensity with a quadrature set of $M$ angles $\vec{\Omega}_m$ with weights $w_m$:
-\begin{equation*}
-  I(\vec{x},\vec{\Omega},t) \approx \sum_{m=1}^M I_m(\vec{x},t) \vec{\Omega}_m w_m\,.
-\end{equation*}
-Applying this angular approximation to Eq.~\eqref{eq:siTransport} gives $M$
-equations,
+The discrete ordinates (\SN) method enforces the transport
+equation~\eqref{eq:siTransport} only for a ``quadrature set'' of $M$ unit
+directions $\vec{\Omega}_m$, giving $M$ equations
 \begin{equation}\label{eq:snTransport}
   \frac{I_{m}^{n+1} - I_{m}^n}{c \Delta_t^n}
   + \vec{\Omega}_{m} \vd \del I_{m}^{n+1}
   + \sigma^n I^{n+1}
   = \frac{1}{4\pi} \sigma_\mathrm{es}^n \phi^{n+1}
-  + \frac{1}{4\pi} Q^n\,.
+  + \frac{1}{4\pi} Q^n\,,
 \end{equation}
+where each angle of the discrete intensity is defined as
+\begin{equation*}
+  I(\vec{x},\vec{\Omega}_m,t) = I_m(\vec{x},t)\,.
+\end{equation*}
 The equations for each ordinate are coupled at every point in space through the
 scalar intensity in the scattering term:
 \begin{equation*}
-  \phi^{n+1} = \sum_{m=1}^M I_m^{n+1} w_m \,.
+  \phi^{n+1} = \sum_{m=1}^M I_m^{n+1} w_m \,,
 \end{equation*}
-The discrete can also be coupled at the boundaries of a problem, e.g.~via
-specular reflection.
+where $w_m$ is the quadrature weight corresponding to the direction
+$\vec{\Omega}_m$.  The discrete equations can also be coupled at the boundaries
+of a problem, e.g.~via specular reflection.
 
 To interpret Eq.~\eqref{eq:snTransport} as a linear algebraic expression, we
 rearrange it slightly:
@@ -580,7 +625,7 @@ where $L$ is the operator representing ``streaming plus collision'' on the left
 hand side, $S$ represents the isotropic redistribution of photons via
 scattering, $\psi$ is the vector of unknown angular intensity at the new time
 step, and $q$ is the isotropic source plus the initial condition. At every time
-step, the \SN\ equations are typically solved iteratively with Richardson
+step, the \SN\ equations can be solved iteratively with Richardson
 iteration (or ``source iteration'') \cite{Lew1984},
 \begin{equation*}
   \psi^{(k+1)} = L\inv ( S \psi^{(k)} + q )\,.
@@ -589,21 +634,22 @@ Every application of $L\inv$ to the unknowns is known as a ``transport sweep,''
 as it is normally implemented not as an explicit matrix of unknowns but rather in
 an algorithm that sweeps across a mesh, progressively inverting the transport
 equation in each cell to solve for the exiting angular intensity.
-In the absence of scattering ($\sigma_\mathrm{es}^n=0$) and without boundaries,
+In the absence of scattering ($\sigma_\mathrm{es}^n=0$) and with specified
+incident boundaries,
 the \SN\ equations can be solved in only one sweep. This feature is particularly
 advantageous for the anisotropic diffusion solution process.
 
-In highly scattering systems, \SN\ can take an arbitrarily long time to converge
+In highly scattering systems, \SN\ can take an arbitrarily large number of
+iterations to converge
 using pure source iteration. Means of overcoming this---%
 including diffusion
 synthetic acceleration, multigrid treatments, and Krylov methods---%
-exist, but they are well
-outside the scope of this background chapter. Our primary use of the \SN\ method
-is to calculate anisotropic diffusion coefficients.
+exist, but these are
+outside the scope of this background chapter. (Our primary use of the \SN\ method
+is to calculate anisotropic diffusion coefficients.)
 
-It should be noted for the sake of completion that with \SN, the grid error incurred
-by the spatial discretization is not the most serious issue; poor asymptotic behavior
-for optically thick, highly scattering cells can lead to highly inaccurate answers
+The grid error incurred by the spatial discretization can lead to surprisingly
+inaccurate answers for optically thick, highly scattering cells
 \cite{Ada1998a,Ada2001}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -649,17 +695,17 @@ approximating the intensity as
 \begin{equation}\label{eq:p1Approx}
   I^{n+1}(\vec{x},\vec{\Omega})
   \approx \frac{1}{4\pi} \phi^{n+1}(\vec{x})
-  + \frac{3}{4\pi} \vec{\Omega}\vd \vec{F}^{n+1}(\vec{x}) \,,
+  + \frac{3}{4\pi} \vec{\Omega}\vd \vec{F}^{n+1}(\vec{x}) \,.
 \end{equation}
-so the second angular moment is
+Thus, the second angular moment is
 \begin{equation*}
   \int_{4\pi} \vec{\Omega}\vec{\Omega} I^{n+1} \ud\Omega
   \approx \frac{1}{4\pi} \phi^{n+1}
   \int_{4\pi} \vec{\Omega}\vec{\Omega}\ud\Omega + 0
   = \frac{1}{3} \Identitytens \phi^{n+1}\,,
 \end{equation*}
-where $\Identitytens$ is the identity matrix (the unit dyad). Thus
-Eq.~\eqref{eq:p1FirstMoment} becomes
+where $\Identitytens$ is the identity matrix (the unit dyad).
+Equation~\eqref{eq:p1FirstMoment} becomes
 \begin{equation} \label{eq:p1FirstMoment2}
   \frac{\vec{F}^{n+1} - \vec{F}^n }{c \Delta_t} + \frac{1}{3} \grad \phi^{n+1}
   + \sigma^n \vec{F}^{n+1}
@@ -676,11 +722,14 @@ the approximation in Eq.~\eqref{eq:p1FirstMoment2} yields a plane wave
 propagation speed of $c/\sqrt{3}$ rather than the physical $c$
 \cite{Mih1984,War2002}. Even worse, the \Pone\ equation and in fact the entire
 \PN\ family can produce negative solutions for $\phi^{n+1}$ in the presence of
-steep gradients \cite{Bru2002,McC2007}. This is a particular problem in TRT
-applications because a negative $\phi$ can lead to a negative material temperature and
+steep gradients \cite{Bru2002,McC2007,McC2008a}. This is a significant problem
+in TRT
+applications because a negative $\phi$ can lead to a negative material
+temperature and
 the catastrophic failure of a simulation.
 
-An alternative to using the linear-in-angle approximation in the closure for
+An alternative to using the linear-in-angle approximation in the closure for the
+second angular moment
 $\int_{4\pi} \vec{\Omega}\vec{\Omega} I^{n+1} \ud\Omega$ is to define an
 Eddington tensor \cite{Pom1982,Ols2000} as
 \begin{equation*}
@@ -698,7 +747,7 @@ Typically, $\Etens$ is calculated via a transport problem or some \emph{a
 priori} estimated relationship between $\phi$ and its gradient.
 The variable Eddington factor, or quasidiffusion, family of methods can be much
 more accurate than the \Pone\ equations, but the nonlinear closure for $\Etens$
-can lead to nonphysical shocks and numerical instabilities.
+can lead to nonphysical shocks and numerical instabilities \cite{Ols2000}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Diffusion}\label{sec:bgDiffusion}
@@ -716,7 +765,7 @@ This simple expression approximates the entire angular distribution of the
 intensity $I$ using a single unknown, yielding a very small memory footprint and
 a typically very fast solution.
 
-However, Fick's law is only a very coarse approximation, and it is not
+However, Fick's law is only a coarse approximation, and it is not
 necessarily accurate. An asymptotic analysis \cite{Lar1975,Lar1983a} shows that
 the diffusion approximation indeed is a leading
 order solution of the transport equation given certain conditions---%
@@ -727,7 +776,8 @@ yield transport-quality answers.
 
 Furthermore, the time-dependent diffusion approximation yields a parabolic equation
 for $\phi$, allowing energy to be transferred faster than the speed of light. This
-often severe shortcoming is addressed in a method known as ``flux-limited diffusion.''
+often severe shortcoming is addressed in a method known as ``flux-limited
+diffusion,'' which we discuss next.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Flux-limited diffusion}\label{sec:bgFld}
@@ -746,17 +796,18 @@ energy at that point. The identity can be shown using the triangle inequality:
   \norm{\vec{F}} &\le \phi\,.
   \\ 
   \intertext{Substituting Fick's law for $\vec{F}$ gives a condition that
-  shows where the
+  shows when the
   diffusion coefficient satisfies this limit:} \nonumber
   \norm{- D \grad \phi} &\le \phi
   \\ \label{eq:fluxLimit}
-  D & \le \frac{\phi}{\norm{\grad \phi}} \,.
+  \norm{\grad \phi} & \le \frac{\phi}{D} \,.
 \end{align}
 In an optically thin region where $\sigma\approx 0$, $D\to\infty$, and this condition
-will usually be violated.
+will usually be violated. Additionally, the large radiation energy gradient at a
+wavefront can lead to a violation of the limit.
 
-A ``flux limiter'' is designed to combat this problem in an \emph{ad hoc} but
-effective manner by enforcing Eq.~\eqref{eq:fluxLimit} through a modification to
+A ``flux limiter'' is designed to combat these problems by enforcing
+Eq.~\eqref{eq:fluxLimit} through an \emph{ad hoc} modification to
 the definition of $D$.
 Although certain flux limiters \cite{Lev1984} are based on
 idealized models that the radiation intensity might take where
@@ -772,11 +823,17 @@ A standard formulation \cite{Ols2000} is
 The ``sum'' limiter at $m=1$ due to Wilson \cite{Mor2000} leads to inaccuracies
 at the diffusion limit, but using the ``square-root'' limiter at $m=2$ (as
 suggested by Larsen \cite{Ols2000}) is accurate to leading order. Taking
-$m\to\infty$ leads to the ``max'' limiter, which is also accurate in the
+$m\to\infty$ leads to the ``max'' limiter,
+\begin{equation} \label{eq:fluxLimiterMax}
+  D = \max\left( 3\sigma, \frac{\norm{\grad \phi}}{\phi}
+  \right)\inv\,,
+\end{equation}
+which is also accurate in the
 diffusion limit but has discontinuous derivatives.
 
 Typically, Eq.~\eqref{eq:fluxLimiter} is evaluated explicitly or ``lagged''
-because of its inherent nonlinearity, giving the FLD version of Fick's law:
+because of its inherent nonlinearity, giving the following FLD version of Fick's
+law:
 \begin{equation*}
   \vec{F}^{n+1} \approx - \left[ (3\sigma)^{m} + \left( \frac{\norm{\grad
   \phi^{n}}}{\phi^{n}} \right)^{m}\right]^{-1/m} \grad \phi^{n+1} \,.
@@ -808,9 +865,9 @@ rather than the arithmetic average
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-In this chapter, we gave an overview of the equations underlying thermal
-radiative transfer, as well as some existing techniques for solving the
-equations. We presented some of the strengths and weaknesses of several
-deterministic methods that will compete with our anisotropic diffusion
-approximation.
+This chapter, provides an overview of the equations underlying thermal
+radiative transfer, as well as some existing techniques for solving these
+equations. We have discussed some of the strengths and weaknesses of several
+deterministic methods that will compete with the new anisotropic diffusion
+approximation method, which is discussed next.
 

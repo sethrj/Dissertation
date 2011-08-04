@@ -3,21 +3,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Anisotropic diffusion}\label{chap:adDerivation}
 
-Existing radiation transport methods, the most common of which were presented in
-the last chapter, approximate the angular dependence of the intensity each in an
-utterly different way. The crudest of these, diffusion, has only one unknown
+Existing radiation transport methods, the most common of which were presented
+in the last chapter, approximate the angular dependence of the intensity each
+in a different way. The crudest of these, diffusion, has only one unknown
 $\phi$ at each point in space and time; the more complex such as \SN\ have many
 unknowns, leading to greater accuracy but greater computer run time and memory
-usage. In this chapter, we derive the anisotropic diffusion method, which
+usage. In this chapter, we derive a new anisotropic diffusion method, which
 approximates the intensity in such a way as to retain an arbitrary amount of
-anisotropy (like a true transport method) while solving for a single unknown
+anisotropy (like a true transport method), while solving for a single unknown
 (like a diffusion method).
 
-The previous work in anisotropic diffusion has only considered a steady-state
-problem in an infinite medium \cite{Lar2009c,Mor2007}. The new derivation of
+The previous work in anisotropic diffusion has only considered steady-state,
+linear problems in an infinite medium \cite{Lar2009c,Mor2007}. The new
+derivation of
 the anisotropic diffusion approximation presented in this chapter provides a
-theoretical basis for using AD in time-dependent and nonlinear contexts, and it
-furthermore addresses boundary conditions for the AD method.
+theoretical basis for using AD in time-dependent, nonlinear problems, and it
+also addresses boundary conditions for the AD method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A modified transport equation}\label{sec:capPsi}
@@ -63,7 +64,8 @@ The intensity has the initial condition
  I(\vec{x}, \vec{\Omega}, 0) = I^i(\vec{x}, \vec{\Omega}) \,,
  \quad \vec{x} \in V, \ \vec{\Omega} \in 4\pi\,,
 \end{equation}
-which is the solution from the previous time step or a user-specified initial
+where $I^i$ is the solution from the previous time step or a user-specified
+initial
 condition.
 \end{subequations}
 
@@ -223,7 +225,7 @@ on problem data such as $\sigma$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Modification for boundary condition treatment}
-In order to formulate transport-matched boundary conditions---%
+To formulate transport-matched boundary conditions---%
 i.e.~boundary conditions that yield the transport solution in the interior when
 the anisotropic diffusion approximation is accurate---%
 we separate $\Psi$ into an ``interior'' solution $\tilde\Psi$ and a ``boundary
@@ -1172,7 +1174,8 @@ every time step as $\sigmast$ changes.
 Were it not for the reflecting boundary condition, a discrete ordinates (\SN)
 solution for $f$ would take only one transport sweep to complete, because there
 is no scattering source to converge. However, because the boundary conditions
-rely on exiting values of $f$, it will in practice take more than one. The
+rely on exiting values of $f$, in practice more than one iteration will be
+required. The
 larger the optical thickness between boundaries, the faster the convergence will
 be: this poses a problem if
 two boundaries on opposite sides of the problem are separated by only a
@@ -1198,11 +1201,10 @@ far-reaching changes to $\sigma$ near the boundary will require more than one
 transport sweep to converge.
 
 Another desirable property of $f$ is that, because it is a steady-state
-solution, and because only the second angular moment
-is required, the
+quantity, and only its second angular moment is required, the
 full angle-dependent solution does not need to be stored: the angular moment can
-just be accumulated during the transport sweep as is done with steady-state \SN\
-transport. This is a tremendous
+just be accumulated during the transport sweep, as is done with steady-state
+\SN\ transport. This is a tremendous
 advantage over traditional time-dependent transport methods, which require the
 memory-intensive storage of $I(\vec{x},\vec{\Omega},t)$.
 
@@ -1292,8 +1294,8 @@ However, anisotropic diffusion has the following leakage term:
 \end{equation*}
 We refer to the leakage normal to the face, $- D^{xx} \pder{\phi}{x}$, as
 ``normal'' leakage; the leakage along the face, $- D^{yx}
-\pder{\phi}{y}$, we term the ``transverse'' leakage. As we will see in
-chapter~\ref{chap:implementation}, the transverse leakage adds a layer of
+\pder{\phi}{y}$, we term the ``transverse'' leakage. We will show in
+Chapter~\ref{chap:implementation} that the transverse leakage adds a layer of
 complexity to anisotropic diffusion discretization schemes that is not present
 in standard diffusion discretizations.
 
@@ -1310,6 +1312,8 @@ difficulties in computer implementations, as well.
 In contrast to standard diffusion, the anisotropic diffusion approximation has
 a \emph{nonlocal} dependence on $\sigma$ through $f(\vec{x}, \vec{\Omega})$. Since $f$ remains
 bounded, even when $\sigma=0$ at some point, $\Dtens$ will also remain bounded.
+
+TODO: add more detail here
 
 \subsubsection{Symmetric positive definiteness}
 From Eq.~\eqref{eq:dij}, $\Dtens$ is clearly symmetric: $D^{ij}=D^{ji}$. Yet
@@ -1383,17 +1387,12 @@ $\vec{\Omega} \vd \vec{a}=\mu$:
   \Dtens \vd \vec{a}
   &= \int_{0}^{2\pi} \int_{-1}^{1} (\mu)
   \left( \mu \vec{a} + \sqrt{1-\mu^2} \cos \theta \vec{u} + \sqrt{1-\mu^2} \sin
-  \theta \vec{v} \right) \hat f(\mu) \ud\mu \ud\theta \,.
-\end{align*}
-Because $\hat f$ is \emph{not} a function of $\theta$, the integrand is an
-odd function of $\theta$, so the $\vec{u}$ and $\vec{v}$ components are zero.
-\begin{align*}
-  \Dtens \vd \vec{a}
-  &= 2\pi \int_{-1}^{1} \mu^2 \hat f(\mu) \ud\mu \vec{a}
+  \theta \vec{v} \right) \hat f(\mu) \ud\mu \ud\theta 
+  &= \left( 2\pi \int_{-1}^{1} \mu^2 \hat f(\mu) \ud\mu \right) \vec{a}
   \\
   &= \lambda \vec{a} \,.
 \end{align*}
-Thus, if $f$ is azimuthally symmetric about $\vec{a}$, $\vec{a}$ is an
+Thus, if $f$ is azimuthally symmetric about $\vec{a}$, then $\vec{a}$ is an
 eigenvector of $\Dtens$.
 
 Thus, if $\sigma$ in a 3-D problem varies only along
@@ -1543,7 +1542,7 @@ the scalar $D$ can be moved outside the norm.
 However, the straightforward ``max'' limiter can be easily written. A
 semi-implicit implementation of this limiter is
 \begin{equation*}
-  \vec{F}^{n+1} = -\Dtens^{n}\vd \del \phi^{n+1} \times 
+  \Dtens^{n+1/2} = \Dtens^{n} \times 
   \max\left( 1, \norm{\Dtens^{n}\vd \frac{\del \phi^{n}}{\phi^{n}}}
   \right)\inv \,.
 \end{equation*}
@@ -1585,8 +1584,8 @@ radiation inside a time step.
 These equations limit to the standard diffusion approximation in a homogeneous
 medium, but they do not make the diffusion approximation that the radiation
 intensity is linear in
-angle. We therefore expect the AD method to give much more accurate answers
-where the intensity is a complex function of angle.
+angle. We therefore expect the AD method to generate more accurate solutions
+for problems in which the intensity is a complex function of angle.
 Chapters~\ref{chap:simpleNumericalResults}
 and~\ref{chap:trtNumericalResults} will put this expectation to the test.
 
