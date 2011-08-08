@@ -21,21 +21,26 @@
 \renewcommand{\topfraction}{0.99}
 \setlength{\parskip}{0pt}
 
+%\usepackage{setspace}
+%\doublespacing
+
 \date{2011/05/30}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 ``Flatland'' geometry is a fictional space in which particles are constrained to
-travel in a 2D plane \cite{Asa2008}. Because the flatland phase space is
-$(x,y,\theta)$ with \emph{one} angular variable $\theta$, rather than the
-standard 2D $(x,y,\mu,\omega)$ with \emph{two} angular variables $\mu$ and
-$\omega$, flatland is a computationally simpler testing ground that retains the
+travel in a 2-D plane \cite{Asa2008}. Because the flatland phase space is
+$(x,y,\omega)$ with \emph{one} angular variable (the azimuthal~$\omega$),
+rather than the
+standard 2-D $(x,y,\mu,\omega)$ with \emph{two} angular variables (the
+polar cosine~$\mu$ and the azimuthal~$\omega$),
+\mbox{flatland} is a computationally simpler testing ground that retains the
 complexity of multidimensional geometry. For this reason, flatland has recently
 been used in the development and testing of multi-D transport methods
 \cite{Lar2009c,Joh2011,Tra2011}.
 
-Previous work has shown that the physical (3D) diffusion coefficient
+Previous work has shown that the physical (3-D) diffusion coefficient
 $\frac{1}{3\sigma}$ differs from the flatland diffusion coefficient
 $\frac{1}{2\sigma}$, but accurate boundary conditions for the flatland
 diffusion equations have not been derived. Clearly, an accurate diffusion
@@ -45,35 +50,32 @@ and ``variational'' boundary conditions for the flatland diffusion equation,
 and \textsl{(ii)} demonstrate the accuracy of these results via numerical
 simulations.
 
-\emph{Note: should we do as one reviewer suggested and change $\theta$ to
-$\omega$, the more standard notation for the azimuthal angle?}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analysis}
 The steady-state, monoenergetic transport equation is
 \begin{equation}\label{eq:generalTransport}
   \vec{\Omega}\vd \grad \psi + \sigma \psi
-  = \frac{c \sigma}{\omega_0} \int_{\Omega} \psi \ud\Omega + \frac{q}{\omega_0}
+  = \frac{c \sigma}{\gamma_0} \int_{\Omega} \psi \ud\Omega + \frac{q}{\gamma_0}
   \quad \vec{x}\in V,\ \vec{\Omega}\in \Omega \,,
 \end{equation}
 where the direction vector $\vec{\Omega}$, the unit ``sphere'' $\Omega$, and
-the constant $\omega_0$ depend on whether the geometry
-is flatland or 2D. We consider a specified incident boundary condition:
+the constant $\gamma_0$ depend on whether the geometry
+is flatland or 2-D. We consider a specified incident boundary condition:
 \begin{equation} \label{eq:ssBndy}
   \psi(\vec{x}, \vec{\Omega}) = \psi^b(\vec{x}, \vec{\Omega})\,,
   \quad \vec{x}\in \partial V,\ \vec{\Omega} \vd \vec{n} < 0\,.
 \end{equation}
 
-In 2D geometry, $\vec{\Omega}=\sqrt{1-\mu^2} \cos \theta \vec{i} +
-\sqrt{1-\mu^2} \sin \theta \vec{j}$; and in flatland, $\vec{\Omega}=\cos \theta
-\vec{i} + \sin \theta \vec{j}$. The domain of angular integration $\Omega$ in
-2D is $-1\le\mu\le1$, $0 \le \theta < 2\pi$; in flatland, it is $0 \le \theta
+In 2-D geometry, $\vec{\Omega}=\sqrt{1-\mu^2} \cos \omega \vec{i} +
+\sqrt{1-\mu^2} \sin \omega \vec{j}$; and in flatland, $\vec{\Omega}=\cos \omega
+\vec{i} + \sin \omega \vec{j}$. The domain of angular integration $\Omega$ in
+2-D is $-1\le\mu\le1$, $0 \le \omega < 2\pi$; in flatland, it is $0 \le \omega
 < 2\pi$. These lead to the different angular moments
 \begin{equation}\label{eq:omegaIdentities}
-  \omega_m = \int_{\Omega} \abs{\vec{\Omega}\vd \vec{i}}^m \ud\Omega\,.
+  \gamma_m = \int_{\Omega} \abs{\vec{\Omega}\vd \vec{i}}^m \ud\Omega\,.
 \end{equation}
-In 2D, $\omega_0=4\pi$, $\omega_1=2\pi$, and $\omega_2=\frac{4\pi}{3}$.
-However, in flatland, $\omega_0=2\pi$, $\omega_1=4$, and $\omega_2=\pi$. The
+In 2-D, $\gamma_0=4\pi$, $\gamma_1=2\pi$, and $\gamma_2=\frac{4\pi}{3}$.
+However, in flatland, $\gamma_0=2\pi$, $\gamma_1=4$, and $\gamma_2=\pi$. The
 differences between these values lead to different diffusion 
 coefficients and different boundary conditions.
 
@@ -82,18 +84,18 @@ of the transport equation can be reduced to Fick's law, expressed using the
 identities of Eq.~\eqref{eq:omegaIdentities}:
 \begin{equation} \label{eq:fickGeneral}
   \vec{J}(\vec{x})
-  = - \frac{\omega_2}{\omega_0} \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x})
+  = - \frac{\gamma_2}{\gamma_0} \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x})
   \equiv -D(\vec{x}) \grad \phi(\vec{x})\,.
 \end{equation}
-In 2D and 3D, $\omega_2/\omega_0 = (4\pi / 3) / (4\pi) = 1/3$; however, in
-flatland, $\omega_2/\omega_0 = \pi / (2\pi) = 1/2$. Thus, $D=\frac{1}{3\sigma}$ in
-2D but $D=\frac{1}{2\sigma}$ in flatland.
+In 2-D and 3-D, $\gamma_2/\gamma_0 = (4\pi / 3) / (4\pi) = 1/3$; however, in
+flatland, $\gamma_2/\gamma_0 = \pi / (2\pi) = 1/2$. Thus, $D=\frac{1}{3\sigma}$ in
+2-D but $D=\frac{1}{2\sigma}$ in flatland.
 
 Fick's law and the linear-in-angle approximation give the following diffusion
 approximation to the angular flux:
 \begin{equation} \label{eq:diffusionIntensity}
   \psi(\vec{x}, \vec{\Omega})
-  = \frac{1}{\omega_0} \left( \phi(\vec{x})
+  = \frac{1}{\gamma_0} \left( \phi(\vec{x})
   - \frac{1}{\sigma(\vec{x})}
   \vec{\Omega} \vd \grad \phi(\vec{x}) \right) \,.
 \end{equation}
@@ -110,30 +112,30 @@ incident directions:
 \psi^b \ud\Omega
  &= 
 \int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}} 
- \frac{1}{\omega_0} \left( \phi - \frac{1}{\sigma}
+ \frac{1}{\gamma_0} \left( \phi - \frac{1}{\sigma}
   \vec{\Omega} \vd \grad \phi \right)
   \ud\Omega \,.
 \end{align*}
 Using the definitions in Eq.~\eqref{eq:omegaIdentities}, we
-find the following general-geometry expression for the Marshak boundary
+obtain the following general-geometry expression for the Marshak boundary
 condition:
 \begin{equation} \label{eq:marshak}
-\frac{2\omega_0}{\omega_1}
+\frac{2\gamma_0}{\gamma_1}
 \int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}}
 \psi^b \ud\Omega
 =
-\phi + \frac{\omega_2}{\omega_1}\frac{1}{\sigma} \vec{n} \vd \grad \phi \,.
+\phi + \frac{\gamma_2}{\gamma_1}\frac{1}{\sigma} \vec{n} \vd \grad \phi \,.
 \end{equation}
-In 2D, this evaluates to the standard Marshak boundary condition with
-extrapolation distance $\frac{\omega_2}{\omega_1} = \frac23$, but in flatland
+In 2-D, this evaluates to the standard Marshak boundary condition with
+extrapolation distance $\frac{\gamma_2}{\gamma_1} = \frac23$, but in flatland
 it gives
 \begin{equation*}
 \pi J^{-} = \phi + \frac{\pi}{4}\frac{1}{\sigma} \vec{n} \vd \grad \phi
 = \phi + \frac{\pi}{2} D \vec{n} \vd \grad \phi\,.
 \end{equation*}
 Thus, the flatland extrapolation distance of $\frac{\pi}{4} \approx 0.7854$
-is about 18\% longer than in 2D.
-The physical reason for this is that in 2D, a significant fraction of
+is about 18\% longer than in 2-D.
+The underlying physical reason is that in 2-D, a significant fraction of
 particles travel at a steep angle to the $x,y$-plane, yielding a
 shorter extrapolation distance, i.e.~a steeper slope for $\phi$ on the boundary.
 
@@ -151,46 +153,46 @@ a semi-infinite plane, $-\infty < x < \infty$, $0 < y < \infty$,
 \begin{subequations} \label{eqs:flatTransport}
 \begin{equation}\label{eq:flatTransportVol}
   \vec{\Omega}\vd \grad \psi + \sigma \psi
-  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi \ud\theta\,, \quad 0 \le \theta <
+  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi \ud\omega\,, \quad 0 \le \omega <
   2\pi\,.
 \end{equation}
 It has a uniform incident boundary condition,
 \begin{equation}\label{eq:flatTransportBndy}
-  \psi(x, 0, \theta) = \psi^b(\theta)\,,
-  \quad 0 \le \theta < \pi \,.
+  \psi(x, 0, \omega) = \psi^b(\omega)\,,
+  \quad 0 \le \omega < \pi \,.
 \end{equation}
 \end{subequations}
 Because there is no variation in the boundary condition or $\sigma$ 
 in $x$, $\tpder{\psi}{x}=0$, and Eq.~\eqref{eq:flatTransportVol} reduces to
 the one-dimensional flatland transport equation 
 \begin{equation}\label{eq:flatMarshak}
-  \sin \theta \pder{}{y}\psi(y,\theta) + \sigma \psi(y,\theta)
-  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi(y,\theta') \ud \theta'\,,
+  \sin \omega \pder{}{y}\psi(y,\omega) + \sigma \psi(y,\omega)
+  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi(y,\omega') \ud \omega'\,,
 \end{equation}
 which is \emph{not} the 1D planar geometry transport equation.
 We define the $y$ components of the angular moments of $\psi$ as
 \begin{equation} \label{eq:flatPhi}
-  \phi_m(y) = \int_{0}^{2\pi} (\vec{\Omega}\vd\vec{j})^m \psi(y,\theta) \ud\theta
-  = \int_{0}^{2\pi} (\sin\theta)^m \psi(y,\theta) \ud\theta \,.
+  \phi_m(y) = \int_{0}^{2\pi} (\vec{\Omega}\vd\vec{j})^m \psi(y,\omega) \ud\omega
+  = \int_{0}^{2\pi} (\sin\omega)^m \psi(y,\omega) \ud\omega \,.
 \end{equation}
 As $y\to\infty$, the angular flux $\psi$ will approach a constant
 $\varphi/2\pi$,
 which gives $\phi_0(\infty)=\varphi$. Concordantly, $\phi_1(\infty)=0$.
 
-Operating on Eq.~\eqref{eq:flatMarshak} by $\int_{0}^{2\pi} (\sin\theta)^m
-(\cdot) \ud\theta$ gives the $m$th angular moment in the $y$ direction:
+Operating on Eq.~\eqref{eq:flatMarshak} by $\int_{0}^{2\pi} (\sin\omega)^m
+(\cdot) \ud\omega$ gives the $m$th angular moment in the $y$ direction:
 \begin{align}
  % \nonumber
- % \pder{}{y} \int_{0}^{2\pi} (\sin\theta)^{m+1} \psi \ud\theta
- % + \sigma \int_{0}^{2\pi} (\sin\theta)^{m} \psi \ud\theta
- % &= \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi \ud \theta'
- % \int_{0}^{2\pi} (\sin\theta)^{m} \ud\theta
+ % \pder{}{y} \int_{0}^{2\pi} (\sin\omega)^{m+1} \psi \ud\omega
+ % + \sigma \int_{0}^{2\pi} (\sin\omega)^{m} \psi \ud\omega
+ % &= \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi \ud \omega'
+ % \int_{0}^{2\pi} (\sin\omega)^{m} \ud\omega
  % \\
   \label{eq:flatMoments}
   \pder{\phi_{m+1}}{y}
   + \sigma \phi_{m}
   &= \frac{\sigma}{2\pi} \phi_{0}
-  \int_{0}^{2\pi} (\sin\theta)^{m} \ud\theta\,.
+  \int_{0}^{2\pi} (\sin\omega)^{m} \ud\omega\,.
 \end{align}
 For $m=0$, the conservation equation, Eq.~\eqref{eq:flatMoments} evaluates to
 \begin{equation*}
@@ -214,7 +216,7 @@ $\phi_{1}=0$, we find
 \end{equation*}
 Thus $\phi_{2}$ is also a constant. As $y\to\infty$, $\psi\to\varphi/2\pi$, so
 \begin{equation*}
-  \phi_{2} = \int_{0}^{2\pi} (\sin\theta)^2 \frac{\varphi}{2\pi} \ud\theta
+  \phi_{2} = \int_{0}^{2\pi} (\sin\omega)^2 \frac{\varphi}{2\pi} \ud\omega
   = \frac{1}{2} \varphi\,.
 \end{equation*}
 % in 1D, this would be $\int_{-1}^{1}\mu^2\frac{\varphi}{2} \ud \mu =
@@ -224,28 +226,28 @@ Since $\phi_1=0$, we can add $\alpha \phi_1$ to the previous equation for any
 $\alpha$:
 \begin{align*}
  %\alpha\phi_1 + \phi_{2} &= \frac{\varphi}{2} \\
- \int_{0}^{2\pi} (\alpha \sin\theta + \sin^2\theta)
- \psi(y,\theta) \ud\theta
+ \int_{0}^{2\pi} (\alpha \sin\omega + \sin^2\omega)\,
+ \psi(y,\omega) \ud\omega
  &= \frac{\varphi}{2}\,.
 \end{align*}
-At the boundary $y=0$, $\psi=\psi^b$ for incident angles $0 \le \theta < \pi$.
+At the boundary $y=0$, $\psi=\psi^b$ for incident angles $0 \le \omega < \pi$.
 
-The true variational analysis reveals that certain trial functions
+The variational analysis in \cite{Mal1991} reveals that certain trial functions
 allow an exiting angular distribution that is isotropic to second order, so
-we make the ``variational'' approximation that $\psi(0,\theta)=\psi^\text{out}$.
+we make the ``variational'' approximation that $\psi(0,\omega)=\psi^\text{out}$.
 The previous equation then yields
-\begin{equation*}
- \int_{0}^{\pi} (\alpha \sin\theta + \sin^2\theta)
- \psi^b(\theta) \ud\theta
- + \int_{\pi}^{2\pi} (\alpha \sin\theta + \sin^2\theta)\ud\theta \psi^\text{out}
+\begin{multline*}
+ \int_{0}^{\pi} (\alpha \sin\omega + \sin^2\omega)
+ \psi^b(\omega) \ud\omega
+\\ + \int_{\pi}^{2\pi} (\alpha \sin\omega + \sin^2\omega)\ud\omega \psi^\text{out}
  = \frac{\varphi}{2}\,.
-\end{equation*}
+\end{multline*}
 The value $\alpha=\pi/4$ eliminates the integral over outgoing directions and
 gives a relation between moments of the incident angular flux and the
 magnitude of the angular flux as $y\to\infty$:
 \begin{equation}\label{eq:varBoundary}
-  \int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
- \psi^b(\theta) \ud\theta
+  \int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
+ \psi^b(\omega) \ud\omega
  = \frac{\varphi}{2}\,.
 \end{equation}
 
@@ -253,21 +255,21 @@ We wish our boundary condition to preserve the value of $\varphi$ when the
 diffusion method is used, so we substitute the diffusion approximation,
 Eq.~\eqref{eq:diffusionIntensity}:
 \begin{align*}
- \varphi &= 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
- \psi^b(\theta) \ud\theta
+ \varphi &= 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
+ \psi^b(\omega) \ud\omega
  \\
  &= 
-  2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
+  2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
  \left( \frac{1}{2\pi} \phi -
-  \frac{1}{\sigma} \sin\theta \pder{\phi_0}{y}\right)\ud\theta
+  \frac{1}{\sigma} \sin\omega \pder{\phi}{y}\right)\ud\omega
 \\
  &= 
   \phi
-- \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma} \pder{\phi_0}{y}
+- \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma} \pder{\phi}{y}
 \,.
 \end{align*}
 In this problem, the boundary surface outer normal is $\vec{n}=-\vec{j}$. 
-Replacing $\sin \theta$ with $-\vec{\Omega}\vd\vec{n}$, we obtain the following
+Replacing $\sin \omega$ with $-\vec{\Omega}\vd\vec{n}$, we obtain the following
 flatland variational boundary condition:
 \begin{multline} \label{eq:flatVarBc}
 \int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
@@ -294,38 +296,52 @@ right, and top sides. The bottom side has a specified unit-current incident
 flux; we consider three different angular
 distributions.
 
-
-The first distribution is isotropic, $\psi^b(\theta) = \frac{1}{2}$. The second
+The first distribution is isotropic, $\psi^b(\omega) = \frac{1}{2}$. The second
 is a normally incident flux, with all particles entering
-perpendicular to the surface, $\psi^b(\theta) = \delta(\theta -
+perpendicular to the surface, $\psi^b(\omega) = \delta(\omega -
 \frac{\pi}{2})$. The third incident distribution is at a grazing angle, with 
-$\psi^b(\theta) = 10 \delta(\theta - \sin^{-1}.1)$.
+$\psi^b(\omega) = 10 \delta(\omega - \sin^{-1}.1)$.
 
-We compare a Monte Carlo solution with a finite difference diffusion
-implementation on a fine spatial grid.
+We compare a transport method (Monte Carlo using $10^7$ particles)
+with a finite difference diffusion implementation on a fine spatial grid.
+Figure~\ref{fig:delta},
+ a line-out of the scalar flux $\phi_0$ along
+$x=1$ for the normally incident boundary, illustrates the differences between
+the methods. The diffusion
+approximation cannot reproduce the boundary layer that the true transport
+solution features, but the variational approximation to the flatland
+diffusion boundary condition allows the asymptotic diffusion solution to
+closely match the transport solution. The Marshak boundary does not.
 
-Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi_0$ along
-$x=1$ for an isotropic incident source. Because the left-hand sides of
-Eqs.~\eqref{eq:flatMarshak} and~\eqref{eq:flatVarBc} are the same, the
-differences in the solution are only due to the slightly different
-extrapolation distance.
+Figure~\ref{fig:relative} quantitatively compares both ``variational'' and
+``Marshak'' diffusion boundary conditions against the transport solution
+for all three incident distributions.  
+As with the variational boundary condition for 3-D geometry, the flatland
+variational boundary condition gives an interior scalar flux accurate to within
+a few percent. The Marshak condition fails to limit to the transport solution except in
+the case of an isotropic boundary source, where only the extrapolation
+distance differs from the variational boundary condition.
 
-For the highly anisotropic normal and grazing cases,
-Figs.~\ref{fig:delta} and~\ref{fig:grazing}, the Marshak boundary fails to
-limit to the transport solution outside of the boundary layer. However, 
-the variational boundary condition yields much more accurate
-approximates the scalar flux in the interior of the system.
 
-\begin{figure}[htb!]
-  \centering
-  \hspace{-.5in}
-  \input{flatlandbc-channel/isotropic-phi/plot}
-  \hspace{-.5in}
-  \caption{Scalar flux with an isotropic boundary condition.}
-  \label{fig:isotropic}
-\end{figure}
+%Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi_0$ along
+%$x=1$ for an isotropic incident source.
+%
+%For the highly anisotropic normal and grazing cases,
+%Figs.~\ref{fig:delta} and~\ref{fig:grazing}, the Marshak boundary fails to
+%limit to the transport solution outside of the boundary layer. However, 
+%the variational boundary condition yields much more accurate
+%approximates the scalar flux in the interior of the system.
 
-\begin{figure}[htb!]
+%\begin{figure}[tbh!]
+%  \centering
+%  \hspace{-.5in}
+%  \input{flatlandbc-channel/isotropic-phi/plot}
+%  \hspace{-.5in}
+%  \caption{Scalar flux with an isotropic boundary condition.}
+%  \label{fig:isotropic}
+%\end{figure}
+
+\begin{figure}[tb]
   \centering
   \hspace{-.5in}
   \input{flatlandbc-channel/delta-phi/plot}
@@ -334,22 +350,16 @@ approximates the scalar flux in the interior of the system.
   \label{fig:delta}
 \end{figure}
 
-\begin{figure}[htb!]
-  \centering
-  \hspace{-.5in}
-  \input{flatlandbc-channel/grazing-phi/plot}
-  \hspace{-.5in}
-  \caption{Scalar flux with a grazing boundary condition.}
-  \label{fig:grazing}
-\end{figure}
-
-\emph{Note: should we do as one reviewer suggested and use relative errors
-instead of ``eyeball-norm'' plots? I have prepared Fig.~\ref{fig:relative} and
-propose replacing Figs.~1 and~3 with it.}
-%As with the variational boundary condition for 2-D geometry, the flatland
-%variational boundary condition gives an interior scalar flux accurate to within
-%a few percent.
-\begin{figure}[h!]
+%\begin{figure}[tbh!]
+%  \centering
+%  \hspace{-.5in}
+%  \input{flatlandbc-channel/grazing-phi/plot}
+%  \hspace{-.5in}
+%  \caption{Scalar flux with a grazing boundary condition.}
+%  \label{fig:grazing}
+%\end{figure}
+%
+\begin{figure}[tb]
   \centering
   \hspace{-.5in}
   \input{flatlandbc-channel/relative-errors/plot}
@@ -375,12 +385,12 @@ distance of about $0.8171$. Numerical simulations show that the variational
 boundary condition is significantly more accurate than the Marshak condition,
 especially for anisotropic incident boundary fluxes $\psi^b$. Overall, the
 flatland Marshak and variational diffusion boundary conditions have accuracies
-comparable to their 3D counterparts. 
+comparable to their 3-D counterparts. 
 
 These results have application in the testing of numerical methods for multi-D
 transport problems. The flatland implementation of these methods is easier and
-less costly than in standard 2D or 3D geometries, and the results seen in
-flatland are strongly correlated to results in 2D and 3D.
+less costly than in standard 2-D or 3-D geometries, and the results seen in
+flatland are strongly correlated to results in 2-D and 3-D.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}

@@ -49,7 +49,7 @@ that the results are highly accurate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Derivation}
-We consider a 3D, monoenergetic, steady-state transport equation
+We consider a 3-D, monoenergetic, steady-state transport equation
 with isotropic scattering and an isotropic source:
 \begin{subequations} \label{eqs:fullTransport}
 \begin{multline} 
@@ -394,10 +394,10 @@ boundary condition on the bottom. The geometry and cross sections are similar
 to Larsen
 and Trahan's VHTR problem \cite{Lar2009c}.
 
-The anisotropic diffusion equations and boundary conditions were implemented
+The anisotropic diffusion equations and boundary conditions are implemented
 in the \pytrt\ transport code \cite{Pytrt} using a finite difference scheme
-and executed with a very fine grid. For comparison
-purposes, Monte Carlo and standard diffusion were also implemented and plotted.
+and executed with a very fine spatial grid. For comparison
+purposes, Monte Carlo and standard diffusion are also plotted.
 We compare the AD method using three different boundary conditions for $f$ on
 the bottom surface: a reflecting boundary, a white boundary, and a vacuum
 boundary. The vacuum boundary is not consistent with our theory but
