@@ -41,11 +41,11 @@
 \toprule
     Distribution & 1-D & Flatland
 \\ \midrule
-Isotropic & $I(\mu) = \frac{1}{2}$ & $I(\theta) = \frac{\pi}{2}$
+Isotropic & $I(\mu) = \frac{1}{2}$ & $I(\omega) = \frac{\pi}{2}$
 \\
-Normal & $I(\mu) = \delta(\mu-1)$ & $I(\theta) = \delta(\theta-\pi/2)$
+Normal & $I(\mu) = \delta(\mu-1)$ & $I(\omega) = \delta(\omega-\pi/2)$
 \\
-Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\theta) = \delta(\theta-\sin\inv.1)$
+Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\omega) = \delta(\omega-\sin\inv.1)$
 \\ \bottomrule
   \end{tabular}
   \caption{Angular distributions used in boundary condition tests.}
@@ -59,11 +59,11 @@ right, and top sides. The bottom side has a specified boundary
 condition with unit incident current, and we consider three different angular
 distributions.
 
-The first distribution is isotropic, $\psi^b(\theta) = \frac{1}{2}$. The second
+The first distribution is isotropic, $\psi^b(\omega) = \frac{1}{2}$. The second
 is a normally incident flux, with all particles entering
-perpendicular to the surface, $\psi^b(\theta) = \delta(\theta -
+perpendicular to the surface, $\psi^b(\omega) = \delta(\omega -
 \frac{\pi}{2})$. The third incident distribution is at a grazing angle, with 
-$\psi^b(\theta) = 10 \delta(\theta - \sin^{-1}.1)$.
+$\psi^b(\omega) = 10 \delta(\omega - \sin^{-1}.1)$.
 These are the same angular distributions used in a boundary matching analysis
 in \cite{Dav2006}.
 
@@ -170,7 +170,7 @@ an \SN\ solution), Fig.~\ref{fig:bcChannelIsotropicAngular}, helps explain the
 accuracy
 of the AD method and the difference between the reflecting and white boundary
 treatments. Even though AD cannot exactly model the peak of freely streaming
-photons in the channel (which the \SN\ angular flux shows at $\theta=3\pi/2$),
+photons in the channel (which the \SN\ angular flux shows at $\omega=3\pi/2$),
 it accurately approximates the angular flux shape driven by scattering from the
 diffusive region (the lobes on the left and right).
 The linear-in-angle diffusion approximation cannot represent any of these
@@ -183,12 +183,12 @@ features.
   \input{adbc-channel/angle-isotropic-cmfp/plot}
   \hspace{-.5in}
   \vspace{-.25in}
-  \caption{Angular flux $\psi(2.5, 1., \theta)$ for the incident isotropic
+  \caption{Angular flux $\psi(2.5, 1., \omega)$ for the incident isotropic
   problem, in the centerline of the channel one unit from the boundary.}
   \label{fig:bcChannelIsotropicAngular}
 \end{figure}
 
-The shape around $\theta=\pi/2$ gives insight into why the white boundary
+The shape around $\omega=\pi/2$ gives insight into why the white boundary
 performs better in this problem: a reflecting boundary produces a peak in $f$
 along the channel, but a white boundary gives a more isotropic shape near that
 range, better matching the incident isotropic boundary condition. This suggests

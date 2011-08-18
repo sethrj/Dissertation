@@ -35,13 +35,13 @@
 \section{Introduction}
 Recently, an anisotropic diffusion (AD) equation has been derived that uses
 transport-calculated AD coefficients to inexpensively but accurately model
-particle transport, particularly in voided channels where standard diffusion
+particle transport, particularly in voided channels, where standard diffusion
 theory breaks down \cite{Lar2009c,Joh2011,Tra2011}. However, these derivations
-of the AD equation did not address boundary conditions:\ numerical simulations
+did not address boundary conditions; numerical simulations
 to test the equations used heuristic boundary conditions.
 
-Here we present a new derivation of the AD approximation in which the AD
-equation and boundary conditions are both obtained systematically using an
+Here we present a new derivation in which the AD
+equation and boundary conditions are both obtained systematically from an
 integral transport equation. Also, we
 numerically test the AD equation and the proposed boundary conditions on a
 ``flatland" VHTR-like problem driven by a boundary source, and we demonstrate
@@ -79,7 +79,7 @@ Operating on Eq.~\eqref{eq:fullTransportVol} by $\int_{4\pi} (\cdot) \ud
   \quad \vec{x} \in V\,.
 \end{equation}
 Adding $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:loVol},
-dividing the result by $4\pi$, and subtracting from
+dividing the resulting equation by $4\pi$, and subtracting from
 Eq.~\eqref{eq:fullTransportVol}, the isotropic scattering and extraneous
 sources cancel.
 %\begin{equation*}
@@ -142,8 +142,7 @@ The interior transport equation is just like Eq.~\eqref{eq:capPsiVol}:
   = \frac{1}{4\pi} \grad \vd\vec{J}(\vec{x}) -
   \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x})\,.
 \end{equation}
-We define incident boundary conditions for this interior solution
-to be
+We define incident boundary conditions for $\tilde\Psi$ to be
 \begin{equation}\label{eq:tCapPsiBndy}
  \tilde\Psi(\vec{x}, \vec{\Omega}) 
   = - \zeta(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x})
@@ -190,7 +189,7 @@ into an integral transport equation
 \end{split}
 \end{align}
 \end{subequations}
-Here $\tau(\vec{x}, \vec{x}')$ is the optical thickness of the medium between
+Here $\tau(\vec{x}, \vec{x}')$ is the optical distance between
 points
 $\vec{x}$ and $\vec{x}'$
 along the direction $\vec{\Omega} = (\vec{x}'-
@@ -287,7 +286,7 @@ second angular moment of $f$.
 The unknown function $\zeta(\vec{x}, \vec{\Omega})$, introduced at the
 beginning of the anisotropic
 diffusion derivation, allowed us to formulate a specified boundary condition
-such that the effect of $\zeta$ could be embedded in the anisotropic diffusion
+in which the effect of $\zeta$ could be embedded in the anisotropic diffusion
 tensor $\Dtens$. To make use of this degree of freedom, we enforce on
 the boundary the fact from Eq.~\eqref{eq:capPsiIdentities} that the zeroth
 moment of $\Psi(\vec{x}, \vec{\Omega})$ is zero. Applying the identity to
@@ -372,7 +371,7 @@ paths separate two boundaries.
 
 The transport problem for $f$ does not need to store the full angular flux; it
 only needs to accumulate the components of the second angular moment. However,
-for development purposes, storing $f(\vec{x},\vec{\Omega})$ allows the AD
+for development purposes, storing $f(\vec{x},\vec{\Omega})$ would allow the AD
 representation to the angular flux to be visualized as
 \begin{equation*}
   \psi_\text{AD}(\vec{x},\vec{\Omega}) = \tfrac{1}{4\pi} \phi(\vec{x})
@@ -459,7 +458,7 @@ features.  Also, a reflecting boundary for $f$ produces a peak in $f$
 along the channel, but a white boundary condition gives a more isotropic shape,
 better matching the incident isotropic boundary condition. This suggests that a
 more accurate way to satisfy Eq.~\eqref{eq:zetaCondition} may be to have
-$\zeta$ take the shape of the true boundary condition. This wil be examined in
+$\zeta$ take the shape of the true boundary condition. This will be examined in
 future work. 
 
 

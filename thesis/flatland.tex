@@ -8,9 +8,9 @@ constrained to travel in a two-dimensional plane \cite{Abb1884,Asa2008}. This
 differs from standard 2-D
 geometry, which is a slice of a 3-D problem that is invariant in the $z$ axis.
 Because the flatland phase space is
-$(x,y,\theta)$ with \emph{one} angular variable $\theta$, rather than the
-standard 2D $(x,y,\mu,\theta)$ with \emph{two} angular variables $\mu$ and
-$\theta$, flatland is a computationally simpler testing ground that retains the
+$(x,y,\omega)$ with \emph{one} angular variable $\omega$, rather than the
+standard 2D $(x,y,\mu,\omega)$ with \emph{two} angular variables $\mu$ and
+$\omega$, flatland is a computationally simpler testing ground that retains the
 complexity of multidimensional geometry. For this reason, flatland has recently
 been used in the development and testing of multi-D transport methods
 \cite{Lar2009c,Joh2011,Tra2011}.
@@ -24,7 +24,7 @@ two-dimensional projection are identical, shown in Fig.~\ref{fig:chordFlatland}.
   \includegraphics{chord-flatland}
   \caption[The infinite gap as represented on paper.]%
   {The infinite gap as represented on paper. The gap is a distance
-  $\tau$ across, $\theta$ is the azimuthal angle, and $s$ is the
+  $\tau$ across, $\omega$ is the azimuthal angle, and $s$ is the
   distance across the gap.}
   \label{fig:chordFlatland}
 \end{figure}
@@ -39,7 +39,7 @@ problem where the two gray rectangles and the gap are infinite in extent
   \caption[A fuller view of the infinite gap in 2-D geometry.]%
   {A fuller view of the infinite gap in 2-D geometry.
   The polar angle cosine is $\mu= \cos \varphi$, and the azimuthal angle is
-  $\theta$.}
+  $\omega$.}
   \label{fig:chordXy}
 \end{figure}
 
@@ -93,7 +93,7 @@ and 3-D):
 \begin{equation}\label{eq:ssTransportVol}
   \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega})
   + \sigma(\vec{x}) I(\vec{x}, \vec{\Omega})
-  = \frac{1}{\omega_0} \phi(\vec{x}) \,,
+  = \frac{1}{\gamma_0} \phi(\vec{x}) \,,
   \quad \vec{x} \in V \,,\ \vec{\Omega} \in \Omega\,.
 \end{equation}
 Here, we use
@@ -101,11 +101,11 @@ Here, we use
   I(\vec{x},\vec{\Omega}) &= \text{the steady-state angular intensity,} \\
   \vec{\Omega} &= \text{the angular variable,} \\
   \Omega &= \text{the domain of the angular variable (the ``unit sphere''),} \\
-  \omega_n &= \text{the $n$th angular moment, and} \\
+  \gamma_n &= \text{the $n$th angular moment, and} \\
   \phi(\vec{x}) &= \text{the scalar intensity, the zeroth angular moment of $I$.}
 \end{align*}
 The angular variables $\vec{\Omega}$ and domains $\Omega$ are defined in
-Table~\ref{tab:angularDomain}, and the moments $\omega_0$ are evaluated in
+Table~\ref{tab:angularDomain}, and the moments $\gamma_0$ are evaluated in
 Table~\ref{tab:angularMoments}. The specified incident radiation
 boundary:
 \begin{equation} \label{eq:ssBndy}
@@ -122,17 +122,17 @@ boundary:
 \\ \midrule
    1-D & $\mu$ & $-1 \le \mu \le 1$ & $\ud\mu$
    \\
-   2-D & $\sqrt{1-\mu^2} \cos \theta \vec{i}
-   + \sqrt{1-\mu^2} \sin \theta \vec{j}$
-   & $-1 \le \mu \le 1$, $0 \le \theta < 2\pi$ & $\ud\mu \ud \theta$
+   2-D & $\sqrt{1-\mu^2} \cos \omega \vec{i}
+   + \sqrt{1-\mu^2} \sin \omega \vec{j}$
+   & $-1 \le \mu \le 1$, $0 \le \omega < 2\pi$ & $\ud\mu \ud \omega$
    \\
-   Flatland & $\cos \theta \vec{i} + \sin \theta \vec{j}$
-   & $0 \le \theta < 2\pi$ & $\ud \theta$
+   Flatland & $\cos \omega \vec{i} + \sin \omega \vec{j}$
+   & $0 \le \omega < 2\pi$ & $\ud \omega$
    \\
    3-D & $\mu \vec{i}
-   + \sqrt{1-\mu^2} \cos \theta \vec{j}
-   + \sqrt{1-\mu^2} \sin \theta \vec{k}$
-   & $-1 \le \mu \le 1$, $0 \le \theta < 2\pi$ & $\ud\mu \ud \theta$
+   + \sqrt{1-\mu^2} \cos \omega \vec{j}
+   + \sqrt{1-\mu^2} \sin \omega \vec{k}$
+   & $-1 \le \mu \le 1$, $0 \le \omega < 2\pi$ & $\ud\mu \ud \omega$
 \\ \bottomrule
   \end{tabular}
   \caption{Angular variables in the various geometries.}
@@ -144,9 +144,9 @@ boundary:
   \begin{tabular}{rccc}
 \toprule
    Geometry
-   & $\omega_0 \equiv \int_\Omega \ud\Omega$
-   & $\omega_1 \equiv \int_\Omega \abs{\vec{\Omega}\vd\vec{i}} \ud\Omega$
-   & $\omega_2 \equiv \int_\Omega (\vec{\Omega}\vd\vec{i})^2 \ud\Omega$
+   & $\gamma_0 \equiv \int_\Omega \ud\Omega$
+   & $\gamma_1 \equiv \int_\Omega \abs{\vec{\Omega}\vd\vec{i}} \ud\Omega$
+   & $\gamma_2 \equiv \int_\Omega (\vec{\Omega}\vd\vec{i})^2 \ud\Omega$
 \\ \midrule
    1-D & 2 & 1 & $\frac{2}{3}$
    \\
@@ -211,11 +211,11 @@ following value for $\alpha$ in any geometry:
   1 = \int_{\Omega} f(\vec{\Omega}) \ud\Omega
   = \alpha \int_{\Omega} \ud\Omega
   \lra
-  \alpha = \frac{1}{\omega_0}\,.
+  \alpha = \frac{1}{\gamma_0}\,.
 \end{align*}
 Thus the angular distribution of an isotropic volume source is
 \begin{equation}\label{eq:volumeSource2}
-  f(\vec{\Omega}) \ud \Omega = \frac{\ud\Omega}{\omega_0} \,,
+  f(\vec{\Omega}) \ud \Omega = \frac{\ud\Omega}{\gamma_0} \,,
   \quad \vec{\Omega} \in \Omega\,.
 \end{equation}
 
@@ -223,24 +223,24 @@ In 2-D, using the identities from Tables~\ref{tab:angularDomain}
 and~\ref{tab:angularMoments}, Eq.~\eqref{eq:volumeSource2} evaluates to the
 familiar
 \begin{equation*}
-  f(\mu,\theta) \ud\mu\ud\theta = \frac{\ud\mu\ud\theta}{4\pi} 
-  = \frac{\ud\mu}{2}\frac{\ud\theta}{2\pi}
+  f(\mu,\omega) \ud\mu\ud\omega = \frac{\ud\mu\ud\omega}{4\pi} 
+  = \frac{\ud\mu}{2}\frac{\ud\omega}{2\pi}
   \,,
-  \quad -1\le \mu \le 1,\ 0 \le \theta < 2\pi\,,
+  \quad -1\le \mu \le 1,\ 0 \le \omega < 2\pi\,,
 \end{equation*}
 which gives the separable CDF
 \begin{equation*}
-  F(\mu,\theta) = F_1(\mu) F_2(\theta)
-  = \frac{1 + \mu}{2}\frac{\theta}{2\pi}\,,
-  \quad -1\le \mu \le 1,\ 0 \le \theta < 2\pi\,.
+  F(\mu,\omega) = F_1(\mu) F_2(\omega)
+  = \frac{1 + \mu}{2}\frac{\omega}{2\pi}\,,
+  \quad -1\le \mu \le 1,\ 0 \le \omega < 2\pi\,.
 \end{equation*}
 Setting two uniformly sampled random numbers $\xi_1 = F(\mu)$ and
-$\xi_2 = F(\theta)$, solving for $\mu$ and $\theta$, and
+$\xi_2 = F(\omega)$, solving for $\mu$ and $\omega$, and
 introducing them back into the 2-D representation of $\vec{\Omega}$, we get the
 well-known result
 \begin{align*}
-  \vec{\Omega} &= \sqrt{1-\mu^2} \cos \theta \vec{i}
-  + \sqrt{1-\mu^2} \sin \theta \vec{j}
+  \vec{\Omega} &= \sqrt{1-\mu^2} \cos \omega \vec{i}
+  + \sqrt{1-\mu^2} \sin \omega \vec{j}
 \\
   &= \sqrt{1-(2\xi_1-1)^2} \cos(2\pi\xi_2) \vec{i}
   + \sqrt{1-(2\xi_1-1)^2} \sin(2\pi\xi_2) \vec{j}\,.
@@ -248,23 +248,23 @@ well-known result
 
 In flatland, Eq.~\eqref{eq:volumeSource2} becomes the simpler
 \begin{equation*}
-  f(\theta) \ud\theta = \frac{\ud\theta}{2\pi} \,,
-  \quad 0 \le \theta < 2\pi\,,
+  f(\omega) \ud\omega = \frac{\ud\omega}{2\pi} \,,
+  \quad 0 \le \omega < 2\pi\,,
 \end{equation*}
 yielding the CDF
 \begin{equation}\label{eq:volumeSourceFlatland}
-  F(\theta) = \frac{\theta}{2\pi}\,,
-  \quad 0 \le \theta < 2\pi\,,
+  F(\omega) = \frac{\omega}{2\pi}\,,
+  \quad 0 \le \omega < 2\pi\,,
 \end{equation}
-Setting $\xi_1 = F(\theta)$ and solving for $\theta = F\inv(\xi_1)$ gives the
-following simple relation between an isotropically sampled angle $\theta$ and a
+Setting $\xi_1 = F(\omega)$ and solving for $\omega = F\inv(\xi_1)$ gives the
+following simple relation between an isotropically sampled angle $\omega$ and a
 uniformly sampled random number $\xi_1$:
 \begin{equation*}
-  \theta = 2\pi \xi_1\,.
+  \omega = 2\pi \xi_1\,.
 \end{equation*}
 The flatland particle's new angle is therefore
 \begin{equation*}
-  \vec{\Omega} = \cos \theta \vec{i} + \sin \theta \vec{j}
+  \vec{\Omega} = \cos \omega \vec{i} + \sin \omega \vec{j}
   = \cos(2\pi\xi_1) \vec{i} + \sin(2\pi\xi_1) \vec{j}\,.
 \end{equation*}
 
@@ -289,53 +289,53 @@ Requiring the PDF to integrate to unity over its domain gives $\alpha$
   \\
   1 &=\frac{\alpha}{2} \int_{\Omega} \abs{\vec{\Omega}\vd \vec{n}} \ud\Omega
   \\
-  \alpha &= \frac{2}{\omega_1}\,,
+  \alpha &= \frac{2}{\gamma_1}\,,
 \end{align*}
 so that the PDF for an isotropic surface source,
 Eq.~\eqref{eq:surfaceSource1}, becomes
 \begin{equation}\label{eq:surfaceSource2}
-  f(\vec{\Omega}) \ud \Omega = \frac{2}{\omega_1} \abs{\vec{\Omega}\vd \vec{n}} \ud \Omega \,,
+  f(\vec{\Omega}) \ud \Omega = \frac{2}{\gamma_1} \abs{\vec{\Omega}\vd \vec{n}} \ud \Omega \,,
 \quad \vec{\Omega}\vd \vec{n} < 0 \,.
 \end{equation}
 
 In 3-D, choosing $\vec{n}=\vec{i}$, the isotropic surface PDF is
 \begin{equation*}
-  f(\mu,\theta) \ud\mu \ud\theta
-  = \frac{1}{\pi} \mu \ud\mu \ud\theta
-  = (2 \mu \ud\mu) \frac{\ud\theta}{2\pi}\,,
+  f(\mu,\omega) \ud\mu \ud\omega
+  = \frac{1}{\pi} \mu \ud\mu \ud\omega
+  = (2 \mu \ud\mu) \frac{\ud\omega}{2\pi}\,,
 \end{equation*}
 which gives the separable CDF
 \begin{equation*}
-  F(\mu,\theta) = (\mu^2) \frac{\theta}{2\pi}\,,
+  F(\mu,\omega) = (\mu^2) \frac{\omega}{2\pi}\,,
 \end{equation*}
-from which we can sample $\mu=\sqrt{\xi_1}$ and $\theta=2\pi \xi_2$.
+from which we can sample $\mu=\sqrt{\xi_1}$ and $\omega=2\pi \xi_2$.
 
 In flatland, the surface source distribution is different. Let us choose
 $\vec{n} = -\vec{j}$ so that incident directions are in the range
-$\theta \in [0, \pi)$.
+$\omega \in [0, \pi)$.
 Using the flatland identities in Tables~\ref{tab:angularDomain}
 and~\ref{tab:angularMoments} to Eq.~\eqref{eq:surfaceSource1} gives the surface
 source PDF of
 \begin{equation*}
-  f(\theta) \ud\theta = \frac{2}{4} \, \abs{ -\sin \theta}\ud\theta
-  = \frac{1}{2} \sin \theta\ud\theta \,,\quad 0 \le \theta < \pi\,.
+  f(\omega) \ud\omega = \frac{2}{4} \, \abs{ -\sin \omega}\ud\omega
+  = \frac{1}{2} \sin \omega\ud\omega \,,\quad 0 \le \omega < \pi\,.
 \end{equation*}
 Integrating, we obtain the CDF for particle emission from
 a surface source in flatland geometry:
 \begin{equation}\label{eq:surfaceSourceFlatland}
-  F(\theta) = \frac{1}{2} \left( 1-\cos\theta \right)
-  \,,\quad 0 \le \theta < \pi\,,
+  F(\omega) = \frac{1}{2} \left( 1-\cos\omega \right)
+  \,,\quad 0 \le \omega < \pi\,,
 \end{equation}
-Solving for $\theta = F\inv(\xi_1)$ gives a sampled angle for a surface source
+Solving for $\omega = F\inv(\xi_1)$ gives a sampled angle for a surface source
 in flatland:
 \begin{equation*}
-  \theta = \cos\inv(1 - 2\xi_1)\,.
+  \omega = \cos\inv(1 - 2\xi_1)\,.
 \end{equation*}
 Finally, we insert this into the flatland $\vec{\Omega}$ and use the identity
-$\cos^2 \theta + \sin^2 \theta = 1$ to reduce the number of transcendental
+$\cos^2 \omega + \sin^2 \omega = 1$ to reduce the number of transcendental
 functions. The direction of a particle from an isotropic surface source is
 \begin{align*}
-  \vec{\Omega} &= \cos \theta \vec{i} + \sin \theta \vec{j} \\
+  \vec{\Omega} &= \cos \omega \vec{i} + \sin \omega \vec{j} \\
   &=  \cos[ \cos\inv(1 - 2\xi_1) ] \vec{i} + \sin[ \cos\inv(1 - 2\xi_1) ] \vec{j} \\
   &= (1 - 2\xi_1) \vec{i} + \sqrt{1 - (1 - 2\xi_1)^2} \vec{j}\,.
 \end{align*}
@@ -350,7 +350,7 @@ unit sphere, $\mu>0$, and to modify the ordinate weights to sum to $4\pi$
 moments of Table~\ref{tab:angularMoments} as the number of ordinates
 $N$ in the quadrature approaches infinity:
 \begin{equation*}
-  \omega_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
+  \gamma_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
 \end{equation*}
 
 The most straightforward way of implementing the flatland geometry in an \SN\
@@ -368,12 +368,12 @@ will be calculated in flatland just as in 2-D geometry.
 
 This scaling has two notable side effects. First, because the weights are twice
 what they should be, the \SN\ angular moments approach twice the flatland
-moments $\omega_n$:
+moments $\gamma_n$:
 \begin{equation*}
-  2 \omega_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
+  2 \gamma_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
 \end{equation*}
-Also, with this approach, visualizing $I(\theta)$ by plotting
-$I_m$ as a function of $\theta_m$ requires multiplying by a factor of two.
+Also, with this approach, visualizing $I(\omega)$ by plotting
+$I_m$ as a function of $\omega_m$ requires multiplying by a factor of two.
 % Here is an
 %example that uses the \verb|matplotlib| Python module's polar plot to view
 %the flatland angular intensity:
@@ -390,7 +390,7 @@ is imperative for benchmarking the anisotropic diffusion
 approximation against diffusion solutions.
 The angular moments in Table~\ref{tab:angularMoments},
 \begin{equation*}
-  \omega_n \equiv \int_\Omega \abs{\vec{\Omega} \vd \vec{i}}^n \ud \Omega\,,
+  \gamma_n \equiv \int_\Omega \abs{\vec{\Omega} \vd \vec{i}}^n \ud \Omega\,,
 \end{equation*}
 determine the constants in the diffusion coefficient and boundary conditions.
 Previous work has given the flatland diffusion coefficient to be $1/2\sigma$,
@@ -414,21 +414,21 @@ The zeroth angular moment of $I$ determines $f$:
   \phi = \int_\Omega I \ud \Omega
 = \int_\Omega \left( f + \vec{\Omega}\vd \vec{g} \right) \ud\Omega
 = \int_\Omega\ud\Omega f + 0
-= \omega_0 f \,,
+= \gamma_0 f \,,
 \end{equation*}
 and the first moment of $I$ determines $g$:
 \begin{equation*}
   \vec{F} = \int_\Omega \vec{\Omega} I \ud \Omega
 = f \int_\Omega \vec{\Omega} \ud\Omega
   + \vec{g} \vd \int_\Omega \vec{\Omega}\vec{\Omega} \ud\Omega
-= \omega_2 \vec{g} \,.
+= \gamma_2 \vec{g} \,.
 \end{equation*}
 Thus is the \Pone\ approximation to the radiation intensity in ``general
 geometry'' form,
 \begin{equation}\label{eq:ssPone}
   I(\vec{x}, \vec{\Omega})
-  \approx \frac{1}{\omega_0} \phi(\vec{x})
-  + \frac{1}{\omega_2} \vec{\Omega} \vd \vec{F}(\vec{x})\,.
+  \approx \frac{1}{\gamma_0} \phi(\vec{x})
+  + \frac{1}{\gamma_2} \vec{\Omega} \vd \vec{F}(\vec{x})\,.
 \end{equation}
 
 The diffusion approximation is a closure for the first angular moment of
@@ -439,29 +439,29 @@ Eq.~\eqref{eq:ssPone}:
   \grad \vd \int_\Omega \vec{\Omega} \vec{\Omega} I
   \ud\Omega
   + \sigma \int_\Omega \vec{\Omega} I \ud\Omega
-  &= \frac{1}{\omega_0} \phi \int_\Omega \vec{\Omega} \ud\Omega
+  &= \frac{1}{\gamma_0} \phi \int_\Omega \vec{\Omega} \ud\Omega
   \\
   \grad \vd \int_\Omega \vec{\Omega} \vec{\Omega} \left(
-  \frac{1}{\omega_0}\phi + \frac{1}{\omega_2} \vec{\Omega} \vd \vec{F}
+  \frac{1}{\gamma_0}\phi + \frac{1}{\gamma_2} \vec{\Omega} \vd \vec{F}
   \right)
   \ud\Omega
   + \sigma \vec{F}
   &= 0
   \\
-  \frac{1}{\omega_0} \grad \vd \int_\Omega \vec{\Omega} \vec{\Omega}
+  \frac{1}{\gamma_0} \grad \vd \int_\Omega \vec{\Omega} \vec{\Omega}
   \ud\Omega\, \phi 
   + \sigma \vec{F} &= 0
   \\
-  \frac{\omega_2}{\omega_0} \grad \phi + \sigma \vec{F} &= 0 \,.
+  \frac{\gamma_2}{\gamma_0} \grad \phi + \sigma \vec{F} &= 0 \,.
 \end{align*}
 Solving for $\vec{F}$ gives Fick's law, expressed in the general-geometry form:
 \begin{equation} \label{eq:fickGeneral}
   \vec{F}(\vec{x})
-  = - \frac{\omega_2}{\omega_0} \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x})
+  = - \frac{\gamma_2}{\gamma_0} \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x})
   \equiv -D(\vec{x}) \grad \phi(\vec{x})\,.
 \end{equation}
-In 2-D and 3-D, $\omega_2/\omega_0 = (4\pi / 3) / (4\pi) = 1/3$; however, in
-flatland, $\omega_2/\omega_0 = \pi / (2\pi) = 1/2$. Thus, $D=(3\sigma)\inv$ in
+In 2-D and 3-D, $\gamma_2/\gamma_0 = (4\pi / 3) / (4\pi) = 1/3$; however, in
+flatland, $\gamma_2/\gamma_0 = \pi / (2\pi) = 1/2$. Thus, $D=(3\sigma)\inv$ in
 2-D but $D=(2\sigma)\inv$ in flatland.
 
 Substituting Fick's law back into the linear-in-angle approximation,
@@ -469,12 +469,12 @@ Eq.~\eqref{eq:ssPone}, gives the diffusion approximation to the angular
 intensity:
 \begin{align} \nonumber
   I(\vec{x}, \vec{\Omega})
-  &\approx \frac{1}{\omega_0} \phi(\vec{x})
-  + \frac{1}{\omega_2} \vec{\Omega} \vd \left[ - \frac{\omega_2}{\omega_0}
+  &\approx \frac{1}{\gamma_0} \phi(\vec{x})
+  + \frac{1}{\gamma_2} \vec{\Omega} \vd \left[ - \frac{\gamma_2}{\gamma_0}
   \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x}) \right]
   \\ \label{eq:diffusionIntensity}
   I(\vec{x}, \vec{\Omega})
-  &= \frac{1}{\omega_0} \left[ \phi(\vec{x})
+  &= \frac{1}{\gamma_0} \left[ \phi(\vec{x})
   - \frac{1}{\sigma(\vec{x})}
   \vec{\Omega} \vd \grad \phi(\vec{x}) \right] \,.
 \end{align}
@@ -504,46 +504,46 @@ incident directions.
 I^b \ud\Omega
  &= 
 \int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}} 
- \frac{1}{\omega_0} \left[ \phi - \frac{1}{\sigma}
+ \frac{1}{\gamma_0} \left[ \phi - \frac{1}{\sigma}
   \vec{\Omega} \vd \grad \phi \right]
   \ud\Omega
 \\
 F^{-}
 &= 
-\frac{1}{\omega_0} \phi \left( \int_{\vec{\Omega}\vd \vec{n} < 0 }
+\frac{1}{\gamma_0} \phi \left( \int_{\vec{\Omega}\vd \vec{n} < 0 }
 \abs{\vec{\Omega}\vd \vec{n}} \ud\Omega \right) 
-  - \frac{1}{\omega_0}\frac{1}{\sigma}
+  - \frac{1}{\gamma_0}\frac{1}{\sigma}
   \int_{\vec{\Omega}\vd \vec{n} < 0 } (-\vec{\Omega}\vd \vec{n})
   \vec{\Omega} \ud\Omega  \vd \grad \phi
 \\
 F^{-}
 &=
-\frac{1}{\omega_0} \phi \left( \frac{\omega_1}{2} \right) 
-  + \frac{1}{\omega_0}\frac{1}{\sigma} \vec{n} \vd
+\frac{1}{\gamma_0} \phi \left( \frac{\gamma_1}{2} \right) 
+  + \frac{1}{\gamma_0}\frac{1}{\sigma} \vec{n} \vd
   \int_{\vec{\Omega}\vd \vec{n} < 0 } \vec{\Omega} \vec{\Omega} \ud\Omega
   \vd \grad \phi
 \\
 F^{-}
 &=
-\frac{\omega_1}{2\omega_0} \phi
-+ \frac{1}{\omega_0}\frac{1}{\sigma} \vec{n} \vd \left( \frac{\omega_2}{2}
+\frac{\gamma_1}{2\gamma_0} \phi
++ \frac{1}{\gamma_0}\frac{1}{\sigma} \vec{n} \vd \left( \frac{\gamma_2}{2}
 \Identitytens \right) \grad \phi
 \\
 F^{-}
 &=
-\frac{\omega_1}{2\omega_0} \phi
-+ \frac{\omega_2}{2\omega_0}\frac{1}{\sigma} \vec{n} \vd \grad \phi\,.
+\frac{\gamma_1}{2\gamma_0} \phi
++ \frac{\gamma_2}{2\gamma_0}\frac{1}{\sigma} \vec{n} \vd \grad \phi\,.
 \end{align*}
 Rearranging gives an expression for the Marshak boundary condition for 
 \begin{equation} \label{eq:marshak}
-\frac{2\omega_0}{\omega_1} F^{-}
+\frac{2\gamma_0}{\gamma_1} F^{-}
 =
-\phi + \frac{\omega_2}{\omega_1}\frac{1}{\sigma} \vec{n} \vd \grad \phi
+\phi + \frac{\gamma_2}{\gamma_1}\frac{1}{\sigma} \vec{n} \vd \grad \phi
 \end{equation}
 
 The value
 \begin{equation*}
-  z_0 \equiv \frac{\omega_2}{\omega_1}
+  z_0 \equiv \frac{\gamma_2}{\gamma_1}
   =
   \begin{cases}
     \frac{2}{3} \approx 0.6667 & \text{1-D, 2-D, 3-D,} \\
@@ -555,8 +555,8 @@ is the Marshak extrapolation distance.
 Substituting the diffusion coefficient $D$ from Eq.~\eqref{eq:fickGeneral}
 formulates the Marshak boundary condition as
 \begin{equation*}
-\frac{2\omega_0}{\omega_1} F^{-}
-= \phi + \frac{\omega_0}{\omega_1} D \vec{n} \vd \grad \phi\,.
+\frac{2\gamma_0}{\gamma_1} F^{-}
+= \phi + \frac{\gamma_0}{\gamma_1} D \vec{n} \vd \grad \phi\,.
 \end{equation*}
 In 1-D, 2-D, and 3-D geometries, this evaluates to
 \begin{equation*}
@@ -606,14 +606,14 @@ is to form a homogeneous, purely scattering transport problem in a
 semi-infinite flatland plane. The transport equation~\eqref{eq:ssTransportVol} becomes
 \begin{subequations} \label{eqs:flatTransport}
 \begin{equation}\label{eq:flatTransportVol}
-  \cos \theta \pder{I}{x} + \sin \theta \pder{I}{y} + \sigma I
-  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} I \ud \theta'\,,\quad
- -\infty < x < \infty,\ 0 \le y < \infty,\ 0 \le \theta < 2\pi\,.
+  \cos \omega \pder{I}{x} + \sin \omega \pder{I}{y} + \sigma I
+  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} I \ud \omega'\,,\quad
+ -\infty < x < \infty,\ 0 \le y < \infty,\ 0 \le \omega < 2\pi\,.
 \end{equation}
 It has a uniform incident boundary condition,
 \begin{equation}\label{eq:flatTransportBndy}
-  I(x, 0, \theta) = I^b(\theta) \,,\quad -\infty < x < \infty,\ 
-  0 \le \theta < \pi \,.
+  I(x, 0, \omega) = I^b(\omega) \,,\quad -\infty < x < \infty,\ 
+  0 \le \omega < \pi \,.
 \end{equation}
 \end{subequations}
 
@@ -621,32 +621,32 @@ Because there is no variation in the boundary condition or $\sigma$ along
 the $x$ axis, $\tpder{I}{x}=0$, and Eq.~\eqref{eq:flatTransportVol} becomes the
 one-dimensional transport equation 
 \begin{equation*}
-  \sin \theta \pder{}{y}I(y,\theta) + \sigma I(y,\theta)
-  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} I(y,\theta') \ud \theta'\,.
+  \sin \omega \pder{}{y}I(y,\omega) + \sigma I(y,\omega)
+  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} I(y,\omega') \ud \omega'\,.
 \end{equation*}
 which is \emph{not} the 1-D planar geometry transport equation.
 
 We define the $y$ components of the angular moments of $I$ as
 \begin{equation} \label{eq:flatPhi}
-  \phi_m(y) = \int_{0}^{2\pi} (\vec{\Omega}\vd\vec{j})^m I(y,\theta) \ud\theta
-  = \int_{0}^{2\pi} (\sin\theta)^m I(y,\theta) \ud\theta \,.
+  \phi_m(y) = \int_{0}^{2\pi} (\vec{\Omega}\vd\vec{j})^m I(y,\omega) \ud\omega
+  = \int_{0}^{2\pi} (\sin\omega)^m I(y,\omega) \ud\omega \,.
 \end{equation}
 
 As $y\to\infty$, the intensity $I$ will approach a constant $\varphi/2\pi$,
 which gives $\phi_0(\infty)=\varphi$. Concordantly, $\phi_1(\infty)=0$.
 
-Operating on the transport equation by $\int_{0}^{2\pi} (\sin\theta)^m (\cdot)
-\ud\theta$ gives the $m$th angular moment in the $y$ direction:
+Operating on the transport equation by $\int_{0}^{2\pi} (\sin\omega)^m (\cdot)
+\ud\omega$ gives the $m$th angular moment in the $y$ direction:
 \begin{align} \nonumber
-  \pder{}{y} \int_{0}^{2\pi} (\sin\theta)^{m+1} I \ud\theta
-  + \sigma \int_{0}^{2\pi} (\sin\theta)^{m} I \ud\theta
-  &= \frac{\sigma}{2\pi} \int_{0}^{2\pi} I \ud \theta'
-  \int_{0}^{2\pi} (\sin\theta)^{m} \ud\theta
+  \pder{}{y} \int_{0}^{2\pi} (\sin\omega)^{m+1} I \ud\omega
+  + \sigma \int_{0}^{2\pi} (\sin\omega)^{m} I \ud\omega
+  &= \frac{\sigma}{2\pi} \int_{0}^{2\pi} I \ud \omega'
+  \int_{0}^{2\pi} (\sin\omega)^{m} \ud\omega
   \\ \label{eq:flatMoments}
   \pder{\phi_{m+1}}{y}
   + \sigma \phi_{m}
   &= \frac{\sigma}{2\pi} \phi_{0}
-  \int_{0}^{2\pi} (\sin\theta)^{m} \ud\theta\,.
+  \int_{0}^{2\pi} (\sin\omega)^{m} \ud\omega\,.
 \end{align}
 For $m=0$, the conservation equation, Eq.~\eqref{eq:flatMoments} evaluates to
 \begin{equation*}
@@ -674,7 +674,7 @@ $\phi_{1}=0$, we obtain
 \end{equation*}
 Thus $\phi_{2}$ is also a constant. As $y\to\infty$, $I\to\varphi/2\pi$, so
 \begin{equation*}
-  \phi_{2} = \int_{0}^{2\pi} (\sin\theta)^2 \frac{\varphi}{2\pi} \ud\theta
+  \phi_{2} = \int_{0}^{2\pi} (\sin\omega)^2 \frac{\varphi}{2\pi} \ud\omega
   = \frac{1}{2} \varphi\,.
 \end{equation*}
 % in 1-D, this would be $\int_{-1}^{1}\mu^2\frac{\varphi}{2} \ud \mu =
@@ -684,25 +684,25 @@ Now, since $\phi_1=0$, we can add $\alpha \phi_1$ to this equation for any
 $\alpha$:
 \begin{align*}
  \alpha\phi_1 + \phi_{2} &= \frac{\varphi}{2} \\
- \int_{0}^{2\pi} (\alpha \sin\theta + \sin^2\theta)
- I(y,\theta) \ud\theta
+ \int_{0}^{2\pi} (\alpha \sin\omega + \sin^2\omega)
+ I(y,\omega) \ud\omega
  &= \frac{\varphi}{2}\,.
 \end{align*}
-At the boundary $y=0$, $I=I^b$ for incident angles $0 \le \theta < \pi$. The
+At the boundary $y=0$, $I=I^b$ for incident angles $0 \le \omega < \pi$. The
 variational analysis makes the reasonable approximation that, to leading order,
-the exiting particles are isotropically distributed, $I(0,\theta)=I^\text{out}$.
+the exiting particles are isotropically distributed, $I(0,\omega)=I^\text{out}$.
 \begin{equation*}
- \int_{0}^{\pi} (\alpha \sin\theta + \sin^2\theta)
- I^b(\theta) \ud\theta
- + \int_{\pi}^{2\pi} (\alpha \sin\theta + \sin^2\theta)\ud\theta I^\text{out}
+ \int_{0}^{\pi} (\alpha \sin\omega + \sin^2\omega)
+ I^b(\omega) \ud\omega
+ + \int_{\pi}^{2\pi} (\alpha \sin\omega + \sin^2\omega)\ud\omega I^\text{out}
  = \frac{\varphi}{2}\,.
 \end{equation*}
 The value $\alpha=\pi/4$ eliminates the integral over outgoing directions and
 directly relates the moments of the incident angular intensity to the
 magnitude of the intensity as $y\to\infty$:
 \begin{equation}\label{eq:varBoundary}
- \varphi = 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
- I^b(\theta) \ud\theta
+ \varphi = 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
+ I^b(\omega) \ud\omega
  \,.
 \end{equation}
 
@@ -710,19 +710,19 @@ We wish our boundary condition to preserve the value of
 $\varphi$ when the diffusion method is used, so we substitute the diffusion
 approximation, Eq.~\eqref{eq:flatlandDiffusion}:
 \begin{align*}
- \varphi &= 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
- I^b(\theta) \ud\theta
+ \varphi &= 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
+ I^b(\omega) \ud\omega
  \\
  &= 
-  2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\theta + \sin^2\theta \right)
+  2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
  \left( \frac{1}{2\pi} \phi_0 -
-  \frac{1}{\sigma} \sin\theta \pder{\phi_0}{y}\right)\ud\theta
+  \frac{1}{\sigma} \sin\omega \pder{\phi_0}{y}\right)\ud\omega
 \\
  &= 
-\frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin\theta + 2 \sin^2\theta
-\right)\ud\theta
+\frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin\omega + 2 \sin^2\omega
+\right)\ud\omega
  \,\phi_0 -
- \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin^2\theta + 2 \sin^3\theta \right)\ud\theta
+ \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin^2\omega + 2 \sin^3\omega \right)\ud\omega
   \,\frac{1}{\sigma} \pder{\phi_0}{y}
   \\
  &= 
@@ -744,7 +744,7 @@ scattering problem and an isotropic exiting value for $I$. Problems where the
 diffusion approximation is valid satisfy that condition to leading order.
 
 In this problem, we chose a boundary surface normal of $\vec{n}=-\vec{j}$. Now
-replacing $\sin \theta$ with $-\vec{\Omega}\vd\vec{n}$, we get the general
+replacing $\sin \omega$ with $-\vec{\Omega}\vd\vec{n}$, we get the general
 boundary condition for flatland diffusion,
 \begin{equation} \label{eq:flatlandDiffusionVarBc}
 \int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
@@ -759,18 +759,18 @@ I^b(\vec{x}, \vec{\Omega}) \ud\Omega
 %Essentially, we have shown that the flatland equivalent of the $W$ function,
 %which we shall call $V$, can be approximated by
 %\begin{equation}\label{eq:flatlandVariational}
-%  V(\theta)
-%  \approx \frac{1}{4}\sin\theta + \frac{1}{\pi} \sin^2\theta \,,\quad
-%  0 \le \theta < \pi \,,
+%  V(\omega)
+%  \approx \frac{1}{4}\sin\omega + \frac{1}{\pi} \sin^2\omega \,,\quad
+%  0 \le \omega < \pi \,,
 %\end{equation}
 %which satisfies
 %\begin{equation*}
-%  \int_{0}^{\pi} V(\theta) \ud\theta= 1
+%  \int_{0}^{\pi} V(\omega) \ud\omega= 1
 %\end{equation*}
 %and gives the extrapolation distance
 %\begin{equation*}
-%  z = \frac{\int_{0}^{\pi} \sin \theta V(\theta) \ud\theta}{\int_{0}^{\pi}
-%  V(\theta) \ud\theta} =  \frac{\pi}{8} + \frac{4}{3\pi} \,.
+%  z = \frac{\int_{0}^{\pi} \sin \omega V(\omega) \ud\omega}{\int_{0}^{\pi}
+%  V(\omega) \ud\omega} =  \frac{\pi}{8} + \frac{4}{3\pi} \,.
 %\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -787,9 +787,9 @@ using the angular moments from Table~\ref{tab:angularMoments}:
   \frac{1}{c} \pder{I}{t}(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad I(\vec{x}, \vec{\Omega}, t)
     + \sigmast(\vec{x}) I (\vec{x}, \vec{\Omega}, t)
-    \\ = \frac{1}{\omega_0} \sigmast(\vec{x}) ac [T(\vec{x}, t)]^4
-    + \frac{1}{\omega_0} q_{r}(\vec{x}, t)
-    \equiv \frac{1}{\omega_0} Q(\vec{x}, t) \,,
+    \\ = \frac{1}{\gamma_0} \sigmast(\vec{x}) ac [T(\vec{x}, t)]^4
+    + \frac{1}{\gamma_0} q_{r}(\vec{x}, t)
+    \equiv \frac{1}{\gamma_0} Q(\vec{x}, t) \,,
 \\
 x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in \Omega\,.
 \end{multline}
@@ -827,35 +827,35 @@ Doing the same to the initial condition, Eq.~\eqref{eq:flatfullTransportInit}, g
 \end{equation}
 \end{subequations}
 Adding $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:flatloVol},
-multiplying by $\frac{1}{\omega_0}$, and subtracting from
+multiplying by $\frac{1}{\gamma_0}$, and subtracting from
 Eq.~\eqref{eq:flatfullTransportVol}, the isotropic radiation source cancels, leaving
 \begin{equation} \label{eq:flatcapPsiVol}
   \frac{1}{c} \pder{}{t}\Psi(\vec{x}, \vec{\Omega}, t)
     + \vec{\Omega}\vd \grad \Psi(\vec{x}, \vec{\Omega}, t)
     + \sigmast(\vec{x}) \Psi(\vec{x}, \vec{\Omega}, t)
-  = \frac{1}{\omega_0} \grad \vd\vec{F}(\vec{x}, t) -
-  \frac{1}{\omega_0} \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,,
+  = \frac{1}{\gamma_0} \grad \vd\vec{F}(\vec{x}, t) -
+  \frac{1}{\gamma_0} \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,,
 \end{equation}
 where we have defined
 \begin{equation} \label{eq:flatcapPsi}
   \Psi(\vec{x}, \vec{\Omega}, t) \equiv I(\vec{x}, \vec{\Omega}, t) -
-  \frac{1}{\omega_0} \phi(\vec{x}, t)\,.
+  \frac{1}{\gamma_0} \phi(\vec{x}, t)\,.
 \end{equation}
 As before, by construction, the zeroth angular moment of $\Psi$ is zero, and its first
 angular moment is $\vec{F}$.
 
-Subtracting $\phi/\omega_0$ from Eq.~\eqref{eq:flatfullTransportBndy} gives the
+Subtracting $\phi/\gamma_0$ from Eq.~\eqref{eq:flatfullTransportBndy} gives the
 boundary condition
 \begin{equation} \label{eq:flatcapPsiBndy}
  \Psi(\vec{x}, \vec{\Omega}, t) 
-  =I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{\omega_0} \phi(\vec{x}, t)\,,
+  =I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{\gamma_0} \phi(\vec{x}, t)\,,
 \end{equation}
 and subtracting from Eq.~\eqref{eq:flatfullTransportInit} gives the initial
 condition
 \begin{equation} 
 \label{eq:flatcapPsiInit}
  \Psi(\vec{x}, \vec{\Omega}, 0)
- = I^i(\vec{x}, \vec{\Omega}) - \frac1{\omega_0} \phi^i(\vec{x})
+ = I^i(\vec{x}, \vec{\Omega}) - \frac1{\gamma_0} \phi^i(\vec{x})
  \equiv \Psi^i(\vec{x}, \vec{\Omega}, t)
  \,.
 \end{equation}
@@ -883,8 +883,8 @@ problem's exterior surface.
     + \vec{\Omega}\vd \grad \tilde\Psi(\vec{x}, \vec{\Omega}, t)
     + \sigmast(\vec{x}) \tilde\Psi(\vec{x}, \vec{\Omega}, t)
   \\
-  = \frac{1}{\omega_0} \grad \vd\vec{F}(\vec{x}, t) -
-  \frac{1}{\omega_0} \vec{\Omega}\vd \grad \phi(\vec{x}, t)
+  = \frac{1}{\gamma_0} \grad \vd\vec{F}(\vec{x}, t) -
+  \frac{1}{\gamma_0} \vec{\Omega}\vd \grad \phi(\vec{x}, t)
   \equiv \hat Q(\vec{x}, \vec{\Omega}, t)\,,
   \quad
 x \in V,\  0 \le t \le \Delta_t, \ \vec{\Omega} \in \Omega.
@@ -917,7 +917,7 @@ The incident boundary condition accounts for the true incident boundary source
 as well as the $\zeta$ term we introduced:
 \begin{equation} \label{eq:flatblCapPsiBndy}
  \Psi_\mathrm{bl}(\vec{x}, \vec{\Omega}, t) 
-  = I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{\omega_0} \phi(\vec{x}, t)
+  = I^b(\vec{x}, \vec{\Omega}, t) - \frac{1}{\gamma_0} \phi(\vec{x}, t)
   + \zeta(\vec{x}, \vec{\Omega}, t) \vec{\Omega}\vd \grad \phi(\vec{x}, t)
   \equiv \Psi_\mathrm{bl}^b(\vec{x}, \vec{\Omega}, t) \,.
 \end{equation}
@@ -958,15 +958,15 @@ same form as that given in \S\ref{sec:integralTransport}:
     + \lopinv{i}{\Psi^i}
     + \lopinv{v}{\hat Q}
 \end{align*}
-However, $\hat Q$ is defined in terms of $\omega_0$ rather than $4\pi$, so the
+However, $\hat Q$ is defined in terms of $\gamma_0$ rather than $4\pi$, so the
 flatland integral transport equation for the interior solution becomes
 \begin{align} \label{eq:flatinverseTransportBrief}
     \tilde\Psi(\vec{x}, \vec{\Omega}, t)
     &\equiv
     -\lopinv{b}{\zeta \vec{\Omega}\vd \grad \phi}_{\partial V}
     + \lopinv{i}{\Psi^i}
-    + \lopinv{v}{\frac{1}{\omega_0} \grad \vd\vec{F} }
-    - \lopinv{v}{\frac{1}{\omega_0} \vec{\Omega}\vd \grad \phi}
+    + \lopinv{v}{\frac{1}{\gamma_0} \grad \vd\vec{F} }
+    - \lopinv{v}{\frac{1}{\gamma_0} \vec{\Omega}\vd \grad \phi}
     \,.
 \end{align}
 
@@ -986,10 +986,10 @@ Thus, the boundary term is approximated
 \end{equation*}
 and the remaining volumetric term becomes
 \begin{equation*}
-  \lopinv{v}{\frac{1}{\omega_0} \vec{\Omega}\vd \grad \phi}
-  \approx \lopinv{v}{\frac{1}{\omega_0}} \vec{\Omega}\vd \grad \phi \,.
+  \lopinv{v}{\frac{1}{\gamma_0} \vec{\Omega}\vd \grad \phi}
+  \approx \lopinv{v}{\frac{1}{\gamma_0}} \vec{\Omega}\vd \grad \phi \,.
 \end{equation*}
-Again, the only difference from the 3-D equation is that $\omega_0=2\pi$ rather
+Again, the only difference from the 3-D equation is that $\gamma_0=2\pi$ rather
 than $4\pi$, and the spatial and angular domain of $\vec{x}$ and $\vec{\Omega}$
 correspond to the flatland plane.
 
@@ -1000,11 +1000,11 @@ The result of these machinations is an approximate expression for $\tilde\Psi$:
   \tilde\Psi
   &\approx 
 - \lopinv{b}{\zeta}_{\partial V} \vec{\Omega}\vd \grad \phi
-- \lopinv{v}{\frac{1}{\omega_0}}  \vec{\Omega}\vd \grad \phi
+- \lopinv{v}{\frac{1}{\gamma_0}}  \vec{\Omega}\vd \grad \phi
 \\ \label{eq:flatapproxPsi2}
   \tilde\Psi &= 
 - \left\{ \lopinv{b}{\zeta}_{\partial V} 
-+ \lopinv{v}{\frac{1}{\omega_0}} \right\} \vec{\Omega}\vd \grad \phi
++ \lopinv{v}{\frac{1}{\gamma_0}} \right\} \vec{\Omega}\vd \grad \phi
 \\ \label{eq:flatapproxPsi3}
 \tilde\Psi(\vec{x}, \vec{\Omega}, t) &= - f(\vec{x}, \vec{\Omega})
 \vec{\Omega}\vd \grad \phi(\vec{x}, t)\,.
@@ -1014,7 +1014,7 @@ Here, $f$ is a flatland transport problem with an isotropic source of unit stren
   \begin{equation} \label{eq:flatfFullVol}
     \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
     + \sigmast f (\vec{x}, \vec{\Omega})
-  = \frac{1}{\omega_0} \,, \quad x \in V,\ \vec{\Omega} \in \Omega\,,
+  = \frac{1}{\gamma_0} \,, \quad x \in V,\ \vec{\Omega} \in \Omega\,,
   \end{equation}
 with to-be-determined boundary conditions where the incident radiation is specified,
 \begin{equation} \label{eq:flatfFullBndy}
@@ -1039,9 +1039,9 @@ the geometry is embedded in $\Dtens$ and the transport equation for $f$:
 \end{align}
 
 A homogeneous medium of opacity $\sigma$ gives the solution
-$f=(\omega_0\sigma)\inv$, which yields a diffusion coefficient of
+$f=(\gamma_0\sigma)\inv$, which yields a diffusion coefficient of
 \begin{equation*}
-  \Dtens(\vec{x}) = \frac{\omega_2}{\omega_0 \sigma} \Identitytens
+  \Dtens(\vec{x}) = \frac{\gamma_2}{\gamma_0 \sigma} \Identitytens
   =
   \begin{cases}
     \frac{1}{3\sigma} \Identitytens & \text{in 3-D geometry,} \\ 
@@ -1074,16 +1074,16 @@ It can also take the form of a white boundary, where $\zeta$ is isotropic:
   &= \int_{\vec{\Omega} \vd \vec{n} > 0}
   (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega
   \\
-  \frac{\omega_1}{2} \zeta(\vec{x}) 
+  \frac{\gamma_1}{2} \zeta(\vec{x}) 
   &= \int_{\vec{\Omega} \vd \vec{n} > 0}
   (\vec{\Omega} \vd \vec{n} ) f(\vec{x}, \vec{\Omega}) \ud\Omega
   \\
   \zeta(\vec{x},\vec{\Omega})
-  &= \frac{2}{\omega_1} \int_{\vec{\Omega}' \vd \vec{n} > 0}
+  &= \frac{2}{\gamma_1} \int_{\vec{\Omega}' \vd \vec{n} > 0}
   (\vec{\Omega}' \vd \vec{n} ) f(\vec{x}, \vec{\Omega}') \ud\Omega'\,.
 \end{align*}
 This is the general-geometry form of Eq.~\eqref{eq:zetaWhite}, where
-$\frac{2}{\omega_1}=\frac{1}{\pi}$ in real space but $\frac{2}{\omega_1}=2$ in
+$\frac{2}{\gamma_1}=\frac{1}{\pi}$ in real space but $\frac{2}{\gamma_1}=2$ in
 flatland.
 
 To derive low-order incident boundary conditions, we take the same approach as
