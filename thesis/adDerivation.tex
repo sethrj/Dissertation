@@ -31,7 +31,8 @@ In this section, we use an asymptotic analysis to derive the anisotropic
 diffusion approximation in a linear, time-dependent, finite problem. To apply
 the resulting equations to nonlinear thermal radiative transfer, we appeal to
 both the linear formulation of the semi-implicit method (REF) and a very similar
-asymptotic analysis of the diffusion approximation in Ref.~\cite{Lar1983c}.
+asymptotic analysis of the equilibrium radiation diffusion approximation in
+Ref.~\cite{Lar1983a}.
 
 We begin with a linear, time-dependent transport problem with specified incident
 boundaries and isotropic scattering. The transport equation is
@@ -185,7 +186,7 @@ The inverted differential operator is an integral transport operator
     \hat Q(\vec{x}, \vec{\Omega})
     &=
      \int_{0}^{\infty}
-    \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t-s/c)
+    \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t)
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
 \,.
@@ -200,9 +201,48 @@ The inverted differential operator is an integral transport operator
   \end{equation}
 \end{subequations}
 
-Thus in Eq.~\eqref{eq:tdVolApprox1}, the scalar intensity $\phi$ is a nonlocal
-quantity, so the expression for the interior intensity is a function of nonlocal
-unknowns. To simplify, we expand $\phi$ in a Taylor series about the local
+Thus Eq.~\eqref{eq:tdVolApprox1} for the interior intensity is a function of the
+nonlocal unknown scalar flux:
+\begin{equation*}
+  \Iv(\vec{x},\vec{\Omega},t) = \frac{1}{4\pi} \phi(\vec{x},t) - 
+     \int_{0}^{\infty}
+    \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t)
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
+    \ud s \,.
+\end{equation*}
+To simplify, we use the assumption that spatial gradients are weak (see
+Eq.~\eqref{eq:ansatz}) to expand $\phi$ in a Taylor series about the local
+point:
+\begin{equation} \label{eq:taylorPhi}
+  \phi(\vec{x} - s \vec{\Omega}, t)
+  = \phi(\vec{x},t) - s\vec{\Omega} \vd
+  \grad\phi (\vec{x}, t) + O(\epsilon^2) = \phi(\vec{x},t) +
+  O(\epsilon) \,.
+\end{equation}
+
+
+\begin{align}\nonumber
+  \Iv(\vec{x},\vec{\Omega},t) &= \frac{1}{4\pi} \phi(\vec{x},t) - 
+     \int_{0}^{\infty}
+    \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t)
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
+    \ud s
+\\
+  &= \int_{0}^{\infty}
+    \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \phi(\vec{x},t) + O(\epsilon^2) \right]
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
+    \ud s
+  \\ \nonumber
+  &= - \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+    \left[ \frac1{4\pi}\right]
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s \,
+    \vec{\Omega}\vd \grad \phi(\vec{x},t)
+  \\\label{eq:streamingApprox}
+  &= - \lopinv{v}{ \frac1{4\pi} } \vec{\Omega}\vd \grad \phi(\vec{x},t)
+  \,.
+\end{align}
+
+To simplify, we expand $\phi$ in a Taylor series about the local
 point:
 \begin{equation} \label{eq:taylorPhi}
   \phi(\vec{x} - s \vec{\Omega}, t)
@@ -241,8 +281,105 @@ which is the solution to the following differential transport equation:
 = \frac{1}{4\pi} \,.
 \end{equation}
 
-Because of the approximations made in developing Eq.~\eqref{eq:tdVolApprox2}, 
+Taking the first angular moment of Eq.~\eqref{eq:tdVolApprox2} gives an
+approximate expression for the radiation flux in the interior:
+\begin{align} \nonumber
+  \vec{F}(\vec{x},t) &= \int_{4\pi} \vec{\Omega} \Iv(\vec{x},\vec{\Omega},t)
+  \ud\Omega
+  \\ \nonumber
+  &= - \left[ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega
+  \right] \vd \grad \phi(\vec{x},t)
+  \\ \label{eq:anisotropicFicks}
+  &= - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
+\end{align}
+This resembles ``Fick's law,'' but instead of a scalar diffusion
+\emph{coefficient},
+the anisotropic diffusion method has a diffusion \emph{tensor}, $\Dtens$, the
+second angular moment of $f$:
+\begin{equation}\label{eq:dDefinition}
+  \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation}
 
+Because of the approximations made in developing Eq.~\eqref{eq:tdVolApprox2},
+$\phi$ no longer satisfies the exact transport solution. Instead, like Fick's
+law, the first-order accurate approximation to the radiation flux is substituted
+into the low-order conservation equation~\eqref{eq:loVol} to yield an
+anisotropic diffusion equation that $\phi$ satisfies in the interior:
+\begin{equation} \label{eq:tdVolDiffusion}
+\frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
+  - \grad \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
+  + \sigma_a(\vec{x}) \phi(\vec{x}, t)
+ = q(\vec{x},t)\,.
+\end{equation}
+Here we use the absorption opacity $\sigma_a = \sigma - \sigma_s$.
+
+The anisotropic diffusion approximation to the interior solution $I_v$
+comprises \textsl{(i)} the transport equation~\eqref{eq:fFullVol} for $f$,
+\textsl{(ii)} the definition in Eq.~\eqref{eq:dDefinition} of the diffusion
+tensor $\Dtens$, and \textsl{(iii)} the anisotropic diffusion
+equation~\eqref{eq:tdVolDiffusion}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Initial layer solution}
+
+The initial layer consists of a transport problem near the initial time $t=0$,
+where the time derivatives are not assumed to be $O(\epsilon^2)$ but rather
+$O(1)$. It is defined in the spatial interior of the problem, where
+spatial gradients are still assumed to be $O(\epsilon)$, and the exterior
+problem boundary is not considered. The initial layer transport problem
+complements the interior transport equation~\eqref{eq:tdVol}, so it does not
+have a source term:
+\begin{subequations} \label{eqs:tdInitVol}
+\begin{equation} \label{eq:tdInit}
+  \frac{1}{c}\pder{\Iil}{t}(\vec{x},\vec{\Omega},t)
+  + \vec{\Omega}\vd \grad \Iil(\vec{x},\vec{\Omega},t)
+  + \sigma(\vec{x}) \Iil(\vec{x},\vec{\Omega},t)
+  = \frac{\sigma_s(\vec{x})}{4\pi}
+  \int_{4\pi} \Iil(\vec{x},\vec{\Omega}',t) \ud \Omega' \,.
+\end{equation}
+Because it is defined for times close to $t=0$, it accounts for the initial
+condition in Eq.~\eqref{eq:tdTransportInit} using the superposition
+equation~\eqref{eq:tdSuperimposition}. We have set $\Ibl=0$ because the
+transport equation is defined only in the spatial interior where the boundary
+layer has decayed. Thus the relation between the initial layer's initial
+condition and the true initial condition is:
+\begin{equation}\label{eq:tdInitInit}
+ \Iv(\vec{x},\vec{\Omega},0) + \Iil(\vec{x},\vec{\Omega},0)
+ = I^i(\vec{x},\vec{\Omega})\,.
+\end{equation}
+Furthermore, by construction we demand that its solution tend to zero for
+increasing $t$:
+\begin{equation} \label{eq:tdInitLimit}
+  \lim_{t\to\infty} \Iil(\vec{x},\vec{\Omega},t) \,.
+\end{equation}
+\end{subequations}
+
+A formal asymptotic analysis for the initial layer explicitly sets
+$\grad\to\epsilon\grad$, expands $\Iil$ in powers of $\epsilon$, and matches it
+with the asymptotic interior solution $\Iv$. A simpler but effectively
+equivalent procedure is to demand that the initial layer contain no particles
+at the initial time:
+\begin{equation*}
+  \int_{4\pi} \Iil(\vec{x}, \vec{\Omega}, 0) \ud \Omega = 0\,.
+\end{equation*}
+Integrating Eq.~\eqref{eq:tdInitInit} over all angles and applying this demand, we
+obtain a relation between the interior solution and the transport initial
+condition
+\begin{align*}
+\int_{4\pi} \Iv(\vec{x},\vec{\Omega},0) \ud\Omega
++ \int_{4\pi} \Iil(\vec{x},\vec{\Omega},0) \ud\Omega
+ &= \int_{4\pi} I^i(\vec{x},\vec{\Omega}) \ud\Omega
+ \\
+ \int_{4\pi} \left[ \frac{\phi(\vec{x},0)}{4\pi} - f(\vec{x},\vec{\Omega})
+ \vec{\Omega}\vd \grad \phi(\vec{x},0) ) \right] \ud\Omega
+ + 0 &= \phi^i(\vec{x})
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{OLD STUFF}
 
@@ -251,17 +388,6 @@ normal $\vec{n}$:
 \begin{equation} \label{eq:reflection}
   \vec{\Omega}_r = \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\,.
 \end{equation}
-
-We can also expand the nonlocal variables in Eq.~\eqref{eq:inverseTransportFull}
-about the local spatiotemporal point in powers of $\epsilon$:
-\begin{equation} \label{eq:taylorPhi}
-  \phi(\vec{x} - s \vec{\Omega}, t-s/c)
-  \sim \phi(\vec{x},t) - s \left( \frac{1}{c} \pder{}{t} + \vec{\Omega} \vd
-  \grad  \right) \phi (\vec{x}, t) + O(\epsilon^2) \sim \phi(\vec{x},t) +
-  O(\epsilon) \,.
-\end{equation}
-This Taylor series will enable, to leading order, the approximation of nonlocal
-quantities inside the operators $\lopinv{}{\cdot}$ by local quantities.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Approximating the streaming integral term}\label{sec:adStreaming}
