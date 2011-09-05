@@ -12,7 +12,7 @@ in the last chapter, approximate the angular dependence of the intensity each
 in a different way. The crudest of these, diffusion, has only one unknown
 $\phi$ at each point in space and time; the more complex such as \SN\ have many
 unknowns, leading to greater accuracy but greater computer run time and memory
-usage. In this chapter, we derive a new anisotropic diffusion method, which
+usage. In this chapter, we derive a new anisotropic diffusion method which
 approximates the intensity in such a way as to retain an arbitrary amount of
 anisotropy (like a true transport method), while solving for a single unknown
 (like a diffusion method).
@@ -28,14 +28,11 @@ also addresses boundary conditions for the AD method.
 \section{Linear time-dependent derivation}
 
 In this section, we use an asymptotic analysis to derive the anisotropic
-diffusion approximation in a linear, time-dependent, finite problem. To apply
-the resulting equations to nonlinear thermal radiative transfer, we appeal to
-both the linear formulation of the semi-implicit method (REF) and a very similar
-asymptotic analysis of the equilibrium radiation diffusion approximation in
-Ref.~\cite{Lar1983a}.
+diffusion approximation in a linear, time-dependent, finite problem. We will
+later demonstrate this analysis' applicability to nonlinear thermal radiative
+transfer.
 
-We begin with a linear, time-dependent transport problem with specified incident
-boundaries and isotropic scattering. The transport equation is
+The linear, time-dependent transport equation with isotropic scattering is
 \begin{subequations} \label{eqs:tdTransport}
 \begin{multline} \label{eq:tdTransportVol}
   \frac{1}{c}\pder{I}{t}(\vec{x},\vec{\Omega},t)
@@ -58,6 +55,15 @@ and the initial condition is
   \quad \vec{x}\in V ,\ \vec{\Omega} \in 4\pi.
 \end{equation}
 \end{subequations}
+For consistency with the rest of this thesis, we retain the nomenclature of
+radiative transfer rather than neutron transport.\footnote{
+To enumerate the differences: we refer to
+the ``radiative intensity'' $I$ rather than the ``angular flux'' $\psi$,
+the ``scalar intensity'' rather than the ``scalar flux'',
+the ``radiation flux'' $\vec{F}$ rather than the ``neutron current'' $\vec{J}$,
+the ``opacity'' $\sigma$ rather than the ``total cross section'' $\Sigma_t$,
+and so on.
+}
 
 Because this transport equation is linear, we can write its solution as the
 superposition of three distinct transport solutions:
@@ -71,24 +77,31 @@ Here, $\Iv$ is an ``interior'' solution valid many mean free paths away from
 the exterior problem boundary and many free times away from $t=0$, $\Ibl$ is a
 ``boundary layer'' solution that decays rapidly away from the exterior boundary,
 and $\Iil$ is an ``initial layer'' that decays rapidly away from $t=0$.
+Figure~\ref{fig:layers} represents these three regimes graphically. In the
+interior, spatial and temporal variations are small; in the boundary layer,
+spatial variations normal to the boundary are large; and in the initial layer,
+the temporal variations are large.
 
 \begin{figure}[htb]
   \centering
-  %\includegraphics{layers}
+  \includegraphics{layers}
   \caption{Depiction of interior, boundary layer, and initial layer of a
   transport problem.}
   \label{fig:layers}
 \end{figure}
 
-Our goal is to develop an approximation to $\Iv$ that satisfies the transport
-equation in some asymptotic limit, and then use the boundary and initial layer
+Our goal is first to develop an approximation to $\Iv$ that satisfies the transport
+equation in some asymptotic limit, and then to use the boundary and initial layer
 equations to ``match'' the interior solution to the transport solution on the
-boundary and at the initial time.
+boundary and at the initial time. This procedure follows prior work in the
+field, e.g.~the asymptotic derivation of the diffusion equation with
+transport-matched boundary conditions \cite{Mal1991}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Interior solution}
 
-The interior transport equation accounts for the extraneous source term, but
+The transport equation for the interior accounts for the extraneous source term,
+but
 it has no initial or boundary conditions, as it is only valid away from the
 boundary and initial layer:
 \begin{equation} \label{eq:tdVol}
@@ -519,6 +532,19 @@ relation is then equivalent to the following:
 This relation does not \emph{define} $f$; it only restricts it so that
 the definition of $\phi$ is satisfied on the boundary.
 
+In the case of an azimuthally symmetric $f$, Eq.~\eqref{eq:loBc} can be written:
+\begin{equation} \label{eq:loBc2}
+2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x},\vec{\Omega},t) \ud\Omega
+=
+\phi(\vec{x},t)
++ 2\int_{\vec{\Omega}\vd\vec{n} < 0}
+\abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
+f(\vec{x}, \vec{\Omega}) \ud\Omega
+\vec{n} \vd \grad \phi(\vec{x},t)\,.
+\end{equation}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Marshak-like boundary condition}
 
@@ -682,7 +708,7 @@ first order:
   \Dtens(\vec{x}, t)
   =
   \frac{1}{3 \sigma} \Identitytens
-  - \epsilon (0)
+  - 0
   + O( \epsilon^2)\,.
 \end{equation*}
 Substituting this into the anisotropic Fick's law yields the standard Fick's
