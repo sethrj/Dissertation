@@ -498,7 +498,8 @@ and a material energy update equation~\eqref{eq:matenConservationUpdate2}:
 For the $n$th time step, given the initial radiation field $I^{n}$ and the
 initial material energy density $U_m^n$, the solution process follows.
 \begin{enumerate}
-  \item \emph{Linearize the system.} Calculate the starting temperature $T^n$
+  \item \emph{Compute the linearized values.}
+    Calculate the starting temperature $T^n$
     from the stored material energy density $U_m^n$ by inverting the integral in
     Eq.~\eqref{eq:matEnergyDens}. Using the temperature,
     calculate
@@ -508,6 +509,7 @@ initial material energy density $U_m^n$, the solution process follows.
     and the effective scattering cross section $\left(1 - f^n\right) \sigma^n$.
     If using a diffusion method to approximate the transport solution, the
     absorption cross sections and diffusion coefficients must be recalculated.
+    This is a computationally inexpensive step.
 
   \item \emph{Solve the linear transport problem for $\psi^{n+1}=I^{n+1}$.} With the
     implicit discretization, this solution uses the stored value of the radiation
@@ -863,7 +865,7 @@ rather than the arithmetic average
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}
+\section{Summary}
 
 This chapter provides an overview of the equations underlying thermal
 radiative transfer, as well as some existing techniques for solving these

@@ -132,6 +132,9 @@ equation in the interior,
   + \sigma(\vec{x}) \phi(\vec{x}, t)
  = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,.
 \end{equation}
+Here, $\vec{F}$ is the first angular moment of the \emph{interior} solution,
+the interior radiation flux.
+
 Adding $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:loVol} and
 multiplying the resulting equation by $\frac{1}{4\pi}$, we obtain
 \begin{align*}
@@ -166,8 +169,9 @@ large, and the solution is mildly (but not necessarily linearly) anisotropic:
   \pder{}{t} &= O(\epsilon^2) \,.
 \end{align}
 These scalings are the same as in an asymptotic derivation of the standard
-diffusion equation \cite{Lar1975,Mor2000}. Applying them to
-Eq.~\eqref{eq:capPsiVol} gives
+diffusion equation \cite{Lar1975,Mor2000}. With the scalings applied,
+Eq.~\eqref{eq:capPsiVol} is written with the asymptotically small terms lumped
+together:
 \begin{equation*}
   \left[\vec{\Omega}\vd \grad
   + \sigma + O(\epsilon^2) \right]
@@ -175,7 +179,8 @@ Eq.~\eqref{eq:capPsiVol} gives
   - \frac{1}{4\pi} \phi \right)
   = - \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi + O(\epsilon^2)\,.
 \end{equation*}
-Now we discard the $O(\epsilon^2)$ terms:
+Now we neglect the high-order $O(\epsilon^2)$ terms to obtain the
+following approximate transport equation:
 \begin{equation*}
   \left[\vec{\Omega}\vd \grad  + \sigma \right]
    \left( \Iv
@@ -196,7 +201,7 @@ The inverted differential operator is an integral transport operator
   \begin{align} \label{eq:inverseTransportFull}
   \begin{split}
     \left[\vec{\Omega}\vd \grad  + \sigma \right]\inv
-    \hat Q(\vec{x}, \vec{\Omega})
+    \hat Q(\vec{x}, \vec{\Omega},t)
     &=
      \int_{0}^{\infty}
     \hat Q(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t)
@@ -207,7 +212,7 @@ The inverted differential operator is an integral transport operator
   \end{align}
   Here we have used the optical distance between points $\vec{x}$ and
   $\vec{x}'$ along the direction $\vec{\Omega} = (\vec{x}'-
-  \vec{x})/\norm{\vec{x}'-\vec{x}}$ is 
+  \vec{x})/\norm{\vec{x}'-\vec{x}}$:
   \begin{equation} \label{eq:fullTauDefinition}
     \tau(\vec{x}, \vec{x}') = \int_{0}^{\norm{\vec{x} -
     \vec{x}'}} \sigma(\vec{x}-s\vec{\Omega}) \ud s \,.
@@ -215,7 +220,7 @@ The inverted differential operator is an integral transport operator
 \end{subequations}
 
 Thus Eq.~\eqref{eq:tdVolApprox1} for the interior intensity is a function of the
-nonlocal unknown scalar flux:
+nonlocal, unknown scalar intensity:
 \begin{equation}\label{eq:tdVolApprox1a}
   \Iv(\vec{x},\vec{\Omega},t) = \frac{1}{4\pi} \phi(\vec{x},t) - 
      \int_{0}^{\infty}
@@ -223,8 +228,8 @@ nonlocal unknown scalar flux:
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s \,.
 \end{equation}
-To simplify, we use the assumption that spatial gradients are weak (see
-Eq.~\eqref{eq:ansatz}) to expand $\phi$ in a Taylor series about the local
+To simplify, we use the assumption from Eq.~\eqref{eq:ansatz} that spatial
+gradients are weak to expand $\phi$ in a Taylor series about the local
 point:
 \begin{equation} \label{eq:taylorPhi}
   \phi(\vec{x} - s \vec{\Omega}, t)
@@ -232,7 +237,8 @@ point:
   \grad\phi (\vec{x}, t) + O(\epsilon^2) = \phi(\vec{x},t) +
   O(\epsilon) \,.
 \end{equation}
-Applying this expansion to the gradient in Eq.~\eqref{eq:tdVolApprox1a}, we find
+Applying the truncated Taylor expansion to the gradient in
+Eq.~\eqref{eq:tdVolApprox1a}, we obtain
 \begin{equation*}
   \grad \phi(\vec{x}-s\vec{\Omega},t)
   = \grad \phi(\vec{x},t) + O(\epsilon^2)\,.
@@ -311,7 +317,7 @@ anisotropic diffusion equation that $\phi$ satisfies in the interior:
 \end{equation}
 Here we use the absorption opacity $\sigma_a = \sigma - \sigma_s$.
 
-The anisotropic diffusion approximation to the interior solution $I_v$
+The anisotropic diffusion approximation to the interior solution $\Iv$
 comprises \textsl{(i)} the transport equation~\eqref{eq:fVol} for $f$,
 \textsl{(ii)} the definition in Eq.~\eqref{eq:dDefinition} of the diffusion
 tensor $\Dtens$, and \textsl{(iii)} the anisotropic diffusion
@@ -323,10 +329,13 @@ equation~\eqref{eq:tdVolDiffusion}.
 The initial layer consists of a transport problem near the initial time $t=0$,
 where the time derivatives are not assumed to be $O(\epsilon^2)$ but rather
 $O(1)$. It is defined in the spatial interior of the problem, where
-spatial gradients are still assumed to be $O(\epsilon)$, and the exterior
-problem boundary is not considered. The initial layer transport problem
+spatial gradients are still assumed to be $O(\epsilon)$, and the boundary layer
+solution has decayed to zero. (See Fig.~\ref{fig:layers} for a depiction of the
+initial layer in relation to the boundary layer and interior solution.)
+
+The transport problem for the initial layer
 complements the interior transport equation~\eqref{eq:tdVol}, so it does not
-have a source term:
+have any extraneous source term:
 \begin{subequations} \label{eqs:tdInit}
 \begin{equation} \label{eq:tdInitVol}
   \frac{1}{c}\pder{\Iil}{t}(\vec{x},\vec{\Omega},t)
@@ -337,10 +346,7 @@ have a source term:
 \end{equation}
 Because it is defined for times close to $t=0$, it accounts for the initial
 condition in Eq.~\eqref{eq:tdTransportInit} using the superposition
-equation~\eqref{eq:tdSuperposition}. We have set $\Ibl=0$ because the
-transport equation is defined only in the spatial interior where the boundary
-layer has decayed. Thus the relation between the initial layer's initial
-condition and the true initial condition is:
+equation~\eqref{eq:tdSuperposition}:
 \begin{equation}\label{eq:tdInitInit}
  \Iv(\vec{x},\vec{\Omega},0) + \Iil(\vec{x},\vec{\Omega},0)
  = I^i(\vec{x},\vec{\Omega})\,.
@@ -378,10 +384,12 @@ condition
 \end{align*}
 If the problem is homogeneous ($f$ is a constant and the integral is zero) or
 the initial condition is invariant in space, then
-this matches the interior solution $\phi$ to the transport initial condition
-$I^i$. If not, the initial layer analysis suggests that to leading order,
+this straightforwardly matches the interior solution $\phi$ to the transport
+initial condition
+$I^i$. If not, the initial layer analysis suggests that to first order,
 setting $\phi(\vec{x},0) = \phi^i(\vec{x},0)$ may not preserve the transport
-solution for anisotropic diffusion in some cases. 
+solution for anisotropic diffusion in some cases. (The error is only first order
+in $\epsilon$ because the $\grad \phi=O(\epsilon)$.)
 
 This contrasts standard diffusion, where $f(\vec{x}, \vec{\Omega})$ is replaced
 by $1/4\pi\sigma$, the integral is zero, and $\phi(\vec{x},0)=\phi^i(\vec{x})$
@@ -392,7 +400,10 @@ to leading order.
 
 Near the exterior problem boundary, away from the initial time, the transport
 solution rapidly transitions to the interior solution in the \emph{boundary
-layer}. The spatial gradient normal to the boundary is $O(1)$, and the time
+layer}. (Figure~\ref{fig:layers} graphically depicts the relationship of
+the boundary layer to the interior solution.)
+The
+spatial gradient normal to the boundary is $O(1)$, and the time
 derivative is $O(\epsilon^2)$. The transport equation for the boundary layer is
 source-free:
 \begin{subequations} \label{eqs:tdBndy}
@@ -412,10 +423,10 @@ Eq.~\eqref{eq:tdSuperposition}:
  = I^b(\vec{x},\vec{\Omega},t) \,,
   \quad \vec{x}\in \partial V ,\ \vec{\Omega}\vd \vec{n} < 0,
 \end{equation}
-(Here we have used $\Iil=0$ because the boundary layer is defined away from
-initial times.)
-We demand that its solution tend to zero for increasing distances from the
-boundary:
+(Here we have used $\Iil=0$ because the initial layer solution has decayed
+away, as the boundary layer is defined away from $t=0$.)
+We demand that the boundary layer solution tend to zero for increasing distances
+from the boundary:
 \begin{equation} \label{eq:tdBndyLimit}
   \lim_{s \to\infty} \Ibl(\vec{x},\vec{\Omega},t)
   = 0 \,.
@@ -424,7 +435,8 @@ boundary:
 $-\vec{\Omega}$.)
 \end{subequations}
 
-If the $I^b$ varies slowly in space, and the radius of curvature of
+If the boundary condition $I^b$ varies slowly in space, and the radius of
+curvature of
 the exterior is large, then it can be shown \cite{Mal1991} that the condition
 that satisfies Eqs.~\eqref{eqs:tdBndy} to leading order is:
 \begin{equation}\label{eq:tdKillBndy}
@@ -438,13 +450,15 @@ Here, $W$ is related to Chandrasekhar's $H$-function \cite{Cha1960}:
   W(\mu) = \frac{\sqrt{3}}{2} \mu H(\mu)
   \approx \mu + \tfrac{3}{2} \mu^2 \,, \quad 0 < \mu \le 1 .
 \end{equation}
-This approximation is derived variationally \cite{Mal1991} and is accurate to
+The polynomial approximation is derived variationally \cite{Mal1991} and is
+accurate to
 second order when used inside the integral in Eq.~\eqref{eq:tdKillBndy}.
 To recover the Marshak boundary condition, we could use $W(\mu) \approx 2 \mu$.
 
 Multiplying Eq.~\eqref{eq:tdBndyBndy} by $W(\mu)$, integrating over incident
 directions on the exterior boundary, and substituting
-Eq.~\eqref{eq:tdKillBndy} to demand that the boundary layer vanish, we obtain
+Eq.~\eqref{eq:tdKillBndy} to demand that the boundary layer vanish in the
+interior, we obtain
 the following relation:
 \begin{equation*}
   \int_{\vec{\Omega}\vd\vec{n} < 0}
@@ -479,7 +493,8 @@ f(\vec{x}, \vec{\Omega})\vec{\Omega} \ud\Omega \vd \grad \phi(\vec{x},t)
 - \int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
 \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega \vd \grad \phi(\vec{x},t)\,.
 \end{align*}
-This is the transport-matched boundary condition for anisotropic diffusion:
+This equation is the transport-matched boundary condition for anisotropic
+diffusion:
 \begin{equation} \label{eq:loBc}
 2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
 I^b(\vec{x},\vec{\Omega},t) \ud\Omega
@@ -489,7 +504,7 @@ I^b(\vec{x},\vec{\Omega},t) \ud\Omega
 \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega \vd \grad \phi(\vec{x},t)\,.
 \end{equation}
 
-This boundary condition is at this point incomplete, because the transport
+The boundary condition is at this point incomplete, because the transport
 solution for $f$ has only been defined for points away from the boundary: its
 form for incident directions on the boundary is unknown. We return to
 the definition of $\phi$ in Eq.~\eqref{eq:tdPhi} and substitute the approximated
@@ -507,9 +522,12 @@ interior intensity from Eq.~\eqref{eq:tdVolApprox2}:
   0 &= - \int_{4\pi} f(\vec{x}, \vec{\Omega})\vec{\Omega} \ud \Omega
   \vd \grad \phi(\vec{x},t) \,.
 \end{align*}
-\emph{This equation is not generally satisfied}. In an optically thick,
-homogeneous material, $f$ is isotropic, so the relation holds. At material
-boundaries, it does not. By requiring it to hold at exterior boundaries, we
+\emph{The above equation is not generally satisfied}. It only holds true when
+$f$ is an ``even'' function of $\vec{\Omega}$, e.g.\ in an optically thick,
+homogeneous material, where $f$ is isotropic. At material
+boundaries, $f$ is strongly anisotropic, and the above relation is not
+satisfied. By requiring $\int_{4\pi} \Iv \ud\Omega = \phi$ at exterior
+boundaries, we
 obtain a relationship between the ``known'' outgoing values of $f$ and the
 unknown incoming:
 \begin{equation*}
@@ -518,7 +536,8 @@ unknown incoming:
  + \int_{\vec{\Omega}\vd\vec{n} < 0} \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud
  \Omega\,.
 \end{equation*}
-If the cross sections vary slowly along the boundary, then to leading order, $f$
+If the opacity varies slowly along the boundary (which is a precondition for the
+analogous standard diffusion boundary condition), then to leading order, $f$
 is azimuthally symmetric about the outward normal at the boundary. The above
 relation is then equivalent to the following:
 \begin{equation}\label{eq:hoBc}
@@ -528,8 +547,10 @@ relation is then equivalent to the following:
   \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
   \underbrace{f(\vec{x}, \vec{\Omega})}_{\text{unknown}} \ud\Omega \,.
 \end{equation}
-
-This relation does not \emph{define} $f$; it only restricts it so that
+In other words, the transport equation for $f$ should have boundary conditions
+that enforce this relationship. For example, both specularly reflecting and
+``white'' boundary conditions satisfy the condition in Eq.~\eqref{eq:hoBc}.
+The above condition does not \emph{define} $f$; it only restricts it so that
 the definition of $\phi$ is satisfied on the boundary.
 
 In the case of an azimuthally symmetric $f$, Eq.~\eqref{eq:loBc} can be written:
@@ -548,7 +569,7 @@ f(\vec{x}, \vec{\Omega}) \ud\Omega
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Marshak-like boundary condition}
 
-One possible distribution for the incident $f$ that satisfies
+One distribution for the incident $f$ that satisfies
 Eq.~\eqref{eq:hoBc} is a specularly reflecting boundary:
 \begin{equation} \label{eq:zetaReflecting}
   f(\vec{x}, \vec{\Omega}) = f(\vec{x}, \vec{\Omega}_r) \,,
@@ -560,7 +581,8 @@ normal $\vec{n}$:
   \vec{\Omega}_r = \vec{\Omega} - 2(\vec{\Omega} \vd \vec{n}) \vec{n}\,.
 \end{equation}
 
-This form has a particular advantage if we use the ``Marshak'' approximation
+The choice of a reflecting boundary has a particular advantage if we use the
+``Marshak'' approximation
 that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBc} becomes
 \begin{align*}
   2\int_{\vec{\Omega}\vd \vec{n} < 0}
@@ -608,7 +630,7 @@ diffusion equations in a finite medium.
 
 The anisotropic diffusion method approximates the transport
 equations~\eqref{eqs:tdTransport} with a set of low-order equations for the
-scalar intensity $\phi$ that use a diffusion coefficient calculated from a
+scalar intensity $\phi$ that use a diffusion tensor calculated from a
 simple high-order transport equation.
 
 The low order equation is the result of substituting the approximate Fick's law,
@@ -618,28 +640,29 @@ Eq.~\eqref{eq:anisotropicFicks}, into the conservation equation~\eqref{eq:loVol}
   - \grad \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
   + \sigma(\vec{x}) \phi(\vec{x}, t)
   = Q(\vec{x}, t) \,,
-  \quad \vec{x} \in V,\ 0 \le t \le \Delta_t \,.
+  \quad \vec{x} \in V,\ t > 0 \,.
 \end{equation*}
 From the initial layer analysis, the initial condition is to leading order:
 \begin{equation*}
-  \phi(\vec{x}, 0) = \int_{4\pi} I^i(\vec{x},\vec{\Omega}) \ud\Omega \,, \vec{x} \in V  \,.
+  \phi(\vec{x}, 0) = \int_{4\pi} I^i(\vec{x},\vec{\Omega}) \ud\Omega \,,
+  \quad \vec{x} \in V  \,.
 \end{equation*}
 The incident source boundary condition with the simpler Marshak-like
 approximation from Eq.~\eqref{eq:marshakAd} is
 \begin{equation*}
   4 F^-(\vec{x}, t)
   = \phi(\vec{x}, t)
-  + 2 \vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
- \quad \vec{x} \in \partial V,\ 0 \le t \le \Delta_t \,.
+  + 2 \vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,,
+ \quad \vec{x} \in \partial V,\ t > 0\,.
 \end{equation*}
 
 The anisotropic diffusion tensor is defined in Eq.~\eqref{eq:dDefinition},
 \begin{equation*}
   \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
-  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,,
 \end{equation*}
-Here, $f$ is the solution of the purely absorbing transport equation described by
-Eq.~\eqref{eq:fVol}:
+where $f$ is the solution of the steady-state, purely absorbing transport
+equation described by Eq.~\eqref{eq:fVol}:
 \begin{subequations} \label{eqs:fFull}
 \begin{equation}\label{eq:fFullVol}
   \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
@@ -653,6 +676,7 @@ the problem boundary:
  \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0 \,.
 \end{equation}
 \end{subequations}
+
 In the more general case when Eq.~\eqref{eq:loBc} is used, $f$ only needs to
 satisfy the relation given in Eq.~\eqref{eq:hoBc}:
 \begin{equation*}
@@ -661,6 +685,18 @@ satisfy the relation given in Eq.~\eqref{eq:hoBc}:
   =
   \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation*}
+The corresponding transport-matched low-order boundary condition from
+Eq.~\eqref{eq:loBc2} is:
+\begin{equation*}
+2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x},\vec{\Omega},t) \ud\Omega
+=
+\phi(\vec{x},t)
++ 2\int_{\vec{\Omega}\vd\vec{n} < 0}
+\abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
+f(\vec{x}, \vec{\Omega}) \ud\Omega
+\vec{n} \vd \grad \phi(\vec{x},t)\,.
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -680,7 +716,8 @@ TRT equations. (For a rigorous asymptotic analysis of the TRT equations, see
 First, the implementation of the TRT equations in this thesis uses the
 semi-implicit linearization from \S\ref{sec:bgSemiImplicit}. In that form, the
 TRT equations over a time step are reduced to a linear transport equation with
-an isotropic scattering term.
+an isotropic scattering term. Thus the linear asymptotic analysis presented here
+is applicable to the linearized radiation equation.
 
 Second, if the standard diffusion scaling is taken, the anisotropic diffusion
 equations yield the standard diffusion result to first order. To see this, we
@@ -719,9 +756,10 @@ law:
 In other words, in the diffusion limit, anisotropic diffusion is equivalent to
 diffusion, to first order.
 
-It is therefore justifiable to assert that the anisotropic diffusion method will
+We therefore assert that the anisotropic diffusion method will
 satisfy the diffusive limit of the transport equation for thermal radiative
-transport. The derivation for linear transport is entirely applicable to TRT.
+transport.
+
 The low-order anisotropic diffusion equation for TRT is
 \begin{equation*}
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
@@ -736,72 +774,86 @@ opacity $\sigma$ via the transport equation for $f$:
   + \sigma(\vec{x},T[\vec{x},t]) f(\vec{x}, \vec{\Omega}, t)
   = \frac{1}{4\pi}\,.
 \end{equation*}
+In this transport problem for $f$, the time $t$ is a parameter, not a variable:
+the time dependence of $f$ is due entirely to the time-dependence of $\sigma$.
+When the semi-implicit approximation is made that freezes $\sigma$ at the
+beginning of the time step, there is no feedback between $\phi$ and $f$ during a
+time step.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transport calculation for \texorpdfstring{$f$}{f}}
 
-The anisotropic diffusion tensors are calculated from $f$, the solution to the
+The anisotropic diffusion tensor is calculated from $f$, the solution to the
 purely absorbing transport problem in Eqs.~\eqref{eqs:fFull}  with a unit
 isotropic source,
-reflecting boundary conditions, and the same opacities as the physical problem
-being simulated. It is steady-state, although it needs to be recalculated at
-every time step as $\sigma$ changes.
+``conservative'' boundary conditions, and the same opacities as the physical problem
+being simulated. It is a steady-state transport problem, although a
+time-dependent $\sigma$ necessitates a recalculation of $f$.
 
-Were it not for the reflecting boundary condition, a discrete ordinates (\SN)
+In an infinite medium problem, a discrete ordinates (\SN)
 solution for $f$ would take only one transport sweep to complete, because there
-is no scattering source to converge. However, because the boundary conditions
+is no scattering source to converge. However, for a finite problem, because the boundary conditions
 rely on exiting values of $f$, in practice more than one iteration will be
 required. The
 larger the optical thickness between boundaries, the faster the convergence will
-be: this poses a problem if
-two boundaries on opposite sides of the problem are separated by only a
-fraction of a mean free path (e.g., a voided channel), especially if a very fine
-angular
-quadrature set is used (one with ordinates that are nearly perpendicular to the
-boundary).
+be. Conversely, if
+two opposing boundaries are separated by only a fraction of a mean free path
+(e.g.\ in the case of a voided channel), an SI solution may require many
+iterations to converge, especially if a very fine angular quadrature set is used
+(one with ordinates that are nearly perpendicular to the boundary). If
+reflecting boundaries are used in the calculation of $f$, the solution of
+$f(\vec{x},\vec{\Omega})$, where $\vec{x}$ is inside a voided channel and
+$\vec{\Omega}$ is parallel to the channel's walls, will be nearly singular.
+Source iteration will take a correspondingly large number of iterations.
 
-The convergence problem can be obviated somewhat by taking advantage of a
-loophole left in the boundary condition function $\zeta$. Because the condition
-$\int_{4\pi} \vec{\Omega} f \ud\Omega$ allows for other angular shapes on the
-boundary, as shown by Eq.~\eqref{eq:zetaGeneral}, we could replace the
-offending reflecting boundary with a white boundary, which should converge more
+The convergence problem can be obviated somewhat by taking advantage of the
+flexibility in Eq.~\eqref{eq:hoBc}, which allows for other angular shapes on the
+boundary. For example, rather than using a reflecting boundary on the offending
+surface, the user could select a white boundary in the transport calculation for
+$f$. The ``averaging'' effect of the white boundary leads to a solution along
+the voided region is no longer singular, and source iteration will converge more
 quickly.
 
 In the case of a time-dependent problem where $\sigma$ remains constant from one
 time step to the next, the calculation for $f$ needs only to be run once. In
 nonlinear problems where $\sigma$ is a function of time, storing $f$ on the
 outer boundaries of the problem (which is already necessary for reflecting
-boundary conditions) will greatly improve the recalculation of $f$. After the
-first time step, a good guess for $f$ on the boundary means that only large and
-far-reaching changes to $\sigma$ near the boundary will require more than one
-transport sweep to converge.
+boundary conditions) will greatly speed up the recalculation of $f$. After the
+first time step, a good guess for $f$ on the boundary means that only
+large changes in $\sigma$ near the boundary will cause source iteration to
+require more than one sweep to converge.
 
 Another desirable property of $f$ is that, because it is a steady-state
 quantity, and only its second angular moment is required, the
-full angle-dependent solution does not need to be stored: the angular moment can
-just be accumulated during the transport sweep, as is done with steady-state
-\SN\ transport. This is a tremendous
+full angle-dependent solution does not need to be stored. The second angular
+moment $\Dtens$ can merely be \emph{accumulated} during the transport sweep, as
+is done with steady-state
+\SN\ transport. This is a distinct
 advantage over traditional time-dependent transport methods, which require the
-memory-intensive storage of $I(\vec{x},\vec{\Omega},t)$.
+memory-intensive storage of the full solution $I(\vec{x},\vec{\Omega},t)$.
 
-If the problem is homogeneous ($\sigma=\sigma$ is constant), then the solution is
+If the problem is homogeneous, then the solution is
 $f=1/(4\pi\sigma)$. Taking the second moment of $f$ then yields
 \begin{equation*}
   \Dtens = \frac{1}{4\pi\sigma} \int_{4\pi} \vec{\Omega} \vec{\Omega} \ud \Omega
   = \frac{1}{3\sigma} \Identitytens\,.
 \end{equation*}
-Substituting this into the anisotropic Fick's law,
-Eq.~\eqref{eq:anisotropicFicks}, we recover the standard Fick's law:
+Substituting this into the \emph{anisotropic} Fick's law,
+Eq.~\eqref{eq:anisotropicFicks}, we reproduce the \emph{standard} Fick's law:
 \begin{equation*}
   \vec{F} = - \frac{1}{3\sigma} \grad \phi\,.
 \end{equation*}
 In other words, for a homogeneous medium, the anisotropic diffusion method
-reduces to the standard diffusion method.
+reduces to the standard diffusion method. In a finite problem, either a specular
+reflecting or a white boundary will produce an isotropic incident
+$f=1/(4\pi\sigma)$, which reproduces the standard diffusion coefficient near the
+boundaries.
 
-Indeed, even in an inhomogeneous medium, if the transport equation for $f$ is
-rewritten as
+Even in an inhomogeneous medium, if the transport equation for $f$ is
+scaled as
 \begin{equation*}
-  \epsilon \vec{\Omega}\vd f(\vec{x},\vec{\Omega})
+  \epsilon \vec{\Omega}\vd\grad f(\vec{x},\vec{\Omega})
   + \sigma(\vec{x})  f(\vec{x},\vec{\Omega}) = \frac{1}{4\pi}\,,
 \end{equation*}
 then as $\epsilon\to 0$,
@@ -833,18 +885,17 @@ to flow from the area of higher density to lower density along the gradient:
 \begin{equation*}
   \vec{F}(\vec{x},t) = - D(\vec{x}) \grad \phi(\vec{x},t)\,.
 \end{equation*}
-The anisotropic diffusion tensor has an interesting twist: it implies that a
-gradient in $\phi$ can induce
+The anisotropic diffusion tensor has a twist: a gradient in $\phi$ can induce
 particle flow in a direction \emph{other than the direction of the gradient}. In
 2-D, the anisotropic Fick's law has the form
-\begin{align*}
-  \vec{F} &= - \Dtens \vd \grad \phi
-  \\
+\begin{equation*}
+  \vec{F} = - \Dtens \vd \grad \phi
+  \lra
   \begin{bmatrix}
     F^x \\
     F^y
   \end{bmatrix}
-  &=
+  =
   -
   \begin{bmatrix}
     D^{xx} & D^{yx} \\
@@ -854,12 +905,12 @@ particle flow in a direction \emph{other than the direction of the gradient}. In
     \tpder \phi x \\
     \tpder \phi y
   \end{bmatrix} \,.
-\end{align*}
+\end{equation*}
 
 If we calculate the ``leakage'' $\vec{n} \vd \vec{F}$ averaged over a planar
 surface normal to $\vec{n}$, standard diffusion will only consider the gradient
 \emph{normal} to the surface. For example, on a surface normal to the $x$ axis,
-diffusion gives the leakage term
+standard diffusion gives the leakage term
 \begin{equation*}
   F^x = - D \pder{\phi}{x}\,.
 \end{equation*}
@@ -870,116 +921,146 @@ However, anisotropic diffusion has the following leakage term:
 \end{equation*}
 We refer to the leakage normal to the face, $- D^{xx} \pder{\phi}{x}$, as
 ``normal'' leakage; the leakage along the face, $- D^{yx}
-\pder{\phi}{y}$, we term the ``transverse'' leakage. We will show in
+\pder{\phi}{y}$, we use the term ``transverse'' leakage.\footnote{%
+These terms are compatible with the form of anisotropic diffusion used in
+geology and fluid flow. In the field of magneto-hydrodynamics, terms
+``perpendicular'' and ``parallel'' replace ``normal'' and ``transverse,''
+respectively.
+}
+We will show in
 Chapter~\ref{chap:implementation} that the transverse leakage adds a layer of
 complexity to anisotropic diffusion discretization schemes that is not present
 in standard diffusion discretizations.
 
-\subsubsection{Limited magnitude}
+\subsubsection{Behavior in voids}
+
+The diffusion model for neutrons and radiative transfer is often used far
+outside its realm of strict asymptotic applicability. In the case of radiation
+transport, a particularly egregious failure occurs near voided regions, where
+the true solution has strong spatial and temporal gradients (see
+\S\ref{sec:bgFld}). Standard diffusion fails catastrophically where $\sigma=0$,
+but anisotropic diffusion gracefully yields a qualitatively realistic
+approximation to the behavior of particles in a void.
+
 The standard diffusion coefficient is defined as
 \begin{equation*}
   D(\vec{x}) = \frac{1}{3\sigma(\vec{x})} \,.
 \end{equation*}
 As $\sigma\to0$ locally, $D\to \infty$. An infinite diffusion coefficient in a
 region gives a spatially constant $\phi$, which is almost always an
-unphysical result. Small values of $\sigma$ can also cause numerical
-difficulties in computer implementations, as well.
+unphysical result.\footnote{%
+One exception is that in a 1-D slab configuration, a voided region truly does
+have a constant solution in the void.}
+%Many numerical solvers also have
+%difficulty converging when the problem contains a voided region
+% Small values of $\sigma$ can also cause numerical
+% difficulties in computer implementations, as well: the larger diffusion
+% coefficients will tend to reduce the diagonal dominance of the discretized
+% diffusion matrix, leading to slower convergence with iterative solution methods.
 
 In contrast to standard diffusion, the anisotropic diffusion approximation has
-a \emph{nonlocal} dependence on $\sigma$ through $f(\vec{x}, \vec{\Omega})$. Since $f$ remains
-bounded, even when $\sigma=0$ at some point, $\Dtens$ will also remain bounded.
+a \emph{nonlocal} dependence on $\sigma$ through $f(\vec{x}, \vec{\Omega})$.
+Since $f$ remains bounded, even when $\sigma=0$ at some point, $\Dtens$ will
+also remain bounded. Furthermore, the behavior of the anisotropic Fick's law in
+a voided region benefits from the transport-calculated information embedded in
+the anisotropic diffusion tensor $\Dtens$ that the standard diffusion's
+isotropic tensor $D$ lacks. Because $f(\vec{x},\vec{\Omega})$ is larger for
+directions $\vec{\Omega}$ parallel to a voided channel than perpendicular to it,
+the second angular moment $\Dtens$ has a stronger action along that direction.
+In other words, particles in a channel will tend to travel along a voided
+channel than across it.
 
-TODO: add more detail here
-
-\subsubsection{Symmetric positive definiteness}
+\subsubsection{Linear algebraic properties}
 From Eq.~\eqref{eq:dij}, $\Dtens$ is clearly symmetric: $D^{ij}=D^{ji}$. Yet
-$\Dtens$ is also symmetric positive definite (SPD), satisfying
-\begin{equation*}
-  \vec{a} \vd \Dtens \vd \vec{a} > 0
-\end{equation*}
-for all non-zero, real vectors $\vec{a}$ \cite{Tre1997}. To show this, we write 
-\begin{align*}
-  \vec{a} \vd \Dtens \vd \vec{a} &=
-  \vec{a} \vd \left[\int_{4\pi} \vec{\Omega} \vec{\Omega}
-  f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vd \vec{a}
-  \\
-  &=
-  \int_{4\pi} (\vec{\Omega} \vd
-  \vec{a}) (\vec{\Omega} \vd \vec{a})
-  f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
-  \\
-  &=
-  \int_{4\pi} (\vec{\Omega} \vd \vec{a})^2
-  f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
-\end{align*}
-Because the solution for $f$ is strictly positive for all $\vec{\Omega}\in
-4\pi$, and $(\vec{\Omega} \vd \vec{a})^2$ is positive%
-\footnote{The quantity $(\vec{\Omega} \vd \vec{a})^2$ will technically be zero where
-$\vec{\Omega}$ is orthogonal to $\vec{\alpha}$, but it will be nonzero most
-everywhere in the domain of integration, yielding a positive result.
-}%
-for non-zero
-$\vec{a}$, this integral will always be positive. Therefore, $\Dtens$ is SPD.
+$\Dtens$ is also symmetric positive definite (SPD): this property follows from
+the fact that $\Dtens$ is the second moment of a nonnegative density on a unit
+sphere, just like an Eddington tensor \cite{Lev1984}.
 
-Because $\Dtens$ is symmetric positive definite, the ``anisotropic Fick's law''
-in Eq.~\eqref{eq:anisotropicFicks} is self-adjoint.  Consequently, many
+However, unlike the Eddington tensor used in quasidiffusion (see
+\S\ref{sec:bgPn}), which approximates the radiation flux using
+\begin{equation*}
+  \frac{1}{c} \pder{\vec{F}}{t} + \grad \vd \Etens \phi + \sigma \vec{F} = 0\,,
+\end{equation*}
+the diffusion tensor is outside of the gradient operator:
+\begin{equation*}
+  \Dtens \vd \grad \phi + \vec{F} = 0\,.
+\end{equation*}
+The anisotropic Fick's law is therefore a self-adjoint equation.  Consequently,
+many
 reasonable discretizations of the anisotropic diffusion equations will be SPD as
 well, allowing solution by the conjugate gradient (CG) method \cite{Tre1997}.
-This is in contrast to quasidiffusion methods (see \S\ref{sec:bgPn}), which
+This is in contrast to quasidiffusion methods, which
 require a more computationally expensive solver such as GMRES \cite{War2003}.
 
-\subsubsection{Eigenvectors}\label{sec:eigenvectors}
-As stated in \S\ref{sec:zeta}, if $f(\vec{\Omega})$ is azimuthally
-symmetric about some unit vector $\vec{a}$, then $f$ is only a function of the
-cosine angle
-between $\vec{\Omega}$ and $\vec{a}$:
+Additionally, the principle eigenvector of the diffusion tensor (the direction
+on which $\Dtens$ has the greatest action) can be straightforwardly deduced by
+the physics of the problem. We first note that $\Dtens$ depends only on the
+transport solution $f$, and $f$ depends only on the total opacity $\sigma$.
+Therefore, if at point $\vec{x}$ the opacity $\sigma$ is invariant about some
+unit direction $\vec{n}$, then the solution $f$ will be rotationally invariant
+about that axis. As discussed in \cite{Lev1984}, the action of $\Dtens$ upon
+$\vec{n}$ must therefore be invariant under the rotational transformation, and
+is therefore an eigenvector of $\Dtens$:
 \begin{equation*}
-f(\vec{\Omega}) = \hat f( \vec{\Omega} \vd \vec{a})\,.
+  \Dtens \vd \vec{n}
+  \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega} \vd \vec{n} f \ud \Omega
+  = \chi \vec{n} \,.
 \end{equation*}
 
-If $\vec{a}$ is an eigenvector of $\Dtens$, then
-\begin{equation*}
-  \Dtens \vd \vec{a} = \lambda \vec{a}\,,
-\end{equation*}
-where $\lambda$ is a constant. Taking the dot product of the diffusion tensor's
-definition in Eq.~\eqref{eq:dDefinition} and
-$\vec{a}$, omitting the $\vec{x}$ parameter for brevity, we find
-\begin{align*}
-  \Dtens \vd \vec{a}
-  &= \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \vec{a}
-  \\
-  &= \int_{4\pi} (\vec{\Omega} \vd \vec{a}) \vec{\Omega} f(\vec{\Omega}) \ud\Omega
-  \,.
-\end{align*}
-If $f$ is azimuthal about $\vec{a}$, then
-\begin{align*}
-  \Dtens \vd \vec{a}
-  &= \int_{4\pi} (\vec{\Omega} \vd \vec{a}) \vec{\Omega}
-    \hat f(\vec{\Omega} \vd \vec{a}) \ud\Omega \,.
-\end{align*}
-We choose an angular coordinate system where $\vec{i}=\vec{a}$, giving
-$\vec{\Omega} \vd \vec{a}=\mu$:
-\begin{align*}
-  \Dtens \vd \vec{a}
-  &= \int_{0}^{2\pi} \int_{-1}^{1} (\mu)
-  \left( \mu \vec{a} + \sqrt{1-\mu^2} \cos \theta \vec{u} + \sqrt{1-\mu^2} \sin
-  \theta \vec{v} \right) \hat f(\mu) \ud\mu \ud\theta 
-  &= \left( 2\pi \int_{-1}^{1} \mu^2 \hat f(\mu) \ud\mu \right) \vec{a}
-  \\
-  &= \lambda \vec{a} \,.
-\end{align*}
-Thus, if $f$ is azimuthally symmetric about $\vec{a}$, then $\vec{a}$ is an
-eigenvector of $\Dtens$.
-
-Thus, if $\sigma$ in a 3-D problem varies only along
-the $x$ axis, then the vectors along \emph{each} primary axis are
-eigenvectors of $\Dtens$: i.e., the diffusion tensor has only
+Because the diffusion tensor is SPD, its eigenvectors are orthogonal. The
+implication is that if $\sigma$ in a 2-D problem varies only along
+the $x$ axis, then both the $x$ and $y$ unit vectors are
+eigenvectors of $\Dtens$, i.e., the diffusion tensor has only
 components along the diagonal, and there is no transverse leakage on any
-Cartesian face in the problem. For example, the 2-D VHTR problem in
-\cite{Lar2009c} featured a total cross section that varied only along the $x$
-axis. Therefore, even though the physical problem was a function of $(x,y)$
-because of the problem's source term, the diffusion tensor had
-$D^{xy}=D^{yx}=0$, allowing the use of a very simple spatial discretization.
+Cartesian face in the problem. As we will discuss in
+Chapter~\ref{chap:implementation}, it is numerically advantageous to have only
+normal leakage.
+
+To exemplify the usefulness of knowing the eigenvectors, we consider the 2-D
+VHTR problem in \cite{Lar2009c}, which featured a total cross section that
+varied only along the $x$ axis. From the discussion above, we may determine
+\emph{a priori} that, even though the physical problem was a function of $(x,y)$
+because of the problem's source term, the diffusion tensor had principle
+eigenvectors oriented along the Cartesian axes, yielding $D^{xy}=D^{yx}=0$ and
+allowing the use of a very simple spatial discretization.
+
+\subsubsection{Smoothness}
+
+The standard diffusion coefficient, $1/3\sigma$, is discontinuous at material
+interfaces. Such is not the case with anisotropic diffusion. Recall that $f$ is
+the solution of a transport equation with a unit source: the solution is
+continuous and positive. Thus the second angular moment of $f$, the
+anisotropic diffusion tensor, is also continuous.
+
+The consequence of a discontinuity in the diffusion coefficient is a ``kink'' in
+the scalar intensity---a continuous value for $\phi$ but a discontinuous first
+derivative. From standard diffusion, this may be discerned from Fick's law,
+which we consider in 1-D for simplicity:
+\begin{equation*}
+  F(x) = - D(x) \pder{\phi}{x}(x)\,.
+\end{equation*}
+Particle conservation demands that $F$ be continuous: a discontinuity in $D$
+must therefore correspond to a discontinuity in $\tpder\phi x$.
+Likewise, if $D(x)$ is continuous as is the case for anisotropic diffusion, the
+first derivative of $\phi$ must necessarily be continuous.
+
+The smooth transition of the anisotropic diffusion tensor $\Dtens$ at a material
+discontinuity produces a boundary layer between the materials. Standard
+diffusion has no boundary layer.
+
+The true transport solution contains both a boundary layer \emph{and} a kink in
+the scalar intensity. Anisotropic diffusion contains the former; standard
+diffusion, the latter.
+
+The smoothness of the interior solution $\phi$ for anisotropic diffusion is
+compatible with the derivation of the anisotropic diffusion approximation, the
+starting assumption that the derivatives of $\phi$ are small.
+
+A possible implication of a smooth diffusion coefficient is that a spatially
+coarse approximation to $\Dtens$ may yield nearly as accurate an answer as a
+fine-mesh calculation of $\Dtens$. Because even the simple transport sweep used
+to calculate $f$ will likely be far more computationally expensive than a
+diffusion solve, this could result in a significant speedup for AD calculations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flux-limited anisotropic diffusion}
@@ -1002,7 +1083,10 @@ this relation:
   \norm{\Dtens \vd \grad \phi} \stackrel{?}{\le} \phi \,.
 \end{equation*}
 The left hand side can exceed the right if either $\Dtens$ or $\grad \phi$ is
-``large'':  yet the nature of this tensor product makes the interpretation of
+``large'', which often occurs in optically thin regions or in a radiation shock
+wave.
+
+Yet the nature of this tensor product makes the interpretation of
 ``large'' much less clear than the flux limiting of standard diffusion, where
 the scalar $D$ can be moved outside the norm.
 
@@ -1017,32 +1101,19 @@ Effectively, the limiter tests whether an estimate of $\vec{F}^{n+1}$ (using the
 previous time step's solution) exceeds the flux limit; if it does, then it
 uniformly scales the diffusion tensor to satisfy the estimated limit.
 
-It is an admittedly \emph{ad hoc} correction, but it can restore a qualitative
+It is an admittedly \emph{ad hoc} correction, but it restores a qualitative
 behavior of the true intensity when the assumptions that led to anisotropic
 diffusion break down.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
-To derive the anisotropic diffusion method, we:
-\begin{enumerate}
-  \item manipulated the radiation transport equation and conservation equation
-    to get a differential transport equation for $\Psi$;
-  \item separated $\Psi$ into an interior solution $\tilde \Psi$ and boundary
-    layer solution $\Psi_\mathrm{bl}$;
-  \item transformed the equation for $\tilde \Psi$ to an \emph{integral}
-    transport equation;
-  \item made assumptions about the strength of the solution's gradients and
-    anisotropy;
-  \item used Taylor series to approximate nonlocal unknowns with local
-    unknowns and discarded small terms;
-  \item applied a transport-matching procedure to $\Psi_\mathrm{bl}$ 
-    and used an identity to find boundary conditions for $f$ and $\phi$;
-  \item took the first angular moment of $\tilde \Psi$ to obtain an anisotropic
-    ``Fick's law''; and
-  \item substituted that result into the time-dependent particle conservation
-    equation.
-\end{enumerate}
-This procedure results in two straightforward sets of equations. The first set
+To derive the anisotropic diffusion method, we manipulated the transport
+equation in the interior under certain asymptotic assumptions: primarily, that
+the spatial and temporal gradients of the intensity are weak. From boundary and
+initial layer analyses we determined transport-matched boundary and initial
+conditions.  
+
+The procedure resulted in two straightforward sets of equations. The first set
 is a simple transport equation for $f$, whose second angular moment is
 the anisotropic diffusion tensor $\Dtens$. The second set of equations are the
 low-order equations for $\phi$ that use $\Dtens$ to approximate the flow of
