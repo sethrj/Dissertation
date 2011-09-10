@@ -4,7 +4,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{microtype}
-\usepackage{subfigure}
+\usepackage{subfig}
 %\usepackage{booktabs} % \toprule, \midrule, \bottomrule
 \input{../SRJinclude.tex}
 \newcommand{\epsiloncolor}[1]{#1}
@@ -563,18 +563,18 @@ wavefront in the radiation and material temperatures.
 \begin{figure}[htb]
   \centering
   \hspace{-1.25in}
-  \subfigure[$t=1.0$]{
+  \subfloat[$t=1.0$]{
   \small\input{crashpipe2/phi_channel_t1/include.tex}}
   \hspace{-.4in}
-  \subfigure[$t=2.0$]{
+  \subfloat[$t=2.0$]{
   \small\input{crashpipe2/phi_channel_t2/include.tex}}
   \hspace{-1.25in}
 
   \hspace{-1.25in}
-  \subfigure[$t=5.0$]{
+  \subfloat[$t=5.0$]{
   \small\input{crashpipe2/phi_channel_t5/include.tex}}
   \hspace{-.4in}
-  \subfigure[$t=10.0$]{
+  \subfloat[$t=10.0$]{
   \small\input{crashpipe2/phi_channel_t10/include.tex}}
   \hspace{-1.25in}
   \caption{Scalar intensity along the center of the channel at $t=1,2,5,10$}
@@ -617,9 +617,9 @@ neglecting them.
 \begin{figure}[htb]
   \centering
   \hspace{-1.25in}
-  \subfigure[Along the channel centerline]{
+  \subfloat[Along the channel centerline]{
   \small\input{crashpipe2/dcoeff_channel_t10/include.tex}}
-  \subfigure[Perpendicular to the channel]{
+  \subfloat[Perpendicular to the channel]{
   \hspace{-.4in}
   \small\input{crashpipe2/dcoeff_ortho_t10/include.tex}}
   \hspace{-1.25in}
