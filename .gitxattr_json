@@ -336,6 +336,54 @@
 "com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
+"figures/crashpipe-OBSOLETE/phi_channel_t1/phi_channel_t1.pdf": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_channel_t1/plot.tex": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_channel_t10/phi_channel_t10.pdf": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_channel_t10/plot.tex": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_channel_t2/phi_channel_t2.pdf": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_channel_t2/plot.tex": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_channel_t5/phi_channel_t5.pdf": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_channel_t5/plot.tex": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_ortho_t1/phi_ortho_t1.pdf": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_ortho_t1/plot.tex": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_ortho_t10/phi_ortho_t10.pdf": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_ortho_t10/plot.tex": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_ortho_t2/phi_ortho_t2.pdf": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_ortho_t2/plot.tex": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_ortho_t5/phi_ortho_t5.pdf": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/phi_ortho_t5/plot.tex": {
+"creation": 1315845520
+}, 
 "figures/crashpipe-OBSOLETE/phix_t1.png": {
 "creation": 1315801989
 }, 
@@ -359,6 +407,12 @@
 }, 
 "figures/crashpipe-OBSOLETE/phiy_t5.png": {
 "creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/wavefront_channel/plot.tex": {
+"creation": 1315845520
+}, 
+"figures/crashpipe-OBSOLETE/wavefront_channel/wavefront_channel.pdf": {
+"creation": 1315845520
 }, 
 "figures/crashpipe2b/adcoeff_t10.png": {
 "creation": 1309384323
@@ -791,14 +845,10 @@
 "presentations/mc2011/paper.pdf": {
 "creation": 1297867954
 }, 
-"presentations/mc2011/paper.synctex.gz(busy)": {
-"creation": 1315842278
-}, 
 "presentations/mc2011/paper.tex": {
 "creation": 1315670979, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
-"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
 "presentations/mc2011/presentation.pdf": {

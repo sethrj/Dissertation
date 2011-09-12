@@ -91,15 +91,24 @@ def rewrite_tex( filename, pdf_path ):
 
 ################################################################################
 if __name__ == "__main__":
+    import sys
+
     oldroot = "/Users/seth/_research/figures"
     newroot = "/Users/seth/_thesis/figures"
 
-#    import sys
-#    if len(sys.argv) != 3:
-#        print "%s oldroot newroot" % sys.argv[0]
-#        sys.exit(1)
-#
-#    (oldroot, newroot) = sys.argv[1:]
+    if len(sys.argv) == 3:
+        (oldroot, newroot) = sys.argv[1:]
+    else:
+        print "%s oldroot newroot" % sys.argv[0]
+        print "Using defaults"
+
     rc = ResearchCopier(oldroot, newroot)
+
+    print "Preparing to copy from <%s> to <%s>" % (rc.oldroot, rc.newroot)
+    result = raw_input("Do you really want to do this [y/N]? ")
+    if not result.lower().startswith("y"):
+        print "Aborting..."
+        sys.exit(1)
+
     rc.run()
 
