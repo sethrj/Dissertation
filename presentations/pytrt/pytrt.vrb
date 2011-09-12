@@ -1,0 +1,16 @@
+\frametitle {Python structure}\begin {itemize}
+    \item \verb|Manager| class emits \cpp\ problem depending on module passed
+      to it (duck typing)
+    \item \verb|Solver| handles time stepping, callbacks, user feedback, etc.
+    \item Callbacks include Silo output, liveplot, lineout, angleout, MC
+      particle tally info, $\Delta t$ vs. $t$, etc.
+    \item Lineout etc. use PyTables to store HDF5 data and metadata
+  \end{itemize}
+
+  High-level ``glue'' written in Python:
+  \begin{itemize}
+    \item Flux-limited diffusion
+    \item Linearization scheme
+    \item Multigrid management
+    \item Time-dependent ``events''
+  \end{itemize}
