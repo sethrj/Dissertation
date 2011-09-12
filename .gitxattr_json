@@ -100,6 +100,27 @@
 "SRJinclude.tex": {
 "creation": 1264200745
 }, 
+"figures/adbc-checkers/adcoeff.png": {
+"creation": 1308594922
+}, 
+"figures/ap1-blastpipe/002-phi_center.pdf": {
+"creation": 1308957047
+}, 
+"figures/ap1-blastpipe/005-phi_center.pdf": {
+"creation": 1308957047
+}, 
+"figures/ap1-blastpipe/010-phi_center.pdf": {
+"creation": 1308957047
+}, 
+"figures/ap1-blastpipe/020-phi_center.pdf": {
+"creation": 1308957047
+}, 
+"figures/ap1-blastpipe/050-phi_center.pdf": {
+"creation": 1308957047
+}, 
+"figures/ap1-blastpipe/100-phi_center.pdf": {
+"creation": 1308957047
+}, 
 "figures/boltzmann.jpg": {
 "creation": 1285954034, 
 "xattrs": {
@@ -161,6 +182,39 @@
 "figures/crashpipe2b/materials.png": {
 "creation": 1309384323
 }, 
+"figures/crashpipe2b/mattemp/0000.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0020.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0027.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0032.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0037.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0047.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0057.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0067.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0117.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0167.png": {
+"creation": 1304453315
+}, 
+"figures/crashpipe2b/mattemp/0217.png": {
+"creation": 1304453315
+}, 
 "figures/crashpipe2b/mattemp_2d0117.png": {
 "creation": 1309384323
 }, 
@@ -196,6 +250,9 @@
 "xattrs": {
 "com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
+}, 
+"figures/manufactured/offdiag-contours.pdf": {
+"creation": 1310758923
 }, 
 "figures/neup-small.png": {
 "creation": 1304648981, 
@@ -703,6 +760,12 @@
 "creation": 1303788395, 
 "xattrs": {
 "com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"tools/copy_thesis_figs.py": {
+"creation": 1315801783, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
 "tools/update_gnuplot_loc.py": {
