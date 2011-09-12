@@ -5,26 +5,24 @@
 \usepackage{amssymb}
 \usepackage{microtype}
 \usepackage{subfig}
-%\usepackage{booktabs} % \toprule, \midrule, \bottomrule
-\input{../SRJinclude.tex}
-\newcommand{\epsiloncolor}[1]{#1}
-\newcommand{\Dtens}{\mat{D}}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{fancyhdr}
+%\usepackage{lastpage}
+\usepackage{graphicx}
+\usepackage{color}
 
-\makeatletter
-\def\input@path{{/Users/seth/_research/figures/}}
-\makeatother
+%\usepackage{booktabs} % \toprule, \midrule, \bottomrule
+\input{SRJinclude.tex}
+\setSRJthesisfigurepaths
+
+\newcommand{\epsiloncolor}[1]{#1}
+
 \renewcommand\bottomfraction{0.5}
 \renewcommand\floatpagefraction{.9}
 \renewcommand\topfraction{.9}
 \renewcommand\bottomfraction{.9}
 \renewcommand\textfraction{.1} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[numbers,sort&compress]{natbib}
-
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage{graphicx}
-\usepackage{color}
 
 \pagestyle{fancy}
 
@@ -516,7 +514,7 @@ extends infinitely into and out of the page.) It uses scaled units with $c=a=1$.
 shows the material layout for the problem.
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.75\textwidth]{crashpipe2/materials}
+  \includegraphics[width=0.75\textwidth]{crashpipe-OBSOLETE/materials}
   \caption{Material properties for the pipe problem. The blue square is the
   source, the green channel is a low-opacity region, and the red regions are
   diffusive.}
@@ -546,7 +544,7 @@ shows the scalar intensity $\phi$ for the four methods.
 %
 \begin{figure}[htb]
   \centering
-  \includegraphics{crashpipe2/mattemp}
+  \includegraphics{crashpipe-OBSOLETE/mattemp_2d0117}
   \caption{Pseudocolor plot of material temperature for the four methods (top
   to bottom: IMC, AD, FLD, diffusion) at $t=1$, $2$, $5$, and $10$.}
   \label{fig:mattemp2d}
@@ -564,18 +562,18 @@ wavefront in the radiation and material temperatures.
   \centering
   \hspace{-1.25in}
   \subfloat[$t=1.0$]{
-  \small\input{crashpipe2/phi_channel_t1/include.tex}}
+  \small\input{crashpipe-OBSOLETE/phi_channel_t1/plot}}
   \hspace{-.4in}
   \subfloat[$t=2.0$]{
-  \small\input{crashpipe2/phi_channel_t2/include.tex}}
+  \small\input{crashpipe-OBSOLETE/phi_channel_t2/plot}}
   \hspace{-1.25in}
 
   \hspace{-1.25in}
   \subfloat[$t=5.0$]{
-  \small\input{crashpipe2/phi_channel_t5/include.tex}}
+  \small\input{crashpipe-OBSOLETE/phi_channel_t5/plot}}
   \hspace{-.4in}
   \subfloat[$t=10.0$]{
-  \small\input{crashpipe2/phi_channel_t10/include.tex}}
+  \small\input{crashpipe-OBSOLETE/phi_channel_t10/plot}}
   \hspace{-1.25in}
   \caption{Scalar intensity along the center of the channel at $t=1,2,5,10$}
   \label{fig:phi}
@@ -618,10 +616,10 @@ neglecting them.
   \centering
   \hspace{-1.25in}
   \subfloat[Along the channel centerline]{
-  \small\input{crashpipe2/dcoeff_channel_t10/include.tex}}
+  \small\input{crashpipe-OBSOLETE/dcoeff_channel_t10/plot}}
   \subfloat[Perpendicular to the channel]{
   \hspace{-.4in}
-  \small\input{crashpipe2/dcoeff_ortho_t10/include.tex}}
+  \small\input{crashpipe-OBSOLETE/dcoeff_ortho_t10/plot}}
   \hspace{-1.25in}
   \caption{Diffusion coefficients at $t=10$.}
   \label{fig:dcoeffT10}
@@ -640,7 +638,7 @@ the visualization.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=3in]{crashpipe2/adcoeff_t10_cropped}
+  \includegraphics[width=3in]{crashpipe-OBSOLETE/adcoeff_t10_cropped}
   \caption{Anisotropic diffusion tensors at $t=10$ overlaid on the material
   temperature.}
   \label{fig:adcoeff}
@@ -688,7 +686,7 @@ Energy University Programs Graduate Fellowship.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\nocite{Mih1984}
 \bibliographystyle{mc}
-\bibliography{../SRJall}
+\bibliography{../../SRJall}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}

@@ -43,6 +43,15 @@ $ \hspace{\stretch{1}} \vspace{\baselineskip}}
 \newcommand{\xyz}{$x$--$y$--$z$}
 \newcommand{\rz}{$r$--$z$}
 
+% Set include file paths for thesis
+% graphics paths
+\makeatletter
+\newcommand{\setSRJthesisfigurepaths}{%
+\graphicspath{{/Users/seth/_thesis/figures/}}%
+\def\input@path{{/Users/seth/_thesis/figures/}}%
+}
+\makeatother
+
 % Program names
 \newcommand{\cpp}{\textsf{C\raisebox{0.2ex}{++}}}
 

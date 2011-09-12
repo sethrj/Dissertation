@@ -9,15 +9,10 @@
 \usepackage{microtype}
 \usepackage{graphicx}
 \usepackage{booktabs} % \toprule, \midrule, \bottomrule
-\input{../SRJinclude.tex}
+\input{SRJinclude.tex}
+\setSRJthesisfigurepaths
+
 \newcommand{\url}[1]{\texttt{#1}}
-
-% graphics paths
-\graphicspath{{/Users/seth/_research/figures/}}
-\makeatletter
-\def\input@path{{/Users/seth/_research/figures/}}
-\makeatother
-
 \renewcommand{\bottomfraction}{1.}
 \renewcommand{\topfraction}{1.}
 
@@ -484,6 +479,6 @@ Energy University Programs Graduate Fellowship.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{ans}
-\bibliography{../SRJall}
+\bibliography{../../SRJall}
 \end{document}
 

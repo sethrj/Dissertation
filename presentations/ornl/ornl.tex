@@ -5,7 +5,9 @@
 \usepackage{amssymb}
 \usepackage{microtype}
 \usepackage{booktabs} % \toprule, \midrule, \bottomrule
-\input{../SRJinclude.tex}
+\input{SRJinclude.tex}
+\setSRJthesisfigurepaths
+
 \definecolor{lightgray}{gray}{0.85}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -54,9 +56,9 @@ University of Michigan, Ann Arbor
 \begin{frame}
 \titlepage
 \begin{center}
-  \includegraphics[width=0.2\textwidth]{../figures/umlogo}
+  \includegraphics[width=0.2\textwidth]{umlogo}
 \end{center}
-\smash{\includegraphics[width=0.2\textwidth]{../figures/neup-small}}
+\smash{\includegraphics[width=0.2\textwidth]{neup-small}}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,7 +95,7 @@ University of Michigan, Ann Arbor
 \begin{frame}
   \frametitle{Motivation}
 \begin{center}
-  \includegraphics[width=3in]{../figures/fidelity}
+  \includegraphics[width=3in]{fidelity}
 \end{center}
 % also, storage requirements
 \end{frame}
@@ -703,7 +705,7 @@ Approximate the red terms semi-implicitly.
     \end{column}
   \end{columns}
 \begin{center}
-  \includegraphics[width=.99\textwidth]{../figures/crashpipe2b/materials}
+  \includegraphics[width=.99\textwidth]{crashpipe2b/materials}
 \end{center}
 \end{frame}
 
@@ -712,7 +714,7 @@ Approximate the red terms semi-implicitly.
   \centering
   \tiny (Replaced with movie)
   \par
-  \includegraphics[height=2.75in]{../figures/crashpipe2b/mattemp_2d0117}
+  \includegraphics[height=2.75in]{crashpipe2b/mattemp_2d0117}
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -720,17 +722,17 @@ Approximate the red terms semi-implicitly.
 
 \centering
 \hspace{-1in}%
-\only<1>{\input{../figures/crashpipe2b/pres-phi-channel-t1/include.tex}}%
-\only<2>{\input{../figures/crashpipe2b/pres-phi-channel-t2/include.tex}}%
-\only<3>{\input{../figures/crashpipe2b/pres-phi-channel-t5/include.tex}}%
-\only<4>{\input{../figures/crashpipe2b/pres-phi-channel-t10/include.tex}}%
-\only<5>{\input{../figures/crashpipe2b/pres-phi-channel-t20/include.tex}}%
+\only<1>{\input{crashpipe2b/pres-phi-channel-t1/plot}}%
+\only<2>{\input{crashpipe2b/pres-phi-channel-t2/plot}}%
+\only<3>{\input{crashpipe2b/pres-phi-channel-t5/plot}}%
+\only<4>{\input{crashpipe2b/pres-phi-channel-t10/plot}}%
+\only<5>{\input{crashpipe2b/pres-phi-channel-t20/plot}}%
 \hspace{-.35in}
-\only<1>{\input{../figures/crashpipe2b/pres-phi-ortho-t1/include.tex}}%
-\only<2>{\input{../figures/crashpipe2b/pres-phi-ortho-t2/include.tex}}%
-\only<3>{\input{../figures/crashpipe2b/pres-phi-ortho-t5/include.tex}}%
-\only<4>{\input{../figures/crashpipe2b/pres-phi-ortho-t10/include.tex}}%
-\only<5>{\input{../figures/crashpipe2b/pres-phi-ortho-t20/include.tex}}%
+\only<1>{\input{crashpipe2b/pres-phi-ortho-t1/plot}}%
+\only<2>{\input{crashpipe2b/pres-phi-ortho-t2/plot}}%
+\only<3>{\input{crashpipe2b/pres-phi-ortho-t5/plot}}%
+\only<4>{\input{crashpipe2b/pres-phi-ortho-t10/plot}}%
+\only<5>{\input{crashpipe2b/pres-phi-ortho-t20/plot}}%
 \hspace{-1in}
 \par
   
@@ -745,25 +747,25 @@ Approximate the red terms semi-implicitly.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Time evolution of radiation temperature wavefront}
   \centering%
-  \input{../figures/crashpipe2b/wavefront-channel/include.tex}%
+  \input{crashpipe2b/wavefront-channel/plot}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Diffusion coefficients ($t=10$)}
   \centering%
-  \input{../figures/crashpipe2b/pres-dcoeff---channel-t10/include.tex}%
+  \input{crashpipe2b/pres-dcoeff---channel-t10/plot}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Anisotropic diffusion tensor visualization}
   \centering%
-  \includegraphics[width=.75\textwidth]{../figures/crashpipe2b/adcoeff_t10}%
+  \includegraphics[width=.75\textwidth]{crashpipe2b/adcoeff_t10}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Approximate representations of the intensity}
   \centering%
-  \input{../figures/crashpipe2b/intens-x5-t20/include.tex}%
+  \input{crashpipe2b/intens-x5-t20/plot}%
   \par
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -817,7 +819,7 @@ Approximate the red terms semi-implicitly.
 \begin{frame}
   \frametitle{Questions?}
   \begin{center}
-    \includegraphics[width=2in]{../figures/fidelity2}
+    \includegraphics[width=2in]{fidelity2}
   \end{center}
 {\setlength{\baselineskip}{-\baselineskip} \tiny 
 This material is based upon work supported under a National Science Foundation
@@ -832,7 +834,7 @@ Department of Energy Office of Nuclear Energy.\par}
 \begin{frame}
   \frametitle{References}
 \bibliographystyle{ans}
-\bibliography{../SRJall}
+\bibliography{../../SRJall}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

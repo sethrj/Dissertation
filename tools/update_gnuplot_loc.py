@@ -1,5 +1,6 @@
 import os
 import re
+from glob import glob
 
 _tex_include_command = r'\includegraphics{%s}'
 _re_includepath = re.compile( _tex_include_command.replace('\\', r'\\')
@@ -35,7 +36,16 @@ def rewrite_symlink( filename ):
     os.rename(new_filename, filename)
 
 def rewrite_tex( filename ):
-    picname = os.path.abspath( os.path.splitext(filename)[0] )
+    picname = os.path.splitext(filename)[0]
+    (root, picname) = os.path.split(picname)
+
+    if picname == "plot":
+        picname = glob( os.path.join( root, "*.pdf") )[0]
+        picname = os.path.splitext(picname)[0]
+    else:
+        picname = os.path.join(root, picname)
+
+    picname = os.path.abspath( picname )
     print picname
 
     new_filename = filename + "~"

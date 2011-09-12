@@ -251,6 +251,115 @@
 "com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
+"figures/crashpipe-OBSOLETE/adcoeff_t10.png": {
+"creation": 1315801988
+}, 
+"figures/crashpipe-OBSOLETE/adcoeff_t10_cropped.png": {
+"creation": 1315801988
+}, 
+"figures/crashpipe-OBSOLETE/dcoeff_channel_t10/dcoeff_channel_t10.pdf": {
+"creation": 1315801988
+}, 
+"figures/crashpipe-OBSOLETE/dcoeff_channel_t10/plot.tex": {
+"creation": 1315842647
+}, 
+"figures/crashpipe-OBSOLETE/dcoeff_channel_t5/dcoeff_channel_t5.pdf": {
+"creation": 1315801988
+}, 
+"figures/crashpipe-OBSOLETE/dcoeff_channel_t5/plot.tex": {
+"creation": 1315842647
+}, 
+"figures/crashpipe-OBSOLETE/dcoeff_ortho_t10/dcoeff_ortho_t10.pdf": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/dcoeff_ortho_t10/plot.tex": {
+"creation": 1315842647
+}, 
+"figures/crashpipe-OBSOLETE/dcoeff_t10.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/dcoeff_t5.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/materials.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/mattemp.pdf": {
+"creation": 1315801989, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"figures/crashpipe-OBSOLETE/mattemp2d_t1.png": {
+"creation": 1315801989, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.metadata:kMDItemIsScreenCapture": "YnBsaXN0MDAJCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJ\n", 
+"com.apple.metadata:kMDItemScreenCaptureType": "YnBsaXN0MDBZc2VsZWN0aW9uCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAS\n"
+}
+}, 
+"figures/crashpipe-OBSOLETE/mattemp2d_t10.png": {
+"creation": 1315801989, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"figures/crashpipe-OBSOLETE/mattemp2d_t2.png": {
+"creation": 1315801989, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.metadata:kMDItemIsScreenCapture": "YnBsaXN0MDAJCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJ\n", 
+"com.apple.metadata:kMDItemScreenCaptureType": "YnBsaXN0MDBZc2VsZWN0aW9uCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAS\n"
+}
+}, 
+"figures/crashpipe-OBSOLETE/mattemp2d_t5.png": {
+"creation": 1315801989, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.metadata:kMDItemIsScreenCapture": "YnBsaXN0MDAJCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJ\n", 
+"com.apple.metadata:kMDItemScreenCaptureType": "YnBsaXN0MDBZc2VsZWN0aW9uCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAS\n"
+}
+}, 
+"figures/crashpipe-OBSOLETE/mattemp_2d.mov": {
+"creation": 1315801989, 
+"xattrs": {
+"com.apple.FinderInfo": "TW9vVlRWT0QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.ResourceFork": "AAABAAAABQgAAAQIAAAAMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAvL0FwcGxpY2F0aW9ucy9VdGlsaXRpZXMvUXVpY2tUaW1lIFBsYXllciA3LmFwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAUIAAAECAAAADIGAAAAPQMAAAAcADIAAHVzcm8AAAAKAAD//wAAAACbAAAA\n"
+}
+}, 
+"figures/crashpipe-OBSOLETE/mattemp_2d0117.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/mattemp_scale.png": {
+"creation": 1315801989, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"figures/crashpipe-OBSOLETE/phix_t1.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/phix_t10.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/phix_t2.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/phix_t5.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/phiy_t1.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/phiy_t10.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/phiy_t2.png": {
+"creation": 1315801989
+}, 
+"figures/crashpipe-OBSOLETE/phiy_t5.png": {
+"creation": 1315801989
+}, 
 "figures/crashpipe2b/adcoeff_t10.png": {
 "creation": 1309384323
 }, 
@@ -584,7 +693,8 @@
 "presentations/ans_november/adbc.tex": {
 "creation": 1312906669, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "presentations/ans_november/flatland.pdf": {
@@ -593,7 +703,8 @@
 "presentations/ans_november/flatland.tex": {
 "creation": 1313768038, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "presentations/ans_november/reactor_physicsify.py": {
@@ -680,15 +791,21 @@
 "presentations/mc2011/paper.pdf": {
 "creation": 1297867954
 }, 
+"presentations/mc2011/paper.synctex.gz(busy)": {
+"creation": 1315842278
+}, 
 "presentations/mc2011/paper.tex": {
 "creation": 1315670979, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
 "com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "presentations/mc2011/presentation.pdf": {
-"creation": 1304765108
+"creation": 1304765108, 
+"xattrs": {
+"com.apple.Preview.UIstate.v1": "YnBsaXN0MDDRAQJfECBVSV9BZGRpdGlvbnNfV2luZG93ZWRfUHJvcGVydGllc9YDBAUGBwgJCgsMDQlccGFnZVZpZXdNb2RlWnpvb21DZW50ZXJcZWxlbWVudEluZGV4W2F1dG9SZXNpemVzXHVpWm9vbUZhY3Rvcl8QFHByZXNlbnRhdGlvblZpZXdNb2RlEABfEDB7OS4yMjMzNzIwMzY4NTQ3NzU4ZSsxOCwgOS4yMjMzNzIwMzY4NTQ3NzU4ZSsxOH0QAQkjP/AAsgmunssICy47SFNgbHmQksXHyAAAAAAAAAEBAAAAAAAAAA4AAAAAAAAAAAAAAAAAAADR\n"
+}
 }, 
 "presentations/mc2011/presentation.tex": {
 "creation": 1309368018, 
@@ -733,124 +850,6 @@
 "com.apple.FinderInfo": "AAAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
-"presentations/prospectus/crashpipe2/adcoeff_t10.png": {
-"creation": 1307025415
-}, 
-"presentations/prospectus/crashpipe2/adcoeff_t10_cropped.png": {
-"creation": 1307025409
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_channel_t10/dcoeff_channel_t10.dat": {
-"creation": 1291086291
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_channel_t10/dcoeff_channel_t10.pdf": {
-"creation": 1307025411
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_channel_t10/dcoeff_channel_t10.tex": {
-"creation": 1307025409
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_channel_t5/dcoeff_channel_t5.dat": {
-"creation": 1291086291
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_channel_t5/dcoeff_channel_t5.pdf": {
-"creation": 1307025415
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_channel_t5/dcoeff_channel_t5.tex": {
-"creation": 1307025413
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_ortho_t10/dcoeff_ortho_t10.dat": {
-"creation": 1291086293
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_ortho_t10/dcoeff_ortho_t10.pdf": {
-"creation": 1307025409
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_ortho_t10/dcoeff_ortho_t10.tex": {
-"creation": 1307025414
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_t10.png": {
-"creation": 1307025415
-}, 
-"presentations/prospectus/crashpipe2/dcoeff_t5.png": {
-"creation": 1307025415
-}, 
-"presentations/prospectus/crashpipe2/materials.png": {
-"creation": 1307025413
-}, 
-"presentations/prospectus/crashpipe2/mattemp.pdf": {
-"creation": 1307025410, 
-"xattrs": {
-"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
-}
-}, 
-"presentations/prospectus/crashpipe2/mattemp2d_t1.png": {
-"creation": 1307025409, 
-"xattrs": {
-"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
-"com.apple.metadata:kMDItemIsScreenCapture": "YnBsaXN0MDAJCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJ\n", 
-"com.apple.metadata:kMDItemScreenCaptureType": "YnBsaXN0MDBZc2VsZWN0aW9uCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAS\n"
-}
-}, 
-"presentations/prospectus/crashpipe2/mattemp2d_t10.png": {
-"creation": 1307025414, 
-"xattrs": {
-"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
-}
-}, 
-"presentations/prospectus/crashpipe2/mattemp2d_t2.png": {
-"creation": 1307025412, 
-"xattrs": {
-"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
-"com.apple.metadata:kMDItemIsScreenCapture": "YnBsaXN0MDAJCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJ\n", 
-"com.apple.metadata:kMDItemScreenCaptureType": "YnBsaXN0MDBZc2VsZWN0aW9uCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAS\n"
-}
-}, 
-"presentations/prospectus/crashpipe2/mattemp2d_t5.png": {
-"creation": 1307025412, 
-"xattrs": {
-"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
-"com.apple.metadata:kMDItemIsScreenCapture": "YnBsaXN0MDAJCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJ\n", 
-"com.apple.metadata:kMDItemScreenCaptureType": "YnBsaXN0MDBZc2VsZWN0aW9uCAAAAAAAAAEBAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAS\n"
-}
-}, 
-"presentations/prospectus/crashpipe2/mattemp_2d.mov": {
-"creation": 1288284785, 
-"xattrs": {
-"com.apple.FinderInfo": "TW9vVlRWT0QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
-"com.apple.ResourceFork": "AAABAAAABQgAAAQIAAAAMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAvL0FwcGxpY2F0aW9ucy9VdGlsaXRpZXMvUXVpY2tUaW1lIFBsYXllciA3LmFwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAUIAAAECAAAADIGAAAAPQMAAAAcADIAAHVzcm8AAAAKAAD//wAAAACbAAAA\n"
-}
-}, 
-"presentations/prospectus/crashpipe2/mattemp_2d0117.png": {
-"creation": 1309368069
-}, 
-"presentations/prospectus/crashpipe2/mattemp_scale.png": {
-"creation": 1307025412, 
-"xattrs": {
-"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
-}
-}, 
-"presentations/prospectus/crashpipe2/phix_t1.png": {
-"creation": 1307025414
-}, 
-"presentations/prospectus/crashpipe2/phix_t10.png": {
-"creation": 1307025411
-}, 
-"presentations/prospectus/crashpipe2/phix_t2.png": {
-"creation": 1307025415
-}, 
-"presentations/prospectus/crashpipe2/phix_t5.png": {
-"creation": 1307025415
-}, 
-"presentations/prospectus/crashpipe2/phiy_t1.png": {
-"creation": 1307025415
-}, 
-"presentations/prospectus/crashpipe2/phiy_t10.png": {
-"creation": 1307025409
-}, 
-"presentations/prospectus/crashpipe2/phiy_t2.png": {
-"creation": 1307025414
-}, 
-"presentations/prospectus/crashpipe2/phiy_t5.png": {
-"creation": 1307025414
-}, 
 "presentations/prospectus/mattemp_2d.mov": {
 "creation": 1309367836, 
 "xattrs": {
@@ -886,7 +885,8 @@
 "presentations/pytrt/pytrt.tex": {
 "creation": 1307025414, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "presentations/pytrt/pytrt.vrb": {
@@ -902,6 +902,13 @@
 "creation": 1315835558, 
 "xattrs": {
 "com.apple.FinderInfo": "AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"texmf/tex/latex/anstrans/anstrans.cls": {
+"creation": 1315841927, 
+"xattrs": {
+"com.apple.FinderInfo": "VEVYVFRlWHMABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.ResourceFork": "AAABAAAAAQAAAAAAAAAAHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAB50F1EASwIAAAAcAB7//w==\n"
 }
 }, 
 "texmf/tex/latex/srj/SRJcommon.cls": {
@@ -946,7 +953,8 @@
 "thesis/_individual/_preamble.tex": {
 "creation": 1280528054, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "thesis/_individual/adDerivation.tex": {
@@ -1050,7 +1058,8 @@
 "thesis/thesis.tex": {
 "creation": 1280516600, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "thesis/trtBackground.tex": {
@@ -1069,6 +1078,12 @@
 "creation": 1315801783, 
 "xattrs": {
 "com.apple.FinderInfo": "AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"tools/reactor_physicsify.py": {
+"creation": 1315801988, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
 "tools/update_gnuplot_loc.py": {

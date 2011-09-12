@@ -5,10 +5,12 @@
 \usepackage{amssymb}
 %\usepackage{microtype}
 \usepackage{booktabs} % \toprule, \midrule, \bottomrule
-\input{../SRJinclude.tex}
-\newcommand{\Dtens}{\mat{D}}
+\input{SRJinclude.tex}
+\setSRJthesisfigurepaths
+
 \definecolor{lightgray}{gray}{0.85}
 \newcommand{\epsiloncolor}[1]{\textcolor{blue}{#1}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usetheme{AnnArbor}
@@ -572,7 +574,7 @@ equation to update the new material temperature.
     \end{column}
   \end{columns}
 \begin{center}
-  \includegraphics[width=.99\textwidth]{crashpipe2/materials}
+  \includegraphics[width=.99\textwidth]{crashpipe-OBSOLETE/materials}
 \end{center}
 \end{frame}
 
@@ -581,20 +583,20 @@ equation to update the new material temperature.
 \begin{center}
   {\tiny (Replaced with movie)}
 
-  \includegraphics[width=.80\textwidth]{crashpipe2/mattemp_2d0117}
+  \includegraphics[width=.80\textwidth]{crashpipe-OBSOLETE/mattemp_2d0117}
 \end{center}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Time evolution of radiation energy density}
 
-\only<1>{\includegraphics[width=.48\textwidth]{crashpipe2/phix_t1}}
-\only<2>{\includegraphics[width=.48\textwidth]{crashpipe2/phix_t2}}
-\only<3>{\includegraphics[width=.48\textwidth]{crashpipe2/phix_t5}}
-\only<4>{\includegraphics[width=.48\textwidth]{crashpipe2/phix_t10}}
-\only<1>{\includegraphics[width=.48\textwidth]{crashpipe2/phiy_t1}}
-\only<2>{\includegraphics[width=.48\textwidth]{crashpipe2/phiy_t2}}
-\only<3>{\includegraphics[width=.48\textwidth]{crashpipe2/phiy_t5}}
-\only<4>{\includegraphics[width=.48\textwidth]{crashpipe2/phiy_t10}}
+\only<1>{\includegraphics[width=.48\textwidth]{crashpipe-OBSOLETE/phix_t1}}
+\only<2>{\includegraphics[width=.48\textwidth]{crashpipe-OBSOLETE/phix_t2}}
+\only<3>{\includegraphics[width=.48\textwidth]{crashpipe-OBSOLETE/phix_t5}}
+\only<4>{\includegraphics[width=.48\textwidth]{crashpipe-OBSOLETE/phix_t10}}
+\only<1>{\includegraphics[width=.48\textwidth]{crashpipe-OBSOLETE/phiy_t1}}
+\only<2>{\includegraphics[width=.48\textwidth]{crashpipe-OBSOLETE/phiy_t2}}
+\only<3>{\includegraphics[width=.48\textwidth]{crashpipe-OBSOLETE/phiy_t5}}
+\only<4>{\includegraphics[width=.48\textwidth]{crashpipe-OBSOLETE/phiy_t10}}
   
 \begin{center}
   along $y=3.5$ \qquad
@@ -613,7 +615,7 @@ equation to update the new material temperature.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Diffusion coefficients}
 \begin{center}
-  \includegraphics[width=.60\textwidth]{crashpipe2/dcoeff_t10}
+  \includegraphics[width=.60\textwidth]{crashpipe-OBSOLETE/dcoeff_t10}
 
 \textcolor[rgb]{0,0,0}{$D^{xx}$}\quad
 \textcolor[rgb]{1,0,.5}{$D^{xy}$}\quad
@@ -625,7 +627,7 @@ equation to update the new material temperature.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Anisotropic diffusion tensor visualization}
 \begin{center}
-  \includegraphics[width=.75\textwidth]{crashpipe2/adcoeff_t10}
+  \includegraphics[width=.75\textwidth]{crashpipe-OBSOLETE/adcoeff_t10}
 \end{center}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -703,7 +705,7 @@ equation to update the new material temperature.
 \begin{frame}
   \frametitle{References}
 \bibliographystyle{ans}
-\bibliography{../SRJall}
+\bibliography{../../SRJall}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
