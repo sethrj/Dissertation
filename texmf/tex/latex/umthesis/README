@@ -1,0 +1,22 @@
+LaTeX class file in conformance with the specifications set by the 
+University of Michigan for dissertations
+This class loads the standard book class and then modifies it as little as 
+possible. Many of the modifications were taken from the beavtex class and
+the umdiss.cls
+
+Before using, please read the introductory comments in the umthesis.cls file
+and look at the example.tex file, which is also highly commented. A compiled
+example.pdf is also provided, which illustrates many of the features of the
+class.
+
+INSTALLATION
+You can simply keep the class file in the same directory as your dissertation,
+or if you prefer, you can put it somewhere tex will find it (under texmf)
+and then run 
+texhash
+to tell tex you added something
+
+This software is released under the Latex Project Public License.
+
+Please direct any questions or comments to Robert Felty 
+<robfelty AE gmail DOT com>

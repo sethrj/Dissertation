@@ -97,9 +97,6 @@
 "net.sourceforge.bibdesk.BDSKDocumentWindowAttributes": "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\n"
 }
 }, 
-"SRJinclude.tex": {
-"creation": 1264200745
-}, 
 "figures/adbc-channel/angle-isotropic-cmfp/angle-isotropic-cmfp.pdf": {
 "creation": 1315801508
 }, 
@@ -895,6 +892,47 @@
 "presentations/pytrt/pytrt.vrb": {
 "creation": 1305683570
 }, 
+"texmf/bibtex/bst/ans/ans.bst": {
+"creation": 1315835546, 
+"xattrs": {
+"com.apple.FinderInfo": "VEVYVFRlWHMABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"texmf/bibtex/bst/ans/ansalpha.bst": {
+"creation": 1315835558, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"texmf/tex/latex/srj/SRJcommon.cls": {
+"creation": 1315835262, 
+"xattrs": {
+"com.apple.FinderInfo": "VEVYVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
+}
+}, 
+"texmf/tex/latex/srj/SRJinclude.tex": {
+"creation": 1315801989
+}, 
+"texmf/tex/latex/srj/SRJresearch.cls": {
+"creation": 1315835258, 
+"xattrs": {
+"com.apple.FinderInfo": "VEVYVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
+}
+}, 
+"texmf/tex/latex/umthesis/README": {
+"creation": 1315835734, 
+"xattrs": {
+"com.apple.quarantine": "MDAwMTs0ZTZiN2VlNTtTYWZhcmk7OTQ4QTYzNDUtMjZBRi00NkMxLTgyNkYtMzk2NDlCRjhCQ0Y1fGNvbS5hcHBsZS5TYWZhcmk=\n"
+}
+}, 
+"texmf/tex/latex/umthesis/umthesis.cls": {
+"creation": 1315835734, 
+"xattrs": {
+"com.apple.quarantine": "MDAwMTs0ZTZiN2VlNTtTYWZhcmk7OTQ4QTYzNDUtMjZBRi00NkMxLTgyNkYtMzk2NDlCRjhCQ0Y1fGNvbS5hcHBsZS5TYWZhcmk=\n"
+}
+}, 
 "thesis/ rackham dissertation format guidelines.pdf": {
 "creation": 1303788395, 
 "xattrs": {
@@ -1012,8 +1050,7 @@
 "thesis/thesis.tex": {
 "creation": 1280516600, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
-"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
 "thesis/trtBackground.tex": {

@@ -24,12 +24,13 @@
 % note: rotating must go AFTER graphicx
 \usepackage{subfig} % figure 1a, 1b
 \usepackage{rotating} % sideways tables
-\input{../SRJinclude.tex}
+% note: this file is in $(git rev-parse --show-toplevel)/texmf/etc
+\input{SRJinclude.tex}
 
 % include paths
-\graphicspath{{/Users/seth/_research/figures/}}
+\graphicspath{{/Users/seth/_thesis/figures/}}
 \makeatletter
-\def\input@path{{/Users/seth/_research/figures/}}
+\def\input@path{{/Users/seth/_thesis/figures/}}
 \makeatother
 
 % For use in the introduction
