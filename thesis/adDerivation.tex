@@ -7,9 +7,10 @@
 \newcommand{\Ibl}{I_\mathrm{bl}}
 \newcommand{\Iil}{I_\mathrm{il}}
 
-Existing radiation transport methods, the most common of which were presented
-in the last chapter, approximate the angular dependence of the intensity each
-in a different way. The crudest of these, diffusion, has only one unknown
+The common radiation transport methods presented
+in the last chapter approximate the angular dependence of the intensity each
+in a different way. The crudest of these methods, diffusion, has only one
+unknown
 $\phi$ at each point in space and time; the more complex such as \SN\ have many
 unknowns, leading to greater accuracy but greater computer run time and memory
 usage. In this chapter, we derive a new anisotropic diffusion method which
@@ -18,14 +19,13 @@ anisotropy (like a true transport method), while solving for a single unknown
 (like a diffusion method).
 
 The previous work in anisotropic diffusion has only considered steady-state,
-linear problems in an infinite medium \cite{Lar2009c,Mor2007}. The new
-derivation of
-the anisotropic diffusion approximation presented in this chapter provides a
+linear problems in an infinite medium \cite{Lar2009c,Mor2007}. The novel work
+presented in this chapter provides a
 theoretical basis for using AD in time-dependent, nonlinear problems, and it
 also addresses boundary conditions for the AD method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Linear time-dependent derivation}
+\section{Linear time-dependent problems}
 
 In this section, we use an asymptotic analysis to derive the anisotropic
 diffusion approximation in a linear, time-dependent, finite problem. We will
@@ -66,7 +66,7 @@ and so on.
 }
 
 Because this transport equation is linear, we can write its solution as the
-superposition of three distinct transport solutions:
+linear superposition of three distinct transport solutions:
 \begin{equation}\label{eq:tdSuperposition}
   I(\vec{x},\vec{\Omega},t)
   \equiv \Iv(\vec{x},\vec{\Omega},t)
@@ -132,8 +132,12 @@ equation in the interior,
   + \sigma(\vec{x}) \phi(\vec{x}, t)
  = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,.
 \end{equation}
-Here, $\vec{F}$ is the first angular moment of the \emph{interior} solution,
-the interior radiation flux.
+Here we have defined the interior radiation flux:
+\begin{equation*}
+  \vec{F} \equiv \int_{4\pi} \vec{\Omega} \Iv(\vec{x}, \vec{\Omega},t) \ud
+  \Omega\,,
+\end{equation*}
+the first angular moment of the \emph{interior} solution.
 
 Adding $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:loVol} and
 multiplying the resulting equation by $\frac{1}{4\pi}$, we obtain
@@ -179,8 +183,8 @@ together:
   - \frac{1}{4\pi} \phi \right)
   = - \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi + O(\epsilon^2)\,.
 \end{equation*}
-Now we neglect the high-order $O(\epsilon^2)$ terms to obtain the
-following approximate transport equation:
+Neglecting the high-order $O(\epsilon^2)$ terms, we make the first approximation
+yet, obtaining:
 \begin{equation*}
   \left[\vec{\Omega}\vd \grad  + \sigma \right]
    \left( \Iv
@@ -251,31 +255,31 @@ Thus, Eq.~\eqref{eq:tdVolApprox1a} becomes
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
 \\
-  &= \int_{0}^{\infty}
-    \left[ -\frac1{4\pi}\vec{\Omega}\vd \grad \phi(\vec{x},t) + O(\epsilon^2) \right]
+  &= \frac{1}{4\pi} \phi(\vec{x},t) - \int_{0}^{\infty}
+    \left[ \frac1{4\pi}\vec{\Omega}\vd \grad \phi(\vec{x},t) + O(\epsilon^2) \right]
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
   \\ \nonumber
-  &= - \int_{0}^{\norm{\vec{x} - \vec{x}_b}}
+  &= \frac{1}{4\pi} \phi (\vec{x},t) - \left( \int_{0}^{\infty}
     \left[ \frac1{4\pi}\right]
-    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s \,
+    \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})} \ud s \right)
     \vec{\Omega}\vd \grad \phi(\vec{x},t)
   \\
   &= \frac{1}{4\pi} \phi - 
-  \left[\vec{\Omega}\vd \grad  + \sigma \right]\inv
-  \left( \frac{1}{4\pi}\right) \left( \vec{\Omega}\vd \grad \phi \right) \,.
+  \left[\left(\vec{\Omega}\vd \grad  + \sigma \right)\inv
+   \frac{1}{4\pi}\right] \left( \vec{\Omega}\vd \grad \phi \right) \,.
 \end{align*}
 
 We write this equation as
 \begin{equation}\label{eq:tdVolApprox2}
   \Iv(\vec{x},\vec{\Omega},t)
   = \frac{1}{4\pi} \phi (\vec{x},t)
-  - f(\vec{x}, \vec{\Omega})\vec{\Omega}\vd \grad \phi(\vec{x},t)\,,
+  - \left[ f(\vec{x}, \vec{\Omega}) \right] \vec{\Omega}\vd \grad \phi(\vec{x},t)\,,
 \end{equation}
 where we have defined
 \begin{equation*}
-  f(\vec{x},\vec{\Omega}) = \left[\vec{\Omega}\vd \grad  + \sigma \right]\inv
-  \left( \frac{1}{4\pi}\right) \,,
+  f(\vec{x},\vec{\Omega}) = \left(\vec{\Omega}\vd \grad  + \sigma \right)\inv
+  \frac{1}{4\pi} \,,
 \end{equation*}
 which is the solution to the following differential transport equation:
 \begin{equation} \label{eq:fVol}
@@ -284,8 +288,8 @@ which is the solution to the following differential transport equation:
 = \frac{1}{4\pi} \,.
 \end{equation}
 
-Taking the first angular moment of Eq.~\eqref{eq:tdVolApprox2} gives an
-approximate expression for the radiation flux in the interior:
+Taking the first angular moment of Eq.~\eqref{eq:tdVolApprox2} gives the
+approximate radiation flux in the interior:
 \begin{align} \nonumber
   \vec{F}(\vec{x},t) &= \int_{4\pi} \vec{\Omega} \Iv(\vec{x},\vec{\Omega},t)
   \ud\Omega
@@ -303,6 +307,8 @@ second angular moment of $f$:
   \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation}
+In a homogeneous medium, $f\to\frac{1}{4\pi\sigma}$ and
+$\Dtens\to\frac{1}{3\sigma}\Identitytens$: this reproduces Fick's law.
 
 Because of the approximations made in developing Eq.~\eqref{eq:tdVolApprox2},
 $\phi$ no longer satisfies the exact transport solution. Instead, like Fick's
@@ -321,21 +327,23 @@ The anisotropic diffusion approximation to the interior solution $\Iv$
 comprises \textsl{(i)} the transport equation~\eqref{eq:fVol} for $f$,
 \textsl{(ii)} the definition in Eq.~\eqref{eq:dDefinition} of the diffusion
 tensor $\Dtens$, and \textsl{(iii)} the anisotropic diffusion
-equation~\eqref{eq:tdVolDiffusion}.
+equation~\eqref{eq:tdVolDiffusion}. We note that the transport equation for $f$
+is very simple---it has no scattering. Thus, it is much less costly to solve
+than the original transport problem.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Initial layer solution}
 
 The initial layer consists of a transport problem near the initial time $t=0$,
 where the time derivatives are not assumed to be $O(\epsilon^2)$ but rather
-$O(1)$. It is defined in the spatial interior of the problem, where
+$O(1)$. The problem is defined in the spatial interior of the problem, where
 spatial gradients are still assumed to be $O(\epsilon)$, and the boundary layer
 solution has decayed to zero. (See Fig.~\ref{fig:layers} for a depiction of the
 initial layer in relation to the boundary layer and interior solution.)
 
 The transport problem for the initial layer
-complements the interior transport equation~\eqref{eq:tdVol}, so it does not
-have any extraneous source term:
+complements the interior transport equation~\eqref{eq:tdVol}, so it has no
+extraneous source term:
 \begin{subequations} \label{eqs:tdInit}
 \begin{equation} \label{eq:tdInitVol}
   \frac{1}{c}\pder{\Iil}{t}(\vec{x},\vec{\Omega},t)
@@ -351,8 +359,8 @@ equation~\eqref{eq:tdSuperposition}:
  \Iv(\vec{x},\vec{\Omega},0) + \Iil(\vec{x},\vec{\Omega},0)
  = I^i(\vec{x},\vec{\Omega})\,.
 \end{equation}
-Furthermore, by construction we demand that its solution tend to zero for
-increasing $t$:
+Furthermore, by construction we demand that its solution rapidly tends to zero
+for increasing $t$:
 \begin{equation} \label{eq:tdInitLimit}
   \lim_{t\to\infty} \Iil(\vec{x},\vec{\Omega},t) \,.
 \end{equation}
@@ -366,6 +374,9 @@ at the initial time:
 \begin{equation*}
   \int_{4\pi} \Iil(\vec{x}, \vec{\Omega}, 0) \ud \Omega = 0\,.
 \end{equation*}
+To show this, we take the diffusive scaling that absorption is very small:
+$\sigma_a \equiv \sigma - \sigma_s = O(\epsilon^2)$.
+
 Integrating Eq.~\eqref{eq:tdInitInit} over all angles and applying this demand, we
 obtain a relation between the interior solution and the transport initial
 condition
