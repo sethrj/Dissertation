@@ -100,23 +100,101 @@
 "SRJinclude.tex": {
 "creation": 1264200745
 }, 
+"figures/adbc-channel/angle-isotropic-cmfp/angle-isotropic-cmfp.pdf": {
+"creation": 1315801508
+}, 
+"figures/adbc-channel/angle-isotropic-cmfp/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/adbc-channel/delta-phi/delta-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/adbc-channel/delta-phi/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/adbc-channel/grazing-phi/grazing-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/adbc-channel/grazing-phi/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/adbc-channel/isotropic-phi/isotropic-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/adbc-channel/isotropic-phi/plot.tex": {
+"creation": 1315801508
+}, 
 "figures/adbc-checkers/adcoeff.png": {
 "creation": 1308594922
+}, 
+"figures/adbc-checkers/delta-phi/delta-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/adbc-checkers/delta-phi/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/adbc-checkers/grazing-phi/grazing-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/adbc-checkers/grazing-phi/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/adbc-checkers/isotropic-phi/isotropic-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/adbc-checkers/isotropic-phi/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/ap1-blastpipe/002-phi-center/002-phi-center.pdf": {
+"creation": 1315801508
+}, 
+"figures/ap1-blastpipe/002-phi-center/plot.tex": {
+"creation": 1315801508
 }, 
 "figures/ap1-blastpipe/002-phi_center.pdf": {
 "creation": 1308957047
 }, 
+"figures/ap1-blastpipe/005-phi-center/005-phi-center.pdf": {
+"creation": 1315801508
+}, 
+"figures/ap1-blastpipe/005-phi-center/plot.tex": {
+"creation": 1315801508
+}, 
 "figures/ap1-blastpipe/005-phi_center.pdf": {
 "creation": 1308957047
+}, 
+"figures/ap1-blastpipe/010-phi-center/010-phi-center.pdf": {
+"creation": 1315801508
+}, 
+"figures/ap1-blastpipe/010-phi-center/plot.tex": {
+"creation": 1315801508
 }, 
 "figures/ap1-blastpipe/010-phi_center.pdf": {
 "creation": 1308957047
 }, 
+"figures/ap1-blastpipe/020-phi-center/020-phi-center.pdf": {
+"creation": 1315801508
+}, 
+"figures/ap1-blastpipe/020-phi-center/plot.tex": {
+"creation": 1315801508
+}, 
 "figures/ap1-blastpipe/020-phi_center.pdf": {
 "creation": 1308957047
 }, 
+"figures/ap1-blastpipe/050-phi-center/050-phi-center.pdf": {
+"creation": 1315801508
+}, 
+"figures/ap1-blastpipe/050-phi-center/plot.tex": {
+"creation": 1315801508
+}, 
 "figures/ap1-blastpipe/050-phi_center.pdf": {
 "creation": 1308957047
+}, 
+"figures/ap1-blastpipe/100-phi-center/100-phi-center.pdf": {
+"creation": 1315801508
+}, 
+"figures/ap1-blastpipe/100-phi-center/plot.tex": {
+"creation": 1315801508
 }, 
 "figures/ap1-blastpipe/100-phi_center.pdf": {
 "creation": 1308957047
@@ -179,6 +257,36 @@
 "figures/crashpipe2b/adcoeff_t10.png": {
 "creation": 1309384323
 }, 
+"figures/crashpipe2b/intens-x1-t1/intensity-x1-t1.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x1-t1/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x2-t2/intensity-x2-t2.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x2-t2/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x2-t3/intensity-x2-t3.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x2-t3/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x5-t10/intensity-x5-t10.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x5-t10/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x5-t20/intensity-x5-t20.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/intens-x5-t20/plot.tex": {
+"creation": 1315801508
+}, 
 "figures/crashpipe2b/materials.png": {
 "creation": 1309384323
 }, 
@@ -218,6 +326,96 @@
 "figures/crashpipe2b/mattemp_2d0117.png": {
 "creation": 1309384323
 }, 
+"figures/crashpipe2b/pres-dcoeff---channel-t1/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-dcoeff---channel-t1/pres-dcoeff---channel-t1.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-dcoeff---channel-t10/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-dcoeff---channel-t10/pres-dcoeff---channel-t10.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-dcoeff---channel-t20/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-dcoeff---channel-t20/pres-dcoeff---channel-t20.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-dcoeff---channel-t5/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-dcoeff---channel-t5/pres-dcoeff---channel-t5.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t1/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t1/pres-phi-channel-t1.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t10/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t10/pres-phi-channel-t10.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t2/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t2/pres-phi-channel-t2.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t20/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t20/pres-phi-channel-t20.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t5/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-channel-t5/pres-phi-channel-t5.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t1/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t1/pres-phi-ortho-t1.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t10/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t10/pres-phi-ortho-t10.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t2/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t2/pres-phi-ortho-t2.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t20/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t20/pres-phi-ortho-t20.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t5/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/pres-phi-ortho-t5/pres-phi-ortho-t5.pdf": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/wavefront-channel/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/crashpipe2b/wavefront-channel/wavefront-channel.pdf": {
+"creation": 1315801508
+}, 
 "figures/diaganiso-leakage-terms.pdf": {
 "creation": 1297712560, 
 "xattrs": {
@@ -236,6 +434,54 @@
 "com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
+"figures/flatlandbc-channel/delta-phi/delta-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/flatlandbc-channel/delta-phi/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/flatlandbc-channel/grazing-phi/grazing-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/flatlandbc-channel/grazing-phi/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/flatlandbc-channel/isotropic-phi/isotropic-phi.pdf": {
+"creation": 1315801508
+}, 
+"figures/flatlandbc-channel/isotropic-phi/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/flatlandbc-channel/relative-errors/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/flatlandbc-channel/relative-errors/relative-errors.pdf": {
+"creation": 1315801508
+}, 
+"figures/fldboundary/dcoeff---t5/dcoeff---t5.pdf": {
+"creation": 1315801508
+}, 
+"figures/fldboundary/dcoeff---t5/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/fldboundary/phi-t10/phi-t10.pdf": {
+"creation": 1315801508
+}, 
+"figures/fldboundary/phi-t10/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/fldboundary/phi-t2/phi-t2.pdf": {
+"creation": 1315801508
+}, 
+"figures/fldboundary/phi-t2/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/fldboundary/temperature-t10/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/fldboundary/temperature-t10/temperature-t10.pdf": {
+"creation": 1315801508
+}, 
 "figures/goldin-righthalf.pdf": {
 "creation": 1280774631, 
 "xattrs": {
@@ -250,6 +496,24 @@
 "xattrs": {
 "com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
+}, 
+"figures/manufactured/convergence-multisolve-diag/convergence-multisolve-diag.pdf": {
+"creation": 1315801508
+}, 
+"figures/manufactured/convergence-multisolve-diag/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/manufactured/convergence-multisolve-offdiag-skew05/convergence-multisolve-offdiag-skew05.pdf": {
+"creation": 1315801508
+}, 
+"figures/manufactured/convergence-multisolve-offdiag-skew05/plot.tex": {
+"creation": 1315801508
+}, 
+"figures/manufactured/convergence-multisolve-offdiag/convergence-multisolve-offdiag.pdf": {
+"creation": 1315801508
+}, 
+"figures/manufactured/convergence-multisolve-offdiag/plot.tex": {
+"creation": 1315801508
 }, 
 "figures/manufactured/offdiag-contours.pdf": {
 "creation": 1310758923
