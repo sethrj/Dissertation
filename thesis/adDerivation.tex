@@ -362,24 +362,57 @@ equation~\eqref{eq:tdSuperposition}:
 Furthermore, by construction we demand that its solution rapidly tends to zero
 for increasing $t$:
 \begin{equation} \label{eq:tdInitLimit}
-  \lim_{t\to\infty} \Iil(\vec{x},\vec{\Omega},t) \,.
+  \lim_{t\to\infty} \Iil(\vec{x},\vec{\Omega},t) = 0\,.
 \end{equation}
 \end{subequations}
 
 A formal asymptotic analysis for the initial layer explicitly sets
 $\grad\to\epsilon\grad$, expands $\Iil$ in powers of $\epsilon$, and matches it
-with the asymptotic interior solution $\Iv$. A simpler but effectively
-equivalent procedure is to demand that the initial layer contain no particles
+with the asymptotic interior solution $\Iv$. A simpler but equivalent procedure
+(to leading order) is to demand that the initial layer contain no particles
 at the initial time:
 \begin{equation*}
   \int_{4\pi} \Iil(\vec{x}, \vec{\Omega}, 0) \ud \Omega = 0\,.
 \end{equation*}
-To show this, we take the diffusive scaling that absorption is very small:
-$\sigma_a \equiv \sigma - \sigma_s = O(\epsilon^2)$.
+To demonstrate the equivalence, we take the diffusive scaling that absorption is
+very small: $\sigma_a \equiv \sigma - \sigma_s = O(\epsilon^2)$. The scaled
+transport equation for the initial layer is:
+\begin{equation*}
+  \frac{1}{c}\pder{\Iil}{t}(\vec{x},\vec{\Omega},t)
+  + \epsilon \vec{\Omega}\vd \grad \Iil(\vec{x},\vec{\Omega},t)
+  + \sigma(\vec{x}) \Iil(\vec{x},\vec{\Omega},t)
+  = \frac{\sigma(\vec{x}) - \epsilon^2 \sigma_a(\vec{x})}{4\pi}
+  \int_{4\pi} \Iil(\vec{x},\vec{\Omega}',t) \ud \Omega' \,.
+\end{equation*}
+We then expand $\Iil$ in powers of $\epsilon$,
+\begin{equation*}
+  \Iil(\vec{x},\vec{\Omega},t) \sim \Iil^{(0)}(\vec{x},\vec{\Omega},t)
+  + \epsilon \Iil^{(1)}(\vec{x},\vec{\Omega},t)
+  + \epsilon^2 \Iil^{(2)}(\vec{x},\vec{\Omega},t)
+  + \cdots\,,
+\end{equation*}
+and substitute into the scaled transport equation.
+
+The $O(1)$ terms in the scaled transport equation are:
+\begin{equation*}
+  \frac{1}{c} \pder{\Iil^{(0)}}{t} + \sigma \Iil^{(0)} = \frac{1}{4\pi} \sigma
+  \int_{4\pi} \Iil^{(0)} \ud \Omega' \,.
+\end{equation*}
+Integrating over $4\pi$, we obtain:
+\begin{equation*}
+  \frac{1}{c} \pder{}{t}  \int_{4\pi} \Iil(\vec{x}, \vec{\Omega}, 0) \ud \Omega
+  = 0\,.
+\end{equation*}
+Even though the angular distribution of the leading-order component of the
+initial layer may change over time, the number of particles in $\Iil^{(0)}$ is
+constant. Thus, to satisfy Eq.~\eqref{eq:tdInitLimit} to leading order,
+\begin{equation*}
+  \int_{4\pi} \Iil(\vec{x}, \vec{\Omega}, 0) \ud \Omega = 0\,.
+\end{equation*}
 
 Integrating Eq.~\eqref{eq:tdInitInit} over all angles and applying this demand, we
 obtain a relation between the interior solution and the transport initial
-condition
+condition:
 \begin{align*}
 \int_{4\pi} \Iv(\vec{x},\vec{\Omega},0) \ud\Omega
 + \int_{4\pi} \Iil(\vec{x},\vec{\Omega},0) \ud\Omega
