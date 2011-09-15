@@ -25,7 +25,7 @@ theoretical basis for using AD in time-dependent, nonlinear problems, and it
 also addresses boundary conditions for the AD method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Linear time-dependent problems}
+\section{Linear time-dependent problems}\label{sec:adDerivation}
 
 In this section, we use an asymptotic analysis to derive the anisotropic
 diffusion approximation in a linear, time-dependent, finite problem. We will
@@ -359,7 +359,7 @@ equation~\eqref{eq:tdSuperposition}:
  \Iv(\vec{x},\vec{\Omega},0) + \Iil(\vec{x},\vec{\Omega},0)
  = I^i(\vec{x},\vec{\Omega})\,.
 \end{equation}
-Furthermore, by construction we demand that its solution rapidly tends to zero
+Furthermore, by construction we demand that its solution rapidly tend to zero
 for increasing $t$:
 \begin{equation} \label{eq:tdInitLimit}
   \lim_{t\to\infty} \Iil(\vec{x},\vec{\Omega},t) = 0\,.
@@ -458,7 +458,7 @@ source-free:
   = \frac{\sigma_s(\vec{x})}{4\pi}
   \int_{4\pi} \Ibl(\vec{x},\vec{\Omega}',t) \ud \Omega' \,.
 \end{equation}
-It accounts for the transport boundary condition,
+This equation accounts for the transport boundary condition,
 Eq.~\eqref{eq:tdTransportBndy}, using the superposition relation of
 Eq.~\eqref{eq:tdSuperposition}:
 \begin{equation} \label{eq:tdBndyBndy}
@@ -469,14 +469,12 @@ Eq.~\eqref{eq:tdSuperposition}:
 \end{equation}
 (Here we have used $\Iil=0$ because the initial layer solution has decayed
 away, as the boundary layer is defined away from $t=0$.)
-We demand that the boundary layer solution tend to zero for increasing distances
-from the boundary:
+We demand that the boundary layer solution rapidly tend to zero with increasing
+distance $s$ from the boundary along the direction $-\vec{\Omega}$:
 \begin{equation} \label{eq:tdBndyLimit}
   \lim_{s \to\infty} \Ibl(\vec{x},\vec{\Omega},t)
   = 0 \,.
 \end{equation}
-(Here, $s$ is the distance from $\vec{x}$ to the boundary along the direction
-$-\vec{\Omega}$.)
 \end{subequations}
 
 If the boundary condition $I^b$ varies slowly in space, and the radius of
@@ -497,7 +495,7 @@ Here, $W$ is related to Chandrasekhar's $H$-function \cite{Cha1960}:
 The polynomial approximation is derived variationally \cite{Mal1991} and is
 accurate to
 second order when used inside the integral in Eq.~\eqref{eq:tdKillBndy}.
-To recover the Marshak boundary condition, we could use $W(\mu) \approx 2 \mu$.
+The Marshak boundary condition uses $W(\mu) \approx 2 \mu$.
 
 Multiplying Eq.~\eqref{eq:tdBndyBndy} by $W(\mu)$, integrating over incident
 directions on the exterior boundary, and substituting
@@ -549,8 +547,9 @@ I^b(\vec{x},\vec{\Omega},t) \ud\Omega
 \end{equation}
 
 The boundary condition is at this point incomplete, because the transport
-solution for $f$ has only been defined for points away from the boundary: its
-form for incident directions on the boundary is unknown. We return to
+solution for $f$ has only been defined for points away from the boundary: the
+prescription of $f$ for incident directions on the boundary is unknown.
+We return to
 the definition of $\phi$ in Eq.~\eqref{eq:tdPhi} and substitute the approximated
 interior intensity from Eq.~\eqref{eq:tdVolApprox2}:
 \begin{align*}
@@ -563,13 +562,14 @@ interior intensity from Eq.~\eqref{eq:tdVolApprox2}:
   - \int_{4\pi} f(\vec{x}, \vec{\Omega})\vec{\Omega} \ud \Omega
   \vd \grad \phi(\vec{x},t)
   \\
-  0 &= - \int_{4\pi} f(\vec{x}, \vec{\Omega})\vec{\Omega} \ud \Omega
+  0 &= - \left[ \int_{4\pi} f(\vec{x}, \vec{\Omega})\vec{\Omega} \ud\Omega
+  \right]
   \vd \grad \phi(\vec{x},t) \,.
 \end{align*}
-\emph{The above equation is not generally satisfied}. It only holds true when
+\emph{The above equation is not generally satisfied}. It does hold true when
 $f$ is an ``even'' function of $\vec{\Omega}$, e.g.\ in an optically thick,
 homogeneous material, where $f$ is isotropic. At material
-boundaries, $f$ is strongly anisotropic, and the above relation is not
+boundaries, $f$ can be strongly anisotropic, and the above relation is not
 satisfied. By requiring $\int_{4\pi} \Iv \ud\Omega = \phi$ at exterior
 boundaries, we
 obtain a relationship between the ``known'' outgoing values of $f$ and the
@@ -586,16 +586,16 @@ is azimuthally symmetric about the outward normal at the boundary. The above
 relation is then equivalent to the following:
 \begin{equation}\label{eq:hoBc}
   \int_{\vec{\Omega}\vd\vec{n} > 0} (\vec{\Omega}\vd \vec{n})
-  \underbrace{f(\vec{x}, \vec{\Omega})}_{\text{known}} \ud\Omega
+  f(\vec{x}, \vec{\Omega}) \ud\Omega
   =
   \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
-  \underbrace{f(\vec{x}, \vec{\Omega})}_{\text{unknown}} \ud\Omega \,.
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation}
-In other words, the transport equation for $f$ should have boundary conditions
-that enforce this relationship. For example, both specularly reflecting and
-``white'' boundary conditions satisfy the condition in Eq.~\eqref{eq:hoBc}.
-The above condition does not \emph{define} $f$; it only restricts it so that
-the definition of $\phi$ is satisfied on the boundary.
+Thus, the transport equation for $f$ should have boundary conditions
+that enforce this relationship. Both specularly reflecting and
+``white'' boundary conditions satisfy Eq.~\eqref{eq:hoBc}.
+The above condition does not \emph{define} the boundary condition for $f$; it
+is only a restriction that preserves Eq.~\eqref{eq:tdPhi}.
 
 In the case of an azimuthally symmetric $f$, Eq.~\eqref{eq:loBc} can be written:
 \begin{equation} \label{eq:loBc2}
@@ -603,11 +603,15 @@ In the case of an azimuthally symmetric $f$, Eq.~\eqref{eq:loBc} can be written:
 I^b(\vec{x},\vec{\Omega},t) \ud\Omega
 =
 \phi(\vec{x},t)
-+ 2\int_{\vec{\Omega}\vd\vec{n} < 0}
++ 2 \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}
 \abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
-f(\vec{x}, \vec{\Omega}) \ud\Omega
+f(\vec{x}, \vec{\Omega}) \ud\Omega\right]
 \vec{n} \vd \grad \phi(\vec{x},t)\,.
 \end{equation}
+The value in brackets is a positive function of the incident $f$ on the
+boundary. If $f$ is isotropic and equal to the infinite medium value
+$1/(4\pi\sigma)$, then this expression reduces to the standard diffusion
+boundary condition with transport extrapolation distance.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -650,8 +654,8 @@ that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBc} becomes
   \\
   4 F^-
   &= \phi
-  + 2 \vec{n} \vd \int_{4\pi}
-  \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \grad \phi \,.
+  + 2 \vec{n} \vd \left( \int_{4\pi}
+  \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right) \vd \grad \phi \,.
 \end{align*}
 The integral on the right hand side is the same as in
   Eq.~\eqref{eq:anisotropicFicks}, which defined the anisotropic diffusion
@@ -661,7 +665,7 @@ The integral on the right hand side is the same as in
   = \phi(\vec{x}, t)
   + 2 \vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
 \end{equation}
-This is entirely analogous to the standard diffusion Marshak boundary condition,
+This is analogous to the standard diffusion Marshak boundary condition,
 \begin{equation*}
   4 F^-(\vec{x}, t) = \phi(\vec{x}, t)
   + 2  D(\vec{x}) \vec{n} \vd \grad \phi(\vec{x}, t)\,.
@@ -752,7 +756,7 @@ low-order AD equations and the transport equations for $f$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Application to nonlinear radiation transport}
 
-For the sake of brevity, the above asymptotic analysis was performed only for
+In \S\ref{sec:adDerivation}, the asymptotic analysis was performed only for
 linear time-dependent transport equation rather than to the nonlinear system of
 TRT equations. (For a rigorous asymptotic analysis of the TRT equations, see
 \cite{Lar1983a}.) To apply our results to TRT, we appeal to two facts.
@@ -761,7 +765,7 @@ First, the implementation of the TRT equations in this thesis uses the
 semi-implicit linearization from \S\ref{sec:bgSemiImplicit}. In that form, the
 TRT equations over a time step are reduced to a linear transport equation with
 an isotropic scattering term. Thus the linear asymptotic analysis presented here
-is applicable to the linearized radiation equation.
+is applicable to that linearized radiation equation.
 
 Second, if the standard diffusion scaling is taken, the anisotropic diffusion
 equations yield the standard diffusion result to first order. To see this, we
@@ -801,8 +805,8 @@ In other words, in the diffusion limit, anisotropic diffusion is equivalent to
 diffusion, to first order.
 
 We therefore assert that the anisotropic diffusion method will
-satisfy the diffusive limit of the transport equation for thermal radiative
-transport.
+satisfy the conventional diffusive limit of the transport equation for thermal
+radiative transport.
 
 The low-order anisotropic diffusion equation for TRT is
 \begin{equation*}
@@ -971,19 +975,21 @@ geology and fluid flow. In the field of magneto-hydrodynamics, terms
 ``perpendicular'' and ``parallel'' replace ``normal'' and ``transverse,''
 respectively.
 }
-We will show in
-Chapter~\ref{chap:implementation} that the transverse leakage adds a layer of
+In Chapter~\ref{chap:implementation}, we show that the transverse leakage adds a
+layer of
 complexity to anisotropic diffusion discretization schemes that is not present
 in standard diffusion discretizations.
 
-\subsubsection{Behavior in voids}
+\subsubsection{Behavior in voids}\label{sec:adVoids}
 
 The diffusion model for neutrons and radiative transfer is often used far
 outside its realm of strict asymptotic applicability. In the case of radiation
 transport, a particularly egregious failure occurs near voided regions, where
 the true solution has strong spatial and temporal gradients (see
-\S\ref{sec:bgFld}). Standard diffusion fails catastrophically where $\sigma=0$,
-but anisotropic diffusion gracefully yields a qualitatively realistic
+\S\ref{sec:bgFld}). Standard diffusion fails in regions where $\sigma=0$,
+particularly for problems with long voided channels along which the true $\phi$
+can significantly vary.
+In contrast, anisotropic diffusion gracefully yields a qualitatively realistic
 approximation to the behavior of particles in a void.
 
 The standard diffusion coefficient is defined as
@@ -1037,7 +1043,7 @@ This is in contrast to quasidiffusion methods, which
 require a more computationally expensive solver such as GMRES \cite{War2003}.
 
 Additionally, the principle eigenvector of the diffusion tensor (the direction
-on which $\Dtens$ has the greatest action) can be straightforwardly deduced by
+on which $\Dtens$ has the greatest action) can be sometimes be deduced by
 the physics of the problem. We first note that $\Dtens$ depends only on the
 transport solution $f$, and $f$ depends only on the total opacity $\sigma$.
 Therefore, if at point $\vec{x}$ the opacity $\sigma$ is invariant about some
@@ -1062,11 +1068,11 @@ normal leakage.
 
 To exemplify the usefulness of knowing the eigenvectors, we consider the 2-D
 VHTR problem in \cite{Lar2009c}, which featured a total cross section that
-varied only along the $x$ axis. From the discussion above, we may determine
-\emph{a priori} that, even though the physical problem was a function of $(x,y)$
-because of the problem's source term, the diffusion tensor had principle
+varied only in the $x$ direction. From the discussion above, we know
+\emph{a priori} that, even though the physical problem is two-dimensional,
+the diffusion tensor has principle
 eigenvectors oriented along the Cartesian axes, yielding $D^{xy}=D^{yx}=0$ and
-allowing the use of a very simple spatial discretization.
+allowing the use of a simple spatial discretization.
 
 \subsubsection{Smoothness}
 
@@ -1074,7 +1080,7 @@ The standard diffusion coefficient, $1/3\sigma$, is discontinuous at material
 interfaces. Such is not the case with anisotropic diffusion. Recall that $f$ is
 the solution of a transport equation with a unit source: the solution is
 continuous and positive. Thus the second angular moment of $f$, the
-anisotropic diffusion tensor, is also continuous.
+anisotropic diffusion tensor, is also a continuous function of position.
 
 The consequence of a discontinuity in the diffusion coefficient is a ``kink'' in
 the scalar intensity---a continuous value for $\phi$ but a discontinuous first
@@ -1084,8 +1090,8 @@ which we consider in 1-D for simplicity:
   F(x) = - D(x) \pder{\phi}{x}(x)\,.
 \end{equation*}
 Particle conservation demands that $F$ be continuous: a discontinuity in $D$
-must therefore correspond to a discontinuity in $\tpder\phi x$.
-Likewise, if $D(x)$ is continuous as is the case for anisotropic diffusion, the
+causes a discontinuity in $\tpder\phi x$.
+Likewise, if $D(x)$ is continuous, as is the case for anisotropic diffusion, the
 first derivative of $\phi$ must necessarily be continuous.
 
 The smooth transition of the anisotropic diffusion tensor $\Dtens$ at a material
@@ -1114,45 +1120,58 @@ is parabolic \cite{Pom1982,Ols2000}, allowing radiation energy to unphysically
 propagate faster than the speed of light.  This undesirable property results
 from the assumption that the time derivative of the intensity varied slowly in
 time, $\frac{1}{c}\pder{I}{t} = O(\epsilon^2)$, effectively the same
-quasi-static approximation as standard diffusion.
+quasi-static approximation as standard diffusion. To overcome this defect, we
+apply a flux limiter (see \S\ref{sec:bgFld}).
 
-From \S\ref{sec:bgFld}, the exact
-intensity always satisfies the relation
-\begin{equation*}
+To recapitulate, a flux limiter enforces the following property
+of the true intensity:
+\begin{equation}\label{eq:fluxLimit}
   \norm{\vec{F}} \le \phi\,.
-\end{equation*}
-Yet the new anisotropic Fick's law, Eq.~\eqref{eq:anisotropicFicks}, can violate
-this relation:
+\end{equation}
+This is accomplished by modifying the approximation to $\vec{F}$, which in
+standard diffusion is the standard Fick's law that relates the radiation flux to
+the gradient of the intensity. In the presence of steep gradients, the diffusion
+coefficient $D$ is modified so that Eq.~\eqref{eq:fluxLimit} is satisfied:
 \begin{equation*}
-  \norm{\Dtens \vd \grad \phi} \stackrel{?}{\le} \phi \,.
+  \norm{- D \grad \phi} = D \norm{\grad \phi} \le \phi \,.
+\end{equation*}
+
+Like the standard diffusion Fick's law, the new ``anisotropic'' Fick's law,
+Eq.~\eqref{eq:anisotropicFicks}, can violate Eq.~\eqref{eq:fluxLimit}:
+\begin{equation*}
+  \norm{- \Dtens \vd \grad \phi} \stackrel{?}{\le} \phi \,.
 \end{equation*}
 The left hand side can exceed the right if either $\Dtens$ or $\grad \phi$ is
 ``large'', which often occurs in optically thin regions or in a radiation shock
 wave.
 
-Yet the nature of this tensor product makes the interpretation of
-``large'' much less clear than the flux limiting of standard diffusion, where
-the scalar $D$ can be moved outside the norm.
-
-However, the straightforward ``max'' limiter can be easily written. A
-semi-implicit implementation of this limiter is
-\begin{equation*}
+Constructing a flux-limited diffusion tensor is not as straightforward as in
+standard diffusion, where the non-negative scalar diffusion coefficient $D$ may
+simply be moved outside the magnitude operator $\norm{\cdot}$.
+However, a ``max'' limiter for anisotropic diffusion can be easily formulated.
+A semi-implicit implementation of this limiter is
+\begin{equation}\label{eq:flad}
   \Dtens^{n+1/2} = \Dtens^{n} \times 
   \max\left( 1, \norm{\Dtens^{n}\vd \frac{\del \phi^{n}}{\phi^{n}}}
   \right)\inv \,.
-\end{equation*}
+\end{equation}
 Effectively, the limiter tests whether an estimate of $\vec{F}^{n+1}$ (using the
 previous time step's solution) exceeds the flux limit; if it does, then it
 uniformly scales the diffusion tensor to satisfy the estimated limit.
 
-It is an admittedly \emph{ad hoc} correction, but it restores a qualitative
-behavior of the true intensity when the assumptions that led to anisotropic
-diffusion break down.
+Flux limiting is an admittedly \emph{ad hoc} correction, but it restores a
+qualitative behavior of the true intensity when the assumptions that led to
+anisotropic diffusion break down. However, because the magnitude of the
+anisotropic diffusion tensor is always smaller than the corresponding standard
+diffusion coefficient in an optically thin region (see \S\ref{sec:adVoids}), the
+flux limiting relationship of Eq.~\eqref{eq:fluxLimit} will not be violated as
+often. The anisotropic diffusion flux limiter will therefore be used less often.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 To derive the anisotropic diffusion method, we manipulated the transport
-equation in the interior under certain asymptotic assumptions: primarily, that
+equation in the interior of the physical system under certain asymptotic
+assumptions: primarily, that
 the spatial and temporal gradients of the intensity are weak. From boundary and
 initial layer analyses we determined transport-matched boundary and initial
 conditions.  
@@ -1164,7 +1183,7 @@ low-order equations for $\phi$ that use $\Dtens$ to approximate the flow of
 radiation inside a time step. 
 
 These equations limit to the standard diffusion approximation in a homogeneous
-medium, but they do not make the diffusion approximation that the radiation
+medium, but they do not require the diffusion approximation that the radiation
 intensity is linear in
 angle. We therefore expect the AD method to generate more accurate solutions
 for problems in which the intensity is a complex function of angle.
