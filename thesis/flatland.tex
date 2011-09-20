@@ -349,35 +349,47 @@ A standard practice in two-dimensional discrete ordinates (\SN) solvers is to
 create a quadrature set with polar angles that encompass only the top half of a
 unit sphere, $\mu>0$, and to modify the ordinate weights so that they sum to
 $4\pi$
-\cite{Zik1997}. Most well-constructed quadrature set will also correctly
-integrate the spherical harmonic functions \cite{Rab2007}, which are linear
-combinations of the angular moments of Table~\ref{tab:angularMoments}:
+\cite{Zik1997}. Well-constructed quadrature sets will also correctly
+integrate the spherical harmonic functions \cite{Rab2007} over the unit sphere.
+The odd spherical harmonic functions will integrate to zero, and the even
+functions are linear combinations of the even angular moments of
+Table~\ref{tab:angularMoments}:
 \begin{equation*}
   \gamma_n
   = \sum_{m=1}^{M} \abs{ \vec{\Omega}_m \vd \vec{i}}^n w_m
-  = \int_S \abs{ \vec{\Omega}\vd\vec{i} }^n \ud\Omega \,.
+  = \int_S \abs{ \vec{\Omega}\vd\vec{i} }^n \ud\Omega \,,\ n\ \text{even}.
 \end{equation*}
+Most quadrature sets do not exactly integrate partial odd moments.
 
 The most straightforward way of implementing a \emph{flatland} \SN\
 code with only isotropic scattering is to use an existing 2-D \SN\ code with a
 special quadrature set
 consisting of ordinates that have a single
-polar angle $\mu=0$. In order to integrate the flatland moments
-correctly, the combination of weights and angles to be chosen should correctly
-integrate the angular moments $\gamma_n$, which instead of being spherical
-harmonics are products of trigonometric functions:
+polar angle $\mu=0$. Using a Chebyshev--Gauss quadrature of the first kind
+\cite{Str1966a} for the azimuthal angles will preserve the flatland angular moments,
 \begin{equation*}
   \gamma_n
   = \sum_{m=1}^{M} \abs{ \sin \theta_m }^n w_m
-  = \int_{2\pi} \abs{ \sin \theta }^n \ud\theta \,.
+  = \int_{2\pi} \abs{ \sin \theta }^n \ud\theta\,,\ n\ \text{even} \,.
 \end{equation*}
-TODO chebyshev etc.
+A quadrature set with $2M$ total ordinates (i.e., $M$ per two octants, the
+standard nomenclature for discrete ordinates quadratures) will exactly integrate
+the first $2M-1$ polynomials of $x=\sin \theta$. The procedure to calculate
+a Chebyshev quadrature set for the first quadrant is:
+\begin{enumerate}
+  \item Solve for the roots of an $2M$-order Chebyshev polynomial of the first
+    kind on $[-1,1]$. Discard the negative roots.
+  \item Take the inverse sine of the positive roots. These $M$ roots are the
+    ordinate directions $\theta_m$ in the first quadrant.
+  \item Assign the uniform weight $w_m = \frac{\pi}{M}$.
+\end{enumerate}
+For ease of implementation, we normalized the quadrature weights so that they sum
+to $4\pi$ instead of $2\pi$. This allows flatland quadrature sets to be used in
+an existing 2-D discrete ordinates code, where the scattering kernel expects the
+quadrature set to be normalized to $4\pi$.
 
-Additionally, to retain compatibility with the isotropic scattering
-kernel, the quadrature weights are normalized so that they sum to $4\pi$
-instead of $2\pi$.
-
-As an example, let us consider the calculation of the anisotropic diffusion tensor
+In order to demonstrate the effect of this weight renormalization, let us
+consider the calculation of the anisotropic diffusion tensor
 in a homogeneous medium.  The purely absorbing flatland transport problem has the
 solution $f(\vec{\Omega}) = \frac{1}{2\pi\sigma}$, which yields the diffusion
 coefficient
@@ -397,21 +409,6 @@ the transport solution, but the apparent value of each $f_m$ is one half
 the correct value. Thus, for example, visualizing the \SN\
 solution by plotting $f_m$ as a function of $\omega_m$ requires multiplying by a
 factor of two.
-
-%This scaling has two notable side effects. First, because the weights are twice
-%what they should be, the \SN\ angular moments approach twice the flatland
-%moments $\gamma_n$:
-%\begin{equation*}
-%  2 \gamma_n \approx \sum_{m=1}^{N} w_m \abs{ \vec{\Omega}_m \vd \vec{i}}^n \,.
-%\end{equation*}
-
-% Here is an
-%example that uses the \verb|matplotlib| Python module's polar plot to view
-%the flatland angular intensity:
-%\begin{verbatim}
-%    polar( [ angle.getPhi() for angle in quadrature_set ],
-%           [ 2 * value for value in psi ] )
-%\end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diffusion}
