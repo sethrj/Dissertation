@@ -3,10 +3,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Anisotropic diffusion}\label{chap:adDerivation}
 
-\newcommand{\Iv}{I_\mathrm{v}}
-\newcommand{\Ibl}{I_\mathrm{bl}}
-\newcommand{\Iil}{I_\mathrm{il}}
-
 The common radiation transport methods presented
 in the last chapter approximate the angular dependence of the intensity each
 in a different way. The crudest of these methods, diffusion, has only one
@@ -25,7 +21,7 @@ theoretical basis for using AD in time-dependent, nonlinear problems, and it
 also addresses boundary conditions for the AD method.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Linear time-dependent problems}\label{sec:adDerivation}
+\section{Derivation}\label{sec:adDerivation}
 
 In this section, we use an asymptotic analysis to derive the anisotropic
 diffusion approximation in a linear, time-dependent, finite problem. We will
@@ -98,7 +94,7 @@ field, e.g.~the asymptotic derivation of the diffusion equation with
 transport-matched boundary conditions \cite{Mal1991}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Interior solution}
+\subsection{Interior solution}\label{sec:adInterior}
 
 The transport equation for the interior accounts for the extraneous source term,
 but
@@ -133,10 +129,10 @@ equation in the interior,
  = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,.
 \end{equation}
 Here we have defined the interior radiation flux:
-\begin{equation*}
+\begin{equation}\label{eq:tdF}
   \vec{F} \equiv \int_{4\pi} \vec{\Omega} \Iv(\vec{x}, \vec{\Omega},t) \ud
   \Omega\,,
-\end{equation*}
+\end{equation}
 the first angular moment of the \emph{interior} solution.
 
 Adding $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:loVol} and
@@ -163,14 +159,15 @@ and scattering term on the right-hand side, yielding the following equation:
 \end{equation}
 
 At this point, we apply an asymptotic scaling typical of a diffusive regime.
-We make an ansatz that the spatial gradients are weak, the speed of light is
-large, and the solution is mildly (but not necessarily linearly) anisotropic:
+We make an ansatz that the spatial gradient of the solution is weak, the time
+derivative is very small, and the solution is mildly (but not necessarily
+linearly) anisotropic:
 \begin{align} \label{eq:ansatz}
   \sigma &= O(1), &
-  \phi &= O(1), &
-  \vec{F} &= O(\epsilon), &
-  \grad &= O(\epsilon), &
-  \pder{}{t} &= O(\epsilon^2) \,.
+  I &= O(1), &
+  \int_{4\pi} \vec{\Omega} I \ud\Omega &= O(\epsilon), &
+  \grad I &= O(\epsilon), &
+  \pder{I}{t} &= O(\epsilon^2) \,.
 \end{align}
 These scalings are the same as in an asymptotic derivation of the standard
 diffusion equation \cite{Lar1975,Mor2000}. With the scalings applied,
@@ -185,15 +182,15 @@ together:
 \end{equation*}
 Neglecting the high-order $O(\epsilon^2)$ terms, we make the first approximation
 yet, obtaining:
-\begin{equation*}
+\begin{equation}\label{eq:tdVolApprox1}
   \left[\vec{\Omega}\vd \grad  + \sigma \right]
    \left( \Iv
   - \frac{1}{4\pi} \phi \right)
   = - \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi \,.
-\end{equation*}
+\end{equation}
 Formally inverting the bracketed operator on the left-hand side, we obtain an
 approximate expression for the intensity in the interior:
-\begin{equation}\label{eq:tdVolApprox1}
+\begin{equation}\label{eq:tdVolApprox2}
   \Iv = \frac{1}{4\pi} \phi - 
   \left[\vec{\Omega}\vd \grad  + \sigma \right]\inv
   \left( \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi \right)\,.
@@ -223,7 +220,7 @@ The inverted differential operator is an integral transport operator
   \end{equation}
 \end{subequations}
 
-Thus Eq.~\eqref{eq:tdVolApprox1} for the interior intensity is a function of the
+Thus Eq.~\eqref{eq:tdVolApprox2} for the interior intensity is a function of the
 nonlocal, unknown scalar intensity:
 \begin{equation}\label{eq:tdVolApprox1a}
   \Iv(\vec{x},\vec{\Omega},t) = \frac{1}{4\pi} \phi(\vec{x},t) - 
@@ -251,7 +248,7 @@ Thus, Eq.~\eqref{eq:tdVolApprox1a} becomes
 \begin{align*}\nonumber
   \Iv(\vec{x},\vec{\Omega},t) &\approx \frac{1}{4\pi} \phi(\vec{x},t) - 
      \int_{0}^{\infty}
-    \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t)
+    \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega}, t)
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s
 \\
@@ -334,110 +331,141 @@ than the original transport problem.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Initial layer solution}
 
+\newcommand{\phiil}{\phi_\mathrm{il}}
+\newcommand{\Fil}{\vec{F}_\mathrm{il}}
+
 The initial layer consists of a transport problem near the initial time $t=0$,
 where the time derivatives are not assumed to be $O(\epsilon^2)$ but rather
 $O(1)$. The problem is defined in the spatial interior of the problem, where
-spatial gradients are still assumed to be $O(\epsilon)$, and the boundary layer
+spatial gradients are scaled as $O(\epsilon)$, and the boundary layer
 solution has decayed to zero. (See Fig.~\ref{fig:layers} for a depiction of the
 initial layer in relation to the boundary layer and interior solution.)
+We shall use the diffusion scaling that the absorption is very small: $\sigma_a
+= \sigma - \sigma_s = O(\epsilon^2)$.
 
 The transport problem for the initial layer
 complements the interior transport equation~\eqref{eq:tdVol}, so it has no
 extraneous source term:
 \begin{subequations} \label{eqs:tdInit}
-\begin{equation} \label{eq:tdInitVol}
+\begin{equation} \label{eq:ilVol}
   \frac{1}{c}\pder{\Iil}{t}(\vec{x},\vec{\Omega},t)
-  + \vec{\Omega}\vd \grad \Iil(\vec{x},\vec{\Omega},t)
+  + \epsilon \vec{\Omega}\vd \grad \Iil(\vec{x},\vec{\Omega},t)
   + \sigma(\vec{x}) \Iil(\vec{x},\vec{\Omega},t)
-  = \frac{\sigma_s(\vec{x})}{4\pi}
-  \int_{4\pi} \Iil(\vec{x},\vec{\Omega}',t) \ud \Omega' \,.
+  = \frac{\sigma(\vec{x}) - \epsilon^2 \sigma_a(\vec{x})}{4\pi}
+ \phiil(\vec{x},\vec{\Omega}',t) \,,
 \end{equation}
-Because it is defined for times close to $t=0$, it accounts for the initial
+where
+the zeroth angular moment of the initial layer solution:
+\begin{equation*}
+  \phiil(\vec{x},t) \equiv \int_{4\pi} \Iil^{0}(\vec{x},\vec{\Omega},t) \ud
+  \Omega \,.
+\end{equation*}
+Because the initial layer is defined for times close to $t=0$, it accounts for
+the initial
 condition in Eq.~\eqref{eq:tdTransportInit} using the superposition
 equation~\eqref{eq:tdSuperposition}:
-\begin{equation}\label{eq:tdInitInit}
+\begin{equation}\label{eq:ilInit}
  \Iv(\vec{x},\vec{\Omega},0) + \Iil(\vec{x},\vec{\Omega},0)
  = I^i(\vec{x},\vec{\Omega})\,.
 \end{equation}
 Furthermore, by construction we demand that its solution rapidly tend to zero
 for increasing $t$:
-\begin{equation} \label{eq:tdInitLimit}
+\begin{equation} \label{eq:ilLimit}
   \lim_{t\to\infty} \Iil(\vec{x},\vec{\Omega},t) = 0\,.
 \end{equation}
 \end{subequations}
 
-A formal asymptotic analysis for the initial layer explicitly sets
-$\grad\to\epsilon\grad$, expands $\Iil$ in powers of $\epsilon$, and matches it
-with the asymptotic interior solution $\Iv$. A simpler but equivalent procedure
-(to leading order) is to demand that the initial layer contain no particles
-at the initial time:
+The asymptotic analysis begins by expand $\Iil$ in powers of $\epsilon$,
 \begin{equation*}
-  \int_{4\pi} \Iil(\vec{x}, \vec{\Omega}, 0) \ud \Omega = 0\,.
-\end{equation*}
-To demonstrate the equivalence, we take the diffusive scaling that absorption is
-very small: $\sigma_a \equiv \sigma - \sigma_s = O(\epsilon^2)$. The scaled
-transport equation for the initial layer is:
-\begin{equation*}
-  \frac{1}{c}\pder{\Iil}{t}(\vec{x},\vec{\Omega},t)
-  + \epsilon \vec{\Omega}\vd \grad \Iil(\vec{x},\vec{\Omega},t)
-  + \sigma(\vec{x}) \Iil(\vec{x},\vec{\Omega},t)
-  = \frac{\sigma(\vec{x}) - \epsilon^2 \sigma_a(\vec{x})}{4\pi}
-  \int_{4\pi} \Iil(\vec{x},\vec{\Omega}',t) \ud \Omega' \,.
-\end{equation*}
-We then expand $\Iil$ in powers of $\epsilon$,
-\begin{equation*}
-  \Iil(\vec{x},\vec{\Omega},t) \sim \Iil^{(0)}(\vec{x},\vec{\Omega},t)
-  + \epsilon \Iil^{(1)}(\vec{x},\vec{\Omega},t)
-  + \epsilon^2 \Iil^{(2)}(\vec{x},\vec{\Omega},t)
+  \Iil(\vec{x},\vec{\Omega},t) \sim \Iil^{0}(\vec{x},\vec{\Omega},t)
+  + \epsilon \Iil^{1}(\vec{x},\vec{\Omega},t)
+  + \epsilon^2 \Iil^{2}(\vec{x},\vec{\Omega},t)
   + \cdots\,,
 \end{equation*}
-and substitute into the scaled transport equation.
+and substituting into the scaled transport equation. The zeroth moment of the
+initial layer solution is also written as a series expansion:
+\begin{equation*}
+  \phiil(\vec{x},t) \sim \phiil^{0}(\vec{x},t)
+  + \epsilon \phiil^{1}(\vec{x},t)
+  + \epsilon^2 \phiil^{2}(\vec{x},t)
+  + \cdots\,.
+\end{equation*}
+Finally, we write the interior solution $\Iv$ by expanding the interior solution
+in powers of $\epsilon$:
+\begin{equation*}
+  \phi(\vec{x},t) \sim \phi^{0}(\vec{x},t)
+  + \epsilon \phi^{1}(\vec{x},t)
+  + \cdots\,.
+\end{equation*}
+Replacing $\vec{\Omega}\vd\grad$ with $\epsilon \vec{\Omega}\vd\grad$, the
+anisotropic diffusion approximation in the interior,
+Eq.~\eqref{eq:tdVolApprox2}, is:
+\begin{equation*}
+  \Iv
+  = \frac{1}{4\pi} \left( \phi^{0} + \epsilon \phi^{1} + \cdots\right)
+  - \epsilon f \vec{\Omega} \vd \grad \left( \phi^{0}
+    + \epsilon \phi^{1} + \cdots\right)
+  = \frac{1}{4\pi} \phi^{0} + \epsilon \left[ \frac{1}{4\pi} \phi^{1}
+    - f \vec{\Omega} \vd \grad \phi^{0} \right] + \cdots\,.
+\end{equation*}
+Thus the initial condition for the initial layer, Eq.~\eqref{eq:ilInit},
+becomes
+\begin{equation}\label{eq:ilInit2}
+ \frac{1}{4\pi} \phi^{0}(0) + \epsilon \left[ \frac{1}{4\pi} \phi^{1}(0)
+    - f \vec{\Omega} \vd \grad \phi^{0}(0) \right] 
+    + \Iil^{0}(0) + \epsilon  \Iil^{1}(0) + O(\epsilon^2)
+ = I^i(\vec{x},\vec{\Omega})\,.
+\end{equation}
 
-The $O(1)$ terms in the scaled transport equation are:
+To match the initial layer solution to the interior solution, each power of
+$\epsilon$ must match. To satisfy Eq.~\eqref{eq:ilLimit}, each must also rapidly
+tend to zero. We begin with the $\epsilon^0$ terms in the initial layer
+equation~\eqref{eq:ilVol}:
+\begin{equation}\label{eq:ilVolZeroth}
+  \frac{1}{c}\pder{\Iil^0}{t}
+  + \sigma \Iil^0
+  = \frac{\sigma}{4\pi} \phiil^0 \,.
+\end{equation}
+Taking the zeroth moment of this equation, we find that the number of particles
+in the leading term of the initial layer is constant:
 \begin{equation*}
-  \frac{1}{c} \pder{\Iil^{(0)}}{t} + \sigma \Iil^{(0)} = \frac{1}{4\pi} \sigma
-  \int_{4\pi} \Iil^{(0)} \ud \Omega' \,.
+  \frac{1}{c}\pder{\phiil^0}{t} = 0 \,.
 \end{equation*}
-Integrating over $4\pi$, we obtain:
+Thus to satisfy Eq.~\eqref{eq:ilLimit}, $\phiil^0$ must be zero at the initial
+time:
 \begin{equation*}
-  \frac{1}{c} \pder{}{t}  \int_{4\pi} \Iil(\vec{x}, \vec{\Omega}, 0) \ud \Omega
-  = 0\,.
+  \phiil^0(0) = 0\,.
 \end{equation*}
-Even though the angular distribution of the leading-order component of the
-initial layer may change over time, the number of particles in $\Iil^{(0)}$ is
-constant. Thus, to satisfy Eq.~\eqref{eq:tdInitLimit} to leading order,
+To use this fact, we take the leading order terms of initial condition,
+Eq.~\eqref{eq:ilInit2}:
+\begin{equation}\label{eq:ilInitZeroth}
+ \frac{1}{4\pi} \phi^{0}(0) + \Iil^{0}(0) = I^i(\vec{x},\vec{\Omega})\,,
+\end{equation}
+and integrate over all angles to obtain
+\begin{equation}\label{eq:ilInitZeroth}
+ \phi^{0}(0) + \phiil^{0}(0) = \phi^i\,.
+\end{equation}
+Here we have defined the zeroth moment of the initial condition
 \begin{equation*}
-  \int_{4\pi} \Iil(\vec{x}, \vec{\Omega}, 0) \ud \Omega = 0\,.
+  \phi^i(\vec{x}) = \int_{4\pi} I^i(\vec{x},\vec{\Omega}) \ud\Omega\,.
 \end{equation*}
-
-Integrating Eq.~\eqref{eq:tdInitInit} over all angles and applying this demand, we
-obtain a relation between the interior solution and the transport initial
+Using $\phiil^0(0) = 0$, we have a relation between the leading order scalar
+intensity in the interior and the zeroth moment of the transport initial
 condition:
-\begin{align*}
-\int_{4\pi} \Iv(\vec{x},\vec{\Omega},0) \ud\Omega
-+ \int_{4\pi} \Iil(\vec{x},\vec{\Omega},0) \ud\Omega
- &= \int_{4\pi} I^i(\vec{x},\vec{\Omega}) \ud\Omega
- \\
- \int_{4\pi} \left[ \frac{\phi(\vec{x},0)}{4\pi} - f(\vec{x},\vec{\Omega})
- \vec{\Omega}\vd \grad \phi(\vec{x},0) ) \right] \ud\Omega
- + 0 &= \phi^i(\vec{x})
- \\
- \phi(\vec{x},0) - \int_{4\pi} f(\vec{x},\vec{\Omega})
- \vec{\Omega} \ud\Omega \vd \grad \phi(\vec{x},0)
-  &= \phi^i(\vec{x}) \,.
-\end{align*}
-If the problem is homogeneous ($f$ is a constant and the integral is zero) or
-the initial condition is invariant in space, then
-this straightforwardly matches the interior solution $\phi$ to the transport
-initial condition
-$I^i$. If not, the initial layer analysis suggests that to first order,
-setting $\phi(\vec{x},0) = \phi^i(\vec{x},0)$ may not preserve the transport
-solution for anisotropic diffusion in some cases. (The error is only first order
-in $\epsilon$ because the $\grad \phi=O(\epsilon)$.)
+\begin{equation}\label{eq:ilZeroth}
+  \phi^{0}(\vec{x}, 0) = \phi^i(\vec{x})\,.
+\end{equation}
+This is the condition for $\phi$ at the initial time to eliminate the leading
+order component of the initial layer in the temporal interior of the problem.
 
-This contrasts standard diffusion, where $f(\vec{x}, \vec{\Omega})$ is replaced
-by $1/4\pi\sigma$, the integral is zero, and $\phi(\vec{x},0)=\phi^i(\vec{x})$
-to leading order.
+Because $\phiil^0(0) = 0$, we can exactly solve for the $O(1)$ component of
+$\Iil$ in Eq.~\eqref{eq:ilVolZeroth} for all times:
+\begin{equation*}
+  \frac{1}{c}\pder{\Iil^0}{t} + \sigma \Iil^0 = 0
+  \lra \Iil^0(t) = \Iil^0(0) \eexp^{-\sigma c t}
+  = \left[ \I^i - \frac{\phi^i}{4\pi} \right] \eexp^{-\sigma c t}\,.
+\end{equation*}
+Now we turn to the $O(\epsilon)$ component of 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Boundary layer solution}
@@ -755,6 +783,7 @@ low-order AD equations and the transport equations for $f$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Application to nonlinear radiation transport}
+\label{sec:appNonlinear}
 
 In \S\ref{sec:adDerivation}, the asymptotic analysis was performed only for
 linear time-dependent transport equation rather than to the nonlinear system of

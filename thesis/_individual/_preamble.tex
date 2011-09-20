@@ -11,7 +11,7 @@ Transport}
 \usepackage{setspace}
 \definecolor{intertextbg}{gray}{0.85}
 
-
+% Modify the chapter output
 \makeatletter
 \newcommand{\newchapter}{%
 \noindent%
@@ -22,6 +22,7 @@ dissertation}}%
 }
 \makeatother
 
+% Turn the chapter command into title/figures
 \newcommand{\chapter}[1]{%
 \title{#1}%
 \origmaketitle
@@ -40,7 +41,8 @@ dissertation}}%
 
 % Individual documents don't have access to chapter labels
 \newcommand{\chaptersynopsis}[1]{\subsection{#1}}
-
+% Create a label instead of referencing from a previous chapter
+\newcommand{\tagref}[1]{\label{#1}}
 
 % Kill appendices
 %\renewcommand{\appendix}{}

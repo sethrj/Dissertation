@@ -1,5 +1,5 @@
-\documentclass[12pt,letterpaper,twoside]{umthesis}
-%\documentclass[12pt,letterpaper,draft]{umthesis}
+%\documentclass[12pt,letterpaper,twoside]{umthesis}
+\documentclass[12pt,letterpaper,draft]{umthesis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[inner=1.5in,outer=1in,top=1in,bottom=1in,headheight=0pt]{geometry}
 
@@ -11,7 +11,7 @@
 \SetMathAlphabet{\mathcal}{normal}{OMS}{xmdcmsy}{m}{n}%revert calligraphy math
 
 % \singlespacing
-\doublespacing
+%\doublespacing
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % extra packages and shortcuts
 \usepackage{bm}
@@ -28,10 +28,12 @@
 \input{SRJinclude.tex}
 \setSRJthesisfigurepaths
 
-
 % For use in the introduction
 \newcommand{\chaptersynopsis}[1]{%
 \subsubsection{Chapter~\ref{#1}: \nameref{#1}}}
+% For referencing equations from a previous chapter; defined like this for
+% compatibility with ``single-chapter'' compile
+\newcommand{\tagref}[1]{\tag{\ref{#1}}}
 
 % float setup
 \renewcommand\floatpagefraction{.70}
