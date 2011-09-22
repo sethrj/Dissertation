@@ -3,10 +3,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Numerical Results: Test Problems}\label{chap:simpleNumericalResults}
 
+The complexity of thermal radiative transport 
+In solving the anisotropic diffusion equations, any number of choices in the
+low-order discretization, the transport discretization, convergence criteria,
+etc. There is correspondingly a real possibility that the cancellation of
+errors may obscure the results of the TRT test problems. In this chapter we
+systematically investigate the components of 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discretization error}
 
-\subsection{Low-order spatial discretization: manufactured solutions}
+\subsection{Diffusion spatial discretization: manufactured solutions}
 
 \begin{figure}[htb]
   \centering\small
@@ -255,20 +262,5 @@ The initial condition is
 \end{equation*}
 where $a$ is a normalization constant that gives a total initial $\int \phi
 \ud V$ of $100 + 0.001 V$. We use $\sigma=1$ inside the channel, $\sigma=10$
-outside, $c=0.99$ everywhere. We run it out to time $t=3$ looking at different
-time steps.
-\begin{figure}[htb]
-  \centering\small
-  \subfloat[$\Delta_t=0.02$]{\hspace{-.1in}\input{ap1-blastpipe/002-phi-center/plot}\hspace{-.1in}}%
-  \subfloat[$\Delta_t=0.05$]{\hspace{-.1in}\input{ap1-blastpipe/005-phi-center/plot}\hspace{-.1in}}
-  
-  \subfloat[$\Delta_t=0.10$]{\hspace{-.1in}\input{ap1-blastpipe/010-phi-center/plot}\hspace{-.1in}}%
-  \subfloat[$\Delta_t=0.20$]{\hspace{-.1in}\input{ap1-blastpipe/020-phi-center/plot}\hspace{-.1in}}
-  
-  \subfloat[$\Delta_t=0.50$]{\hspace{-.1in}\input{ap1-blastpipe/050-phi-center/plot}\hspace{-.1in}}%
-  \subfloat[$\Delta_t=1.00$]{\hspace{-.1in}\input{ap1-blastpipe/100-phi-center/plot}\hspace{-.1in}}
-  \caption{Time-dependent linear blast wave problem for different time steps
-  $\Delta_t$, evaluated at $t=3$ along the channel centerline at $y=0$.}
-  \label{fig:blastAp1Results}
-\end{figure}
+outside, $c=0.99$ everywhere.
 
