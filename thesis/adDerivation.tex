@@ -672,25 +672,42 @@ W(\abs{\vec{\Omega}\vd\vec{n}})
 &=
 \frac{1}{4\pi} \phi(\vec{x},t)
 \int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}}) \ud\Omega
-- \int_{\vec{\Omega}\vd\vec{n} < 0}  W(\abs{\vec{\Omega}\vd\vec{n}})
-f(\vec{x}, \vec{\Omega})\vec{\Omega} \ud\Omega \vd \grad \phi(\vec{x},t)
+- \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}  W(\abs{\vec{\Omega}\vd\vec{n}})
+f(\vec{x}, \vec{\Omega})\vec{\Omega} \ud\Omega\right] \vd \grad \phi(\vec{x},t)
 \\
 &= \frac{1}{2} \phi(\vec{x},t)
-- \int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
-\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega \vd \grad \phi(\vec{x},t)\,.
+- \left[ \int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vd \grad \phi(\vec{x},t)\,.
 \end{align*}
-This equation is the transport-matched boundary condition for anisotropic
-diffusion:
+Multiplying by two, we arrive at the low-order boundary condition for the
+anisotropic diffusion approximation:
+\begin{equation*}
+2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x},\vec{\Omega},t) \ud\Omega
+=
+\phi(\vec{x},t)
++ 2 \left[ -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vd \grad \phi(\vec{x},t)\,.
+\end{equation*}
+To make this equation clearer, we define the bracketed vector term to be
+\begin{equation}\label{eq:adBoundaryIntegral}
+  \vec{d}(\vec{x}) = -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation}
+so that the boundary condition on $\phi$ becomes
 \begin{equation} \label{eq:loBc}
 2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
 I^b(\vec{x},\vec{\Omega},t) \ud\Omega
 =
 \phi(\vec{x},t)
-- 2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
-\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega \vd \grad \phi(\vec{x},t)\,.
++ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,.
 \end{equation}
+Here, $\vec{d}$ is a vector defined on the boundary, $\vec{x} \in \partial V$,
+that is calculated from the incident values of the purely absorbing
+transport solution $f$.
 
-The boundary condition is at this point incomplete, because the transport
+However, the boundary condition is at this point incomplete, because the
+transport
 solution for $f$ has only been defined for points away from the boundary: the
 prescription of $f$ for incident directions on the boundary is unknown.
 We return to
@@ -741,22 +758,27 @@ that enforce this relationship. Both specularly reflecting and
 The above condition does not \emph{define} the boundary condition for $f$; it
 is only a restriction that preserves Eq.~\eqref{eq:tdPhi}.
 
-In the case of an azimuthally symmetric $f$, Eq.~\eqref{eq:loBc} can be written:
-\begin{multline} \label{eq:loBc2}
-2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
-I^b(\vec{x},\vec{\Omega},t) \ud\Omega
-\\ =
-\phi(\vec{x},t)
-+ 2 \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}
-\abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
-f(\vec{x}, \vec{\Omega}) \ud\Omega\right]
-\vec{n} \vd \grad \phi(\vec{x},t)\,.
-\end{multline}
-The value in brackets is a positive function of the incident $f$ on the
-boundary. If $f$ is isotropic and equal to the infinite medium value
-$1/(4\pi\sigma)$, then this expression reduces to the standard diffusion
+In the case when $f$ is azimuthally symmetric about the outward normal,
+Eq.~\eqref{eq:adBoundaryIntegral} can be written:
+\begin{equation*}
+  \vec{d}(\vec{x}) = -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+  (-\abs{ \vec{\Omega} \vd \vec{n}} \vec{n})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation*}
+thereby simplifying to the following expression:
+\begin{equation} \label{eq:adBoundaryIntegral2}
+  \vec{d}(\vec{x})
+  = \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}
+  \abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vec{n}\,.
+\end{equation}
+Thus the vector quantity $\vec{d}$ lives on the boundary, points along the
+outward normal, and has a positive magnitude that depends on the incident
+distribution of $f$. If $f$ is isotropic and equal to the infinite medium value
+$1/(4\pi\sigma)$, then $\norm{\vec{d}}$ reduces to $z_0 / (2 \sigma)$, where
+$z_0$ is the transport-corrected extrapolation distance for diffusion,
+and Eq.~\eqref{eq:loBc} becomes the transport-corrected standard diffusion
 boundary condition with transport extrapolation distance.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Marshak-like boundary condition}
@@ -780,30 +802,37 @@ that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBc} becomes
   2\int_{\vec{\Omega}\vd \vec{n} < 0}
   ( 2\abs{\vec{\Omega} \vd \vec{n}} ) I^b(\vec{\Omega}) \ud\Omega
   &= \phi
-  + 2\int_{\vec{\Omega}\vd \vec{n} > 0} ( 2\vec{\Omega} \vd \vec{n} )
-  \vec{\Omega} f(\vec{\Omega}) \ud\Omega \vd \grad \phi
+  + 2\vec{d} \vd \grad \phi
   \\
   4 F^-
   &= \phi
-  + 4 \vec{n} \vd \left[ \int_{\vec{\Omega}\vd \vec{n} > 0} \vec{\Omega}
-  \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \grad \phi \,.
-  \\ 
+  + 2\vec{d} \vd \grad \phi
+\end{align*}
+
+With the Marshak approximation to $W(\mu)$, the expression for $\vec{d}$
+simplifies greatly.  Equation~\eqref{eq:adBoundaryIntegral}, becomes
+\begin{align*}
+  \vec{d} &=
+  -\int_{\vec{\Omega}\vd\vec{n} < 0} 2 \abs{\vec{\Omega}\vd\vec{n}}
+  \vec{\Omega} f \ud\Omega
+  \\
+  &= 
+  2 \vec{n}\vd \int_{\vec{\Omega}\vd\vec{n} < 0} \vec{\Omega}
+  \vec{\Omega} f \ud\Omega
+  \\
   \intertext{Because our chosen boundary condition of $f$ gives
   $f(\vec{\Omega})=f(-\vec{\Omega})$ if $f$ is azimuthally symmetric, the
-  integrand in brackets is an even function of $\vec{\Omega}$:}
-  4 F^-
-  &= \phi
-  + 4 \vec{n} \vd  \left[ \frac{1}{2} \int_{4\pi}
-  \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right] \vd \grad \phi
+  integrand is an even function of $\vec{\Omega}$:}
   \\
-  4 F^-
-  &= \phi
-  + 2 \vec{n} \vd \left( \int_{4\pi}
-  \vec{\Omega} \vec{\Omega} f(\vec{\Omega}) \ud\Omega \right) \vd \grad \phi \,.
+   \vec{d} &=
+  \vec{n}\vd\int_{4\pi} \vec{\Omega} \vec{\Omega} f \ud\Omega \,.
+  \\ 
+  \intertext{The integral on the right hand side is the anisotropic diffusion
+  tensor from Eq.~\eqref{eq:anisotropicFicks}:}
+  \vec{d} &= \vec{n}\vd\Dtens \,.
 \end{align*}
-The integral on the right hand side is the same as in
-  Eq.~\eqref{eq:anisotropicFicks}, which defined the anisotropic diffusion
-  tensor. Our Marshak-like boundary approximation is therefore:
+
+Thus Marshak-like boundary approximation for anisotropic diffusion is:
 \begin{equation}\label{eq:marshakAd}
   4 F^-(\vec{x}, t)
   = \phi(\vec{x}, t)
@@ -812,7 +841,7 @@ The integral on the right hand side is the same as in
 This is analogous to the standard diffusion Marshak boundary condition,
 \begin{equation*}
   4 F^-(\vec{x}, t) = \phi(\vec{x}, t)
-  + 2  D(\vec{x}) \vec{n} \vd \grad \phi(\vec{x}, t)\,.
+  + 2 D(\vec{x}) \vec{n} \vd \grad \phi(\vec{x}, t)\,.
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -879,16 +908,22 @@ satisfy the relation given in Eq.~\eqref{eq:hoBc}:
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation*}
 The corresponding transport-matched low-order boundary condition from
-Eq.~\eqref{eq:loBc2} is:
+Eq.~\eqref{eq:loBc} is:
 \begin{equation*}
 2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
 I^b(\vec{x},\vec{\Omega},t) \ud\Omega
 =
 \phi(\vec{x},t)
-+ 2\int_{\vec{\Omega}\vd\vec{n} < 0}
-\abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
-f(\vec{x}, \vec{\Omega}) \ud\Omega
-\vec{n} \vd \grad \phi(\vec{x},t)\,.
++ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,,
+\end{equation*}
+where $\vec{d}$ is defined in Eq.~\eqref{eq:adBoundaryIntegral} as a function
+of the incident values for $f$, written here under the assumption that $f$ is
+rotationally invariant about the outward normal at the boundary:
+\begin{equation*}
+  \vec{d}(\vec{x})
+  = \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}
+  \abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vec{n}\,.
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

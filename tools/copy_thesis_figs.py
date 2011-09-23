@@ -67,11 +67,17 @@ class ResearchCopier( object):
 
         else:
             # it's an image, etc.
+            # - make sure the directory exists
             # - replace the symlink with a copy of the orginal file
             try:
                 os.remove( new_path )
             except OSError, e:
                 print e
+
+            parent_dir = os.path.split( new_path)[0]
+            if not os.path.exists( parent_dir ):
+                os.mkdir(parent_dir)
+
             shutil.copy2( original, new_path )
 
 def rewrite_tex( filename, pdf_path ):

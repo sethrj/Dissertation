@@ -717,6 +717,42 @@
 "figures/semi-implicit.pdf": {
 "creation": 1303788395
 }, 
+"figures/ss_single_channel/absconv/absconv.pdf": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/absconv/plot.tex": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/mg-dxx.png": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/mg-dyy.png": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/mgconv/mgconv.pdf": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/mgconv/plot.tex": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/phi-channel/phi-channel.pdf": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/phi-channel/plot.tex": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/phi.pdf": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/qsconv/plot.tex": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/qsconv/qsconv.pdf": {
+"creation": 1316800334
+}, 
+"figures/ss_single_channel/xsn.png": {
+"creation": 1316800334
+}, 
 "figures/umlogo.pdf": {
 "creation": 1285162895
 }, 
@@ -1067,7 +1103,10 @@
 }
 }, 
 "thesis/adDerivation.tex": {
-"creation": 1303788395
+"creation": 1303788395, 
+"xattrs": {
+"com.apple.FinderInfo": "VEVYVFRlWHMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
 }, 
 "thesis/aponeDerivation.tex": {
 "creation": 1306114653, 
@@ -1102,7 +1141,10 @@
 }
 }, 
 "thesis/simpleNumericalResults.tex": {
-"creation": 1303788395
+"creation": 1303788395, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
 }, 
 "thesis/thesis.tex": {
 "creation": 1280516600, 

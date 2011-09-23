@@ -205,7 +205,7 @@ recalling the assumption that $\grad\phi = O(\epsilon)$, the above becomes
 \end{align}
 Here, $f$ is the solution to the same purely absorbing, steady-state transport
 problem as in \S\ref{sec:adInterior}:
-\begin{equation} \tagref{eq:fVol}
+\begin{equation} \tagref{eq:fFullVol}
   \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
   + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega})
 = \frac{1}{4\pi} \,.
@@ -462,7 +462,7 @@ Operating on the superposition equation at the boundary, and substituting the
 obtain the following relation:
 \begin{align*}
   \int_{\vec{\Omega}\vd\vec{n} < 0}
-  W(\abs{\vec{\Omega}\vd\vec{n}}) I^b(\vec{x},\vec{\Omega},t \ud\Omega
+  W(\abs{\vec{\Omega}\vd\vec{n}}) I^b(\vec{x},\vec{\Omega},t) \ud\Omega
  &= 
  \int_{\vec{\Omega}\vd\vec{n} < 0}
   W(\abs{\vec{\Omega}\vd\vec{n}}) \left[ \frac{1}{4\pi} \phi(\vec{x},t)
@@ -470,13 +470,128 @@ obtain the following relation:
   \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t)\right] \ud\Omega
 \\
 &= \frac{1}{2} \phi(\vec{x},t)
--  \left[ \int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
++  \left[ - \int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
   \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega\right]
  \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,.
 \end{align*}
+The quantity in brackets is the same vector $\vec{d}$ as in the anisotropic
+diffusion approximation,
+\begin{equation} \tagref{eq:adBoundaryIntegral2}
+  \vec{d}(\vec{x}) = -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation}
+so the anisotropic \Pone\ boundary condition is:
+\begin{equation} \label{eq:ap1BoundaryCondition}
+  2 \int_{\vec{\Omega}\vd\vec{n} < 0}
+  W(\abs{\vec{\Omega}\vd\vec{n}}) I^b(\vec{x},\vec{\Omega},t) \ud\Omega
+  = \phi(\vec{x},t)
+  + 2 \vec{d}(\vec{x}) \vd \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,.
+\end{equation}
+
+The boundary condition for $f$ can, as with anisotropic diffusion, be derived by
+demanding that Eq.~\eqref{eq:tdPhi} hold on the boundary:
+\begin{equation*}
+ \phi(\vec{x},t)
+ = \int_{4\pi} \Iv(\vec{x},\vec{\Omega},t) \ud \Omega
+ = \int_{4\pi}  \left( 
+\frac{1}{4\pi} \phi(\vec{x},t)
+ - f(\vec{x},\vec{\Omega}) \vec{\Omega} \vd
+  \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t)
+ \right) \,.
+\end{equation*}
+The result is the same as before:
+\begin{equation}\tagref{eq:hoBc}
+  \int_{\vec{\Omega}\vd\vec{n} > 0} (\vec{\Omega}\vd \vec{n})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega
+  =
+  \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,,
+\end{equation}
+which can be satisfied by a white or a reflecting boundary on $f$.
+
+Recall that under the assumption that $f$ is rotationally invariant about
+$\vec{n}$ at the boundary, and if the Marshak approximation $W(\mu) \approx
+2\mu$ is used, then $\vec{d} = \vec{n} \vd \Dtens$, canceling $\Dtens\inv$ in
+the above expression to yield the standard Marshak boundary condition
+\begin{equation*}
+  4 F^-(\vec{x},t) =  \phi(\vec{x},t) + 2 \vec{n} \vd \vec{F}(\vec{x},t)\,,
+\end{equation*}
+where $\vec{F}$ satisfies the anisotropic \Pone\
+equation~\eqref{eq:ap1ficksLawFinal} rather than Fick's law.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Summary}
+
+By making several asymptotically valid approximations and substitutions, we
+derived a new ``anisotropic \Pone'' approximation to time-dependent radiation
+transport. Like the anisotropic diffusion approximation, it uses
+a simple, transport-calculated diffusion tensor in conjunction with a low-order
+conservation equation. Yet like the \Pone\ method, the low-order unknowns now
+comprise both $\phi$ and $\vec{F}$, the zeroth and first moments of the
+radiation field.
+
+The low-order conservation equation~\eqref{eq:loVol} is:
+\begin{equation*}
+\frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
++ \grad \vd \vec{F}(\vec{x},t)
++ \sigma(\vec{x}) \phi(\vec{x}, t)
+  = Q(\vec{x}, t) \,,
+  \quad \vec{x} \in V,\ t > 0 \,.
+\end{equation*}
+This is coupled with Eq.~\eqref{eq:ap1ficksLawFinal}, which acts as a
+replacement to Fick's law by relating the radiation flux $\vec{F}$ to the
+scalar intensity $\phi$:
+\begin{equation*}
+  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
+  = - \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
+\end{equation*}
+In this equation are embedded two moments of the simple transport solution $f$:
+the zeroth moment from Eq.~\eqref{eq:varSigma},
+\begin{equation*}
+  \varsigma(\vec{x})
+  = \left[ \int_{4\pi} f(\vec{x},\vec{\Omega}) \ud \Omega \right]\inv \,,
+\end{equation*}
+and the second moment from Eq.~\eqref{eq:dDefinition},
+\begin{equation*}
+  \Dtens(\vec{x}) \equiv \int_{4\pi} \vec{\Omega} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation*}
+The general boundary condition for the low-order equation is given in
+Eq.~\eqref{eq:ap1BoundaryCondition}:
+\begin{equation*}
+  2 \int_{\vec{\Omega}\vd\vec{n} < 0}
+  W(\abs{\vec{\Omega}\vd\vec{n}}) I^b(\vec{x},\vec{\Omega},t) \ud\Omega
+  = \phi(\vec{x},t)
+  + 2 \vec{d}(\vec{x}) \vd \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,,
+\end{equation*}
+where $\vec{d}$, from Eq.~\eqref{eq:adBoundaryIntegral}, is a particular
+angular moment of the transport solution $f$, evaluated at the boundary for
+incident angles:
+\begin{equation*}
+  \vec{d}(\vec{x})
+  = \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}
+  \abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vec{n}\,.
+\end{equation*}
+
+The transport problem for $f$ is the same as in standard anisotropic diffusion:
+a steady-state, purely absorbing transport
+equation described by Eq.~\eqref{eq:fFullVol}:
+\begin{equation*}
+  \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
+  + \sigma f (\vec{x}, \vec{\Omega}) 
+  = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
+\end{equation*}
+with boundary conditions, usually taken to be reflecting, that satisfy
+Eq.~\eqref{eq:hoBc}:
+\begin{equation*}
+  \int_{\vec{\Omega}\vd\vec{n} > 0} (\vec{\Omega}\vd \vec{n})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega
+  =
+  \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}

@@ -13,6 +13,12 @@ systematically investigate the components of
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discretization error}
 
+In our numerical simulations, we must approximate the continuum transport
+solutions with discrete methods. The low-order spatial discretization for the
+tensor diffusion problems was formulated in Chapter~\ref{chap:implementation}.
+For the high-order transport, we use diamond difference \cite{Lew1984} with a
+``flux fix-up'' to ensure positivity.
+
 \subsection{Diffusion spatial discretization: manufactured solutions}
 
 \begin{figure}[htb]
@@ -36,9 +42,130 @@ systematically investigate the components of
   \label{fig:manuSolution}
 \end{figure}
 
-\subsection{Transport discretization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Transport discretization: single steady-state channel}
+
+The prototypical anisotropic diffusion test problem, a flatland VHTR mock-up due
+to Larsen and Trahan \cite{Lar2009c}, consists of voided vertical channels in a
+diffusive medium. The diffusive region has $\sigma_d=1$, the channel
+$\sigma_c=0.01$. The scattering ratio is uniformly $0.99$.
+
+We will use a small portion of this problem, a single channel of unit width,
+with the 
+
+The simplicity of this model allows for $f$ to be calculated analytically
+rather than with an \SN\ transport solution. (Do I write the solution down
+here?) We can therefore assess the penalty of various approximations against an
+``exact'' solution.
+
+Because the anisotropic diffusion coefficient can be calculated analytically,
+the effect of using coarse-grid $\Dtens$ can be investigated independently of
+the spatial discretization error accrued in an \SN\ solve.
+
+
+%\begin{table}[htb]
+%  \centering
+%  \begin{tabular}{rll}
+%    \\
+%    $0 \le \omega < \frac{\pi}{2}$ &
+%    $\sigma_d\inv + (\sigma_c \inv - \sigma_d\inv)
+%    \left( 1 - \eexp^{ - \sigma_c (W + x) / \cos \omega} \right)
+%    \frac{\pi}{2} < \omega < \pi &
+%  \end{tabular}
+%  \caption{<+Caption text+>}
+%  \label{tab:<+label+>}
+%\end{table}<++>
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3in]{ss_single_channel/xsn.png}
+  \caption[Source and cross sections for the single channel problem.]%
+  {Source and cross sections for the single channel problem. The colored region
+  in the lower left is the Gaussian source.}
+  \label{fig:ssSingleXsn}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics{ss_single_channel/phi.pdf}
+  \caption[Contour plot of $\phi$ in the steady-state single channel
+  problem.]{Contour plot of $\phi$ in the steady-state single channel problem.
+  The dashed black line is the reference Monte Carlo solution; the dotted red
+  line is standard diffusion; the broken black line is the anisotropic
+  diffusion solution with analytic coefficients; the solid blue line is
+  anisotropic diffusion with coefficients calculated with an S$_{32}$ transport
+  sweep.}
+  \label{fig:ssSingleContour}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \input{ss_single_channel/phi-channel/plot}
+  \caption{Scalar intensity along $x=5.0$.}
+  \label{fig:ssSingleCenterline}
+\end{figure}
+
+Interestingly, the global norms have about the same error rate as the
+channel-only. 
+
+\begin{figure}[htb]
+  \centering
+  \input{ss_single_channel/absconv/plot}
+  \caption{Convergence of the solution $\phi$ (volume-weighted 2-norm) with
+  increasing iterations used for the AD coefficient solve, relative to $\phi$
+  with analytic AD coefficients.}
+  \label{fig:ssSingleMcconv}
+\end{figure}
+
+I also observed convergence as a function of the number of ordinates (using
+Chebyshev equal-weight quadrature). The coarse-grid convergence was performed
+with a diffusion grid of $\Delta_x = 1/32$.
+
+\begin{figure}[htb]
+  \centering
+  \subfloat[Quadrature sets]{%
+    \label{fig:ssSingleQsConv}
+    \input{ss_single_channel/qsconv/plot}}%
+  \subfloat[AD grid coarseness]{%
+    \label{fig:ssSingleMgConv}
+    \input{ss_single_channel/mgconv/plot}}%
+  \caption{Error introduced by coarse spatial and angular grids in
+  calculating the AD coefficients.}
+  \label{fig:ssSingleConv}
+\end{figure}
+
+Realized last night that I didn't set the boundary conditions on the analytic
+problem. \verb|:)| Plots have been updated accordingly. Quadrature set does
+actually converge. Phew.
+
+Figure~\ref{fig:ssSingleMgConv} is the steady-state channel problem with a
+diffusive region width of 4.0 and a channel width of 1.0.
+
+The rightmost data point in Fig.~\ref{fig:ssSingleMgConv} has a coarse cell
+width of $\Delta_x=0.5$, half the width of the channel.
+
+\begin{figure}[htb]
+  \centering
+  \subfloat[$D^{xx}$]{%
+  \includegraphics[width=3in]{ss_single_channel/mg-dxx.png}}%
+\subfloat[$D^{yy}$]{%
+  \includegraphics[width=3in]{ss_single_channel/mg-dyy.png}}%
+  \caption{Calculated diffusion coefficients for different grid coarseness.}
+  \label{fig:ssSingleMgD}
+\end{figure}
+
+The differences calculated here are volume-weighted relative 2-norms:
+\begin{equation}\label{eq:rel2norm}
+  \text{reported difference} =
+  \left[ \sum_{i \in \text{cells}} \left( 1 -
+  \frac{\phi_i}{\phi_{i,\text{reference}}} \right)^2 (V_i)^2\right]^{1/2} \,.
+\end{equation}
+Compared to the reference solution, AD (with analytic coefficients) has a 4.5\%
+absolute error and standard diffusion has a 19.8\% error.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \section{Flatland boundary conditions}
 
 \begin{table}[htb]
