@@ -825,8 +825,151 @@ chapter~\ref{chap:adDerivation} needs little modification to be formulated
 in the flatland geometry. The most notable change is in formulating the
 low-order boundary conditions.
 
-TODO
+We begin with the time-dependent transport equation in the general-geometry
+form,
+\begin{subequations} \label{eqs:fadTransport}
+\begin{multline} \label{eq:fadTransportVol}
+  \frac{1}{c}\pder{I}{t}(\vec{x},\vec{\Omega},t)
+  + \vec{\Omega}\vd \grad I(\vec{x},\vec{\Omega},t)
+  + \sigma(\vec{x}) I(\vec{x},\vec{\Omega},t)
+  \\ = \frac{\sigma_s(\vec{x})}{\gamma_0}
+  \int_{S} I(\vec{x},\vec{\Omega}',t) \ud \Omega'
+  + \frac{q(\vec{x},t)}{2\pi}
+  \,, \quad \vec{x}\in V,\ \vec{\Omega}\in S,\ t \ge 0,
+\end{multline}
+with specified incident boundary conditions
+\begin{equation} \label{eq:fadTransportBndy}
+  I(\vec{x},\vec{\Omega},t) = I^b(\vec{x},\vec{\Omega},t) \,,
+  \quad \vec{x}\in \partial V ,\ \vec{\Omega}\vd \vec{n} < 0,\ t > 0,
+\end{equation}
+and the initial condition
+\begin{equation} \label{eq:fadTransportInit}
+  I(\vec{x},\vec{\Omega},0) = I^i(\vec{x},\vec{\Omega}) \,,
+  \quad \vec{x}\in V ,\ \vec{\Omega} \in S\,.
+\end{equation}
+\end{subequations}
+In flatland, the unit sphere $S$ is $0 \le \omega < 2\pi$, $\Omega$ lives on
+the unit circle, and $\gamma_0=2\pi$.
 
+As before, we write the transport solution as a superposition of an interior
+solution (far from initial conditions and exterior boundaries), a boundary layer
+solution, and an initial layer solution.
+\begin{equation}\tagref{eq:tdSuperposition}
+  I(\vec{x},\vec{\Omega},t)
+  \equiv \Iv(\vec{x},\vec{\Omega},t)
+  + \Ibl(\vec{x},\vec{\Omega},t)
+  + \Iil(\vec{x},\vec{\Omega},t)\,.
+\end{equation}
+See \S\ref{sec:adDerivation} for a review of the relationship between the
+three transport equations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Interior approximation}
+
+The interior transport equation is
+\begin{equation}\label{eq:fadVol}
+  \frac{1}{c}\pder{\Iv}{t}(\vec{x},\vec{\Omega},t)
+  + \vec{\Omega}\vd \grad \Iv(\vec{x},\vec{\Omega},t)
+  + \sigma(\vec{x}) \Iv(\vec{x},\vec{\Omega},t)
+   = \frac{\sigma_s(\vec{x})}{\gamma_0}
+  \int_{S} \Iv(\vec{x},\vec{\Omega}',t) \ud \Omega'
+  + \frac{q(\vec{x},t)}{2\pi} \,.
+\end{equation}
+The zeroth moment, $\int_S (\cdot) \ud\Omega$, is the conservation equation:
+\begin{equation}\label{eq:fadLoVol}
+\frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
+  + \grad \vd\vec{F}(\vec{x}, t)
+  + \sigma(\vec{x}) \phi(\vec{x}, t)
+ = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,.
+\end{equation}
+This equation is identical to the 3-D conservation equation in
+Eq.~\eqref{eq:loVol} because $\int_S \ud\Omega = \gamma_0$.
+
+By multiplying the conservation by $\frac{1}{\gamma_0}$ and subtracting from
+Eq.~\eqref{eq:fadVol}, we cancel the isotropic sources on the right-hand side to
+obtain
+\begin{equation*}
+  \left[ \frac{1}{c}\pder{}{t}
+  + \vec{\Omega}\vd \grad
+  + \sigma \right]
+   \left( \Iv
+  - \frac{1}{\gamma_0} \phi \right)
+  = \frac{1}{\gamma_0} \grad \vd\vec{F} -
+  \frac{1}{\gamma_0} \vec{\Omega}\vd \grad \phi\,.
+\end{equation*}
+
+As before, we take the scaling that, in the interior, the intensity has weak
+gradients in space, very weak gradients in time, and only mild anisotropy:
+\begin{align} \tagref{eq:ansatz}
+  \sigma &= O(1), &
+  I &= O(1), &
+  \int_{4\pi} \vec{\Omega} I \ud\Omega &= O(\epsilon), &
+  \grad I &= O(\epsilon), &
+  \pder{I}{t} &= O(\epsilon^2) \,.
+\end{align}
+
+Then, discarding the $O(\epsilon^2)$ time derivative and $\grad \vd\vec{F}$, the
+prior equation is approximated as:
+\begin{equation*}
+  \left[ \vec{\Omega}\vd \grad + \sigma \right]
+  \left( \Iv - \frac{1}{\gamma_0} \phi \right)
+  =  -\frac{1}{\gamma_0} \vec{\Omega}\vd \grad \phi\,.
+\end{equation*}
+Formally inverting the left-hand side gives the approximate interior
+intensity:
+\begin{equation*}
+  \Iv = \frac{1}{\gamma_0} \phi 
+  - \left[ \vec{\Omega}\vd \grad + \sigma \right]\inv \left( \frac{1}{\gamma_0}
+  \vec{\Omega}\vd \grad \phi \right)\,.
+\end{equation*}
+The inverse expression has the interpretation of an integral transport equation,
+given in Eqs.~\eqref{eqs:inverseTransport}. It is independent of geometry, so we
+expand the nonlocal $\phi$ and discard the $O(\epsilon^2)$ and higher terms to
+obtain:
+\begin{equation*}
+  \Iv = \frac{1}{\gamma_0} \phi 
+  - \left( \left[ \vec{\Omega}\vd \grad + \sigma \right]\inv \frac{1}{\gamma_0}
+  \right) \vec{\Omega}\vd \grad \phi \,.
+\end{equation*}
+We define the parenthesized quantity to be $f$, the solution of a purely
+absorbing transport equation with a unit, isotropic source:
+\begin{equation} \label{eq:fadFVol}
+  \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
+  + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega})
+= \frac{1}{\gamma_0} \,, \quad \vec{\Omega} \in S\,.
+\end{equation}
+Therefore, the anisotropic diffusion approximation in the interior is
+\begin{equation}\label{eq:fadVolApproxFinal}
+  \Iv(\vec{x},\vec{\Omega},t)
+  = \frac{1}{\gamma_0} \phi(\vec{x},t)
+  - f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x},t) \,.
+\end{equation}
+
+The first moment of Eq.~\eqref{eq:fadVolApproxFinal} relates the radiation flux
+to the gradient of $\phi$, the same anisotropic Fick's law as in
+\S\ref{sec:adDerivation}:
+\begin{equation}\tagref{eq:anisotropicFicks}
+  \vec{F}(\vec{x},t) = - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
+\end{equation}
+Here, $\Dtens$ is the second moment of the transport solution $f$. In 3-D
+geometry, in a homogeneous medium, $f=1/(4\pi\sigma)$ so $\Dtens = 1/(3\sigma)$.
+In flatland, $f = 1/(2\pi\sigma)$, and its second moment is
+\begin{equation*}
+  \Dtens = \frac{1}{2\pi\sigma} \int_{S}\vec{\Omega}\vec{\Omega}  \ud\Omega
+  = \frac{1}{2\pi\sigma} \gamma_2 \Identitytens
+  = \frac{1}{2\sigma} \Identitytens \,.
+\end{equation*}
+This is the standard flatland diffusion coefficient.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Initial conditions}
+The initial conditions
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Boundary conditions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Overview}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
@@ -846,8 +989,8 @@ the first moment of the incident boundary source, $\pi
 \ud\Omega$, and gives an extrapolation distance of about $0.7854$.
 The more accurate variational boundary condition given in
 Eq.~\eqref{eq:flatVarBc} uses $\int_{\vec{\Omega}\vd\vec{n} < 0}
-\left[ \frac{\pi}{2} \abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2
-\right] I^b(\vec{x}, \vec{\Omega}) \ud\Omega$ with the extrapolation
+\big[ \frac{\pi}{2} \abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2
+\big] I^b(\vec{x}, \vec{\Omega}) \ud\Omega$ with the extrapolation
 distance of about $0.8171$. The accuracy of these methods will be compared in
 Chapter~\ref{chap:simpleNumericalResults}.
 

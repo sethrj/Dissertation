@@ -794,14 +794,14 @@ energy at that point. The identity can be shown using the triangle inequality:
   &\le \int_{4\pi} \norm{\vec{\Omega}} \abs{I} \ud \Omega 
   \\ \nonumber
   &\le \int_{4\pi} [1] I \ud\Omega
-  \\ \nonumber
+  \\ \label{eq:fluxLimit}
   \norm{\vec{F}} &\le \phi\,.
   \\ 
   \intertext{Substituting Fick's law for $\vec{F}$ gives a condition that
   shows when the
   diffusion coefficient satisfies this limit:} \nonumber
   \norm{- D \grad \phi} &\le \phi
-  \\ \label{eq:fluxLimit}
+  \\ \label{eq:fluxLimitDiffusion}
   \norm{\grad \phi} & \le \frac{\phi}{D} \,.
 \end{align}
 In an optically thin region where $\sigma\approx 0$, $D\to\infty$, and this condition
@@ -809,7 +809,7 @@ will usually be violated. Additionally, the large radiation energy gradient at a
 wavefront can lead to a violation of the limit.
 
 A ``flux limiter'' is designed to combat these problems by enforcing
-Eq.~\eqref{eq:fluxLimit} through an \emph{ad hoc} modification to
+Eq.~\eqref{eq:fluxLimitDiffusion} through an \emph{ad hoc} modification to
 the definition of $D$.
 Although certain flux limiters \cite{Lev1984} are based on
 idealized models that the radiation intensity might take where

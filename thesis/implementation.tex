@@ -95,7 +95,7 @@ leakage.
 
 In certain simple problems, this is not an approximation. As long as the
 opacity is invariant with respect to one of the Cartesian coordinate system's
-axes (see \S\ref{sec:eigenvectors}), the off-diagonal terms of $\Dtens$ are
+axes (see \S\ref{sec:adVoids}), the off-diagonal terms of $\Dtens$ are
 zero, and the anisotropic Fick's law simplifies to:
 \begin{equation*}
   \vec{F} = - \Dtens \vd \grad \phi
@@ -432,7 +432,7 @@ where $\tpder{\phi}{y} |_{x_{i+1/2}^-}$ is the transverse derivative of
 $\phi$ on the left side of the face, and $\tpder{\phi}{y} |_{x_{i+1/2}^+}$ is
 the transverse derivative as viewed from the right side of the face.
 The harmonic-averaged diffusion coefficient is
-\begin{equation} \label{eq:cellEdgeDHarmonic}
+\begin{equation} \tagref{eq:cellEdgeDHarmonic}
   \frac{D^{xx}_{i+1/2,j}}{\Delta_{x,i+1/2}} \equiv \left[
   \frac12 \left( \frac{D^{xx}_{i,j}}{\Delta_{x,i}} \right)\inv
  + \frac12 \left( \frac{D^{xx}_{i+1,j}}{\Delta_{x,i+1}} \right)\inv

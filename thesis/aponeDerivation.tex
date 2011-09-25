@@ -401,7 +401,7 @@ We substitute it for the left-hand side:
  \Iv(\vec{x},\vec{\Omega},t)
  =
  \frac{1}{4\pi} \phi(\vec{x},t)
- - f(\vec{x},\vec{\Omega}) \vec{\Omega} \vd
+ + f(\vec{x},\vec{\Omega}) \vec{\Omega} \vd
   \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,.
 \end{equation}
 This is the anisotropic \Pone\ approximation to the radiation intensity, where
@@ -466,11 +466,11 @@ obtain the following relation:
  &= 
  \int_{\vec{\Omega}\vd\vec{n} < 0}
   W(\abs{\vec{\Omega}\vd\vec{n}}) \left[ \frac{1}{4\pi} \phi(\vec{x},t)
-  - f(\vec{x},\vec{\Omega}) \vec{\Omega} \vd
+  + f(\vec{x},\vec{\Omega}) \vec{\Omega} \vd
   \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t)\right] \ud\Omega
 \\
 &= \frac{1}{2} \phi(\vec{x},t)
-+  \left[ - \int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+-  \left[ - \int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
   \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega\right]
  \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,.
 \end{align*}
@@ -485,8 +485,11 @@ so the anisotropic \Pone\ boundary condition is:
   2 \int_{\vec{\Omega}\vd\vec{n} < 0}
   W(\abs{\vec{\Omega}\vd\vec{n}}) I^b(\vec{x},\vec{\Omega},t) \ud\Omega
   = \phi(\vec{x},t)
-  + 2 \vec{d}(\vec{x}) \vd \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,.
+  - 2 \vec{d}(\vec{x}) \vd \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,.
 \end{equation}
+If the problem is steady-state, $\vec{F} = - \Dtens \vd \grad \phi$, and the
+boundary condition reduces to the anisotropic diffusion boundary condition from
+Chapter~\ref{chap:adDerivation}.
 
 The boundary condition for $f$ can, as with anisotropic diffusion, be derived by
 demanding that Eq.~\eqref{eq:tdPhi} hold on the boundary:
@@ -495,7 +498,7 @@ demanding that Eq.~\eqref{eq:tdPhi} hold on the boundary:
  = \int_{4\pi} \Iv(\vec{x},\vec{\Omega},t) \ud \Omega
  = \int_{4\pi}  \left( 
 \frac{1}{4\pi} \phi(\vec{x},t)
- - f(\vec{x},\vec{\Omega}) \vec{\Omega} \vd
+ + f(\vec{x},\vec{\Omega}) \vec{\Omega} \vd
   \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t)
  \right) \,.
 \end{equation*}
@@ -514,7 +517,7 @@ $\vec{n}$ at the boundary, and if the Marshak approximation $W(\mu) \approx
 2\mu$ is used, then $\vec{d} = \vec{n} \vd \Dtens$, canceling $\Dtens\inv$ in
 the above expression to yield the standard Marshak boundary condition
 \begin{equation*}
-  4 F^-(\vec{x},t) =  \phi(\vec{x},t) + 2 \vec{n} \vd \vec{F}(\vec{x},t)\,,
+  4 F^-(\vec{x},t) =  \phi(\vec{x},t) - 2 \vec{n} \vd \vec{F}(\vec{x},t)\,,
 \end{equation*}
 where $\vec{F}$ satisfies the anisotropic \Pone\
 equation~\eqref{eq:ap1ficksLawFinal} rather than Fick's law.
@@ -563,17 +566,19 @@ Eq.~\eqref{eq:ap1BoundaryCondition}:
   2 \int_{\vec{\Omega}\vd\vec{n} < 0}
   W(\abs{\vec{\Omega}\vd\vec{n}}) I^b(\vec{x},\vec{\Omega},t) \ud\Omega
   = \phi(\vec{x},t)
-  + 2 \vec{d}(\vec{x}) \vd \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,,
+  - 2 \vec{d}(\vec{x}) \vd \Dtens\inv(\vec{x}) \vd \vec{F}(\vec{x},t) \,,
 \end{equation*}
 where $\vec{d}$, from Eq.~\eqref{eq:adBoundaryIntegral}, is a particular
 angular moment of the transport solution $f$, evaluated at the boundary for
 incident angles:
 \begin{equation*}
   \vec{d}(\vec{x})
-  = \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}
+  = \left[ - \int_{\vec{\Omega}\vd\vec{n} < 0}
   \abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
   f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vec{n}\,.
 \end{equation*}
+(This equation is written under the assumption that $f$ is rotationally
+invariant about $\vec{n}$ at the boundary.)
 
 The transport problem for $f$ is the same as in standard anisotropic diffusion:
 a steady-state, purely absorbing transport
