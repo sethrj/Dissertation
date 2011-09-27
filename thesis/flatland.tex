@@ -801,22 +801,84 @@ Eq.~\eqref{eq:flatMarshak}, the variational boundary condition not only yields a
 different extrapolation distance $\frac{\pi}{8} + \frac{4}{3\pi} \approx
 0.8171$ but also uses a different moment of the incident boundary flux.
 
-%Essentially, we have shown that the flatland equivalent of the $W$ function,
-%which we shall call $V$, can be approximated by
-%\begin{equation}\label{eq:flatlandVariational}
-%  V(\omega)
-%  \approx \frac{1}{4}\sin\omega + \frac{1}{\pi} \sin^2\omega \,,\quad
-%  0 \le \omega < \pi \,,
-%\end{equation}
-%which satisfies
-%\begin{equation*}
-%  \int_{0}^{\pi} V(\omega) \ud\omega= 1
-%\end{equation*}
-%and gives the extrapolation distance
-%\begin{equation*}
-%  z = \frac{\int_{0}^{\pi} \sin \omega V(\omega) \ud\omega}{\int_{0}^{\pi}
-%  V(\omega) \ud\omega} =  \frac{\pi}{8} + \frac{4}{3\pi} \,.
-%\end{equation*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Generalization}
+
+Recall from the discussion of boundary conditions in
+Chapter~\ref{chap:adDerivation} that to eliminate the boundary layer solution
+in the interior of a 3-D problem, the necessary condition was
+\begin{equation}\tagref{eq:tdKillBndy}
+  \int_{\vec{\Omega}\vd\vec{n} < 0}
+  W(\abs{\vec{\Omega}\vd\vec{n}}) \Ibl(\vec{x},\vec{\Omega},t) \ud\Omega
+  = 0\,,
+  \quad \vec{x}\in \partial V ,\ \vec{\Omega}\vd \vec{n} < 0\,,
+\end{equation}
+where $W$ is related to Chandrasekhar's $H$-function \cite{Cha1960} and can be
+approximated by a variationally-derived polynomial $W_2$:
+\begin{equation} \tagref{eq:chandraW}
+  W(\mu) = \frac{\sqrt{3}}{2} \mu H(\mu)
+  \approx W_2(\mu) \equiv \mu + \tfrac{3}{2} \mu^2 \,, \quad 0 < \mu \le 1 \,.
+\end{equation}
+The exact extrapolation distance is the first moment of $W$:
+\begin{equation*}
+  z_0 = \int_{0}^{1} \mu W(\mu) \ud\mu
+  \approx 0.7104\,,
+\end{equation*}
+and the variational approximation gives the extrapolation distance
+\begin{equation*}
+  z_0 \approx \int_{0}^{1} \mu W_2(\mu) \ud\mu = \tfrac{17}{24}
+  \approx 0.7083\,.
+\end{equation*}
+Similarly, the 3-D Marshak boundary condition used
+\begin{equation*}
+  W(\mu) \approx W_1(\mu) \equiv 2 \mu \,,
+\end{equation*}
+which gave the Marshak extrapolation distance
+\begin{equation*}
+  z_0 \approx \int_{0}^{1} \mu W_1(\mu) \ud\mu = \tfrac{2}{3}
+  \approx 0.6667\,.
+\end{equation*}
+
+In our discussion of flatland boundary conditions, we have essentially shown
+that the flatland equivalent of the $W$ function, which we shall call $V$, can
+be approximated by
+\begin{equation}\label{eq:flatV2}
+  V_2(\mu)
+  \equiv
+  \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 
+  \,,
+  \quad
+  0 < \mu \le 1 \,,
+\end{equation}
+where $\mu = \abs{\vec{\Omega} \vd \vec{n}}$, and the equation is normalized
+so that
+\begin{equation*}
+  \int_{0}^{\pi} V_2(\sin\omega) \ud\omega = 1 \,.
+\end{equation*}
+The ``variational'' flatland extrapolation distance is:
+\begin{equation*}
+ z_0 = \frac{\int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega}%
+  {\int_{0}^{\pi} V_2(\sin\omega) \ud\omega}
+  = \frac{\pi}{8} + \frac{4}{3\pi}
+  \approx
+0.8171\,.
+\end{equation*}
+
+We also found the flatland Marshak approximation to be:
+\begin{equation}\label{eq:flatV1}
+  V_1(\mu) \equiv \pi \mu \,,
+  \quad 0 < \mu \le 1 \,,
+\end{equation}
+giving the extrapolation distance
+\begin{equation*}
+ z_0 = \frac{\int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega}%
+  {\int_{0}^{\pi} V_2(\sin\omega) \ud\omega}
+  = \frac{\pi}{4}
+  \approx
+0.7854 \,.
+\end{equation*}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion}
@@ -986,23 +1048,31 @@ I^b(\vec{x}, \vec{\Omega}) \ud\Omega
 This is the flatland analog to the variational approximation $W_2(\mu) \approx
 \mu + \frac{3}{2}\mu^2$ calculated in \cite{Mal1991}. We define the flatland
 variational approximation to be:
-\begin{equation*}
+\begin{equation}\label{eq:flatV2}
   V_2(\mu)
   \equiv
-  \frac{\pi}{2} \mu + 2(\mu)^2 
+  \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 
   \,,
   \quad
   0 < \mu \le 1 \,,
-\end{equation*}
+\end{equation}
 where $\mu = \abs{\vec{\Omega} \vd \vec{n}}$.
-This is normalized so that XXXXXXXXX
+This is normalized so that
 \begin{equation*}
-  \int_{0}^{\pi} V_2(\sin\omega) \ud\omega = 1 \,.
+  \int_{0}^{\pi} V(\sin\omega) \ud\omega = 1 \,.
+\end{equation*}
+The ``variational'' flatland extrapolation distance is:
+\begin{equation*}
+  \frac{\int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega}%
+  {\int_{0}^{\pi} V_2(\sin\omega) \ud\omega}
+  = \frac{\pi}{8} + \frac{4}{3\pi}
+  \approx
+0.8171
 \end{equation*}
 
 The flatland Marshak approximation uses only the first angular moment:
 \begin{equation*}
-  V_2(\mu)
+  V_1(\mu)
   \equiv
   \pi \mu \,,
   \quad
@@ -1032,7 +1102,7 @@ The Marshak boundary replaces the bracketed terms with
   \frac{2 \gamma_0}{\gamma_1} \abs{\vec{\Omega}\vd \vec{n}
 \end{equation*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Overview}
+\subsection{Review}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
