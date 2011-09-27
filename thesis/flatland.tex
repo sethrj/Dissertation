@@ -792,9 +792,9 @@ flatland variational boundary condition:
 \abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
 I^b(\vec{x}, \vec{\Omega}) \ud\Omega
 = 
-  \phi_0(\vec{x})
+  \phi(\vec{x})
   - \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma}
-  \vec{n}\vd\grad \phi_0(\vec{x})\,.
+  \vec{n}\vd\grad \phi(\vec{x})\,.
 \end{equation}
 Compared to the flatland Marshak boundary condition,
 Eq.~\eqref{eq:flatMarshak}, the variational boundary condition not only yields a
@@ -963,11 +963,74 @@ This is the standard flatland diffusion coefficient.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Initial conditions}
-The initial conditions
+The initial conditions for flatland are the same as in 3-D. To match the
+interior solution to the transport initial condition,
+\begin{equation*}
+  \phi(\vec{x},0) = \int_{\Omega} I^i(\vec{x},\vec{\Omega}) \ud\Omega\,.
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Boundary conditions}
 
+To formulate boundary conditions for the flatland anisotropic diffusion
+equation, we return to Eq.~\eqref{eq:varBoundary}, which gives the interior
+solution of a purely scattering, steady-state flatland transport problem under
+a variational approximation to the exiting angular intensity:
+\begin{equation*}
+ \varphi =
+\int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
+\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
+I^b(\vec{x}, \vec{\Omega}) \ud\Omega
+ \,.
+\end{equation*}
+This is the flatland analog to the variational approximation $W_2(\mu) \approx
+\mu + \frac{3}{2}\mu^2$ calculated in \cite{Mal1991}. We define the flatland
+variational approximation to be:
+\begin{equation*}
+  V_2(\mu)
+  \equiv
+  \frac{\pi}{2} \mu + 2(\mu)^2 
+  \,,
+  \quad
+  0 < \mu \le 1 \,,
+\end{equation*}
+where $\mu = \abs{\vec{\Omega} \vd \vec{n}}$.
+This is normalized so that XXXXXXXXX
+\begin{equation*}
+  \int_{0}^{\pi} V_2(\sin\omega) \ud\omega = 1 \,.
+\end{equation*}
+
+The flatland Marshak approximation uses only the first angular moment:
+\begin{equation*}
+  V_2(\mu)
+  \equiv
+  \pi \mu \,,
+  \quad
+  0 < \mu \le 1 \,,
+\end{equation*}
+
+To preserve this value when the anisotropic diffusion approximation is used,
+we substitute the interior approximation $\Iv$,
+Eq.~\eqref{eq:fadVolApproxFinal}, for $I^b$:
+\begin{align*}
+\varphi
+&= 
+\int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
+\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
+\left(  \frac{1}{2\pi} \phi(\vec{x},t)
+  - f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x},t) \right) \ud\Omega
+\\
+&= \phi(\vec{x},t)
+- \int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
+\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \right]
+
+\end{align*}
+
+The Marshak boundary replaces the bracketed terms with
+\begin{equation*}
+  \frac{2 \gamma_0}{\gamma_1} \abs{\vec{\Omega}\vd \vec{n}
+\end{equation*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Overview}
 
