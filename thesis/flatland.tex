@@ -802,14 +802,14 @@ different extrapolation distance $\frac{\pi}{8} + \frac{4}{3\pi} \approx
 0.8171$ but also uses a different moment of the incident boundary flux.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Generalization}
+\subsection{Generalization}\label{sec:flatlandV}
 
 Recall from the discussion of boundary conditions in
 Chapter~\ref{chap:adDerivation} that to eliminate the boundary layer solution
 in the interior of a 3-D problem, the necessary condition was
 \begin{equation}\tagref{eq:tdKillBndy}
   \int_{\vec{\Omega}\vd\vec{n} < 0}
-  W(\abs{\vec{\Omega}\vd\vec{n}}) \Ibl(\vec{x},\vec{\Omega},t) \ud\Omega
+  W(\abs{\vec{\Omega}\vd\vec{n}}) \Ibl(\vec{x},\vec{\Omega}) \ud\Omega
   = 0\,,
   \quad \vec{x}\in \partial V ,\ \vec{\Omega}\vd \vec{n} < 0\,,
 \end{equation}
@@ -839,46 +839,63 @@ which gave the Marshak extrapolation distance
   \approx 0.6667\,.
 \end{equation*}
 
-In our discussion of flatland boundary conditions, we have essentially shown
-that the flatland equivalent of the $W$ function, which we shall call $V$, can
-be approximated by
-\begin{equation}\label{eq:flatV2}
-  V_2(\mu)
-  \equiv
-  \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 
-  \,,
-  \quad
-  0 < \mu \le 1 \,,
+In our discussion of flatland boundary conditions, we have essentially been
+investigating flatland equivalent of the $W$ function, which we denote as $V$,
+that preserves the interior solution:
+\begin{equation}\label{eq:flatKillBndy}
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x}, \vec{\Omega}) \ud\Omega
+=
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I_\text{approx}(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation}
-where $\mu = \abs{\vec{\Omega} \vd \vec{n}}$, and the equation is normalized
-so that
+The ``true'' function $V$ could be calculated, for example, by using a
+flatland formulation of the $F_N$ method \cite{Sie1979}, but we instead used a
+``variational'' analysis and the standard Marshak treatment to approximate $V$.
+
+We define $V(\mu)$ on the domain $0 < \mu \le 1$, where for our purposes $\mu =
+\abs{\vec{\Omega} \vd \vec{n}}$, and normalize the function and its
+approximations so that, in flatland geometry:
 \begin{equation*}
-  \int_{0}^{\pi} V_2(\sin\omega) \ud\omega = 1 \,.
+  \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}}) \ud\Omega
+  = \int_{0}^{\pi} V(\sin\omega) \ud\omega
+  = 1 \,.
 \end{equation*}
-The ``variational'' flatland extrapolation distance is:
+The approximations to $V$ should also have this normalization. Analogous to the
+$W$ function, the flatland extrapolation distance is the first moment of $V$:
 \begin{equation*}
- z_0 = \frac{\int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega}%
-  {\int_{0}^{\pi} V_2(\sin\omega) \ud\omega}
-  = \frac{\pi}{8} + \frac{4}{3\pi}
-  \approx
-0.8171\,.
+  z_0 = \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd\vec{n}}
+    V( \abs{\vec{\Omega}\vd\vec{n}}) \ud\Omega
+  = \int_{0}^{\pi} V(\sin\omega) \sin\omega \ud\omega \,.
 \end{equation*}
 
-We also found the flatland Marshak approximation to be:
+The flatland Marshak approximation uses only the first angular moment, which,
+after normalization, is:
 \begin{equation}\label{eq:flatV1}
-  V_1(\mu) \equiv \pi \mu \,,
+  V_1(\mu) \equiv \frac{1}{2} \mu \,,
   \quad 0 < \mu \le 1 \,,
 \end{equation}
-giving the extrapolation distance
+giving the flatland extrapolation distance
 \begin{equation*}
- z_0 = \frac{\int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega}%
-  {\int_{0}^{\pi} V_2(\sin\omega) \ud\omega}
-  = \frac{\pi}{4}
-  \approx
-0.7854 \,.
+ z_0 = \int_{0}^{\pi} V_1(\sin\omega) \sin\omega \ud\omega
+  = \frac{\pi}{4} \approx 0.7854 \,.
 \end{equation*}
 
+The variational analysis yielded the following two-term approximation to $V$:
+\begin{equation}\label{eq:flatV2}
+  V_2(\mu) \equiv \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 \,,
+  \quad 0 < \mu \le 1 \,.
+\end{equation}
+The resulting variational flatland extrapolation distance is:
+\begin{equation*}
+ z_0 = \int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega
+  = \frac{\pi}{8} + \frac{4}{3\pi} \approx 0.8171\,.
+\end{equation*}
 
+Using the variational $V(\mu)\approx V_2(\mu)$ with the diffusion
+approximation, Eq.~\eqref{eq:flatlandDiffusion}, we obtain
+Eq.~\eqref{eq:flatVarBc}. With the Marshak $V(\mu)\approx V_1(\mu)$, the result
+is the less accurate Eq.~\eqref{eq:flatMarshak}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion}
@@ -1028,81 +1045,224 @@ This is the standard flatland diffusion coefficient.
 The initial conditions for flatland are the same as in 3-D. To match the
 interior solution to the transport initial condition,
 \begin{equation*}
-  \phi(\vec{x},0) = \int_{\Omega} I^i(\vec{x},\vec{\Omega}) \ud\Omega\,.
+  \phi(\vec{x},0) = \int_{0}^{2\pi} I^i(\vec{x},\vec{\Omega}) \ud\omega\,.
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Boundary conditions}
 
 To formulate boundary conditions for the flatland anisotropic diffusion
-equation, we return to Eq.~\eqref{eq:varBoundary}, which gives the interior
-solution of a purely scattering, steady-state flatland transport problem under
-a variational approximation to the exiting angular intensity:
-\begin{equation*}
- \varphi =
-\int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
-\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
-I^b(\vec{x}, \vec{\Omega}) \ud\Omega
- \,.
-\end{equation*}
-This is the flatland analog to the variational approximation $W_2(\mu) \approx
-\mu + \frac{3}{2}\mu^2$ calculated in \cite{Mal1991}. We define the flatland
-variational approximation to be:
-\begin{equation}\label{eq:flatV2}
-  V_2(\mu)
-  \equiv
-  \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 
-  \,,
-  \quad
-  0 < \mu \le 1 \,,
+equation, we return to \S\ref{sec:flatlandV}, where we defined a
+function $V(\mu)$ that preserves the interior solution in a flatland problem
+when integrated over the boundary:
+\begin{equation}\tag{\ref{eq:flatKillBndy}}
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
+=
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I_\text{approx}(\vec{x}, \vec{\Omega},t) \ud\Omega \,.
 \end{equation}
-where $\mu = \abs{\vec{\Omega} \vd \vec{n}}$.
-This is normalized so that
-\begin{equation*}
-  \int_{0}^{\pi} V(\sin\omega) \ud\omega = 1 \,.
-\end{equation*}
-The ``variational'' flatland extrapolation distance is:
-\begin{equation*}
-  \frac{\int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega}%
-  {\int_{0}^{\pi} V_2(\sin\omega) \ud\omega}
-  = \frac{\pi}{8} + \frac{4}{3\pi}
-  \approx
-0.8171
-\end{equation*}
 
-The flatland Marshak approximation uses only the first angular moment:
-\begin{equation*}
-  V_1(\mu)
-  \equiv
-  \pi \mu \,,
-  \quad
-  0 < \mu \le 1 \,,
-\end{equation*}
-
-To preserve this value when the anisotropic diffusion approximation is used,
-we substitute the interior approximation $\Iv$,
-Eq.~\eqref{eq:fadVolApproxFinal}, for $I^b$:
+Substituting the flatland anisotropic diffusion,
+Eq.~\eqref{eq:fadVolApproxFinal}, and evaluating, we obtain:
 \begin{align*}
-\varphi
-&= 
-\int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
-\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
-\left(  \frac{1}{2\pi} \phi(\vec{x},t)
-  - f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x},t) \right) \ud\Omega
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
+&=
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+\left[ \frac{1}{2\pi} \phi(\vec{x},t)
+  - f(\vec{x}, \vec{\Omega}) \vec{\Omega}\vd \grad \phi(\vec{x},t)
+ \right] \ud\Omega
 \\
-&= \phi(\vec{x},t)
-- \int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
-\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
-\vec{\Omega} f(\vec{x}, \vec{\Omega}) \right]
-
+&= 
+ \frac{1}{2\pi} \phi(\vec{x},t)
+ - \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}}) 
+ \vec{\Omega} f(\vec{x}, \vec{\Omega})  \ud\Omega 
+ \vd \grad \phi(\vec{x},t) \,.
 \end{align*}
+Multiplying by $2\pi$, we obtain the flatland anisotropic diffusion boundary
+condition:
+\begin{equation}\label{eq:flatAdBc}
+2\pi \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
+=
+\phi(\vec{x},t)
++ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,,
+\end{equation}
+where we have defined the flatland equivalent of
+Eq.~\eqref{eq:adBoundaryIntegral} to be
+\begin{equation}\label{eq:flatAdBoundaryIntegral}
+  \vec{d}(\vec{x}) = -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+  V(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
+\end{equation}
 
-The Marshak boundary replaces the bracketed terms with
+The incident boundary condition for $f$ should preserve the identity
 \begin{equation*}
-  \frac{2 \gamma_0}{\gamma_1} \abs{\vec{\Omega}\vd \vec{n}
+  \phi(\vec{x},t) = \int_{S} \Iv(\vec{x},\vec{\Omega},t \ud\Omega
+  = \phi(\vec{x},t) - \int_{S} \vec{\Omega} f(\vec{x},\vec{\Omega} \ud\Omega
+  \vd \grad \phi(\vec{x},t) \,,
 \end{equation*}
+i.e., under the assumption that $f$ is rotationally invariant about the
+boundary normal,
+\begin{equation}\tagref{eq:hoBc}
+  \int_{\vec{\Omega}\vd\vec{n} > 0} (\vec{\Omega}\vd \vec{n})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega
+  =
+  \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation}
+As discussed in \S\ref{sec:adBoundary}, this is satisfied by a reflecting or
+white boundary condition. In flatland, ``rotational invariance'' has the
+interpretation not of a conical surface of angles but of two rays.
+
+If $f$ is isotropic, $1/(2\pi\sigma)$, then $\vec{d}$ simplifies:
+\begin{align*}
+  \vec{d}(\vec{x}) &= -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+  V(\abs{\vec{\Omega}\vd\vec{n}})
+  \vec{\Omega} \frac{1}{2\pi\sigma} \ud\Omega
+\\
+&= \frac{1}{2\sigma} \left( \int_{\vec{\Omega}\vd\vec{n} < 0}
+  V(\abs{\vec{\Omega}\vd\vec{n}})
+  \abs{\vec{\Omega}\vd\vec{n}}\ud\Omega\right) \vec{n}
+\\
+&= \frac{1}{2\sigma} (z_0) \,,
+\end{align*}
+and Eq.~\eqref{eq:flatAdBc} reduces to the flatland diffusion boundary
+condition:
+\begin{equation*}
+2\pi \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
+=
+\phi(\vec{x},t)
++ \frac{z_0}{\sigma} \vec{n} \vd \grad \phi(\vec{x},t)\,.
+\end{equation*}
+Here, of course, $z_0$ is the \emph{flatland} extrapolation distance from
+\S\ref{sec:flatlandV}, $z_0\approx 0.8171$.
+
+The Marshak-like approximation is $V_1(\mu) \approx \mu/2$. Substituting that
+into \eqref{eq:flatAdBc} gives
+\begin{align*}
+  2\pi \int_{\vec{\Omega}\vd\vec{n} < 0} \left[
+    \frac{1}{2} \abs{\vec{\Omega}\vd\vec{n}} \right]
+I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
+&=
+\phi(\vec{x},t)
++ 2 \left[ -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+  \left[ \frac{1}{2} \abs{\vec{\Omega}\vd\vec{n}} \right]
+  \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega \right]
+  \vd \grad \phi(\vec{x},t)
+\\
+F^-(\vec{x},t) 
+&=
+\phi(\vec{x},t)
++ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
+\end{align*}
+The boundary coefficient is:
+\begin{align*}
+  \vec{d}(\vec{x}) &= -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+  \left[ \frac{1}{2} \abs{\vec{\Omega}\vd\vec{n}} \right]
+  \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega
+  \\
+  &= \frac{\pi}{2} \int_{\vec{\Omega}\vd\vec{n} < 0} (\vec{\Omega}\vd\vec{n})
+  \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega \,.
+  \\
+  &= \frac{\pi}{2} \vec{n} \vd \int_{\vec{\Omega}\vd\vec{n} < 0} \vec{\Omega}
+  \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega \,.
+  \\ 
+  \intertext{A reflecting boundary condition for $f$ causes this integral to
+    be an even function of $\vec{\Omega}$:}
+  \vec{d}(\vec{x})
+  &= \frac{\pi}{4} \vec{n} \vd \int_{S}\vec{\Omega} \vec{\Omega}
+  f(\vec{x},\vec{\Omega}) \ud\Omega
+  \\
+  &=  \frac{\pi}{4} \vec{n} \vd \Dtens \,.
+\end{align*}
+With this result, Eq.~\eqref{eq:flatAdBc} is the Marshak boundary condition:
+\begin{equation}\label{eq:flatMarshakAdBc}
+\pi F^-(\vec{x},t) 
+=
+\phi(\vec{x},t)
++ \frac{\pi}{2}\vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
+\end{equation}
+This is virtually identical to the standard flatland diffusion Marshak boundary,
+Eq.~\eqref{eq:flatMarshak}.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Review}
+
+Anisotropic diffusion in flatland is very similar to flatland in 3-D. The
+difference lies in the value of $\Dtens$, its underlying transport formulation,
+and the boundary conditions.
+
+The low-order equation results from substituting the anisotropic Fick's law,
+Eq.~\eqref{eq:anisotropicFicks}, into the flatland conservation equation,
+Eq.~\eqref{eq:fadLoVol}:
+\begin{equation*}
+\frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
+  - \grad \vd \Dtens \vd \grad \phi(\vec{x}, t)
+  + \sigma(\vec{x}) \phi(\vec{x}, t)
+ = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,.
+\end{equation*}
+This low-order equation is identical to its 3-D counterpart, but the value of
+the anisotropic diffusion tensor $\Dtens$ will be different.
+The initial condition for the low-order unknown $\phi$ is the zeroth moment of
+the transport initial condition:
+\begin{equation*}
+  \phi(\vec{x},0) = \int_{0}^{2\pi} I^i(\vec{x},\vec{\Omega}) \ud\omega\,.
+\end{equation*}
+The Marshak boundary condition for flatland anisotropic diffusion, from
+Eq.~\eqref{eq:flatMarshakAdBc}, is:
+\begin{equation*}
+\pi F^-(\vec{x},t) 
+=
+\phi(\vec{x},t)
++ \frac{\pi}{2}\vec{n} \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
+\end{equation*}
+
+The diffusion coefficient is the second angular moment of a purely absorbing
+flatland transport solution $f$:
+\begin{equation*}
+  \Dtens(\vec{x}) \equiv \int_{0}^{2\pi} \vec{\Omega} \vec{\Omega}
+  f(\vec{x}, \vec{\Omega}) \ud\omega \,,
+\end{equation*}
+where $f$ is given in Eq.~\eqref{eq:fadFVol} as:
+\begin{equation*}
+  \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
+  + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega})
+= \frac{1}{2\pi} \,, \quad 0 \le \omega < 2\pi \,.
+\end{equation*}
+The incident boundary condition for $f$ should satisfy Eq.~\eqref{eq:hoBc},
+\begin{equation*}
+  \int_{\vec{\Omega}\vd\vec{n} > 0} (\vec{\Omega}\vd \vec{n})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega
+  =
+  \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation*}
+
+A more accurate low-order boundary condition (compared to the Marshak
+boundary condition given above), given in Eq.~\eqref{eq:flatAdBc}, uses
+transport-calculated coefficients on the exiting boundary of the problem:
+\begin{equation*}
+2\pi \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
+=
+\phi(\vec{x},t)
++ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,,
+\end{equation*}
+where
+\begin{equation}\label{eq:flatAdBoundaryIntegral}
+  \vec{d}(\vec{x}) = -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+  V(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation}
+and $V$ is well-approximated by the variational form derived in
+\S\ref{sec:varBndy}:
+\begin{equation*}
+  V(\mu) \approx V_2(\mu) =  \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 \,,
+  \quad 0 < \mu \le 1 \,.
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}

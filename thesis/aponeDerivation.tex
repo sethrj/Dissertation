@@ -7,10 +7,10 @@
 The anisotropic diffusion method is derived under the assumptions that the
 intensity has weak spatial gradients, mild anisotropy, and very slow time
 dependence. By reducing the asymptotic smallness of the time derivative, we
-derive here a new ``anisotropic'' method, anisotropic \Pone\ (\APone), that
-should produce a more accurate answer in strongly time-dependent problems. In
-the steady-state case, it reduces to the anisotropic diffusion approximation; in
-the homogeneous case, it reduces to the standard \Pone\ (spherical harmonics)
+derive a new ``anisotropic'' method, which we name anisotropic \Pone\ (\APone).
+In the steady-state case, it reduces to the anisotropic diffusion approximation;
+in
+the homogeneous case, it reduces to the standard \Pone\ (spherical harmonic)
 approximation. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -20,7 +20,7 @@ We begin with the linear, time-dependent transport equation with isotropic
 scattering. By omitting the complication of material--radiation coupling and
 nonlinearities, we may derive the \APone\ equations with a straightforward
 linear asymptotic analysis. We shall then show how the results may be applied to
-the diffusive regime of nonlinear thermal radiative transfer.
+the thermal radiative transfer equations.
 
 The linear transport equation, given in Chapter~\ref{chap:adDerivation}
 %Eqs.~\eqref{eqs:tdTransport}
@@ -58,8 +58,9 @@ and $\Iil$ is an ``initial layer'' solution. For a more detailed description of
 these, see \S\ref{sec:adDerivation} and Fig.~\ref{fig:layers}.
 
 We shall approximate the interior solution $\Iv$ using a slightly different set
-of assumptions than the anisotropic diffusion method uses. The boundary and
-initial layer solutions are used to match the resulting interior approximation
+of assumptions than were used to arrive at the anisotropic diffusion
+approximation. The boundary and
+initial layer solutions are used to match the resulting interior result
 to the transport solution at the boundary and initial time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -67,8 +68,13 @@ to the transport solution at the boundary and initial time.
 
 The interior transport equation is valid away from the problem and initial
 layer. It is identical to the interior equation in \S\ref{sec:adInterior}, and
-the first steps in developing the \APone\ approximation are identical to those
+the first steps in developing the \APone\ approximation strongly resemble those
 for the AD approximation.
+The derivation diverges because the \APone\
+assumptions do not allow the time derivative to be discarded: we instead
+``split'' the transport operator into a component that depends on angle and a
+component that depends on time. The result is an interior approximation $\Iv$
+that requires the storage of both $\phi$ and $\vec{F}$.
 
 The interior transport equation is
 \begin{equation} \tagref{eq:tdVol}
@@ -98,7 +104,8 @@ with the \emph{interior} radiation flux defined as
 \end{equation}
 
 By combining Eqs.~\eqref{eq:tdVol} and~\eqref{eq:loVol} (see
-\S\ref{sec:adInterior}), we eliminate the scattering and extraneous sources on
+\S\ref{sec:adInterior}), we eliminate the isotropic scattering and extraneous
+sources on
 the right-hand side of the transport equation to obtain
 \begin{equation}\tagref{eq:capPsiVol}
   \left[ \frac{1}{c}\pder{}{t}
@@ -111,8 +118,8 @@ the right-hand side of the transport equation to obtain
 \end{equation}
 
 Now we shall approximate Eq.~\eqref{eq:capPsiVol} by making an asymptotic ansatz
-about the behavior of $I$ and discarding ``small'' terms. Here the derivation
-diverges from the anisotropic diffusion approximation: rather than assuming
+about the behavior of $I$ and then discarding ``small'' terms. Here the
+derivation diverges from anisotropic diffusion: rather than assuming
 $\tpder{I}{t} = O(\epsilon^2)$, we take the scaling $\tpder{I}{t} =
 O(\epsilon)$. Thus the assumed magnitude of the intensity, its derivatives, and
 its anisotropy are:
@@ -124,9 +131,10 @@ its anisotropy are:
   \pder{I}{t} &= O(\epsilon) \,.
 \end{align}
 
-The stronger magnitude of the time derivative means that the time derivative in
-Eq.~\eqref{eq:capPsiVol} may not be discarded while preserving $O(epsilon^2)$
-accuracy as in the anisotropic diffusion approximation. The only asymptotically
+The stronger magnitude of the time derivative requires that the time derivative
+in Eq.~\eqref{eq:capPsiVol} must be retained to preserving $O(\epsilon^2)$
+accuracy. (This differs from anisotropic diffusion, where the term was
+discarded.) The only asymptotically
 small term is $\grad \vd\vec{F} = O(\epsilon^2)$, which we discard.
 Equation~\eqref{eq:capPsiVol} is then
 \begin{equation*}
@@ -138,7 +146,9 @@ Equation~\eqref{eq:capPsiVol} is then
 \end{equation*}
 
 Now we decompose the ``time${}+{}$leakage${}+{}$collision'' operator on the
-left-hand side:
+left-hand side into an $(\vec{x},t)$-dependent operator, an
+$(\vec{x},\vec{\Omega})$-dependent operator, and an asymptotically small
+remainder:
 \begin{equation*}
   \frac{1}{c}\pder{}{t}
   + \vec{\Omega}\vd \grad
@@ -165,13 +175,13 @@ By making the definition
   \left( \frac{1}{\sigma(\vec{x})} \frac{1}{c}\pder{}{t} + 1 \right)
   \left( \Iv(\vec{x},\vec{\Omega},t) - \frac{1}{4\pi} \phi(\vec{x},t) \right)\,,
 \end{equation}
-we obtain the following equation:
+we obtain the following ``steady-state'' equation:
 \begin{equation}\label{eq:ap1Ss}
   \left[ \vec{\Omega}\vd \grad + \sigma(\vec{x}) \right] \Psi(\vec{x},\vec{\Omega},t)
-  = - \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi (\vec{x},\vec{\Omega},t)\,.
+  = - \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi (\vec{x},t)\,.
 \end{equation}
 Here, time is a parameter, not a variable: if $\phi(\vec{x},t)$ is known,
-$\Psi(\vec{x},\vec{\Omega},t)$ can be calculated without needing any prior
+$\Psi(\vec{x},\vec{\Omega},t)$ can be calculated without knowledge of any prior
 $\phi$ or $\Psi$.
 
 Equation~\eqref{eq:ap1Ss} is very similar to Eq.~\eqref{eq:tdVolApprox1} of the
@@ -190,9 +200,10 @@ operator:
   \ud s \,.
 \end{align*}
 Taylor-expanding the non-local $\phi$ about the local point $\vec{x}$, and
-recalling the assumption that $\grad\phi = O(\epsilon)$, the above becomes
+recalling the assumption that $\grad\phi = O(\epsilon)$, we move $\phi$ outside
+the operator to obtain the following:
 \begin{align} \nonumber
-\Psi
+\Psi(\vec{x},\vec{\Omega},t)
 &= - \left[ \int_{0}^{\infty} \frac{1}{4\pi} 
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
       \ud s \right] \vec{\Omega}\vd \grad\phi(\vec{x}, t) + O(\epsilon^2)
@@ -211,8 +222,8 @@ problem as in \S\ref{sec:adInterior}:
 = \frac{1}{4\pi} \,.
 \end{equation}
 
-With an $O(\epsilon^2)$-accurate expression for $\Psi$ in hand, we return to
-Eq.~\eqref{eq:ap1capPsi} and substitute Eq.~\eqref{eq:ap1capPsiApprox}:
+We substitute the $O(\epsilon^2)$-accurate expression for $\Psi$,
+Eq.~\eqref{eq:ap1capPsiApprox}, into Eq.~\eqref{eq:ap1capPsi}:
 \begin{equation}\label{eq:ap1Interior1}
   \left( \frac{1}{\sigma(\vec{x})} \frac{1}{c}\pder{}{t} + 1 \right)
   \left( \Iv(\vec{x},\vec{\Omega},t) - \frac{1}{4\pi} \phi(\vec{x},t) \right)
@@ -226,10 +237,12 @@ left-hand side to yield the following equation:
   = - \int_{4\pi} f(\vec{x},\vec{\Omega}) \vec{\Omega} \ud\Omega
   \vd \grad \phi(\vec{x}, t) \,,
 \end{equation}
-or, multiplying through by $\sigma$,
+or, multiplying through by $\sigma$ and moving the right-hand side,
 \begin{equation}\label{eq:ap1ficksLaw1a}
-  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) + \sigma(\vec{x})\vec{F}(\vec{x},t) 
-  = - \sigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,,
+  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
+  + \sigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) 
+  + \sigma(\vec{x})\vec{F}(\vec{x},t) 
+  = 0 \,,
 \end{equation}
 where we have used the definition of the anisotropic diffusion tensor from
 Chapter~\ref{chap:adDerivation},
@@ -263,9 +276,10 @@ which is the standard \Pone\ equation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{An important substitution}
-In problem with voided regions, $\sigma\approx 0$, Eq.~\eqref{eq:ap1ficksLaw1a}
+In a voided region, $\sigma\approx 0$, Eq.~\eqref{eq:ap1ficksLaw1a}
 has a serious deficiency. The nonlocal dependence of $f$ on $\sigma$ (see
-\S\ref{sec:adVoids}) means that $\Dtens \ne 0$. Thus in a void,
+\S\ref{sec:adVoids}) prevents $\Dtens$ from ``blowing up,'' but in the \APone\
+equation, the local $\sigma=0$ eliminates two of the terms. In a void,
 Eq.~\eqref{eq:ap1ficksLaw1a} becomes the unphysical
 \begin{equation*}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) = 0\,.
@@ -277,15 +291,16 @@ To understand this behavior, we show how a similar procedure yields the standard
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) - \frac{1}{3}\grad \phi(\vec{x},t)
   + \sigma \vec{F} = 0\,.
 \end{equation*}
-Equation~\eqref{eq:ap1Ss} is an $O(\epsilon^2)$-accurate approximation:
+We return to Equation~\eqref{eq:ap1Ss}, just after we split the time and angle
+operators with an asymptotic error of $O(\epsilon^2)$:
 \begin{equation*}
   \Psi(\vec{x},\vec{\Omega},t)
   = - \left[ \vec{\Omega}\vd \grad + \sigma(\vec{x}) \right]\inv \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi (\vec{x},t)\,.
 \end{equation*}
 The term in brackets can be asymptotically expanded as
 \begin{equation*}
-  \left[ \epsilon \vec{\Omega}\vd \grad + \sigma(\vec{x}) \right]\inv
-  \sim \frac{1}{\sigma(\vec{x})} \left( 1
+  \left[ \epsilon \vec{\Omega}\vd \grad + \sigma \right]\inv
+  \sim \frac{1}{\sigma} \left( 1
   - \epsilon \frac{1}{\sigma} \vec{\Omega}\vd \grad + O(\epsilon^2) \right)\,.
 \end{equation*}
 Substituting into Eq.~\eqref{eq:ap1capPsiApprox} gives
@@ -293,8 +308,7 @@ Substituting into Eq.~\eqref{eq:ap1capPsiApprox} gives
   \left( \frac{1}{\sigma(\vec{x})} \frac{1}{c}\pder{}{t} + 1 \right)
   \left( \Iv(\vec{x},\vec{\Omega},t) - \frac{1}{4\pi} \phi(\vec{x},t) \right)
   = - \frac{1}{\sigma(\vec{x})} \left( 1 - \frac{1}{\sigma} \vec{\Omega}\vd
-  \grad \right) \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi
-  (\vec{x},,t) \,.
+  \grad \right) \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x},t) \,.
 \end{equation*}
 The first angular moment of this equation is:
 \begin{equation*}
@@ -310,15 +324,16 @@ Multiplying by $\sigma$ gives the \Pone\ equation:
 \end{equation*}
 
 The asymptotic expansion used in the derivation of the \Pone\ equation used a
-local approximation to $\sigma$ that corresponded to the other local $\sigma$.
+local approximation to $\sigma$ that corresponded to the local $\sigma$ in the
+split operator.
 In contrast, the derivation of the ``anisotropic''
 equation~\eqref{eq:ap1ficksLaw1a} uses both a local $\sigma$ and a nonlocal $f$.
 To rectify this imbalance, we wish to replace the $1/\sigma$ with a function
-that does not blow up as $\sigma\to 0$ but which becomes $1/\sigma$ in the
+that does not blow up as $\sigma\to 0$ but which approaches $1/\sigma$ in the
 diffusive limit.
 
 We make the following substitution, which is accurate to $O(\epsilon^2)$ in the
-diffusive limit:
+diffusive limit (where the opacity has weak spatial derivatives):
 \begin{align*}
   \frac{1}{\sigma(\vec{x})}
   &\approx \int_{4\pi} f(\vec{x},\vec{\Omega}) \ud \Omega
@@ -326,11 +341,11 @@ diffusive limit:
   &= \int_{4\pi} (\vec{\Omega} \vd \grad + \sigma(\vec{x}) )\inv
   \frac{1}{4\pi} \ud \Omega
   \\
-  &= \int_{4\pi} \frac{1}{\sigma} \left( \frac{1}{\sigma} \vec{\Omega} \vd
-  \grad + 1 \right)\inv \frac{1}{4\pi} \ud \Omega
+  &= \int_{4\pi} \left( \frac{1}{\sigma} \vec{\Omega} \vd
+  \grad + 1 \right)\inv \frac{1}{4\pi\sigma} \ud \Omega
   \\
-  &\sim \int_{4\pi} \frac{1}{\sigma} \left(1 - \frac{1}{\sigma} \vec{\Omega} \vd
-  \grad + O(\epsilon^2) \right) \frac{1}{4\pi} \ud \Omega
+  &\sim \int_{4\pi} \left(1 - \frac{1}{\sigma} \vec{\Omega} \vd
+  \grad + O(\epsilon^2) \right) \frac{1}{4\pi\sigma} \ud \Omega
   \\
   &\sim \frac{1}{\sigma} + O(\epsilon^2) \,.
 \end{align*}
@@ -347,17 +362,24 @@ where we have defined
   \sim \frac{1}{\sigma(\vec{x})} + O(\epsilon^2)\,.
 \end{equation}
 
-Now Eq.~\eqref{eq:ap1ficksLaw1a} is replaced by
+Now Eq.~\eqref{eq:ap1ficksLaw1a} is replaced by the new anisotropic \Pone
+equation:
 \begin{equation}\label{eq:ap1ficksLawFinal}
-  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
-  = - \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
+  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
+  + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
+  + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
+  = 0 \,.
 \end{equation}
+This is a closure for the unknown $\vec{F}$ in the conservation
+equation~\eqref{eq:loVol}; $\Iv$ in the interior is thus approximated by
+the unknowns $\phi$ and $\vec{F}$ using the coefficients $\varsigma$ and
+$\Dtens$ calculated from the purely absorbing transport equation for $f$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{The interior approximate intensity}
 
-We return to Eq.~\eqref{eq:ap1Interior1}, the expression for the approximate
-intensity in the interior, and replace $\sigma$ with $\varsigma$:
+We return to Eq.~\eqref{eq:ap1Interior1} and replace $\sigma$ with $\varsigma$
+as discussed in the previous section:
 \begin{equation*}
   \left( \frac{1}{\varsigma(\vec{x})} \frac{1}{c}\pder{}{t} + 1 \right)
   \left( \Iv(\vec{x},\vec{\Omega},t) - \frac{1}{4\pi} \phi(\vec{x},t) \right)
@@ -373,9 +395,9 @@ for the \APone\ approximation to the radiation intensity:
   \left( \frac{1}{\varsigma(\vec{x})} \frac{1}{c}\pder{}{t} + 1 \right)\inv 
   \grad \phi(\vec{x}, t) \,.
 \end{equation}
-This expression is unwieldy both in presentation and interpretation. We
-therefore desire to rewrite it as a function of the known, concrete $f$ and its
-second moment $\Dtens$, as and of the unknown $\phi$ and $\vec{F}$ that are
+This expression is unwieldy. We
+therefore rewrite it as a function of the known $f$ and its
+second moment $\Dtens$, and of the unknown $\phi$ and $\vec{F}$ that are
 solved using the conservation equation~\eqref{eq:loVol} and
 the \APone\ equation~\eqref{eq:ap1ficksLawFinal}.
 
@@ -408,14 +430,18 @@ This is the anisotropic \Pone\ approximation to the radiation intensity, where
 $\phi$ and $\vec{F}$ are the solutions of Eqs.~\eqref{eq:loVol} and
 Eq.~\eqref{eq:ap1ficksLawFinal}.
 
+In a steady-state problem, $\vec{F} = -\Dtens \vd \grad \phi$, and the above
+equation reduces to the anisotropic diffusion approximation to $\Iv$.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Initial layer}
 
-Formally, as applied in Chapter~\ref{chap:adDerivation}, the initial layer
+Formally, as shown in Chapter~\ref{chap:adDerivation}, the initial layer
 solution matches the transport initial condition,
 Eq.~\eqref{eq:tdTransportInit}, to the interior approximation of the radiation
 intensity, which in the case of \APone\ is Eq.~\eqref{eq:ap1InteriorFinal}. From
-Eq.~\eqref{eq:tdSuperposition}, 
+Eq.~\eqref{eq:tdSuperposition}, the initial conditions of the original transport
+equation, the interior approximation, and the initial layer satisfy:
 \begin{equation*}
   I^i(\vec{x},\vec{\Omega})
   = \Iv(\vec{x},\vec{\Omega},0) + \Iil(\vec{x},\vec{\Omega},0)\,,
@@ -449,15 +475,19 @@ equation~\eqref{eq:tdSuperposition}:
   \quad \vec{x}\in \partial V, \vec{\Omega}\vd \vec{n} < 0\,.
 \end{equation*}
 As described in \S\ref{sec:adBoundary}, the condition that causes the boundary
-layer equation to vanish in the interior is 
+layer solution to vanish in the interior is 
 \begin{equation}\tagref{eq:tdKillBndy}
   \int_{\vec{\Omega}\vd\vec{n} < 0}
   W(\abs{\vec{\Omega}\vd\vec{n}}) \Ibl(\vec{x},\vec{\Omega},t) \ud\Omega
   = 0\,,
   \quad \vec{x}\in \partial V ,\ \vec{\Omega}\vd \vec{n} < 0.
 \end{equation}
+(The function $W$ is related to the Chandrasekhar function, $W(\mu)\approx \mu +
+\frac32 \mu^2$.)
 
-Operating on the superposition equation at the boundary, and substituting the
+Operating by $ \int_{\vec{\Omega}\vd\vec{n} < 0}
+W(\abs{\vec{\Omega}\vd\vec{n}}) (\cdot) \ud\Omega$ on the superposition
+equation at the boundary, and substituting the
 \APone\ approximation in the interior from Eq.~\eqref{eq:ap1InteriorFinal}, we
 obtain the following relation:
 \begin{align*}
@@ -478,9 +508,10 @@ The quantity in brackets is the same vector $\vec{d}$ as in the anisotropic
 diffusion approximation,
 \begin{equation} \tagref{eq:adBoundaryIntegral2}
   \vec{d}(\vec{x}) = -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
-\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
 \end{equation}
-so the anisotropic \Pone\ boundary condition is:
+Substituting this into the previous equation and multiplying by 2, we arrive at
+the anisotropic \Pone\ boundary condition:
 \begin{equation} \label{eq:ap1BoundaryCondition}
   2 \int_{\vec{\Omega}\vd\vec{n} < 0}
   W(\abs{\vec{\Omega}\vd\vec{n}}) I^b(\vec{x},\vec{\Omega},t) \ud\Omega
@@ -515,7 +546,7 @@ which can be satisfied by a white or a reflecting boundary on $f$.
 Recall that under the assumption that $f$ is rotationally invariant about
 $\vec{n}$ at the boundary, and if the Marshak approximation $W(\mu) \approx
 2\mu$ is used, then $\vec{d} = \vec{n} \vd \Dtens$, canceling $\Dtens\inv$ in
-the above expression to yield the standard Marshak boundary condition
+the above expression to yield the standard Marshak boundary condition:
 \begin{equation*}
   4 F^-(\vec{x},t) =  \phi(\vec{x},t) - 2 \vec{n} \vd \vec{F}(\vec{x},t)\,,
 \end{equation*}
@@ -531,8 +562,8 @@ derived a new ``anisotropic \Pone'' approximation to time-dependent radiation
 transport. Like the anisotropic diffusion approximation, it uses
 a simple, transport-calculated diffusion tensor in conjunction with a low-order
 conservation equation. Yet like the \Pone\ method, the low-order unknowns now
-comprise both $\phi$ and $\vec{F}$, the zeroth and first moments of the
-radiation field.
+comprise not only $\phi$ but also $\vec{F}$, the zeroth and first moments of the
+radiation field, rather than merely the zeroth.
 
 The low-order conservation equation~\eqref{eq:loVol} is:
 \begin{equation*}
@@ -546,8 +577,10 @@ This is coupled with Eq.~\eqref{eq:ap1ficksLawFinal}, which acts as a
 replacement to Fick's law by relating the radiation flux $\vec{F}$ to the
 scalar intensity $\phi$:
 \begin{equation*}
-  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
-  = - \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
+  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
+  + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
+  + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
+  = 0 \,.
 \end{equation*}
 In this equation are embedded two moments of the simple transport solution $f$:
 the zeroth moment from Eq.~\eqref{eq:varSigma},
@@ -585,7 +618,7 @@ a steady-state, purely absorbing transport
 equation described by Eq.~\eqref{eq:fFullVol}:
 \begin{equation*}
   \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
-  + \sigma f (\vec{x}, \vec{\Omega}) 
+  + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega}) 
   = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,,
 \end{equation*}
 with boundary conditions, usually taken to be reflecting, that satisfy
@@ -601,15 +634,33 @@ Eq.~\eqref{eq:hoBc}:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
 
-
+Because the transport equation for $f$ in anisotropic \Pone\ is the same as in
+anisotropic diffusion, the diffusion tensor $\Dtens$ is also the same, and much
+of the discussion there also applies here.
+The transport calculation for $f$ has no scattering source to converge; the
+anisotropic diffusion tensor $\Dtens$ is therefore computationally inexpensive.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Steady-state limit}
-Just as the \Pone\ method limits to standard diffusion as $t\to\infty$, the
-\APone\ method limits to the anisotropic diffusion method.
+Just as the \Pone\ method limits to standard diffusion as $\tpder I t \to 0$,
+the \APone\ method limits to the anisotropic diffusion method. We return to
+Eq.~\eqref{eq:ap1ficksLawFinal}:
 \begin{equation*}
-  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
-  = - \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
+  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
+  + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
+  + \varsigma(\vec{x})\vec{F}(\vec{x},t)
+  = 0 \,.
+\end{equation*}
+Letting $\frac{1}{c}\pder{\vec{F}}{t}\to 0$,
+\begin{equation*}
+  \varsigma(\vec{x})\vec{F}(\vec{x},t)
+  = -\varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
+\end{equation*}
+Dividing through by $\varsigma$, which is strictly positive, we obtain the
+anisotropic Fick's law of Eq.~\eqref{eq:anisotropicFicks}:
+\begin{equation*}
+ \vec{F}(\vec{x},t)
+  = -\varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,. 
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -625,7 +676,7 @@ The time-dependent \Pone\ equation is
   = 0 \,.
 \end{equation*}
 
-In a homogeneous problem, the purely absorbing transport problem for $f$ has the
+When $\sigma$ is constant, the purely absorbing transport problem for $f$ has the
 constant solution $f=1/(4\pi\sigma)$. The nonlocal opacity, $\varsigma$ from
 Eq.~\eqref{eq:varSigma}, becomes
 \begin{equation*}
@@ -641,9 +692,10 @@ The anisotropic diffusion tensor likewise simplifies to
 \end{equation*}
 Substituting these into the \APone\ equation~\eqref{eq:ap1ficksLawFinal}, we obtain
 \begin{equation*}
-  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) + \sigma\vec{F}(\vec{x},t) 
-  = - \sigma \left[ \frac{1}{3\sigma}\Identitytens \right]
-  \vd \grad \phi(\vec{x}, t) \,,
+  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
+  + \sigma \left[ \frac{1}{3\sigma}\Identitytens \right] \vd \grad \phi(\vec{x}, t)
+  + \sigma\vec{F}(\vec{x},t) 
+  = 0 \,,
 \end{equation*}
 which is the \Pone\ approximation:
 \begin{equation*}
@@ -657,8 +709,12 @@ which is the \Pone\ approximation:
 
 As with the anisotropic diffusion approximation in
 Chapter~\ref{chap:adDerivation}, the \APone\ method was derived for a linear,
-time-dependent transport problem with isotropic scattering. The same arguments
-apply. Furthermore, in the diffusive limit, $\Dtens \to \frac{1}{3\sigma} +
+time-dependent transport problem with isotropic scattering. We again argue that
+it has the proper behavior in the diffusive limit of nonlinear radiation
+transport. We note that the semi-implicit linearization of the TRT
+equations result in a linear transport equation with isotropic scattering, the
+subject of the asymptotic analysis in this section.
+Furthermore, in the diffusive limit, $\Dtens \to \frac{1}{3\sigma} +
 O(\epsilon^2)$, and the \APone\ equation reduces to the \Pone\ equation. From
 \cite{Mor2000}, the \Pone\ approximation has the correct asymptotic behavior in
 the diffusive limit; we therefore assert that the \APone\ approximation does
@@ -669,5 +725,7 @@ as well.
 \section{Summary}
 The anisotropic \Pone\ approximation was derived using the same procedure as 
 time-dependent anisotropic diffusion. The assumption of a stronger time
-dependence of $I$ led to \dots
+dependence of the radiative intensity led to a larger unknown space---now the
+zeroth \emph{and} first moments of $I$---and we therefore expect this method to
+perform better in problems with rapid transient behavior.
 
