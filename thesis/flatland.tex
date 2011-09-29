@@ -806,7 +806,7 @@ different extrapolation distance $\frac{\pi}{8} + \frac{4}{3\pi} \approx
 
 Recall from the discussion of boundary conditions in
 Chapter~\ref{chap:adDerivation} that to eliminate the boundary layer solution
-in the interior of a 3-D problem, the necessary condition was
+in the interior of a 3-D problem, the necessary condition is
 \begin{equation}\tagref{eq:tdKillBndy}
   \int_{\vec{\Omega}\vd\vec{n} < 0}
   W(\abs{\vec{\Omega}\vd\vec{n}}) \Ibl(\vec{x},\vec{\Omega}) \ud\Omega
@@ -824,24 +824,24 @@ The exact extrapolation distance is the first moment of $W$:
   z_0 = \int_{0}^{1} \mu W(\mu) \ud\mu
   \approx 0.7104\,,
 \end{equation*}
-and the variational approximation gives the extrapolation distance
+and the variational approximation gives the following extrapolation distance:
 \begin{equation*}
   z_0 \approx \int_{0}^{1} \mu W_2(\mu) \ud\mu = \tfrac{17}{24}
   \approx 0.7083\,.
 \end{equation*}
-Similarly, the 3-D Marshak boundary condition used
+Similarly, the 3-D Marshak boundary condition uses
 \begin{equation*}
   W(\mu) \approx W_1(\mu) \equiv 2 \mu \,,
 \end{equation*}
-which gave the Marshak extrapolation distance
+which gives the Marshak extrapolation distance
 \begin{equation*}
   z_0 \approx \int_{0}^{1} \mu W_1(\mu) \ud\mu = \tfrac{2}{3}
   \approx 0.6667\,.
 \end{equation*}
 
-In our discussion of flatland boundary conditions, we have essentially been
-investigating flatland equivalent of the $W$ function, which we denote as $V$,
-that preserves the interior solution:
+In our analysis of flatland boundary conditions, we have essentially been
+investigating flatland equivalent of the $W$ function, which we term ``$V$'',
+that preserves the interior solution of a flatland problem:
 \begin{equation}\label{eq:flatKillBndy}
 \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
 I^b(\vec{x}, \vec{\Omega}) \ud\Omega
@@ -849,13 +849,13 @@ I^b(\vec{x}, \vec{\Omega}) \ud\Omega
 \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
 I_\text{approx}(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation}
-The ``true'' function $V$ could be calculated, for example, by using a
+The ``true'' function $V$ might be calculable, for example, by using a
 flatland formulation of the $F_N$ method \cite{Sie1979}, but we instead used a
 ``variational'' analysis and the standard Marshak treatment to approximate $V$.
 
 We define $V(\mu)$ on the domain $0 < \mu \le 1$, where for our purposes $\mu =
 \abs{\vec{\Omega} \vd \vec{n}}$, and normalize the function and its
-approximations so that, in flatland geometry:
+approximations so that in flatland geometry:
 \begin{equation*}
   \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}}) \ud\Omega
   = \int_{0}^{\pi} V(\sin\omega) \ud\omega
@@ -899,10 +899,11 @@ is the less accurate Eq.~\eqref{eq:flatMarshak}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion}
-The derivation of the anisotropic diffusion method presented in
+The anisotropic diffusion method presented in
 chapter~\ref{chap:adDerivation} needs little modification to be formulated
 in the flatland geometry. The most notable change is in formulating the
-low-order boundary conditions.
+low-order boundary conditions, which use the flatland function ``$V$'' rather
+than the 3-D Chandrasekhar ``$W$.''
 
 We begin with the time-dependent transport equation in the general-geometry
 form,
@@ -964,9 +965,9 @@ The zeroth moment, $\int_S (\cdot) \ud\Omega$, is the conservation equation:
 This equation is identical to the 3-D conservation equation in
 Eq.~\eqref{eq:loVol} because $\int_S \ud\Omega = \gamma_0$.
 
-By multiplying the conservation by $\frac{1}{\gamma_0}$ and subtracting from
-Eq.~\eqref{eq:fadVol}, we cancel the isotropic sources on the right-hand side to
-obtain
+Multiplying the conservation equation by $\frac{1}{\gamma_0}$ and subtracting
+from Eq.~\eqref{eq:fadVol}, we cancel the isotropic sources on the right-hand
+side to obtain
 \begin{equation*}
   \left[ \frac{1}{c}\pder{}{t}
   + \vec{\Omega}\vd \grad
@@ -986,9 +987,9 @@ gradients in space, very weak gradients in time, and only mild anisotropy:
   \grad I &= O(\epsilon), &
   \pder{I}{t} &= O(\epsilon^2) \,.
 \end{align}
-
-Then, discarding the $O(\epsilon^2)$ time derivative and $\grad \vd\vec{F}$, the
-prior equation is approximated as:
+With this scaling, the time derivative and $\grad \vd\vec{F}$ are
+$O(\epsilon^2)$, and we discard them to obtain the following asymptotically
+valid approximation:
 \begin{equation*}
   \left[ \vec{\Omega}\vd \grad + \sigma \right]
   \left( \Iv - \frac{1}{\gamma_0} \phi \right)
@@ -1080,53 +1081,54 @@ I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
  \vec{\Omega} f(\vec{x}, \vec{\Omega})  \ud\Omega 
  \vd \grad \phi(\vec{x},t) \,.
 \end{align*}
-Multiplying by $2\pi$, we obtain the flatland anisotropic diffusion boundary
+Multiplying by $2\pi$, we arrive at the flatland anisotropic diffusion boundary
 condition:
 \begin{equation}\label{eq:flatAdBc}
 2\pi \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
 I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
 =
 \phi(\vec{x},t)
-+ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,,
++ \frac{\pi}{2} \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,,
 \end{equation}
 where we have defined the flatland equivalent of
-Eq.~\eqref{eq:adBoundaryIntegral} to be
+Eq.~\eqref{eq:adBoundaryIntegral}, the flatland anisotropic diffusion boundary
+condition, to be
 \begin{equation}\label{eq:flatAdBoundaryIntegral}
-  \vec{d}(\vec{x}) = -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+  \vec{d}(\vec{x}) = -4\int_{\vec{\Omega}\vd\vec{n} < 0}
   V(\abs{\vec{\Omega}\vd\vec{n}})
 \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
 \end{equation}
 
 The incident boundary condition for $f$ should preserve the identity
 \begin{equation*}
-  \phi(\vec{x},t) = \int_{S} \Iv(\vec{x},\vec{\Omega},t \ud\Omega
-  = \phi(\vec{x},t) - \int_{S} \vec{\Omega} f(\vec{x},\vec{\Omega} \ud\Omega
-  \vd \grad \phi(\vec{x},t) \,,
+  \phi(\vec{x},t) = \int_{S} \Iv(\vec{x},\vec{\Omega},t) \ud\Omega
+  = \phi(\vec{x},t) - \int_{S} \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega
+  \vd \grad \phi(\vec{x},t) \,.
 \end{equation*}
-i.e., under the assumption that $f$ is rotationally invariant about the
-boundary normal,
-\begin{equation}\tagref{eq:hoBc}
+Under the assumption that $f$ is rotationally invariant about the
+boundary normal, the above relationship reduces to Eq.~\eqref{eq:hoBc}
+\begin{equation*}
   \int_{\vec{\Omega}\vd\vec{n} > 0} (\vec{\Omega}\vd \vec{n})
   f(\vec{x}, \vec{\Omega}) \ud\Omega
   =
   \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
-\end{equation}
+\end{equation*}
 As discussed in \S\ref{sec:adBoundary}, this is satisfied by a reflecting or
 white boundary condition. In flatland, ``rotational invariance'' has the
 interpretation not of a conical surface of angles but of two rays.
 
 If $f$ is isotropic, $1/(2\pi\sigma)$, then $\vec{d}$ simplifies:
 \begin{align*}
-  \vec{d}(\vec{x}) &= -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+  \vec{d}(\vec{x}) &= -4\int_{\vec{\Omega}\vd\vec{n} < 0}
   V(\abs{\vec{\Omega}\vd\vec{n}})
   \vec{\Omega} \frac{1}{2\pi\sigma} \ud\Omega
 \\
-&= \frac{1}{2\sigma} \left( \int_{\vec{\Omega}\vd\vec{n} < 0}
+&= \frac{2}{\pi\sigma} \left( \int_{\vec{\Omega}\vd\vec{n} < 0}
   V(\abs{\vec{\Omega}\vd\vec{n}})
   \abs{\vec{\Omega}\vd\vec{n}}\ud\Omega\right) \vec{n}
 \\
-&= \frac{1}{2\sigma} (z_0) \,,
+&= \frac{2}{\pi\sigma} (z_0) \,,
 \end{align*}
 and Eq.~\eqref{eq:flatAdBc} reduces to the flatland diffusion boundary
 condition:
@@ -1148,37 +1150,34 @@ into \eqref{eq:flatAdBc} gives
 I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
 &=
 \phi(\vec{x},t)
-+ 2 \left[ -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
-  \left[ \frac{1}{2} \abs{\vec{\Omega}\vd\vec{n}} \right]
-  \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega \right]
-  \vd \grad \phi(\vec{x},t)
++ \frac{\pi}{2} \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)
 \\
 F^-(\vec{x},t) 
 &=
 \phi(\vec{x},t)
-+ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
++ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t) \,,
 \end{align*}
-The boundary coefficient is:
+where the boundary coefficient is:
 \begin{align*}
-  \vec{d}(\vec{x}) &= -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+  \vec{d}(\vec{x}) &= -4\int_{\vec{\Omega}\vd\vec{n} < 0}
   \left[ \frac{1}{2} \abs{\vec{\Omega}\vd\vec{n}} \right]
   \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega
   \\
-  &= \frac{\pi}{2} \int_{\vec{\Omega}\vd\vec{n} < 0} (\vec{\Omega}\vd\vec{n})
-  \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega \,.
+  &= 2 \int_{\vec{\Omega}\vd\vec{n} < 0} (\vec{\Omega}\vd\vec{n})
+  \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega
   \\
-  &= \frac{\pi}{2} \vec{n} \vd \int_{\vec{\Omega}\vd\vec{n} < 0} \vec{\Omega}
+  &=2 \vec{n} \vd \int_{\vec{\Omega}\vd\vec{n} < 0} \vec{\Omega}
   \vec{\Omega} f(\vec{x},\vec{\Omega}) \ud\Omega \,.
   \\ 
-  \intertext{A reflecting boundary condition for $f$ causes this integral to
+  \intertext{A reflecting boundary condition on $f$ causes this integral to
     be an even function of $\vec{\Omega}$:}
   \vec{d}(\vec{x})
-  &= \frac{\pi}{4} \vec{n} \vd \int_{S}\vec{\Omega} \vec{\Omega}
+  &= \vec{n} \vd \int_{S}\vec{\Omega} \vec{\Omega}
   f(\vec{x},\vec{\Omega}) \ud\Omega
   \\
-  &=  \frac{\pi}{4} \vec{n} \vd \Dtens \,.
+  &= \vec{n} \vd \Dtens \,.
 \end{align*}
-With this result, Eq.~\eqref{eq:flatAdBc} is the Marshak boundary condition:
+Thus the Marshak-like boundary condition for flatland anisotropic diffusion is:
 \begin{equation}\label{eq:flatMarshakAdBc}
 \pi F^-(\vec{x},t) 
 =
@@ -1200,9 +1199,10 @@ Eq.~\eqref{eq:anisotropicFicks}, into the flatland conservation equation,
 Eq.~\eqref{eq:fadLoVol}:
 \begin{equation*}
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
-  - \grad \vd \Dtens \vd \grad \phi(\vec{x}, t)
+  - \grad \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
   + \sigma(\vec{x}) \phi(\vec{x}, t)
- = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,.
+  = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,,\quad \vec{x}\in V\,,
+  0 \le t < \infty\,.
 \end{equation*}
 This low-order equation is identical to its 3-D counterpart, but the value of
 the anisotropic diffusion tensor $\Dtens$ will be different.
@@ -1230,7 +1230,7 @@ where $f$ is given in Eq.~\eqref{eq:fadFVol} as:
 \begin{equation*}
   \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
   + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega})
-= \frac{1}{2\pi} \,, \quad 0 \le \omega < 2\pi \,.
+= \frac{1}{2\pi} \,, \quad \vec{x}\in V\,, 0 \le \omega < 2\pi \,.
 \end{equation*}
 The incident boundary condition for $f$ should satisfy Eq.~\eqref{eq:hoBc},
 \begin{equation*}
@@ -1238,7 +1238,7 @@ The incident boundary condition for $f$ should satisfy Eq.~\eqref{eq:hoBc},
   f(\vec{x}, \vec{\Omega}) \ud\Omega
   =
   \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
-  f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+  f(\vec{x}, \vec{\Omega}) \ud\Omega\,, \quad \vec{x}\in \partial V \,.
 \end{equation*}
 
 A more accurate low-order boundary condition (compared to the Marshak
@@ -1270,8 +1270,9 @@ The reduced phase space of flatland geometry makes it computationally less
 expensive than 2-D geometry. In Monte Carlo
 implementations, fewer random numbers are sampled per event and fewer expensive
 transcendental functions are evaluated. Additionally, the smaller phase space
-implies that fewer particles need be run to achieve a comparable statistical
-accuracy as in 2-D. In the discrete ordinates method, only one polar angle $\mu=0$
+implies that fewer particles need be run to achieve a statistical
+accuracy comparable to a 2-D problem. In the discrete ordinates method, only
+one polar angle $\mu=0$
 needs to be accounted for. The correspondingly smaller quadrature set reduces
 the cost of a transport sweep and the computational memory burden.
 

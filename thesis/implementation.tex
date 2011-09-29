@@ -570,6 +570,39 @@ simpler one.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Incident boundary conditions} \label{sec:discreteBc}
+
+The anisotropic diffusion approximation uses a special boundary condition:
+\begin{equation} \tagref{eq:loBc}
+2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x},\vec{\Omega},t) \ud\Omega
+=
+\phi(\vec{x},t)
++ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,.
+\end{equation}
+The boundary coefficient is a particular angular moment of $f$, the purely
+absorbing transport solution, on the boundary:
+\begin{equation}\tagref{eq:adBoundaryIntegral}
+  \vec{d}(\vec{x}) = -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
+\end{equation}
+In the case that $f$ is rotationally invariant about the outer boundary, which
+we assume, the above equation simplifies to Eq.~\eqref{eq:adBoundaryIntegral2}:
+\begin{equation*}
+  \vec{d}(\vec{x})
+  = \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}
+  \abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vec{n}
+  \equiv d(\vec{x}) \vec{n}\,,
+\end{equation*}
+so the anisotropic diffusion boundary condition is
+\begin{equation*}
+2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+I^b(\vec{x},\vec{\Omega},t) \ud\Omega
+=
+\phi(\vec{x},t)
++ 2 d(\vec{x}) \vec{n} \vd \grad \phi(\vec{x},t)\,.
+\end{equation*}
+
 (Do I show how to write boundary conditions for these schemes? I am sure that it
 has been done before.)
 
