@@ -4,6 +4,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{fourier}
 \usepackage{microtype}
+\usepackage{amsmath}
+\input{SRJinclude}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \author{Seth R.~Johnson}
@@ -23,23 +25,43 @@ Transport}
 
 % ABSTRACT: up to 350 words ; vim: [select] g CTRL+g
 \begin{finalabstract}
-Motivated by the Center for Radiative Shock Hydrodynamics (CRASH) uncertainty
-quantification project, which needs to simulate hundreds of instances of a
-complex multiphysics problem, we desire a computational method more accurate
-than diffusion
-but less costly than time-dependent transport. We believe we have found this
-middle ground: an anisotropic diffusion (AD) method that uses inexpensive
-transport-calculated AD coefficients to solve the thermal radiative transfer
-equations.
 
-Using the integral transport equation for the angular intensity, we derive an
-expression for the radiation flux that depends on a non-local function of the
-opacity. This nonlocal function is the solution of a purely absorbing transport
-equation with albedo boundary conditions, and the function's second angular
-moment is the anisotropic diffusion tensor. A system of low-order equations
-solves for the scalar intensity using the AD coefficients. To demonstrate the
-AD method's speed and efficacy, we simulate a mock-up of the CRASH project's
-problem of interest, radiation flow down a channel in ``flatland'' geometry.
+In this thesis, we develop and numerically test two approximations to
+time-dependent radiation transport with the goal of better accuracy than
+diffusion and significantly lower computational cost compared to
+transport. The first method is the nascent anisotropic diffusion (AD)
+approximation, which we extend to time-dependent, finite problems; the
+second is a novel anisotropic \Pone-like (\APone) approximation. These methods
+are ``anisotropic'' in that, rather than operating under the assumption of
+linearly anisotropic radiation, they incorporate an arbitrary amount of
+anisotropy via a transport-calculated diffusion tensor. This anisotropic
+diffusion coefficient is the second angular moment of a simple, purely
+absorbing transport problem.
+
+Much of the computational testing of these new methods is performed in
+``flatland'' geometry, a fictional two-dimensional universe that provides a
+realistic but computationally simpler testbed. As work ancillary to anisotropic
+diffusion and the numerical experiments,a complete description
+of flatland diffusion, including boundary conditions, is developed. We also
+provide methodologies for implementing both Monte Carlo and \SN\ transport in
+flatland.
+
+The two anisotropic methods, along with a ``flux limited'' modification to
+anisotropic diffusion, are tested in a variety of problems. Some aspects of the
+theory, including the newly formulated boundary conditions, are tested with
+diffusive steady-state problems. Next, we compare the new methods against
+existing ones for linear, time-dependent radiation transport. Finally, we
+investigate the efficacy and performance of the anisotropic methods in a variety
+of thermal radiative transfer (TRT) computational experiments.
+
+The culmination of the TRT experiments is inspired by the Center for
+Radiative Shock Hydrodynamics (CRASH) uncertainty quantification project, which
+needs to simulate hundreds of instances of a complex multiphysics problem.
+Time-dependent transport is too expensive computationally, yet standard
+diffusion methods do not provide the desired accuracy: this is the particular
+regime of applicability for the new anisotropic methods. We simulate a mock-up
+of the CRASH project's problem of interest, radiation flow down a channel in
+``flatland'' geometry.
 \end{finalabstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

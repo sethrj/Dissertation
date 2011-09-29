@@ -1155,7 +1155,7 @@ I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
 F^-(\vec{x},t) 
 &=
 \phi(\vec{x},t)
-+ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t) \,,
++ \frac{\pi}{2} \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t) \,,
 \end{align*}
 where the boundary coefficient is:
 \begin{align*}
@@ -1249,11 +1249,11 @@ transport-calculated coefficients on the exiting boundary of the problem:
 I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
 =
 \phi(\vec{x},t)
-+ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,,
++ \frac{\pi}{2} \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,,
 \end{equation*}
 where
-\begin{equation}\label{eq:flatAdBoundaryIntegral}
-  \vec{d}(\vec{x}) = -\pi\int_{\vec{\Omega}\vd\vec{n} < 0}
+\begin{equation}\tagref{eq:flatAdBoundaryIntegral}
+  \vec{d}(\vec{x}) = -4\int_{\vec{\Omega}\vd\vec{n} < 0}
   V(\abs{\vec{\Omega}\vd\vec{n}})
 \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
 \end{equation}

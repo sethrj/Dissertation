@@ -1,4 +1,4 @@
-\documentclass[twoside,draft]{umthesis}
+\documentclass[twoside]{umthesis}
 %\documentclass{umthesis}
 %\documentclass[draft]{umthesis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -52,6 +52,20 @@
 }
 \renewcommand{\enumhook}{\itemhook}
 
+\makeatletter
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+                                     {-2.5ex  \@minus -.2ex}%
+                                     {1.5ex \@minus .2ex}%
+                                     {\normalfont\Large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-1.75ex  \@minus -.2ex}%
+                                     {1.25ex \@minus .2ex}%
+                                     {\normalfont\large\bfseries}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+                                     {-1.5ex  \@minus -.2ex}%
+                                     {1.25ex \@minus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\makeatother  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \author{Seth R.~Johnson}
 \title{Anisotropic Diffusion Approximations for Time-dependent Particle
@@ -112,7 +126,7 @@ For in much wisdom is much vexation,\hfill\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{acknowledgments}
-  To be revealed dramatically.
+  TBD
 \begin{comment}
   This dissertation would not have been possible without a lifetime of others
   building me up. The foremost of these mentors are my parents, who helped my
