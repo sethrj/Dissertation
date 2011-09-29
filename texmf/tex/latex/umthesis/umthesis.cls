@@ -82,15 +82,19 @@
 \RequirePackage{ifthen} % advanced control structures
 \RequirePackage{etex} % enable advanced tex features, particularly don't limit the number of dimensions to 256
 
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+% from http://tex.stackexchange.com/questions/12933/new-options-and-loaded-class-options-bug/12947#12947
+\newboolean{@myopt@oneside}
+\setboolean{@myopt@oneside}{true}
+\DeclareOption{oneside}{\setboolean{@myopt@oneside}{true}}
+\DeclareOption{twoside}{\setboolean{@myopt@oneside}{false}}
 
 % These are the default options.
-\ExecuteOptions{12pt,openany,oneside}
-\ProcessOptions\relax
-
-\PassOptionsToClass{oneside,openany}{book}
-
-\LoadClass[letterpaper]{book}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+\ProcessOptions*
+\ifthenelse{\boolean{@myopt@oneside}}
+    {\PassOptionsToClass{openany,oneside}{book}}
+    {\PassOptionsToClass{openright,twoside}{book}}
+\LoadClass[12pt,letterpaper]{book}
 
 \renewcommand\l@chapter{\protect\vskip1em \@dottedtocline{0}{0em}{1.5em}}
 \newcommand\prefacename{Preface}

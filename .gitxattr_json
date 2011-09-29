@@ -1024,10 +1024,7 @@
 }
 }, 
 "texmf/tex/latex/umthesis/umthesis.cls": {
-"creation": 1315835734, 
-"xattrs": {
-"com.apple.quarantine": "MDAwMTs0ZTZiN2VlNTtTYWZhcmk7OTQ4QTYzNDUtMjZBRi00NkMxLTgyNkYtMzk2NDlCRjhCQ0Y1fGNvbS5hcHBsZS5TYWZhcmk=\n"
-}
+"creation": 1315835734
 }, 
 "thesis/ SRJinclude.tex": {
 "creation": 1316368183
@@ -1123,6 +1120,9 @@
 "xattrs": {
 "com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
+}, 
+"thesis/finalAbstract.tex": {
+"creation": 1317313596
 }, 
 "thesis/flatland.tex": {
 "creation": 1303788395, 

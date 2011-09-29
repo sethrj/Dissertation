@@ -2,7 +2,8 @@ all:
 	pdflatex thesis
 	bibtex thesis
 	pdflatex thesis
-	chflags hidden *.aux
+	pdflatex finalAbstract
+	chflags hidden *.aux *.log
 	open -b net.sourceforge.skim-app.skim thesis.pdf
 
 clean:
