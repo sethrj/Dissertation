@@ -15,12 +15,16 @@ class ResearchCopier( object):
 
     def run(self):
         for (root, dirs, files) in os.walk( self.oldroot ):
-            for filename in files:
-                if os.path.islink( os.path.join(root, filename) ):
-                    self.handle_symlink( root, filename, isdir=False)
-            for filename in dirs:
-                if os.path.islink( os.path.join(root, filename) ):
-                    self.handle_symlink( root, filename, isdir=True )
+            self.check_links( root, files, False)
+            self.check_links( root, dirs, True)
+
+    def check_links(self, root, items, isdir):
+        for filename in items:
+            if os.path.islink( os.path.join(root, filename) ):
+                try:
+                    self.handle_symlink( root, filename, isdir=isdir)
+                except IOError, e:
+                    print "Error modifying file:", e
 
     def handle_symlink(self, root, filename, isdir=False):
         old_path = os.path.join(root, filename)
@@ -43,7 +47,7 @@ class ResearchCopier( object):
                 moved_folder = True
             except OSError, e:
                 pass
-            os.mkdir(new_path)
+            os.makedirs(new_path)
             if moved_folder:
                 shutil.rmtree(new_path + "~" )
 
@@ -76,7 +80,7 @@ class ResearchCopier( object):
 
             parent_dir = os.path.split( new_path)[0]
             if not os.path.exists( parent_dir ):
-                os.mkdir(parent_dir)
+                os.makedirs(parent_dir)
 
             shutil.copy2( original, new_path )
 

@@ -1177,6 +1177,9 @@
 "com.apple.FinderInfo": "AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
+"tools/generate_chebyshev_tables.py": {
+"creation": 1317402393
+}, 
 "tools/reactor_physicsify.py": {
 "creation": 1315801988, 
 "xattrs": {

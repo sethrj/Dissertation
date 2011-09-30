@@ -335,11 +335,12 @@ than the original transport problem.
 \newcommand{\phiil}{\phi_\mathrm{il}}
 \newcommand{\Fil}{\vec{F}_\mathrm{il}}
 
-The initial layer is a transport problem that accounts for the transition
+The initial layer solution accounts for the transition
 between the initial condition and the interior solution, using
-Eq.~\eqref{eq:tdSuperposition}. It is significant near the initial time $t=0$,
+Eq.~\eqref{eq:tdSuperposition}. It is significant only near the initial time
+$t=0$,
 where the time derivatives are not assumed to be $O(\epsilon^2)$ but rather
-$O(1)$. The problem is defined in the spatial interior of the problem, where
+$O(1)$. The initial layer problem is defined in the spatial interior of the problem, where
 spatial gradients are $O(\epsilon)$, and the boundary layer
 solution has decayed to zero. (See Fig.~\ref{fig:layers} for a depiction of the
 initial layer in relation to the boundary layer and interior solution.)
@@ -363,6 +364,7 @@ be
   \phiil(\vec{x},t) \equiv \int_{4\pi} \Iil(\vec{x},\vec{\Omega},t) \ud
   \Omega \,.
 \end{equation*}
+
 The initial layer accounts for the original transport initial
 condition in Eq.~\eqref{eq:tdTransportInit} via the superposition
 equation~\eqref{eq:tdSuperposition}:
@@ -372,34 +374,67 @@ equation~\eqref{eq:tdSuperposition}:
 \end{equation}
 (The $\Ibl$ term is not present because, in the spatial interior, the boundary layer
 solution has decayed away.)
-Furthermore, by construction we demand that its solution rapidly tend to zero
+By construction we demand that its solution rapidly tend to zero
 for increasing $t$:
 \begin{equation} \label{eq:ilLimit}
   \lim_{t\to\infty} \Iil(\vec{x},\vec{\Omega},t) = 0\,.
 \end{equation}
 \end{subequations}
 The technique of asymptotic matching, which has previously applied to diffusion
-in \cite{Mal1991,Lar1977}, uses this special transport problem to determine what
-value the approximate interior solution $\phi$ should take at $t=0$ in order to
-correctly match the transport solution.
+in \cite{Mal1991,Lar1977}, uses this special transport problem to determine
+the initial value of the approximate interior solution $\phi$.
 
 The asymptotic analysis begins by expanding $\Iil$ in powers of $\epsilon$,
 \begin{equation*}
   \Iil(\vec{x},\vec{\Omega},t) \sim \Iil^{(0)}(\vec{x},\vec{\Omega},t)
   + \epsilon \Iil^{(1)}(\vec{x},\vec{\Omega},t)
   + \epsilon^2 \Iil^{(2)}(\vec{x},\vec{\Omega},t)
-  + \cdots\,,
+  + \cdots\,.
 \end{equation*}
-and substituting into the scaled transport equation~\eqref{eq:ilVol}. The zeroth
-moment of the
-initial layer solution is also written as a series expansion:
+The zeroth moment of the initial layer solution is also written as a series
+expansion:
 \begin{equation*}
   \phiil(\vec{x},t) \sim \phiil^{(0)}(\vec{x},t)
   + \epsilon \phiil^{(1)}(\vec{x},t)
   + \epsilon^2 \phiil^{(2)}(\vec{x},t)
   + \cdots\,.
 \end{equation*}
-Finally, we write the interior solution $\Iv$ by expanding the interior solution
+The expansions are substituted into the scaled transport
+equation~\eqref{eq:ilVol}:
+\begin{multline}\label{eq:ilVolEps}
+  \frac{1}{c}\pder{}{t} \left[ \Iil^{(0)} + \epsilon \Iil^{(1)}
+     + \epsilon^2 \Iil^{(2)}  \right]
+  + \epsilon \vec{\Omega}\vd \grad \left[ \Iil^{(0)} \right]
+  + \sigma(\vec{x}) \left[ \Iil^{(0)} + \epsilon \Iil^{(1)}
+    + \epsilon^2 \Iil^{(2)} \right]
+  \\
+= \frac{\sigma(\vec{x})}{4\pi}
+\left[ \phiil^{(0)} + \epsilon \phiil^{(1)}
+  + \epsilon^2 \phiil^{(2)}\right]
+  - \frac{\epsilon^2 \sigma_a(\vec{x})}{4\pi}
+  \left[ \phiil^{(0)}\right] + O(\epsilon^3)\,.
+\end{multline}
+To satisfy this equation, we equate the coefficients of each order of
+$\epsilon$.
+\begin{subequations}\label{eqs:ilVolEps}
+Matching the $O(1)$ terms gives the following equation:
+\begin{equation}\label{eq:ilVolZeroth}
+  \frac{1}{c}\pder{\Iil^{(0)}}{t}
+  + \sigma \Iil^{(0)}
+  = \frac{\sigma}{4\pi} \phiil^{(0)} \,,
+\end{equation}
+and matching the $O(\epsilon)$ terms gives another equation:
+\begin{equation}\label{eq:ilVolFirst}
+  \frac{1}{c}\pder{\Iil^{(1)}}{t}
+  + \vec{\Omega}\vd \grad \Iil^{(0)}
+  + \sigma \Iil^{(1)}
+  = \frac{\sigma}{4\pi} \phiil^{(1)} \,.
+\end{equation}
+\end{subequations}
+We ignore terms of $O(\epsilon^2)$ because the anisotropic diffusion
+approximation in the interior is only accurate to $O(\epsilon^2)$.
+
+Next, we write the interior solution $\Iv$ by expanding the interior solution
 in powers of $\epsilon$:
 \begin{equation*}
   \phi(\vec{x},t) \sim \phi^{(0)}(\vec{x},t)
@@ -426,17 +461,28 @@ becomes
     + \Iil^{(0)}(0) + \epsilon  \Iil^{(1)}(0) + O(\epsilon^2)
  = I^i(\vec{x},\vec{\Omega})\,.
 \end{equation}
+\begin{subequations}\label{eqs:ilInitEps}
+Matching powers of $\epsilon$, we obtain the $O(1)$ equation:
+\begin{equation}\label{eq:ilInitZeroth}
+ \frac{1}{4\pi} \phi^{(0)}(0) + \Iil^{(0)}(0) = I^i(\vec{x},\vec{\Omega})\,,
+\end{equation}
+and the $O(\epsilon)$ equation:
+\begin{equation}\label{eq:ilInitFirst}
+ \frac{1}{4\pi} \phi^{(1)}(0)
+ + f \vec{\Omega} \vd \grad \phi^{(0)}(0)
+ + \Iil^{(1)}(0) = 0\,.
+\end{equation}
+\end{subequations}
 
-For Eq.~\eqref{eq:ilInit2} to hold, the components of each power of
-$\epsilon$ must match. Additionally, to satisfy Eq.~\eqref{eq:ilLimit}, each
-expanded term of the initial layer solution must also rapidly
-tend to zero. We begin by matching the $O(1)$ terms in the initial layer
-equation~\eqref{eq:ilVol}:
-\begin{equation}\label{eq:ilVolZeroth}
+To satisfy Eq.~\eqref{eq:ilLimit}, each
+expanded term of the initial layer solution must rapidly
+tend to zero. We begin with the $O(1)$ terms in the initial layer
+equation, Eq.~\eqref{eq:ilVolZeroth}:
+\begin{equation*}
   \frac{1}{c}\pder{\Iil^{(0)}}{t}
   + \sigma \Iil^{(0)}
   = \frac{\sigma}{4\pi} \phiil^{(0)} \,.
-\end{equation}
+\end{equation*}
 Taking the zeroth moment of this equation, we find that the number of particles
 in the leading term of the initial layer is constant:
 \begin{equation}\label{eq:ilVolZeroth2}
@@ -448,29 +494,25 @@ time:
   \phiil^{(0)}(0) = 0\,.
 \end{equation*}
 To use this fact, we take the leading order terms of the initial condition,
-Eq.~\eqref{eq:ilInit2}:
+Eq.~\eqref{eq:ilInitZeroth}:
 \begin{equation*}
  \frac{1}{4\pi} \phi^{(0)}(0) + \Iil^{(0)}(0) = I^i(\vec{x},\vec{\Omega})\,,
 \end{equation*}
 and integrate over all angles to obtain
-\begin{equation}\label{eq:ilInitZeroth}
- \phi^{(0)}(0) + \phiil^{(0)}(0) = \phi^i\,.
-\end{equation}
-Here we have defined the zeroth moment of the initial condition
+\begin{equation*}
+ \phi^{(0)}(0) + \phiil^{(0)}(0) = \phi^i\,,
+\end{equation*}
+where
 \begin{equation*}
   \phi^i(\vec{x}) = \int_{4\pi} I^i(\vec{x},\vec{\Omega}) \ud\Omega\,.
 \end{equation*}
-Setting $\phiil^{(0)}(0) = 0$, we obtain a relation between the leading order scalar
+Setting $\phiil^{(0)}(0) = 0$, we obtain the desired relation between the leading order scalar
 intensity in the interior and the zeroth moment of the transport initial
 condition:
 \begin{equation}\label{eq:ilZeroth}
   \phi^{(0)}(\vec{x}, 0) = \phi^i(\vec{x})\,.
 \end{equation}
-This is the condition for $\phi$ at the initial time to eliminate the leading
-order component of the initial layer in the temporal interior of the problem:
-\begin{equation*}
-  \phi(\vec{x},0) = \phi^i(\vec{x}) + O(\epsilon)\,.
-\end{equation*}
+This gives the initial condition to leading order.
 Because the anisotropic diffusion solution is $O(\epsilon^2)$-accurate in the
 interior of a diffusive problem, we desire an initial condition that has an
 additional order of accuracy.
@@ -484,7 +526,7 @@ Eq.~\eqref{eq:ilVolZeroth} for all times, using the fact that $\phiil^{(0)}=0$:
 \end{equation*}
 We solve for $\Iil^{(0)}(0)$ in Eq.~\eqref{eq:ilVolZeroth2} to find
 \begin{equation*}
- \Iil^{(0)}(t) \left[ I^i - \frac{\phi^i}{4\pi} \right] \eexp^{-\sigma c t}\,.
+ \Iil^{(0)}(t) = \left[ I^i - \frac{\phi^i}{4\pi} \right] \eexp^{-\sigma c t}\,.
 \end{equation*}
 Now we turn to the $O(\epsilon)$ component of the initial layer equation:
 \begin{equation*}
@@ -494,16 +536,15 @@ Now we turn to the $O(\epsilon)$ component of the initial layer equation:
   = \frac{\sigma}{4\pi} \phiil^{(1)} \,.
 \end{equation*}
 Substituting the solution $\Iil^{(0)}$, we obtain
-\begin{equation}\label{eq:ilVolFirst}
+\begin{equation*}
   \frac{1}{c}\pder{\Iil^{(1)}}{t}
   + \sigma \Iil^{(1)}
   = \frac{\sigma}{4\pi} \phiil^{(1)}
   -  \vec{\Omega}\vd \grad \left[\left(  I^i - \frac{\phi^i}{4\pi} \right)
     \eexp^{-\sigma c t} \right] \,.
-\end{equation}
-Integrating Eq.~\eqref{eq:ilVolFirst} over angle eliminates the absorption
-term, since the problem is assumed to be purely scattering to $O(\epsilon)$,
-and yields:
+\end{equation*}
+Integrating this equation over angle eliminates the absorption
+term, we obtain a simple differential equation:
 \begin{equation*}
   \frac{1}{c}\pder{\phiil^{(1)}}{t}
   = - \grad \vd \left[\vec{F}^i \eexp^{-\sigma c t} \right] \,,
@@ -521,7 +562,7 @@ We solve the differential equation for $\phiil^{(1)}(t)$:
 Taking the limit as $t\to\infty$ and demanding that it satisfy
 Eq.~\eqref{eq:ilLimit}, we obtain a relation that the first-order initial
 layer must satisfy:
-\begin{equation}\label{eq:ilVolFirst2}
+\begin{equation}\label{eq:ilVolFirst3}
   0 = \phiil^{(1)}(0) - \grad \vd \left[\frac{\vec{F}^i}{\sigma} \right] \,.
 \end{equation}
 
@@ -532,14 +573,14 @@ The first-order terms of the initial condition, Eq.~\eqref{eq:ilInit2}, are:
  + \Iil^{(1)}(0) = 0\,.
 \end{equation*}
 The zeroth angular moment of this equation is:
-\begin{equation}\label{eq:ilInitFirst}
+\begin{equation*}
  \phi^{(1)}(0)
  + \int_{4\pi}\vec{\Omega} f \ud\Omega \vd \grad \phi^{(0)}(0)
  + \phiil^{(1)}(0) = 0\,.
-\end{equation}
-We apply the known $\phi^{(0)}(0)$ from
+\end{equation*}
+Applying the known $\phi^{(0)}(0)$ from
 Eq.~\eqref{eq:ilZeroth}, and the condition on the first-order initial layer
-from Eq.~\eqref{eq:ilVolFirst2}:
+from Eq.~\eqref{eq:ilVolFirst3}, we obtain:
 \begin{equation}\label{eq:ilFirst}
  \phi^{(1)}(0) = 
  - \int_{4\pi}\vec{\Omega} f \ud\Omega \vd \grad \phi^i
@@ -554,8 +595,9 @@ in $\epsilon$:
 + \grad \vd \left(\frac{\vec{F}^i(\vec{x})}{\sigma(\vec{x})} \right) \right]
 \,.
 \end{equation}
-In a homogeneous medium, $f$ is isotropic and the second term is zero. The
-remainder is the standard diffusion result \cite{Mal1991},
+In an infinite homogeneous medium, $f$ is isotropic and
+$\int_{4\pi}\vec{\Omega} f \ud\Omega=0$. The
+resulting equation is the standard diffusion result \cite{Mal1991},
 \begin{equation*}
  \phi(0) = \phi^i - \epsilon\grad \vd \left[\frac{\vec{F}^i}{\sigma} \right]\,.
 \end{equation*}
@@ -571,12 +613,12 @@ accuracy in $\epsilon$, the potentially nonconservative
 Eq.~\eqref{eq:ilMatched} should be used. However, in the rest of this work, we
 shall only use the leading-order accurate equation for the following reasons:
 \begin{itemize}
-  \item In a truly diffusive problem where this initial layer analysis is
+  \item In the truly diffusive problems to which this initial layer analysis is
     applicable, $f$ is isotropic to leading order, so the second term of
     Eq.~\eqref{eq:ilMatched} may be discarded while retaining $O(\epsilon^2)$
     accuracy.
   \item When the initial condition is isotropic, $\vec{F}^i=0$, and the third
-    term in Eq.~\eqref{eq:ilMatched} is identically zero.
+    term on the right side of Eq.~\eqref{eq:ilMatched} is identically zero.
   \item Using the nonconservative form in a radiation transport problem may
     violate the conservation of energy.
   \item The nonconservative $O(\epsilon)$-accurate form is not commonly used in
