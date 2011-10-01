@@ -293,7 +293,7 @@ approximate radiation flux in the interior:
   \\ \nonumber
   &= - \left[ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega
   \right] \vd \grad \phi(\vec{x},t)
-  \\ \label{eq:anisotropicFicks}
+  \\ \label{eq:adFicks}
   &= - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
 \end{align}
 This resembles ``Fick's law,'' but instead of a scalar diffusion
@@ -870,7 +870,7 @@ simplifies greatly.  Equation~\eqref{eq:adBoundaryIntegral}, becomes
   \vec{n}\vd\int_{4\pi} \vec{\Omega} \vec{\Omega} f \ud\Omega \,.
   \\ 
   \intertext{The integral on the right hand side is the anisotropic diffusion
-  tensor from Eq.~\eqref{eq:anisotropicFicks}:}
+  tensor from Eq.~\eqref{eq:adFicks}:}
   \vec{d} &= \vec{n}\vd\Dtens \,.
 \end{align*}
 
@@ -897,7 +897,7 @@ scalar intensity $\phi$ that use a diffusion tensor calculated from a
 simple high-order transport equation.
 
 The low order equation is the result of substituting the approximate Fick's law,
-Eq.~\eqref{eq:anisotropicFicks}, into the conservation equation~\eqref{eq:loVol}:
+Eq.~\eqref{eq:adFicks}, into the conservation equation~\eqref{eq:loVol}:
 \begin{equation*}
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
   - \grad \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
@@ -1111,7 +1111,7 @@ Taking the second moment of $f$ then yields
   = \frac{1}{3\sigma} \Identitytens\,.
 \end{equation*}
 Substituting this into the \emph{anisotropic} Fick's law,
-Eq.~\eqref{eq:anisotropicFicks}, we reproduce the \emph{standard} Fick's law:
+Eq.~\eqref{eq:adFicks}, we reproduce the \emph{standard} Fick's law:
 \begin{equation*}
   \vec{F} = - \frac{1}{3\sigma} \grad \phi\,.
 \end{equation*}
@@ -1363,7 +1363,7 @@ coefficient $D$ is modified so that Eq.~\eqref{eq:fluxLimit} is satisfied:
 \end{equation*}
 
 Like the standard diffusion Fick's law, the new ``anisotropic'' Fick's law,
-Eq.~\eqref{eq:anisotropicFicks}, can violate Eq.~\eqref{eq:fluxLimit}:
+Eq.~\eqref{eq:adFicks}, can violate Eq.~\eqref{eq:fluxLimit}:
 \begin{equation*}
   \norm{- \Dtens \vd \grad \phi} \stackrel{?}{\le} \phi \,.
 \end{equation*}

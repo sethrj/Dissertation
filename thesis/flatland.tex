@@ -1126,7 +1126,7 @@ Therefore, the anisotropic diffusion approximation in the interior is
 The first moment of Eq.~\eqref{eq:fadVolApproxFinal} relates the radiation flux
 to the gradient of $\phi$, the same anisotropic Fick's law as in
 \S\ref{sec:adDerivation}:
-\begin{equation}\tagref{eq:anisotropicFicks}
+\begin{equation}\tagref{eq:adFicks}
   \vec{F}(\vec{x},t) = - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
 \end{equation}
 Here, $\Dtens$ is the second moment of the transport solution $f$. In 3-D
@@ -1293,7 +1293,7 @@ difference lies in the value of $\Dtens$, its underlying transport formulation,
 and the boundary conditions.
 
 The low-order equation results from substituting the anisotropic Fick's law,
-Eq.~\eqref{eq:anisotropicFicks}, into the flatland conservation equation,
+Eq.~\eqref{eq:adFicks}, into the flatland conservation equation,
 Eq.~\eqref{eq:fadLoVol}:
 \begin{equation*}
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)

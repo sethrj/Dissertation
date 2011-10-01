@@ -231,14 +231,14 @@ Eq.~\eqref{eq:ap1capPsiApprox}, into Eq.~\eqref{eq:ap1capPsi}:
 \end{equation}
 Taking the first angular moment of this equation eliminates $\phi$ on the
 left-hand side to yield the following equation:
-\begin{equation}\label{eq:ap1ficksLaw1}
+\begin{equation}\label{eq:ap1FicksLaw1}
   \left( \frac{1}{\sigma(\vec{x})} \frac{1}{c}\pder{}{t} + 1 \right)
   \vec{F}(\vec{x},t) 
   = - \int_{4\pi} f(\vec{x},\vec{\Omega}) \vec{\Omega} \ud\Omega
   \vd \grad \phi(\vec{x}, t) \,,
 \end{equation}
 or, multiplying through by $\sigma$ and moving the right-hand side,
-\begin{equation}\label{eq:ap1ficksLaw1a}
+\begin{equation}\label{eq:ap1FicksLaw1a}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
   + \sigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) 
   + \sigma(\vec{x})\vec{F}(\vec{x},t) 
@@ -251,13 +251,13 @@ Chapter~\ref{chap:adDerivation},
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation}
 
-Equation~\eqref{eq:ap1ficksLaw1a} is our first attempt at an ``anisotropic
+Equation~\eqref{eq:ap1FicksLaw1a} is our first attempt at an ``anisotropic
 \Pone'' equation. It approximates the radiation using the scalar unknown $\phi$
 and the vector unknown $\vec{F}$ in tandem with the calculated anisotropic
 diffusion tensor $\Dtens$.
 
 In a homogeneous medium, $\Dtens$ limits to $\Identitytens/(3\sigma)$, so
-Eq.~\eqref{eq:ap1ficksLaw1a} becomes:
+Eq.~\eqref{eq:ap1FicksLaw1a} becomes:
 \begin{equation*}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) - \frac{1}{3} \grad\phi(\vec{x}, t)
   + \sigma\vec{F}(\vec{x},t) 
@@ -276,11 +276,11 @@ which is the standard \Pone\ equation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{An important substitution}
-In a voided region, $\sigma\approx 0$, Eq.~\eqref{eq:ap1ficksLaw1a}
+In a voided region, $\sigma\approx 0$, Eq.~\eqref{eq:ap1FicksLaw1a}
 has a serious deficiency. The nonlocal dependence of $f$ on $\sigma$ (see
 \S\ref{sec:adVoids}) prevents $\Dtens$ from ``blowing up,'' but in the \APone\
 equation, the local $\sigma=0$ eliminates two of the terms. In a void,
-Eq.~\eqref{eq:ap1ficksLaw1a} becomes the unphysical
+Eq.~\eqref{eq:ap1FicksLaw1a} becomes the unphysical
 \begin{equation*}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t) = 0\,.
 \end{equation*}
@@ -327,7 +327,7 @@ The asymptotic expansion used in the derivation of the \Pone\ equation used a
 local approximation to $\sigma$ that corresponded to the local $\sigma$ in the
 split operator.
 In contrast, the derivation of the ``anisotropic''
-equation~\eqref{eq:ap1ficksLaw1a} uses both a local $\sigma$ and a nonlocal $f$.
+equation~\eqref{eq:ap1FicksLaw1a} uses both a local $\sigma$ and a nonlocal $f$.
 To rectify this imbalance, we wish to replace the $1/\sigma$ with a function
 that does not blow up as $\sigma\to 0$ but which approaches $1/\sigma$ in the
 diffusive limit.
@@ -362,9 +362,9 @@ where we have defined
   \sim \frac{1}{\sigma(\vec{x})} + O(\epsilon^2)\,.
 \end{equation}
 
-Now Eq.~\eqref{eq:ap1ficksLaw1a} is replaced by the new anisotropic \Pone
+Now Eq.~\eqref{eq:ap1FicksLaw1a} is replaced by the new anisotropic \Pone
 equation:
-\begin{equation}\label{eq:ap1ficksLawFinal}
+\begin{equation}\label{eq:ap1FicksLawFinal}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
   + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
   + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
@@ -399,10 +399,10 @@ This expression is unwieldy. We
 therefore rewrite it as a function of the known $f$ and its
 second moment $\Dtens$, and of the unknown $\phi$ and $\vec{F}$ that are
 solved using the conservation equation~\eqref{eq:loVol} and
-the \APone\ equation~\eqref{eq:ap1ficksLawFinal}.
+the \APone\ equation~\eqref{eq:ap1FicksLawFinal}.
 
 The first angular moment of Eq.~\eqref{eq:ap1Interior2} is a restatement of
-Eq.~\eqref{eq:ap1ficksLawFinal}:
+Eq.~\eqref{eq:ap1FicksLawFinal}:
 \begin{equation*}
   \vec{F}(\vec{x},t)
   =
@@ -428,7 +428,7 @@ We substitute it for the left-hand side:
 \end{equation}
 This is the anisotropic \Pone\ approximation to the radiation intensity, where
 $\phi$ and $\vec{F}$ are the solutions of Eqs.~\eqref{eq:loVol} and
-Eq.~\eqref{eq:ap1ficksLawFinal}.
+Eq.~\eqref{eq:ap1FicksLawFinal}.
 
 In a steady-state problem, $\vec{F} = -\Dtens \vd \grad \phi$, and the above
 equation reduces to the anisotropic diffusion approximation to $\Iv$.
@@ -551,7 +551,7 @@ the above expression to yield the standard Marshak boundary condition:
   4 F^-(\vec{x},t) =  \phi(\vec{x},t) - 2 \vec{n} \vd \vec{F}(\vec{x},t)\,,
 \end{equation*}
 where $\vec{F}$ satisfies the anisotropic \Pone\
-equation~\eqref{eq:ap1ficksLawFinal} rather than Fick's law.
+equation~\eqref{eq:ap1FicksLawFinal} rather than Fick's law.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -573,7 +573,7 @@ The low-order conservation equation~\eqref{eq:loVol} is:
   = Q(\vec{x}, t) \,,
   \quad \vec{x} \in V,\ t > 0 \,.
 \end{equation*}
-This is coupled with Eq.~\eqref{eq:ap1ficksLawFinal}, which acts as a
+This is coupled with Eq.~\eqref{eq:ap1FicksLawFinal}, which acts as a
 replacement to Fick's law by relating the radiation flux $\vec{F}$ to the
 scalar intensity $\phi$:
 \begin{equation*}
@@ -644,7 +644,7 @@ anisotropic diffusion tensor $\Dtens$ is therefore computationally inexpensive.
 \subsection{Steady-state limit}
 Just as the \Pone\ method limits to standard diffusion as $\tpder I t \to 0$,
 the \APone\ method limits to the anisotropic diffusion method. We return to
-Eq.~\eqref{eq:ap1ficksLawFinal}:
+Eq.~\eqref{eq:ap1FicksLawFinal}:
 \begin{equation*}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
   + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
@@ -657,7 +657,7 @@ Letting $\frac{1}{c}\pder{\vec{F}}{t}\to 0$,
   = -\varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,.
 \end{equation*}
 Dividing through by $\varsigma$, which is strictly positive, we obtain the
-anisotropic Fick's law of Eq.~\eqref{eq:anisotropicFicks}:
+anisotropic Fick's law of Eq.~\eqref{eq:adFicks}:
 \begin{equation*}
  \vec{F}(\vec{x},t)
   = -\varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,. 
@@ -665,7 +665,7 @@ anisotropic Fick's law of Eq.~\eqref{eq:anisotropicFicks}:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Homogeneous limit}
-In a homogeneous medium, the \APone\ equation~\eqref{eq:ap1ficksLawFinal} limits
+In a homogeneous medium, the \APone\ equation~\eqref{eq:ap1FicksLawFinal} limits
 to the \Pone\ equation.
 
 The time-dependent \Pone\ equation is
@@ -690,7 +690,7 @@ The anisotropic diffusion tensor likewise simplifies to
   \Dtens = \int_{4\pi} \vec{\Omega}\vec{\Omega} f \ud \Omega =
   \frac{1}{3\sigma}\Identitytens \,.
 \end{equation*}
-Substituting these into the \APone\ equation~\eqref{eq:ap1ficksLawFinal}, we obtain
+Substituting these into the \APone\ equation~\eqref{eq:ap1FicksLawFinal}, we obtain
 \begin{equation*}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
   + \sigma \left[ \frac{1}{3\sigma}\Identitytens \right] \vd \grad \phi(\vec{x}, t)

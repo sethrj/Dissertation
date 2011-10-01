@@ -1106,13 +1106,15 @@
 "creation": 1303788395, 
 "xattrs": {
 "com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n", 
 "com.apple.metadata:kMDLabel_veyixt7jjffe3g7nfailqcbxny": "YnBsaXN0MDAzQbQtIpHJm9QIAAAAAAAAAQEAAAAAAAAAAQAAAAAAAAAAAAAAAAAAABE=\n"
 }
 }, 
 "thesis/aponeDerivation.tex": {
 "creation": 1306114653, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "thesis/conclusion.tex": {
@@ -1137,7 +1139,8 @@
 "thesis/implementation.tex": {
 "creation": 1303788395, 
 "xattrs": {
-"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+"com.apple.FinderInfo": "VEVYVFRlWHMACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "thesis/introduction.tex": {

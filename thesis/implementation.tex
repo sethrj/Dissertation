@@ -3,43 +3,69 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Low-order discretization schemes} \label{chap:implementation}
 
-The use of anisotropic diffusion tensors is not new, nor is the search for
-accurate discretizations. In this dissertation, we only consider a structured
-two-dimensional Cartesian mesh, where all cells are quadrilaterals, and each
-cell connects (in
-the interior) to four adjacent cells through four faces, and each face is
+Tensor diffusion---the diffusion of particles through anisotropic fields---has
+many applications outside of our work, including the fields of geology,
+magnetohydrodynamics, and image reconstruction. Numerous tensor diffusion
+schemes have been developed, but many of these are more general than we need in
+our work. The anisotropic diffusion tensor derived in
+Chapter~\ref{chap:adDerivation} is relatively well behaved: it is a smooth
+function in space, it tends toward isotropy in optically thick problems, it is
+SPD, it is diagonally dominant, and so forth. Additionally, our test problems
+are executed in a structured
+two-dimensional Cartesian mesh: all cells are quadrilaterals, and each
+interior cell to four adjacent cells through four faces, and each face is
 perpendicular to one of the coordinate system axes.
 
-Because of this simplified problem space, we need not implement the more
-complex Support Operators Methods \cite{Mor1998,Run2006}. But the complexity is
-not just a burden on the programmer; those methods increase the number of
-unknowns and the change the structure of the resulting system of equations,
-meaning longer solution times for the user. With this in mind, we seek in this
-chapter to find simple but accurate methods of solving the low-order system of
-equations for Anisotropic Diffusion on Cartesian meshes.
+Because of these simplifying properties, we need not use some of the more
+complex discretization schemes, which tend to have higher numbers of unknowns
+per spatial cell and are therefore more costly to solve.
+(An example is the Support Operators Method \cite{Mor1998,Run2006}, with
+roughly three unknowns per cell.) Instead, we derive some simple
+finite volume discretization schemes for anisotropic diffusion. Because the
+boundary conditions for our AD method are distinct from standard diffusion
+boundary conditions, we also present a second-order-accurate discretization of
+them.
 
-The traditional method of discretizing the \Pone\ equations is to use a
+The ``Anisotropic \Pone'' scheme is entirely new, so we develop a discretization
+scheme for it by making a minor modification to the traditional \Pone\
+discretization: a
 ``staggered mesh'' where $\phi$ is cell-centered and $\vec{F}\vd \vec{n}$ is
-stored on the edges of each cell \cite{War2003}. This approach conserves
-radiation energy, but it does not conserve radiation momentum, an important
-quantity when coupling with hydrodynamics codes \cite{Pom1973}.
+stored on the edges of each cell \cite{War2003}.
+% This approach conserves radiation energy, but it does not conserve radiation
+% momentum, an important quantity when coupling with hydrodynamics codes
+% \cite{Pom1973}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-Because the semi-implicit gray TRT formulation can be expressed as a
-steady-state transport equation (see \S\ref{sec:bgSemiImplicit}), for
-simplicity we will present these discretizations without time dependence.
+Because the semi-implicit gray TRT formulation of the particle conservation
+equation can be expressed as a steady-state transport equation (see
+\S\ref{sec:bgSemiImplicit}), for the sake of simplicity we will present the
+anisotropic diffusion discretizations without time dependence.
 
 The steady-state particle conservation equation is
 \begin{equation}\label{eq:ssConservation}
   \grad \vd \vec{F}(\vec{x}) + \sigma_a(\vec{x}) \phi(\vec{x}) =
   Q(\vec{x})\,,\qquad \vec{x} \in V\,.
 \end{equation}
-The first step in a differencing scheme is to assume that the unknown
-(in this case, $\phi$) is constant over a single cell, represented in
-Fig.~\ref{fig:cellDiagram}. We also assume that the effective absorption cross
-section $\sigma_a$ and source $Q$ are
+(In an implicitly discretized time-dependent problem,
+$\vec{F}=\vec{F}(t^{n+1})$, $\phi=\phi(t^{n+1})$, $\sigma_a$ is modified from
+the true absorption opacity by adding $\frac{1}{c\Delta_t}$, and the source $Q$
+contains an additional $\frac{\phi(t^{n})}{c\Delta_t}$.) 
+
+The first step in a finite volume scheme is to assume that the unknown---%
+in this case, $\phi$---is constant over a single cell, represented in
+Fig.~\ref{fig:cellDiagram}. 
+%
+\begin{figure}[tb]
+  \centering
+  \includegraphics{cell-diagram}
+  \caption{Diagram of cell $i,j$.}
+  \label{fig:cellDiagram}
+\end{figure}
+%
+We also assume that the effective absorption opacity $\sigma_a$ and source $Q$
+are
 constant over the cell, which, for TRT, means assuming the material temperature
 is constant over a cell. Integrating Eq.~\eqref{eq:ssConservation} over cell
 $i,j$ and using the divergence theorem gives
@@ -50,12 +76,87 @@ $i,j$ and using the divergence theorem gives
 + \Delta_{x,i}\Delta_{y,j} \sigma_{a,i,j} \phi_{i,j}
 = \Delta_{x,i}\Delta_{y,j} q_{i,j}\,.
 \end{equation}
-Here, $F_A^b$ is the leakage (radiation flux) from cell $i,j$ through face $A$
-along the $b$ axis. The methods presented in the following sections provide
-different closures for the leakages in terms of the other unknowns. They all
-serve to approximate the ``Fick's law'' of anisotropic diffusion,
-\begin{equation}\label{eq:anisotropicFicks2d}
-  \vec{F} = - \Dtens \vd \grad \phi
+Here, $F_A^b$ is the leakage (i.e., radiation flux or particle flow rate) from
+cell $i,j$ through face $A$
+along the $b$ axis.In all discretizations of the conservation equation, it is essential that
+$\vec{F}$ be continuous at cell interfaces: e.g., $F_T^y$ from cell $i,j$ must
+be equal to -$F_B^y$ from cell $i,{j+1}$.
+
+The methods presented in the following sections provide different
+approximate closures for the leakages in terms of the other unknowns.
+In the case of anisotropic diffusion, the leakages are determined by the
+anisotropic Fick's law:
+\begin{equation}\tagref{eq:adFicks}
+  \vec{F}(\vec{x}) = - \Dtens(\vec{x}) \vd \grad \phi(\vec{x}) \,.
+\end{equation}
+With the anisotropic \Pone\ approximation, Fick's law is replaced by the \APone\
+equation:
+\begin{equation}\tagref{eq:ap1FicksLawFinal}
+  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
+  + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
+  + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
+  = 0 \,.
+\end{equation}
+Discretizing this equation implicitly in time and solving for $\vec{F}$, we
+obtain:
+\begin{subequations}\label{eqs:ap1FicksImplicit}
+\begin{equation}\label{eq:ap1FicksImplicit}
+  \vec{F}(\vec{x}) = - [1 - f(\vec{x})]\Dtens(\vec{x}) \vd \grad \phi(\vec{x})
+  + f(\vec{x}) \hat{\vec{F}}(\vec{x})\,,
+\end{equation}
+where $\vec{F} = \vec{F}(t^{n+1})$, $\hat{\vec{F}}=\vec{F}(t^n)$, and
+\begin{equation}\label{eq:ap1ImplicitF}
+  f(\vec{x}) \equiv \frac{1}{\varsigma(\vec{x}) c \Delta_t}\,.
+\end{equation}
+\end{subequations}
+Setting $f=0$ reduces this equation to Eq.~\eqref{eq:adFicks2d}.
+
+Equation~\eqref{eq:ap1FicksImplicit} in 2-D comprises two equations in vector
+form:
+\begin{align}\label{eq:ficks2d}
+  \begin{bmatrix}
+    F^{x} \\
+    F^{y}
+  \end{bmatrix}
+  &= - (1 - f)
+  \begin{bmatrix}
+    D^{xx} & D^{yx} \\
+    D^{xy} & D^{yy}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \tpder{\phi}{x} \\
+    \tpder{\phi}{y}
+  \end{bmatrix}
+  + f
+  \begin{bmatrix}
+    \hat{F}^{x} \\
+    \hat{F}^{y}
+  \end{bmatrix}
+  \\ \nonumber
+  &= 
+  \begin{bmatrix}
+    - (1 - f)D^{xx} \tpder{\phi}{x}
+    - (1 - f)D^{yx} \tpder{\phi}{y}
+    + f \hat{F}^{x}
+    \\
+    - (1 - f)D^{yy} \tpder{\phi}{y}
+    - (1 - f)D^{xy} \tpder{\phi}{x}
+    + f \hat{F}^{x}
+  \end{bmatrix}
+\end{align}
+The diagonal components of $\Dtens$ contribute to ``normal''
+leakage; and the off-diagonal components $D^{xy}$ contribute to ``transverse''
+leakage, particle movement across the face due to a gradient in the transverse
+direction.
+Note that since the anisotropic diffusion tensor is symmetric,
+$D^{yx}=D^{xy}$.
+
+Setting $f=0$ results in the simpler anisotropic diffusion representation:
+\begin{equation}\label{eq:adFicks2d}
+  \begin{bmatrix}
+    F^{x} \\
+    F^{y}
+  \end{bmatrix}
   = -
   \begin{bmatrix}
     D^{xx} & D^{yx} \\
@@ -68,37 +169,32 @@ serve to approximate the ``Fick's law'' of anisotropic diffusion,
   = 
   \begin{bmatrix}
     - D^{xx} \tpder{\phi}{x}
-    - D^{yx} \tpder{\phi}{y} \\
+    - D^{yx} \tpder{\phi}{y}
+    \\
     - D^{yy} \tpder{\phi}{y}
     - D^{xy} \tpder{\phi}{x}
   \end{bmatrix}
-  \,.
 \end{equation}
-Because the diffusion matrix is symmetric, $D^{yx}=D^{xy}$.
-
-\begin{figure}[htb]
-  \centering
-  \includegraphics{cell-diagram}
-  \caption{Diagram of cell $i,j$.}
-  \label{fig:cellDiagram}
-\end{figure}
-
-To preserve particles, it's necessary that $F_T^y$ from cell $i,j$ is equal to
-$F_B^y$ from cell $i,{j+1}$, and the same from the other directions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neglecting transverse diffusion}\label{sec:discreteDiag}
 
-Perhaps the simplest way to discretize the anisotropic diffusion equation is by
-neglecting the off-diagonal terms of the diffusion tensor that imply transverse
-leakage.
-
+Perhaps the simplest way to discretize the anisotropic equations in
+structured Cartesian geometry is to neglect the off-diagonal terms of the
+diffusion tensor that cause transverse leakage.
 In certain simple problems, this is not an approximation. As long as the
 opacity is invariant with respect to one of the Cartesian coordinate system's
 axes (see \S\ref{sec:adVoids}), the off-diagonal terms of $\Dtens$ are
-zero, and the anisotropic Fick's law simplifies to:
+identically zero.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Anisotropic diffusion}
+Setting $D^{yx}=D^{xy}=0$ simplifies Eq.~\eqref{eq:adFicks2d} to:
 \begin{equation*}
-  \vec{F} = - \Dtens \vd \grad \phi
+  \begin{bmatrix}
+    F^{x} \\
+    F^{y}
+  \end{bmatrix}
   = -
   \begin{bmatrix}
     D^{xx} & 0 \\
@@ -117,37 +213,42 @@ zero, and the anisotropic Fick's law simplifies to:
 \end{equation*}
 
 Without loss of generality, we evaluate the net leakage from cell
-$i,j$ through its right face:
+$i,j$ through its right face, which has an outer normal along the $+x$ axis,
+$\vec{n}_R = [1,0]$:
 \begin{align} \nonumber
   F_R^x &\equiv \frac{1}{\Delta_{y,j}} \int_{y_{j-1/2}}^{y_{j+1/2}}
   \vec{F}(x_{i+1/2}, y) \vd \vec{n}_R \ud y\,.
   \\
-  \intertext{Substituting the anisotropic Fick's law,} \nonumber
+  \intertext{Substituting the anisotropic Fick's law, we obtain} \nonumber
   F_R^x &= - \frac{1}{\Delta_{y,j}} \int_{y_{j-1/2}}^{y_{j+1/2}}
   D_{i,j}^{xx} \pder{\phi}{x} \ud y \,.
   \\ 
-  \intertext{Now we introduce a temporary cell-edge $\phi_{i+1/2}$ and
-  approximate the partial derivative using a second-order finite difference:}
+  \intertext{Now we introduce a temporary cell-edge $\phi_*$ to
+  approximate the partial derivative using a second-order finite difference
+  stencil:}
   \label{eq:diagFrx}
   F_R^x &\approx - 
-  D_{i,j}^{xx} \frac{\phi_{i+1/2,j} - \phi_{i}}{\Delta_{x,i}/2} \,.
+  D_{i,j}^{xx} \frac{\phi_* - \phi_{i}}{\Delta_{x,i}/2} \,.
 \end{align}
-Evaluating the net leakage from cell $i+1,j$ through its left face by using the
-cell-edged $\phi_{i+1/2}$ and finite difference approximation, we obtain
+
+Now we evaluate the leakage on the same face in the same $+x$ direction, but
+from the perspective of cell $i+1,j$. Approximating the derivative using the
+same cell-edged $\phi_*$, we obtain
 \begin{equation}\label{eq:diagFlx}
   F_{L,i+1,j}^x \approx - 
-  D_{i+1,j}^{xx} \frac{\phi_{i+1,j} - \phi_{i+1/2}}{\Delta_{x,i+1}/2} \,.
+  D_{i+1,j}^{xx} \frac{\phi_{i+1,j} - \phi_*}{\Delta_{x,i+1}/2} \,.
 \end{equation}
 Scaling Eqs.~\eqref{eq:diagFrx} and~\eqref{eq:diagFlx} by $\Delta_x/(2 D^{xx})$
 and adding them, we obtain
 \begin{equation*}
-  \frac{\Delta_{x_{i+1/2}}}{D_{i,j}^{xx}}F_R^x
- + \frac{\Delta_{x_{i+1/2}}}{D_{i+1,j}^{xx}}F_{L,i+1,j}^x
- = -(\phi_{i+1/2,j} - \phi_{i}) + -(\phi_{i+1,j} - \phi_{i+1/2})\,.
+  \frac{\Delta_{x,i+1}/2}{D_{i,j}^{xx}}F_R^x
+ + \frac{\Delta_{x,i+1}/2}{D_{i+1,j}^{xx}}F_{L,i+1,j}^x
+ = -(\phi_* - \phi_{i}) + -(\phi_{i+1,j} - \phi_*)\,.
 \end{equation*}
-The cell-edged $\phi$ cancels out. Enforcing particle conservation by
-setting $F_R^x = F_{L,i+1,j}^x$ yields the expression for the net leakage
-through the right face of cell $i,j$:
+The temporary cell-edged $\phi_*$ is eliminated. Now we enforce particle
+conservation by setting $F_{L,i+1,j}^x = F_R^x$ and solve for $F_R^x$. This
+gives the following expression for the net leakage through the right face of
+cell $i,j$:
 \begin{equation}\label{eq:diagRight}
   F_R^x= -\frac{D^{xx}_{i+1/2,j}}{\Delta_{x,i+1/2}}
   \left( \phi_{i+1,j} - \phi_{i,j} \right)\,,
@@ -165,8 +266,7 @@ cell-centered discretization scheme \cite{Dud1976}, except that in anisotropic
 diffusion, leakage across the face normal to the $x$ axis takes the $D^{xx}$
 component of the diffusion tensor.
 
-Repeating the same procedure through the left, top, and bottom faces yield the
-following similar equations:
+The same procedure yields similar for the three other faces of cell $i,j$:
 \begin{align*}
   F_L^x &= -\frac{D^{xx}_{i-1/2,j}}{\Delta_{x,i-1/2}}
   \left( \phi_{i,j} - \phi_{i-1,j} \right)\,,
@@ -177,9 +277,10 @@ following similar equations:
   F_B^y &= -\frac{D^{yy}_{i,j-1/2}}{\Delta_{y,j-1/2}}
   \left( \phi_{i,j} - \phi_{i,j-1} \right)\,.
 \end{align*}
-Substituting these into Eq.~\eqref{eq:ssConservationDisc} relates the
+These terms, substituted into Eq.~\eqref{eq:ssConservationDisc}, relate the
 cell-centered values of $\phi$ in the interior:
 \begin{multline} \label{eq:diagConservation}
+  \hphantom{ {}+{} }
   \Delta_{x,i} \left(
   - \frac{D^{yy}_{i,j+1/2}}{\Delta_{y,j+1/2}} \left( \phi_{i,j+1} - \phi_{i,j}
     \right)
@@ -187,14 +288,16 @@ cell-centered values of $\phi$ in the interior:
     \right)
   \right)
 \\
-+ \Delta_{y,j} \left(
+\shoveleft{%
+  {}+ \Delta_{y,j} \left(
   - \frac{D^{xx}_{i+1/2,j}}{\Delta_{x,i+1/2}} \left( \phi_{i+1,j} - \phi_{i,j}
     \right)
   + \frac{D^{xx}_{i-1/2,j}}{\Delta_{x,i-1/2}} \left( \phi_{i,j} - \phi_{i-1,j}
     \right)
   \right)
+}
 \\
-+ \Delta_{x,i}\Delta_{y,j} \sigma_{a,i,j} \phi_{i,j}
+{}+ \Delta_{x,i}\Delta_{y,j} \sigma_{a,i,j} \phi_{i,j}
 = \Delta_{x,i}\Delta_{y,j} q_{i,j}\,.
 \end{multline}
 Rearranging shows the leakage terms to be part of a discretized Laplacian
@@ -202,7 +305,38 @@ operator.
 
 When a cell has one or more face on an exterior boundary, the above relations
 for $\vec{n}\vd \vec{F}$ are replaced by a discretized form of the boundary
-condition, derived in \S\ref{sec:discreteBc}.
+condition, which we shall derive presently.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Anisotropic \texorpdfstring{\Pone}{P1}}
+
+The time-dependent \Pone\ and anisotropic \Pone\ methods require the radiation
+flux $\vec{F}$ to be stored along side the scalar intensity $\phi$. Using the
+same finite differencing procedure as performed above for anisotropic diffusion,
+we obtain a discretization for \APone\ that stores $\phi$ in cell centers and
+$\vec{F}$ on cell edges.
+%Because the locations of the cell edges are distinct
+%from the cell centers, this is known as a ``staggered grid'' approximation
+%\cite{War2003}.
+In the steady-state case, this discretization reduces to the above anisotropic
+diffusion discretization.
+
+We evaluate the 2-D anisotropic \Pone\ equation~\eqref{eq:ficks2d} on the right
+face of cell $i,j$, set $D^{yx}=0$, and introduce the temporary cell-edge
+$\phi_*$ to approximate the derivative normal to the face:
+\begin{equation*}
+  F_{i+1/2}^{x} =
+  - (1 - f_{i,j})D_{i,j}^{xx} \frac{\phi_* - \phi_{i}}{\Delta_{x,i}/2}
+  + f_{i,j} \hat{F}_{i+1/2}^{x} \,.
+\end{equation*}
+Evaluating the leakage on same face from cell $i+1,j$, we obtain:
+\begin{equation*}
+  F_{i+1/2}^{x} =
+  - (1 - f_{i+1,j})D_{i+1,j}^{xx} \frac{\phi_{i+1,j} - \phi_*}{\Delta_{x,i+1}/2}
+  +  f_{i+1,j} \hat{F}_{i+1/2}^{x} \,.
+\end{equation*}
+Multiplying the equations by $\Delta_{x}/ [2 (1 - f)D^{xx}]$, we eliminate the
+temporary $\phi_*$:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gol'din-style discretization}
@@ -227,7 +361,7 @@ it as a constant in that domain, and use
 particle conservation to relate adjacent cells.
 
 Now we apply Gol'din's method to the anisotropic diffusion equation. We begin
-by integrating Eq.~\eqref{eq:anisotropicFicks2d} over the right half of the
+by integrating Eq.~\eqref{eq:adFicks2d} over the right half of the
 cell (see Fig.~\ref{fig:goldinRight}),
 \begin{figure}[htb]
   \centering
@@ -342,19 +476,19 @@ F_B^y
 At each interior face, we demand that the scalar intensity $\phi$ is continuous,
 i.e.,
 \begin{equation*}
-  \phi_{R,i,j} = \phi_{L,i+1,j} \equiv \phi_{i+1/2,j}\,.
+  \phi_{R,i,j} = \phi_{L,i+1,j} \equiv \phi_*\,.
 \end{equation*}
 Substituting these definitions and the net leakage expressions into the
 conservation equation~\eqref{eq:ssConservationDisc}, we obtain $I\times J$
 equations,
 \begin{multline*}
 - \Delta_{x,i} D_{i,j}^{yy}\frac{\phi_{i,j+1/2} - \phi_{i,j}}{\Delta_{y,j} / 2}
-- \Delta_{x,i} D_{i,j}^{xy}\frac{\phi_{i+1/2,j} - \phi_{i-1/2,j}}{\Delta_{x,i} }
+- \Delta_{x,i} D_{i,j}^{xy}\frac{\phi_* - \phi_{i-1/2,j}}{\Delta_{x,i} }
 \\
 + \Delta_{x,i} D_{i,j}^{yy}\frac{\phi_{i,j} - \phi_{i,j-1/2}}{\Delta_{y,j} / 2}
-+ \Delta_{x,i} D_{i,j}^{xy}\frac{\phi_{i+1/2,j} - \phi_{i-1/2,j}}{\Delta_{x,i} }
++ \Delta_{x,i} D_{i,j}^{xy}\frac{\phi_* - \phi_{i-1/2,j}}{\Delta_{x,i} }
 \\
-- \Delta_{y,j} D_{i,j}^{xx}\frac{\phi_{i+1/2,j} - \phi_{i,j}}{\Delta_{x,i} / 2}
+- \Delta_{y,j} D_{i,j}^{xx}\frac{\phi_* - \phi_{i,j}}{\Delta_{x,i} / 2}
 - \Delta_{y,j} D_{i,j}^{yx}\frac{\phi_{i,j+1/2} - \phi_{i,j-1/2}}{\Delta_{y,j} }
 \\
 + \Delta_{y,j} D_{i,j}^{xx}\frac{\phi_{i,j} - \phi_{i-1/2,j}}{\Delta_{x,i} / 2}
@@ -371,7 +505,7 @@ The transverse leakage terms cancel, leaving
  + \Delta_{x,i}\Delta_{y,j} \sigma_{a,i,j} \right)
  \\
 - 2 D_{i,j}^{xx} \frac{\Delta_{y,j}}{\Delta_{x,i}}
-  \left( \phi_{i+1/2,j} + \phi_{i-1/2,j} \right)
+  \left( \phi_* + \phi_{i-1/2,j} \right)
 - 2 D_{i,j}^{yy} \frac{\Delta_{x,i}}{\Delta_{y,j}}
   \left( \phi_{i,j+1/2} + \phi_{i,j-1/2} \right)
 \\= \Delta_{x,i}\Delta_{y,j} q_{i,j}\,.
@@ -382,14 +516,14 @@ of the radiation flux on interior faces, setting $F_{T,i,j}^y = F_{B,i,j+1}^y$
 and $F_{R,i,j}^x = F_{L,i+1,j}^x$, to yield the relations
 \begin{equation*}
 - D_{i,j}^{yy} \frac{\phi_{i,j+1/2} - \phi_{i,j}}{ \Delta_{y,j} / 2}
-- D_{i,j}^{xy} \frac{\phi_{i+1/2,j} - \phi_{i-1/2,j}}{ \Delta_{x,i} }
+- D_{i,j}^{xy} \frac{\phi_* - \phi_{i-1/2,j}}{ \Delta_{x,i} }
 =
 - D_{i,j+1}^{yy} \frac{\phi_{i,j+1} - \phi_{i,j+1/2}}{ \Delta_{y,j} / 2}
 - D_{i,j+1}^{xy} \frac{\phi_{i+1/2,j+1} - \phi_{i-1/2,j+1}}{ \Delta_{x,i} }\,.
 \end{equation*}
 and
 \begin{equation*}
-- D_{i,j}^{xx} \frac{\phi_{i+1/2,j} - \phi_{i,j}}{ \Delta_{x,i} / 2}
+- D_{i,j}^{xx} \frac{\phi_* - \phi_{i,j}}{ \Delta_{x,i} / 2}
 - D_{i,j}^{yx} \frac{\phi_{i,j+1/2} - \phi_{i,j-1/2}}{ \Delta_{y,j} }
 =
 - D_{i+1,j}^{xx} \frac{\phi_{i+1,j} - \phi_{i,j}}{ \Delta_{x,i} / 2}
@@ -675,47 +809,47 @@ the outward normal, the
 off-diagonal components of $\Dtens$ are zero. We therefore need not consider
 transverse leakage at the boundary face. Evaluating
 Eq.~\eqref{eq:discreteBcGeneralF} at a cell $i,j$ on the right boundary, and
-introducing a temporary cell-edge $\phi_{i+1/2,j}$ with which we approximate the
+introducing a temporary cell-edge $\phi_*$ with which we approximate the
 gradient,
 \begin{align} \nonumber
   F_R^y 
-  &= - D_{i,j}^{xx} \frac{\phi_{i+1/2,j} - \phi_{i,j}}{\Delta_{x,i} / 2}
+  &= - D_{i,j}^{xx} \frac{\phi_* - \phi_{i,j}}{\Delta_{x,i} / 2}
   + \gamma D_{i,j}^{xx} F_{i+1/2,j}^{i} \,.
 \\ 
 \intertext{For brevity, we write this as}
 \label{eq:discreteBcFBrief}
   F
-  &= - D \frac{\phi^* - \phi}{\Delta / 2}
+  &= - D \frac{\phi_* - \phi}{\Delta / 2}
   + \gamma D \hat F \,,
 \end{align}
-where $\phi^*$ is the cell-edge scalar intensity, and $\hat F$ is the initial
+where $\phi_*$ is the cell-edge scalar intensity, and $\hat F$ is the initial
 condition for the net radiation flux on the right face.
 
 Substituting into Eq.~\eqref{eq:discreteBcGeneral}, which at the right boundary
 is
 \begin{equation*}
   \beta
-  = \phi_{i+1/2,j}
+  = \phi_*
   - \alpha F_R^y
-  = \phi^* - \alpha F \,,
+  = \phi_* - \alpha F \,,
 \end{equation*}
 we obtain the relation
 \begin{equation*}
   \beta
-  = \phi^*
-  + \alpha D \frac{\phi^* - \phi}{\Delta / 2}
+  = \phi_*
+  + \alpha D \frac{\phi_* - \phi}{\Delta / 2}
   - \alpha \gamma D \hat F \,.
 \end{equation*}
 A little manipulation gives
 \begin{equation*}
-  \phi^* = \left( 1 + \frac{\alpha D}{\Delta/2} \right)\inv \left( \beta
+  \phi_* = \left( 1 + \frac{\alpha D}{\Delta/2} \right)\inv \left( \beta
   + \frac{\alpha D}{\Delta/2} \phi + \alpha \gamma D \hat F
   \right)\,.
 \end{equation*}
-We use this result to eliminate $\phi^*$ from Eq.~\eqref{eq:discreteBcFBrief}:
+We use this result to eliminate $\phi_*$ from Eq.~\eqref{eq:discreteBcFBrief}:
 \begin{align*}
   F
-  &= - \frac{D}{\Delta / 2} \phi^* + \frac{D}{\Delta / 2}\phi
+  &= - \frac{D}{\Delta / 2} \phi_* + \frac{D}{\Delta / 2}\phi
   + \gamma D \hat F
   \\
   F
@@ -767,16 +901,16 @@ approximation to $\grad \phi$ is different:
 \\ 
 \intertext{or in brief form,}
 \nonumber
-F &= D \frac{\phi^* - \phi}{\Delta / 2} - \gamma D \hat F \,.
+F &= D \frac{\phi_* - \phi}{\Delta / 2} - \gamma D \hat F \,.
 \end{align}
 The term with $\hat F$ has a different sign from the corresponding term on a
 positive boundary. Substituting this expression into
 Eq.~\eqref{eq:discreteBcGeneral} gives
 \begin{equation*}
-  \beta = \phi^*
-  + \alpha D \frac{\phi^* - \phi}{\Delta / 2} + \alpha \gamma D \hat F \,.
+  \beta = \phi_*
+  + \alpha D \frac{\phi_* - \phi}{\Delta / 2} + \alpha \gamma D \hat F \,.
 \end{equation*}
-Eliminating $\phi^*$ from the previous equation gives the net current on the
+Eliminating $\phi_*$ from the previous equation gives the net current on the
 left face:
 \begin{equation*}
   F
