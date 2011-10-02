@@ -9,7 +9,9 @@ all:
 		@echo "No third run necessary")
 	@chflags hidden *.aux *.log
 	@open -b net.sourceforge.skim-app.skim thesis.pdf
-	@grep -n Warning thesis.log || echo "No warnings found! :)"
+	$(if $(grep -n Warning thesis.log), \
+	   open thesis.log,	\
+	   @echo "No warnings found! Yay!")
 
 clean:
 	rm -f *.aux thesis.blg thesis.log thesis.out thesis.bbl thesis.lof \

@@ -101,15 +101,15 @@ Discretizing this equation implicitly in time and solving for $\vec{F}$, we
 obtain:
 \begin{subequations}\label{eqs:ap1FicksImplicit}
 \begin{equation}\label{eq:ap1FicksImplicit}
-  \vec{F}(\vec{x}) = - [1 - f(\vec{x})]\Dtens(\vec{x}) \vd \grad \phi(\vec{x})
-  + f(\vec{x}) \hat{\vec{F}}(\vec{x})\,,
+  \vec{F}(\vec{x}) = - [1 - \eta(\vec{x})]\Dtens(\vec{x}) \vd \grad \phi(\vec{x})
+  + \eta(\vec{x}) \hat{\vec{F}}(\vec{x})\,,
 \end{equation}
 where $\vec{F} = \vec{F}(t^{n+1})$, $\hat{\vec{F}}=\vec{F}(t^n)$, and
-\begin{equation}\label{eq:ap1ImplicitF}
-  f(\vec{x}) \equiv \frac{1}{\varsigma(\vec{x}) c \Delta_t}\,.
+\begin{equation}\label{eq:ap1ImplicitEta}
+  \eta(\vec{x}) \equiv \frac{1}{1 + \varsigma(\vec{x}) c \Delta_t}\,.
 \end{equation}
 \end{subequations}
-Setting $f=0$ reduces this equation to Eq.~\eqref{eq:adFicks2d}.
+Setting $\eta=0$ reduces this equation to Eq.~\eqref{eq:adFicks2d}.
 
 Equation~\eqref{eq:ap1FicksImplicit} in 2-D comprises two equations in vector
 form:
@@ -118,7 +118,7 @@ form:
     F^{x} \\
     F^{y}
   \end{bmatrix}
-  &= - (1 - f)
+  &= - (1 - \eta)
   \begin{bmatrix}
     D^{xx} & D^{yx} \\
     D^{xy} & D^{yy}
@@ -127,7 +127,7 @@ form:
     \tpder{\phi}{x} \\
     \tpder{\phi}{y}
   \end{bmatrix}
-  + f
+  + \eta
   \begin{bmatrix}
     \hat{F}^{x} \\
     \hat{F}^{y}
@@ -135,13 +135,13 @@ form:
   \\ \nonumber
   &= 
   \begin{bmatrix}
-    - (1 - f)D^{xx} \tpder{\phi}{x}
-    - (1 - f)D^{yx} \tpder{\phi}{y}
-    + f \hat{F}^{x}
+    - (1 - \eta)D^{xx} \tpder{\phi}{x}
+    - (1 - \eta)D^{yx} \tpder{\phi}{y}
+    + \eta \hat{F}^{x}
     \\
-    - (1 - f)D^{yy} \tpder{\phi}{y}
-    - (1 - f)D^{xy} \tpder{\phi}{x}
-    + f \hat{F}^{x}
+    - (1 - \eta)D^{yy} \tpder{\phi}{y}
+    - (1 - \eta)D^{xy} \tpder{\phi}{x}
+    + \eta \hat{F}^{x}
   \end{bmatrix}
 \end{align}
 The diagonal components of $\Dtens$ contribute to ``normal''
@@ -151,7 +151,7 @@ direction.
 Note that since the anisotropic diffusion tensor is symmetric,
 $D^{yx}=D^{xy}$.
 
-Setting $f=0$ results in the simpler anisotropic diffusion representation:
+Setting $\eta=0$ results in the simpler anisotropic diffusion representation:
 \begin{equation}\label{eq:adFicks2d}
   \begin{bmatrix}
     F^{x} \\
@@ -325,18 +325,205 @@ We evaluate the 2-D anisotropic \Pone\ equation~\eqref{eq:ficks2d} on the right
 face of cell $i,j$, set $D^{yx}=0$, and introduce the temporary cell-edge
 $\phi_*$ to approximate the derivative normal to the face:
 \begin{equation*}
-  F_{i+1/2}^{x} =
-  - (1 - f_{i,j})D_{i,j}^{xx} \frac{\phi_* - \phi_{i}}{\Delta_{x,i}/2}
-  + f_{i,j} \hat{F}_{i+1/2}^{x} \,.
+  F_{i+1/2,j}^{x} =
+  - (1 - f_{i,j})D_{i,j}^{xx} \frac{\phi_* - \phi_{i,j}}{\Delta_{x,i}/2}
+  + f_{i,j} \hat{F}_{i+1/2,j}^{x} \,.
 \end{equation*}
 Evaluating the leakage on same face from cell $i+1,j$, we obtain:
 \begin{equation*}
-  F_{i+1/2}^{x} =
+  F_{i+1/2,j}^{x} =
   - (1 - f_{i+1,j})D_{i+1,j}^{xx} \frac{\phi_{i+1,j} - \phi_*}{\Delta_{x,i+1}/2}
-  +  f_{i+1,j} \hat{F}_{i+1/2}^{x} \,.
+  +  f_{i+1,j} \hat{F}_{i+1/2,j}^{x} \,.
 \end{equation*}
-Multiplying the equations by $\Delta_{x}/ [2 (1 - f)D^{xx}]$, we eliminate the
-temporary $\phi_*$:
+Multiplying the equations by $(\Delta_{x} / 2) / [(1 - \eta) D^{xx}]$, we eliminate
+the temporary $\phi_*$:
+\begin{subequations}\label{eqs:diagApone}
+\begin{multline}\label{eq:diagAponeX}
+  \left[
+    \frac{\Delta_{x,i}/2}{(1 - f_{i,j})D_{i,j}^{xx}}
+  + \frac{\Delta_{x,i+1}/2}{(1 - f_{i+1,j})D_{i+1,j}^{xx}} \right]
+  F_{i+1/2,j}^{x}
+  \\ = \phi_{i,j} - \phi_{i+1,j}
+  + \left[
+    \frac{f_{i,j} \Delta_{x,i}/2}{(1 - f_{i,j})D_{i,j}^{xx}}
+  + \frac{f_{i+1,j} \Delta_{x,i+1}/2}{(1 - f_{i+1,j})D_{i+1,j}^{xx}}
+  \right] \hat{F}_{i+1/2,j}^{x}  \,.
+\end{multline}
+For faces normal to the $y$ axis, the corresponding equation is:
+\begin{multline}\label{eq:diagAponeX}
+  \left[
+    \frac{\Delta_{y,j}/2}{(1 - f_{i,j})D_{i,j}^{yy}}
+  + \frac{\Delta_{y,j+1}/2}{(1 - f_{i,j+1})D_{i,j+1}^{yy}} \right]
+  F_{i,j+1/2}^{y}
+  \\ = \phi_{i,j} - \phi_{i,j+1}
+  + \left[
+    \frac{f_{i,j} \Delta_{y,j}/2}{(1 - f_{i,j})D_{i,j}^{yy}}
+  + \frac{f_{i,j+1} \Delta_{y,j+1}/2}{(1 - f_{i,j+1})D_{i,j+1}^{yy}}
+  \right] \hat{F}_{i,j+1/2}^{y}  \,.
+\end{multline}
+\end{subequations}
+
+Equations~\eqref{eqs:diagApone} relate the flux at a face with the scalar
+intensity in the adjacent cells. They provide one equation for each interior
+face; the conservation equation~\eqref{eq:ssConservationDisc} provides an
+equation for each cell; and a discretization of the anisotropic \Pone\ boundary
+conditions provides an equation for each boundary face.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Boundary conditions}
+
+The specified incident boundary condition for anisotropic diffusion is given in
+Eq.~\eqref{eq:loBc}:
+\begin{equation*}
+2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+I^b \ud\Omega
+=
+\phi
++ 2 \vec{d} \vd \grad \phi\,,
+\end{equation*}
+where the boundary coefficient is given in Eq.~\eqref{eq:adBoundaryIntegral}:
+\begin{equation*}
+  \vec{d} = -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} \eta \ud\Omega\,.
+\end{equation*}
+
+The anisotropic \Pone\ boundary condition, Eq.~\eqref{eq:ap1BoundaryCondition}
+is similar:
+\begin{equation*}
+  2 \int_{\vec{\Omega}\vd\vec{n} < 0}
+  W(\abs{\vec{\Omega}\vd\vec{n}}) I^b \ud\Omega
+  = \phi
+  - 2 \vec{d} \vd \Dtens\inv \vd \vec{F} \,,
+\end{equation*}
+where $\vec{d}$ is the same as in anisotropic diffusion.
+In fact, by substituting the time-discretized $\vec{F}$ from
+Eq.~\eqref{eq:ap1FicksImplicit}, we obtain a general boundary condition that
+reduces to the anisotropic diffusion boundary condition by setting $\eta=0$:
+\begin{align*}
+  2 \int_{\vec{\Omega}\vd\vec{n} < 0}
+  W(\abs{\vec{\Omega}\vd\vec{n}}) I^b \ud\Omega
+  &= \phi
+  - 2 \vec{d} \vd \Dtens\inv \vd 
+  \left[ - (1 - \eta)\Dtens \vd \grad \phi + \eta \hat{\vec{F}} \right]
+  \\
+  &=  \phi + 2 (1 - \eta) \vec{d} \vd \grad \phi
+  - 2 \eta \vec{d} \vd \Dtens\inv \vd \hat{\vec{F}} \,.
+\end{align*}
+
+Looking ahead to using flatland geometry as well as 2-D, we write this
+AD/\APone\ boundary condition as:
+\begin{equation}\label{eq:discreteBcGeneral}
+  q = \phi + r (1 - \eta) \vec{d} \vd \grad \phi
+  - r \eta \vec{d} \vd \Dtens\inv \vd \hat{\vec{F}}\,,
+\end{equation}
+where $q$, $r$, $\vec{d}$, and $\Dtens$ all depend upon the chosen geometry. The
+values $q$ and $r$ are given in Table~\ref{tab:discreteBcCoeffs}.
+
+\begin{table}[tb]
+  \centering
+  \begin{tabular}{rcc}
+\toprule
+& $q$
+& $r$
+\\ \midrule
+1-D/2-D/3-D
+& $2 \int_{\vec{\Omega}\vd\vec{n} < 0}
+  W(\abs{\vec{\Omega}\vd\vec{n}}) I^b \ud\Omega$
+  & $2\vphantom{\Big|}$
+\\
+Flatland
+& $2 \pi \int_{\vec{\Omega}\vd\vec{n} < 0}
+  V(\abs{\vec{\Omega}\vd\vec{n}}) I^b \ud\Omega$
+& $\pi/2\vphantom{\Big|}$
+\\ \bottomrule
+  \end{tabular}
+  \caption[Coefficients for the discretized boundary conditions.]{%
+    Coefficients for the discretized boundary conditions. The flatland values
+    and the function $V$ are discussed in Chapter~\ref{chap:flatland}. }
+  \label{tab:discreteBcCoeffs}
+\end{table}
+
+At this point, Eq.~\eqref{eq:discreteBcGeneral} is very general: it applies not
+just to Cartesian geometries, and it does not depend on the assumption that
+$D^{yx}=D^{xy}=0$. Now we make the analysis slightly less specific by demanding
+that $\eta$ be azimuthally symmetric about the outward normal of the boundary face.
+(Equivalently, we discard the $D^{yx}=D^{xy}$ terms if the boundary face is
+along one of the coordinate axes.) With this assumption, as discussed in
+\S\ref{sec:adLinalg}, the normal vector is an eigenvector of $\Dtens$:
+\begin{equation*}
+  \Dtens \to D \vec{n}\vec{n}\,,
+\end{equation*}
+and the boundary coefficient is pointed along the outward normal:
+\begin{equation*}
+  \vec{d} \to d \vec{n}\,.
+\end{equation*}
+
+Under this assumption, Eq.~\eqref{eq:discreteBcGeneral} simplifies greatly
+(using the fact that $\vec{n}$ is a unit vector):
+\begin{align} \nonumber
+  q &= \phi + r (1 - \eta) \left[ d \vec{n} \right] \vd \grad \phi
+  - r \eta \left[ d \vec{n} \right] \vd \left[ D \vec{n}\vec{n} \right] \vd
+  \hat{\vec{F}}\,,
+  \\ \label{eq:discreteBcGeneralQ}
+ q &=  \phi + (1 - \eta) dr \vec{n} \vd \grad \phi
+  - \frac{\eta dr}{D} \hat{F} \,,
+\end{align}
+where we have defined the outward component of the previous time step's
+radiation flux as
+\begin{equation*}
+  \hat{F} \equiv  \vec{n} \vd \hat{\vec{F}} = \vec{n} \vd \hat{\vec{F}}(t^n)\,.
+\end{equation*}
+
+In both the case of anisotropic diffusion and anisotropic \Pone, we seek the
+outward component of the radiation flux on the boundary face. Taking the dot
+product of the outward normal $\vec{n}$ and Eq.~\eqref{eq:ap1FicksImplicit}, we
+obtain the exiting leakage on the boundary face:
+\begin{align}\nonumber
+  \vec{n} \vd\vec{F}
+  &= - [1 - \eta]\vec{n} \vd \left[ D \vec{n} \vec{n}  \right] \vd \grad \phi
+  + \eta \vec{n} \vd\hat{\vec{F}}
+  \\ \label{eq:discreteBcGeneralF}
+  F &= - [1 - \eta] D \vec{n} \vd \grad \phi + \eta \hat{F} \,,
+\end{align}
+where the exiting 
+\begin{equation*}
+  F \equiv \vec{n} \vd \vec{F} \,.
+\end{equation*}
+
+Both Eqs.~\eqref{eq:discreteBcGeneralQ} and~\eqref{eq:discreteBcGeneralF}
+are evaluated at the exterior boundary face.  In our discretization schemes, 
+$F$ ``lives'' on the boundary, but $\phi$ lives on cell centers. To obtain a
+boundary discretization accurate to $O(\Delta_x^2)$, we cannot approximate the
+cell-edge value of $\phi$ with the cell-center value of $\phi$. Instead, we
+introduce a temporary cell-edge $\phi_*$, approximating the directional
+derivative in the two equations with:
+\begin{equation*}
+  \vec{n} \vd \grad \phi(\vec{x}_b) \approx \frac{\phi_* - \phi}{\Delta/2}\,,
+\end{equation*}
+where $\phi$ is the cell-centered scalar intensity, and $\Delta$ is the width of
+the cell along the boundary normal. Equations~\eqref{eq:discreteBcGeneralQ}
+and~\eqref{eq:discreteBcGeneralF} then become:
+\begin{subequations}\label{eqs:discreteBcGeneral2}
+  \begin{align}\label{eq:discreteBcGeneralQ2}
+ q &=  \phi + (1 - \eta) dr \frac{\phi_* - \phi}{\Delta/2}
+  - \frac{\eta dr}{D} \hat{F} \,,
+  \\ 
+  \intertext{and} \label{eq:discreteBcGeneralQ2}
+  F &= - [1 - \eta] D\frac{\phi_* - \phi}{\Delta/2} + \eta \hat{F} \,.
+  \end{align}
+\end{subequations}
+Solving Eqs.~\eqref{eqs:discreteBcGeneral2} for $F$ and eliminating $\phi_*$
+using straightforward but tedious algebra, we obtain an equation for the exiting
+radiation flux on the boundary for the \APone approximation:
+\begin{equation}\label{eq:discreteBcAponeFinal}
+  F = \left[ \frac{\Delta/2}{1 - \eta} + dr \right]\inv
+  \left[ D\phi - Dq - \eta dr \hat{F} \right]
+  + \eta \hat{F} \,.
+\end{equation}
+Setting $\eta=0$ gives the discretized anisotropic diffusion boundary condition:
+\begin{equation}\label{eq:discreteBcAdFinal}
+  F = \left[ \Delta/2 + dr \right]\inv \left[ D\phi - Dq  \right] \,.
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Gol'din-style discretization}
@@ -701,224 +888,4 @@ simpler one.
   from the leakage terms of each face of the center cell.}
   \label{fig:anisoStencils}
 \end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Incident boundary conditions} \label{sec:discreteBc}
-
-The anisotropic diffusion approximation uses a special boundary condition:
-\begin{equation} \tagref{eq:loBc}
-2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
-I^b(\vec{x},\vec{\Omega},t) \ud\Omega
-=
-\phi(\vec{x},t)
-+ 2 \vec{d}(\vec{x}) \vd \grad \phi(\vec{x},t)\,.
-\end{equation}
-The boundary coefficient is a particular angular moment of $f$, the purely
-absorbing transport solution, on the boundary:
-\begin{equation}\tagref{eq:adBoundaryIntegral}
-  \vec{d}(\vec{x}) = -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
-\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,,
-\end{equation}
-In the case that $f$ is rotationally invariant about the outer boundary, which
-we assume, the above equation simplifies to Eq.~\eqref{eq:adBoundaryIntegral2}:
-\begin{equation*}
-  \vec{d}(\vec{x})
-  = \left[ \int_{\vec{\Omega}\vd\vec{n} < 0}
-  \abs{\vec{\Omega}\vd\vec{n}} W(\abs{\vec{\Omega}\vd\vec{n}})
-  f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vec{n}
-  \equiv d(\vec{x}) \vec{n}\,,
-\end{equation*}
-so the anisotropic diffusion boundary condition is
-\begin{equation*}
-2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
-I^b(\vec{x},\vec{\Omega},t) \ud\Omega
-=
-\phi(\vec{x},t)
-+ 2 d(\vec{x}) \vec{n} \vd \grad \phi(\vec{x},t)\,.
-\end{equation*}
-
-(Do I show how to write boundary conditions for these schemes? I am sure that it
-has been done before.)
-
-For the cell-centered and staggered-mesh schemes of AD and \APone, respectively,
-we desire boundary conditions that relate cell-edge leakage $\vec{n}\vd\vec{F}$
-to cell-centered scalar intensity $\phi$.
-
-A reflecting boundary condition for the transport equation translates to an
-``insulating'' boundary condition in the low-order diffusion equations. There
-is zero net leakage at the exterior face, $\vec{n}\vd\vec{F}=0$.
-
-Incident boundary conditions are more complicated.
-We will take the general \Pone\ boundary condition case:
-\begin{subequations} \label{eqs:discreteBc}
-\begin{equation} \label{eq:discreteBcGeneral}
-  \beta = \phi - \alpha\vec{n}\vd \vec{F}
-\end{equation}
-with
-\begin{equation} \label{eq:discreteBcGeneralF}
-  \vec{n} \vd \vec{F}
-  = - \vec{n}\vd \Dtens \vd \grad \phi
-  + \gamma \vec{n}\vd \Dtens \vd \vec{F}^{i}\,.
-\end{equation}
-\end{subequations}
-Here, $\beta$ is the source term that results from a positive incident
-radiation source, $\alpha$ is the extrapolation distance, and $\gamma$ is
-related to the geometry but is zero for diffusion.
-
-\begin{table}[htb]
-  \centering
-  \begin{tabular}{rccc}
-\toprule
-& $\beta$
-& $\alpha$
-& $\gamma$
-\\ \midrule
-2-D Marshak AD
-& $4 F^-$
-& $2/3$
-& $0$
-\\
-2-D Transport AD
-& $2\int_{\vec{\Omega}\vd \vec{n} < 0} W I^b \ud\Omega$
-& $0.7104$
-& $0$
-\\
-Flatland Marshak AD
-& $\pi F^-$
-& $\pi/2$
-& $0$
-\\
-2-D Marshak \APone
-& $4 F^-$
-& $2/3$
-& $3/c \Delta_t$
-\\
-Flatland Marshak \APone
-& $\pi F^-$
-& $\pi/2$
-& $2/c \Delta_t$
-\\ \bottomrule
-  \end{tabular}
-  \caption{Coefficients for the discretized boundary conditions.}
-  \label{tab:discreteBcCoeffs}
-\end{table}
-
-First, we note that, in accordance with the derivation in
-\S\ref{sec:adBoundary}, which assumes that $f$ is rotationally invariant about
-the outward normal, the
-off-diagonal components of $\Dtens$ are zero. We therefore need not consider
-transverse leakage at the boundary face. Evaluating
-Eq.~\eqref{eq:discreteBcGeneralF} at a cell $i,j$ on the right boundary, and
-introducing a temporary cell-edge $\phi_*$ with which we approximate the
-gradient,
-\begin{align} \nonumber
-  F_R^y 
-  &= - D_{i,j}^{xx} \frac{\phi_* - \phi_{i,j}}{\Delta_{x,i} / 2}
-  + \gamma D_{i,j}^{xx} F_{i+1/2,j}^{i} \,.
-\\ 
-\intertext{For brevity, we write this as}
-\label{eq:discreteBcFBrief}
-  F
-  &= - D \frac{\phi_* - \phi}{\Delta / 2}
-  + \gamma D \hat F \,,
-\end{align}
-where $\phi_*$ is the cell-edge scalar intensity, and $\hat F$ is the initial
-condition for the net radiation flux on the right face.
-
-Substituting into Eq.~\eqref{eq:discreteBcGeneral}, which at the right boundary
-is
-\begin{equation*}
-  \beta
-  = \phi_*
-  - \alpha F_R^y
-  = \phi_* - \alpha F \,,
-\end{equation*}
-we obtain the relation
-\begin{equation*}
-  \beta
-  = \phi_*
-  + \alpha D \frac{\phi_* - \phi}{\Delta / 2}
-  - \alpha \gamma D \hat F \,.
-\end{equation*}
-A little manipulation gives
-\begin{equation*}
-  \phi_* = \left( 1 + \frac{\alpha D}{\Delta/2} \right)\inv \left( \beta
-  + \frac{\alpha D}{\Delta/2} \phi + \alpha \gamma D \hat F
-  \right)\,.
-\end{equation*}
-We use this result to eliminate $\phi_*$ from Eq.~\eqref{eq:discreteBcFBrief}:
-\begin{align*}
-  F
-  &= - \frac{D}{\Delta / 2} \phi_* + \frac{D}{\Delta / 2}\phi
-  + \gamma D \hat F
-  \\
-  F
-  &= -\left(  \frac{\Delta}{2 D} + \alpha\right)\inv
-  \left( \beta
-  + \frac{2 \alpha D}{\Delta} \phi + \alpha \gamma D \hat F
-  \right)
-  + \frac{D}{\Delta / 2}\phi
-  + \gamma D \hat F
-  \\
-  F
-  &= -\left(  \frac{\Delta}{2 D} + \alpha\right)\inv \beta
-  + \left[ 1 - \left(1 + \frac{\Delta}{2 \alpha D} \right)\inv \right]
-  \left( \frac{2D}{\Delta} \phi + \gamma D \hat F \right) \,.
-\end{align*}
-Because of potential machine precision error for optically thin cells
-($\eps \equiv \Delta / D$), it is better to implement
-\begin{equation*}
-  \left[ 1 - \left( 1 + \frac{\Delta}{2 \alpha D} \right)\inv  \right]
-  \to \left[ \frac{\frac{\Delta}{2 \alpha D}}{1 + \frac{\Delta}{2 \alpha D}}
-  \right]
-  = \left[ \frac{\Delta}{2 \alpha D + \Delta} \right]\,.
-\end{equation*}
-The equation for the net leakage out of a boundary cell on the right is
-therefore
-\begin{equation} \label{eq:discreteBcRight}
-  F
-  = -\left(  \frac{\Delta}{2 D} + \alpha\right)\inv \beta
-  + \left[ 2 \alpha D + \Delta \right]\inv
-  \left( 2D \phi + \gamma \Delta D \hat F \right) \,.
-\end{equation}
-This equation is also valid (after redefining $D=D^{yy}$, etc.) on the top
-boundary, because there the sign of the face normal vector is also positive, and
-the gradient is approximated in the same way.
-
-On the left and bottom boundaries, $\vec{n}\vd \vec{F}$ and the approximation to
-$\grad \phi$ have changes in sign. With diffusion ($\gamma=0$), the two sign
-changes cancel, but the extra term in the \APone\ equation for $\vec{F}$ means
-that one of the signs is different from Eq.~\eqref{eq:discreteBcRight}. The net
-leakage term in Eq.~\eqref{eq:discreteBcGeneralF} for the left boundary takes on
-a negative sign because $\vec{n}=- \vec{n}_x$, and the finite difference
-approximation to $\grad \phi$ is different:
-\begin{align} \nonumber
-  \vec{F}\vd \vec{n} &= -F_L^x 
-  \\
-  &= (-1) \left(
-  - D_{i,j}^{xx} \frac{\phi_{i,j} - \phi_{i-1/2,j}}{\Delta_{x,i} / 2}
-  + \gamma D_{i,j}^{xx} F_{i+1/2,j}^{i}\right) \,,
-\\ 
-\intertext{or in brief form,}
-\nonumber
-F &= D \frac{\phi_* - \phi}{\Delta / 2} - \gamma D \hat F \,.
-\end{align}
-The term with $\hat F$ has a different sign from the corresponding term on a
-positive boundary. Substituting this expression into
-Eq.~\eqref{eq:discreteBcGeneral} gives
-\begin{equation*}
-  \beta = \phi_*
-  + \alpha D \frac{\phi_* - \phi}{\Delta / 2} + \alpha \gamma D \hat F \,.
-\end{equation*}
-Eliminating $\phi_*$ from the previous equation gives the net current on the
-left face:
-\begin{equation*}
-  F
-  = -\left(  \frac{\Delta}{2 D} + \alpha\right)\inv \beta
-  + \left[ 2 \alpha D + \Delta \right]\inv
-  \left( 2D \phi - \gamma \Delta D \hat F \right) \,.
-\end{equation*}
-This equation, valid for bottom and left boundaries, has the same sign as the
-top and right for the $\phi$ term but the opposite sign for the $\hat F$ term.
-
 
