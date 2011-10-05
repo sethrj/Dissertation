@@ -1,4 +1,10 @@
 #! /usr/bin/env python
+
+# copy_thesis_figs.py
+# Seth R. Johnson
+#
+# Copy thesis figures from my research repository to my thesis repository
+
 import os
 import shutil
 import re

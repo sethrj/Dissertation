@@ -1,4 +1,10 @@
 #! /usr/bin/env python
+
+# update_gnuplot_loc.py
+# Seth R. Johnson
+#
+# Modify gnuplot output, relinking symbolic links and changing the absolute path
+# in the .tex files.
 import os
 import re
 from glob import glob

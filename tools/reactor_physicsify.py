@@ -1,4 +1,10 @@
 #! /usr/bin/env python
+
+# reactor_physicsify.py
+# Seth R. Johnson
+#
+# Change TRT terminology to neutron transport terminology
+
 import os
 import re
 import sys
