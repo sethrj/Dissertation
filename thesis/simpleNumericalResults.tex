@@ -62,7 +62,6 @@ Because the anisotropic diffusion coefficient can be calculated analytically,
 the effect of using coarse-grid $\Dtens$ can be investigated independently of
 the spatial discretization error accrued in an \SN\ solve.
 
-
 %\begin{table}[htb]
 %  \centering
 %  \begin{tabular}{rll}
@@ -329,9 +328,28 @@ that the qualitatively best way to satisfy Eq.~\eqref{eq:hoBc} may be
 to have the incident distribution of $f$ take the shape of the true boundary
 condition.
 
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[$\psi(2.5,0,\omega)$]{%
+    \input{adbc-reactor/angle-center-y0/plot}}
+
+  \hspace{-.75in}
+  \subfloat[$\psi(2.5,10,\omega)$]{%
+    \input{adbc-reactor/angle-center-ymax/plot}}%
+  \hspace{-.5in}%
+  \subfloat[$\psi(1.5,10,\omega)$]{%
+    \input{adbc-reactor/angle-insideleftedge-ymax/plot}}%
+  \hspace{-.75in}
+  \caption{Angular flux in the channel at (a) the bottom center, (b) the top
+  center, and (c) the top left edge.}
+  \label{fig:bcReactor}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \subsection{Steady-state flatland checkers}
+Not sure if this problem is useful or should be included.
 
 Here we consider a difficult problem that has repeating variations in both $x$
 and $y$ directions. It uses $c=0.99$, 
@@ -372,12 +390,71 @@ glyph. Red and larger ellipses represent larger AD coefficients.
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \section{Linear time-dependent behavior}
 
 Before considering the complex nonlinear behavior of TRT, we should
 independently analyze how the newly developed methods behave in linear,
 time-dependent problems with time-independent opacities.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Reactor}
+
+We consider a time-dependent problem represented in
+Fig.~\ref{fig:tdReactorProblem}.
+with a unit source in the bottom left corner of a diffusive medium of width
+$2$ with $\sigma=1$ and a scattering ratio $c=.99$. A voided region with
+$\sigma=0.01$ and $c=.99$ is to the right. The problem has reflecting boundaries
+on the bottom, left, and right sides; the top has a vacuum boundary.
+
+Figure~\ref{fig:tdReactorProblem} also displays the calculated coefficients
+$\varsigma$ and $\Dtens$ used in the anisotropic \Pone\
+equation~\eqref{eq:ap1FicksLawFinal}.
+
+\begin{figure}[bp]
+  \centering
+  \includegraphics[width=2in]{td_reactor/xsn}
+  \caption[Time-dependent reactor problem setup.]{Time-dependent reactor problem
+    setup. The source region is the red square in the lower-left; the black
+    and white area in the bottom half shows $\sigma$, the colored region above
+    shows $\varsigma = 1/\int_{S} f \ud\Omega$, and the ellipses are a
+    visualization of the diffusion tensor $\Dtens=\int_{S}
+    \vec{\Omega}\vec{\Omega} f \ud\Omega$.}
+  \label{fig:tdReactorProblem}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[$t=2$]{%
+    \input{td_reactor/lineout-phi-channel-2/plot}}%
+  \subfloat[$t=5$]{%
+    \input{td_reactor/lineout-phi-channel-5/plot}}
+
+  \subfloat[$t=10$]{%
+    \input{td_reactor/lineout-phi-channel-10/plot}}%
+  \subfloat[$t=15$]{%
+    \input{td_reactor/lineout-phi-channel-15/plot}}
+
+  \caption{Scalar intensity $\phi$ along the centerline of the channel.}
+  \label{fig:tdReactor}
+\end{figure}
+
+The wavefront threshold in Fig.~\ref{fig:tdReactorWavefront} is 0.001.
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[Channel, $y=2.5$]{%
+    \input{td_reactor/wavefront-phi-channel/plot}}
+
+  \subfloat[Medium, $y=0$]{%
+    \input{td_reactor/wavefront-phi-left/plot}}
+
+  \caption{Wavefront position along the $y$ axis.}
+  \label{fig:tdReactorWavefront}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \subsection{Blast wave}
 
 Ran a test problem inside a channel with a ``blast wave'' initial condition. It

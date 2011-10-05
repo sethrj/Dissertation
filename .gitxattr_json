@@ -151,59 +151,23 @@
 "figures/adbc-checkers/isotropic-phi/plot.tex": {
 "creation": 1315801508
 }, 
-"figures/ap1-blastpipe/002-phi-center/002-phi-center.pdf": {
-"creation": 1315801508
+"figures/adbc-reactor/angle-center-y0/angle-center-y0.pdf": {
+"creation": 1317845921
 }, 
-"figures/ap1-blastpipe/002-phi-center/plot.tex": {
-"creation": 1315801508
+"figures/adbc-reactor/angle-center-y0/plot.tex": {
+"creation": 1317845921
 }, 
-"figures/ap1-blastpipe/002-phi_center.pdf": {
-"creation": 1308957047
+"figures/adbc-reactor/angle-center-ymax/angle-center-ymax.pdf": {
+"creation": 1317845921
 }, 
-"figures/ap1-blastpipe/005-phi-center/005-phi-center.pdf": {
-"creation": 1315801508
+"figures/adbc-reactor/angle-center-ymax/plot.tex": {
+"creation": 1317845921
 }, 
-"figures/ap1-blastpipe/005-phi-center/plot.tex": {
-"creation": 1315801508
+"figures/adbc-reactor/angle-insideleftedge-ymax/angle-insideleftedge-ymax.pdf": {
+"creation": 1317845921
 }, 
-"figures/ap1-blastpipe/005-phi_center.pdf": {
-"creation": 1308957047
-}, 
-"figures/ap1-blastpipe/010-phi-center/010-phi-center.pdf": {
-"creation": 1315801508
-}, 
-"figures/ap1-blastpipe/010-phi-center/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/ap1-blastpipe/010-phi_center.pdf": {
-"creation": 1308957047
-}, 
-"figures/ap1-blastpipe/020-phi-center/020-phi-center.pdf": {
-"creation": 1315801508
-}, 
-"figures/ap1-blastpipe/020-phi-center/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/ap1-blastpipe/020-phi_center.pdf": {
-"creation": 1308957047
-}, 
-"figures/ap1-blastpipe/050-phi-center/050-phi-center.pdf": {
-"creation": 1315801508
-}, 
-"figures/ap1-blastpipe/050-phi-center/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/ap1-blastpipe/050-phi_center.pdf": {
-"creation": 1308957047
-}, 
-"figures/ap1-blastpipe/100-phi-center/100-phi-center.pdf": {
-"creation": 1315801508
-}, 
-"figures/ap1-blastpipe/100-phi-center/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/ap1-blastpipe/100-phi_center.pdf": {
-"creation": 1308957047
+"figures/adbc-reactor/angle-insideleftedge-ymax/plot.tex": {
+"creation": 1317845921
 }, 
 "figures/boltzmann.jpg": {
 "creation": 1285954034, 
@@ -633,30 +597,6 @@
 "figures/flatlandbc-channel/relative-errors/relative-errors.pdf": {
 "creation": 1315801508
 }, 
-"figures/fldboundary/dcoeff---t5/dcoeff---t5.pdf": {
-"creation": 1315801508
-}, 
-"figures/fldboundary/dcoeff---t5/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/fldboundary/phi-t10/phi-t10.pdf": {
-"creation": 1315801508
-}, 
-"figures/fldboundary/phi-t10/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/fldboundary/phi-t2/phi-t2.pdf": {
-"creation": 1315801508
-}, 
-"figures/fldboundary/phi-t2/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/fldboundary/temperature-t10/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/fldboundary/temperature-t10/temperature-t10.pdf": {
-"creation": 1315801508
-}, 
 "figures/goldin-righthalf.pdf": {
 "creation": 1280774631, 
 "xattrs": {
@@ -764,6 +704,45 @@
 }, 
 "figures/ss_single_channel/xsn.png": {
 "creation": 1316800334
+}, 
+"figures/td_reactor/lineout-phi-channel-10/lineout-phi-channel-10.pdf": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/lineout-phi-channel-10/plot.tex": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/lineout-phi-channel-15/lineout-phi-channel-15.pdf": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/lineout-phi-channel-15/plot.tex": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/lineout-phi-channel-2/lineout-phi-channel-2.pdf": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/lineout-phi-channel-2/plot.tex": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/lineout-phi-channel-5/lineout-phi-channel-5.pdf": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/lineout-phi-channel-5/plot.tex": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/wavefront-phi-channel/plot.tex": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/wavefront-phi-channel/wavefront-phi-channel.pdf": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/wavefront-phi-left/plot.tex": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/wavefront-phi-left/wavefront-phi-left.pdf": {
+"creation": 1317845921
+}, 
+"figures/td_reactor/xsn.png": {
+"creation": 1317845921
 }, 
 "figures/umlogo.pdf": {
 "creation": 1285162895
