@@ -4,8 +4,6 @@
 \chapter{Conclusions}\label{chap:conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our new method is simply the best ever! Please let me graduate.
-
 \section{Future work}
 
 implicitly balanced treatment: how necessary is it to update the opacities in
@@ -13,26 +11,81 @@ the AD calculation, how well does it perform
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Improved discontinuity treatment}
-In the derivation of the AD method, we made the ansatz that
-$\vec{F}=O(\epsilon)$. If we instead supposed that $\vec{F}=O(1)$, the same
-Taylor expansion would yield an extra term:
+In the derivation of the anisotropic diffusion method, we discarded
+terms of $O(\epsilon^2)$ using the following scaling of Eq.~\eqref{eq:capPsiVol}:
 \begin{equation*}
-  \tilde\Psi(\vec{x}, \vec{\Omega}, t)
-  \approx \cdots + \lopinv{v}{ \frac1{4\pi} } \grad \vd \vec{F}(\vec{x},t)\,,
+  \Big[ \underbrace{\frac{1}{c}\pder{}{t}}_{O(\epsilon^2)}
+  + \underbrace{\vec{\Omega}\vd \grad}_{O(\epsilon^2)}
+  + \underbrace{\sigma}_{O(1)} \Big]
+   \underbrace{\left( \Iv
+  - \frac{1}{4\pi} \phi \right)}_{O(1)}
+  = \frac{1}{4\pi}  \underbrace{\grad \vd\vec{F}}_{O(\epsilon^2)} -
+  \frac{1}{4\pi} \vec{\Omega}\vd  \underbrace{\grad \phi}_{O(\epsilon)}\,.
 \end{equation*}
-resulting in
+If we instead take the scaling that $I - \frac{1}{4\pi}\phi=
+O(\epsilon)$, which is true for the traditional diffusion scaling, then:
 \begin{equation*}
-  \vec{F}(\vec{x}, t)
-  \approx - \left\{ \int_{4\pi} \vec{\Omega} \vec{\Omega} f(\vec{x},\vec{\Omega},t) \ud\Omega
-  \right\} \vd \grad \phi(\vec{x},t)
-  + \left\{ \int_{4\pi} \vec{\Omega} f(\vec{x},\vec{\Omega},t) \ud\Omega
-  \right\} \grad \vd \vec{F}(\vec{x},t)
+  \Big[ \underbrace{\frac{1}{c}\pder{}{t}}_{O(\epsilon^2)}
+  + \underbrace{\vec{\Omega}\vd \grad}_{O(\epsilon^2)}
+  + \underbrace{\sigma}_{O(1)} \Big]
+   \underbrace{\left( \Iv
+  - \frac{1}{4\pi} \phi \right)}_{O(\epsilon)}
+  = \frac{1}{4\pi}  \underbrace{\grad \vd\vec{F}}_{O(\epsilon^2)} -
+  \frac{1}{4\pi} \vec{\Omega}\vd  \underbrace{\grad \phi}_{O(\epsilon)}\,,
 \end{equation*}
+where the $O(\epsilon^2)$ terms must be retained:
+\begin{equation*}
+  \Big[ \vec{\Omega}\vd \grad
+  + \underbrace{\sigma} \Big]
+   \left( \Iv - \frac{1}{4\pi} \phi \right)
+  = \frac{1}{4\pi}  \grad \vd\vec{F}
+ - \frac{1}{4\pi} \vec{\Omega}\vd  \grad \phi + O(\epsilon^3)\,.
+\end{equation*}
+Inverting the left-hand side, expanding the resulting nonlocal unknowns about
+the local point and discarding small terms, we arrive at a different
+approximation to the radiative intensity than given in
+Chapter~\ref{chap:adDerivation}:
+\begin{equation*}
+  \Iv = \frac{1}{4\pi} \phi - f(\vec{x},\vec{\Omega}) \vec{\Omega}\vd  \grad \phi 
+  + f(\vec{x},\vec{\Omega})\grad \vd\vec{F} \,.
+\end{equation*}
+The first angular moment is a new approximation:
+\begin{equation*}
+  \vec{F} = - \Dtens \vd \grad \phi + \vec{E} (\grad \vd\vec{F})\,,
+\end{equation*}
+where
+\begin{equation*}
+  \vec{E} = \int_{4\pi} \vec{\Omega} f \ud\Omega\,.
+\end{equation*}
+Away from material discontinuities, $\vec{E}$ is exponentially small; but
+near a discontinuity, $\vec{E}$ is non-negligible. This additional term may
+improve the accuracy of the anisotropic diffusion approximation in asymptotic
+sense, but it will re-introduce a qualitative property that our anisotropic
+diffusion approximation lacks: a ``kink'' in the solution $\phi$. Because
+$\vec{E}$ is discontinuous at a material boundary, it will induce a
+discontinuity in $\grad \phi$.
 
-Away from material discontinuities, the term in brackets would be
-exponentially small (since $f$ would be an even function of $\vec{\Omega}$).
-Near a change in material, however, this might yield a better solution that has
-a ``kink'' (discontinuous first derivative) like the transport solution.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Alternative flux limiters}
+
+In \S\ref{sec:flad}, we proposed a flux-limited modification to anisotropic
+diffusion theory. For ease of understanding and implementation, we chose a
+``max'' limiter that multiplied the tensor by a scalar that preserved the
+physical property $\vec{F} \le \phi$. However, other flux limiting
+methods---some of which may be more well behaved numerically---are possible. The
+two properties a flux-limited diffusion tensor $\tilde\Dtens$ must retain are
+that:
+\begin{enumerate}
+  \item it must reduce to the true, transport-calculated $\Dtens$ in the absence
+    of strong gradients; and
+  \item in the presence of strong gradients it must satisfy $ \norm{
+    \tilde\Dtens \vd \grad \phi} = \phi$.
+\end{enumerate}
+Because the anisotropic diffusion coefficient is, in multiple spatial
+dimensions, a rank-2 tensor, there is a degree of flexibility not present in
+standard diffusion theory. For instance, suppose that we write 
+
+TODO
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Higher-order anisotropic \texorpdfstring{\PN}{PN} methods}

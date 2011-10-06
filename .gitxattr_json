@@ -5,29 +5,209 @@
 "./figures/adbc-channel": {
 "creation": 1315799078
 }, 
+"./figures/adbc-channel/angle-isotropic-cmfp": {
+"creation": 1317929065
+}, 
+"./figures/adbc-channel/delta-phi": {
+"creation": 1317929065
+}, 
+"./figures/adbc-channel/grazing-phi": {
+"creation": 1317929065
+}, 
+"./figures/adbc-channel/isotropic-phi": {
+"creation": 1317929065
+}, 
 "./figures/adbc-checkers": {
 "creation": 1315799078
 }, 
-"./figures/ap1-blastpipe": {
-"creation": 1315799078
+"./figures/adbc-checkers/delta-phi": {
+"creation": 1317929065
+}, 
+"./figures/adbc-checkers/grazing-phi": {
+"creation": 1317929065
+}, 
+"./figures/adbc-checkers/isotropic-phi": {
+"creation": 1317929065
+}, 
+"./figures/adbc-reactor": {
+"creation": 1317929065
+}, 
+"./figures/adbc-reactor/angle-center-y0": {
+"creation": 1317929065
+}, 
+"./figures/adbc-reactor/angle-center-ymax": {
+"creation": 1317929065
+}, 
+"./figures/adbc-reactor/angle-insideleftedge-ymax": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe-OBSOLETE": {
+"creation": 1315845521
+}, 
+"./figures/crashpipe-OBSOLETE/dcoeff_channel_t10": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/dcoeff_channel_t5": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/dcoeff_ortho_t10": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/phi_channel_t1": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/phi_channel_t10": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/phi_channel_t2": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/phi_channel_t5": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/phi_ortho_t1": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/phi_ortho_t10": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/phi_ortho_t2": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/phi_ortho_t5": {
+"creation": 1315845520
+}, 
+"./figures/crashpipe-OBSOLETE/wavefront_channel": {
+"creation": 1315845520
 }, 
 "./figures/crashpipe2b": {
 "creation": 1315799078
 }, 
+"./figures/crashpipe2b/intens-x1-t1": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/intens-x2-t2": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/intens-x2-t3": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/intens-x5-t10": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/intens-x5-t20": {
+"creation": 1317929065
+}, 
 "./figures/crashpipe2b/mattemp": {
 "creation": 1315799078
+}, 
+"./figures/crashpipe2b/pres-dcoeff---channel-t1": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-dcoeff---channel-t10": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-dcoeff---channel-t20": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-dcoeff---channel-t5": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-channel-t1": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-channel-t10": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-channel-t2": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-channel-t20": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-channel-t5": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-ortho-t1": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-ortho-t10": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-ortho-t2": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-ortho-t20": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/pres-phi-ortho-t5": {
+"creation": 1317929065
+}, 
+"./figures/crashpipe2b/wavefront-channel": {
+"creation": 1317929065
 }, 
 "./figures/flatlandbc-channel": {
 "creation": 1315799078
 }, 
-"./figures/fldboundary": {
-"creation": 1315799078
+"./figures/flatlandbc-channel/delta-phi": {
+"creation": 1317929065
+}, 
+"./figures/flatlandbc-channel/grazing-phi": {
+"creation": 1317929065
+}, 
+"./figures/flatlandbc-channel/isotropic-phi": {
+"creation": 1317929065
+}, 
+"./figures/flatlandbc-channel/relative-errors": {
+"creation": 1317929065
 }, 
 "./figures/manufactured": {
 "creation": 1315799078
 }, 
-"./figures/manufactured-old": {
-"creation": 1315799079
+"./figures/manufactured/convergence-multisolve-diag": {
+"creation": 1317929065
+}, 
+"./figures/manufactured/convergence-multisolve-offdiag": {
+"creation": 1317929065
+}, 
+"./figures/manufactured/convergence-multisolve-offdiag-skew05": {
+"creation": 1317929065
+}, 
+"./figures/ss_single_channel": {
+"creation": 1317929065
+}, 
+"./figures/ss_single_channel/absconv": {
+"creation": 1317929065
+}, 
+"./figures/ss_single_channel/mgconv": {
+"creation": 1317929065
+}, 
+"./figures/ss_single_channel/phi-channel": {
+"creation": 1317929065
+}, 
+"./figures/ss_single_channel/qsconv": {
+"creation": 1317929065
+}, 
+"./figures/td_reactor": {
+"creation": 1317929065
+}, 
+"./figures/td_reactor/lineout-phi-channel-10": {
+"creation": 1317929065
+}, 
+"./figures/td_reactor/lineout-phi-channel-15": {
+"creation": 1317929065
+}, 
+"./figures/td_reactor/lineout-phi-channel-2": {
+"creation": 1317929065
+}, 
+"./figures/td_reactor/lineout-phi-channel-5": {
+"creation": 1317929065
+}, 
+"./figures/td_reactor/wavefront-phi-channel": {
+"creation": 1317929065
+}, 
+"./figures/td_reactor/wavefront-phi-left": {
+"creation": 1317929065
 }, 
 "./presentations": {
 "creation": 1315799152
@@ -67,6 +247,33 @@
 "xattrs": {
 "com.apple.FinderInfo": "AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
+}, 
+"./texmf": {
+"creation": 1315844719
+}, 
+"./texmf/bibtex": {
+"creation": 1315844719
+}, 
+"./texmf/bibtex/bst": {
+"creation": 1315844719
+}, 
+"./texmf/bibtex/bst/ans": {
+"creation": 1315844719
+}, 
+"./texmf/tex": {
+"creation": 1315844719
+}, 
+"./texmf/tex/latex": {
+"creation": 1315844719
+}, 
+"./texmf/tex/latex/anstrans": {
+"creation": 1315844719
+}, 
+"./texmf/tex/latex/srj": {
+"creation": 1316481460
+}, 
+"./texmf/tex/latex/umthesis": {
+"creation": 1317661454
 }, 
 "./thesis": {
 "creation": 1315756419, 
@@ -728,6 +935,21 @@
 }, 
 "figures/td_reactor/lineout-phi-channel-5/plot.tex": {
 "creation": 1317845921
+}, 
+"figures/td_reactor/phi-002.pdf": {
+"creation": 1317930965
+}, 
+"figures/td_reactor/phi-005.pdf": {
+"creation": 1317930965
+}, 
+"figures/td_reactor/phi-010.pdf": {
+"creation": 1317930965
+}, 
+"figures/td_reactor/phi-015.pdf": {
+"creation": 1317930965
+}, 
+"figures/td_reactor/phi-020.pdf": {
+"creation": 1317930965
 }, 
 "figures/td_reactor/wavefront-phi-channel/plot.tex": {
 "creation": 1317845921

@@ -67,13 +67,11 @@ class ResearchCopier( object):
                     )
 
             # RENAME TEX FILE
+            old_tex_name = os.path.join( original, texname + ".tex")
             new_tex_name = os.path.join( new_path, "plot.tex")
-            shutil.copy2(
-                    os.path.join( original, texname + ".tex"),
-                    new_tex_name,
-                    )
             print "new tex file:", new_tex_name
-            rewrite_tex( new_tex_name, new_pdf_name)
+            rewrite_tex(old_tex_name, new_tex_name, new_pdf_name)
+            shutil.copystat(old_tex_name, new_tex_name)
 
         else:
             # it's an image, etc.
@@ -82,7 +80,7 @@ class ResearchCopier( object):
             try:
                 os.remove( new_path )
             except OSError, e:
-                print e
+                pass
 
             parent_dir = os.path.split( new_path)[0]
             if not os.path.exists( parent_dir ):
@@ -90,11 +88,9 @@ class ResearchCopier( object):
 
             shutil.copy2( original, new_path )
 
-def rewrite_tex( filename, pdf_path ):
-    new_filename = filename + "~"
-
-    with open(filename, "r") as old:
-        with open(new_filename, "w") as new:
+def rewrite_tex( old_tex_name, new_tex_name, pdf_path ):
+    with open(old_tex_name, "r") as old:
+        with open(new_tex_name, "w") as new:
             for line in old:
                 m = _re_includepath.search( line )
                 if m:
@@ -102,9 +98,6 @@ def rewrite_tex( filename, pdf_path ):
                             + _tex_include_command % pdf_path
                             + line[m.end():] )
                 new.write(line)
-
-    os.remove(filename)
-    os.rename(new_filename, filename)
 
 ################################################################################
 if __name__ == "__main__":

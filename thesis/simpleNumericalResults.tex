@@ -439,7 +439,35 @@ equation~\eqref{eq:ap1FicksLawFinal}.
   \label{fig:tdReactor}
 \end{figure}
 
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[$t=2$]{%
+    \includegraphics[width=3in]{td_reactor/phi-002}}%
+  \subfloat[$t=5$]{%
+    \includegraphics[width=3in]{td_reactor/phi-005}}
+
+  \subfloat[$t=10$]{%
+    \includegraphics[width=3in]{td_reactor/phi-010}}%
+  \subfloat[$t=15$]{%
+    \includegraphics[width=3in]{td_reactor/phi-015}}
+
+  \caption{Scalar intensity $\phi$ along the centerline of the channel.}
+  \label{fig:tdReactorContour}
+\end{figure}
+
 The wavefront threshold in Fig.~\ref{fig:tdReactorWavefront} is 0.001.
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[Channel, $y=2.5$]{%
+    \input{td_reactor/wavefront-phi-channel/plot}}
+
+  \subfloat[Medium, $y=0$]{%
+    \input{td_reactor/wavefront-phi-left/plot}}
+
+  \caption{Wavefront position along the $y$ axis.}
+  \label{fig:tdReactorWavefront}
+\end{figure}
 
 \begin{figure}[htb]
   \centering\small
