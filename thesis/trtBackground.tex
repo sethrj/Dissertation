@@ -73,7 +73,8 @@ the gray radiative transfer equation,
 \end{equation}
 and the material energy balance equation,
 \begin{equation} \label{eq:explanMaterial}
-  c_v \pder{T}{t} = \sigma \int_{4\pi}  I \ud \Omega - \sigma a c T^4 \,.
+  c_v \pder{T}{t} = \sigma \int_{4\pi}  I \ud \Omega - \sigma a c T^4
+  + q_m \,.
 \end{equation}
 \end{subequations}
 
@@ -87,6 +88,8 @@ The notation and omitted parameters in Eqs.~\eqref{eqs:explanTRT} are:
   \sigma &= \sigma(\vec{x}, T) &&= \text{the absorption opacity,} 
   \\
   q_r &= q_r(\vec{x}, t) &&= \text{an extraneous isotropic radiation energy source,}
+  \\
+  q_m &= q_m(\vec{x}, t) &&= \text{an energy source in the material,}
   \\
   c_v &= c_v(\vec{x}, T) &&= \text{the specific heat capacity of the material,}
   \\
@@ -116,7 +119,9 @@ the material. The left-hand side is the time rate of change in the material
 energy density. The first term on the right-hand side exactly mirrors the collision term in the
 radiation equation: it is a ``gain'' term corresponding to photons that
 collided with (were absorbed by) the material. The second term describes the loss
-of energy from the material when it emits black body radiation.
+of energy from the material when it emits black body radiation. The material
+energy source, or electron source, is sometimes used in numerical test problems
+\cite{Ada2010}.
 
 The physical properties $\sigma$ and $c_v$ are often approximated by simplistic
 models in the methods development literature. The heat capacity $c_v$ of an ideal
@@ -225,7 +230,8 @@ extensive use of this
 nonlinear treatment in our implementations of anisotropic diffusion and the
 other tested methods, and because the semi-implicit scheme for radiation
 transport is usually glossed over in other works, we derive
-it here in a practical level of detail.
+it here in a practical level of detail. Existing derivations also omit the
+``material source'' term $q_m$.
 
 For the semi-implicit discretization, it is convenient to write
 Eqs.~\eqref{eqs:explanTRT} in a slightly altered form:
@@ -239,7 +245,7 @@ Eqs.~\eqref{eqs:explanTRT} in a slightly altered form:
 \end{equation}
 and the material energy balance equation,
 \begin{equation} \label{eq:semiMaterial}
-  \pder{U_m}{t} = \sigma \phi - \sigma c U_r \,.
+  \pder{U_m}{t} = \sigma \phi - \sigma c U_r + q_m \,.
 \end{equation}
 \end{subequations}
 Here, we have defined the material energy density, which is a function of the
@@ -279,7 +285,7 @@ expressed without approximation in terms of the equilibrium radiation energy
 density $U_r$:
 \begin{equation*}
   \pder{U_m}{t} = \pder{U_m}{U_r} \pder{U_r}{t} = \frac{1}{\beta(T)}
-  \pder{U_r}{t} = \sigma \int_{4\pi}  I \ud \Omega - \sigma c U_r \,.
+  \pder{U_r}{t} = \sigma \phi - \sigma c U_r + q_m \,.
 \end{equation*}
 The first approximation is to ``freeze'' the parameter $\beta$ at the
 beginning-of-time-step temperature $T^n$:
@@ -314,7 +320,6 @@ material energy term using two first-order Taylor series:
   U_m^{n+1}
   &\approx U_m^n + \frac{U_r^{n+1} - U_r^n}{\beta^n} \,.
 \end{align}
-
 Because the freezing of $\beta$ approximates the rate of change
 in material energy, Eq.~\eqref{eq:frozenBeta} no longer conserves the system's
 total energy. To enforce conservation of energy over a time step, we use
@@ -324,18 +329,20 @@ The next approximation explicitly freezes the opacity $\sigma$ in
 Eq.~\eqref{eq:frozenBeta}:
 \begin{equation*}
   \frac{1}{\beta^n}
-  \pder{U_r}{t} \approx \sigma^n \phi - \sigma^n c U_r \,.
+  \pder{U_r}{t} \approx \sigma^n \phi - \sigma^n c U_r + q_m \,.
 \end{equation*}
 Now we can average the material equation in time to express it in terms of two
 simple unknowns. Operating by
 $\frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} (\cdot) \ud t$,
-we get
+we obtain
 \begin{equation*}
   \frac{1}{\beta^n}
   \frac{U_r^{n+1} - U_r^n}{\Delta_t^n} = \sigma^n \left[
   \frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} \phi \ud t
   \right] - \sigma^n c \left[
-  \frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} U_r \ud t \right]\,.
+  \frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} U_r \ud t \right]
+   + \frac{1}{4\pi}\left[
+  \frac{1}{\Delta_t^n}\int_{t_n}^{t^{n+1}} q_m \ud t \right]\,.
 \end{equation*}
 Next, we apply the implicit Euler discretization%
 \footnote{Note that the IMC method only applies the implicit approximation to
@@ -347,23 +354,28 @@ step $t^{n+1}$:
   \frac{1}{\beta^n(\vec{x})}
   \frac{U_r^{n+1}(\vec{x}) - U_r^n(\vec{x})}{\Delta_t^n}
   = \sigma^n(\vec{x}) \phi^{n+1}(\vec{x})
-  - c \sigma^n(\vec{x}) U_r^{n+1}(\vec{x}) \,.
+  - c \sigma^n(\vec{x}) U_r^{n+1}(\vec{x}) + q_m^n \,.
 \end{equation}
+(The material source $q_m$ is known, so $q_m^n$ is its pre-calculated
+time-averaged value.)
 
 We solve Eq.~\eqref{eq:semiImplicitMaterial} for $U_r^{n+1}$ in order to
 eliminate the implicit dependence of the transport equation on the material
 energy equation.
 \begin{align} \nonumber
   U_r^{n+1} [ 1 + c \beta^n \Delta_t^n \sigma^n ]
-  &= \beta^n \Delta_t^n \sigma^n\phi^{n+1} + U_r^n
+  &= \beta^n \Delta_t^n \sigma^n\phi^{n+1} + U_r^n + \beta^n \Delta_t^n q_m^n
    \\ \nonumber
   U_r^{n+1}
-  &= \frac1c \frac{ c \beta^n \Delta_t^n \sigma^n }{ 1 + c \beta^n \Delta_t^n \sigma^n}
-  \phi^{n+1} + \frac1{ 1 + c \beta^n \Delta_t^n \sigma^n}
+  &= \frac{ c \beta^n \Delta_t^n \sigma^n }{ 1 + c \beta^n \Delta_t^n \sigma^n}
+  \frac1c \phi^{n+1} + \frac1{ 1 + c \beta^n \Delta_t^n \sigma^n}
   U_r^n
+  + \frac{ c \beta^n \Delta_t^n \sigma^n}{ 1 + c \beta^n \Delta_t^n \sigma^n}
+  \frac1{c\sigma^n} q_m^n
   \\ \label{eq:urNPlusOne}
   U_r^{n+1}
-  &= \left(1 - f^n\right) \frac1c \phi^{n+1} + f^n U_r^n \,,
+  &= \left(1 - f^n\right) \frac1c \phi^{n+1} + f^n U_r^n
+  + \left(1 - f^n\right)\frac{1}{c \sigma^n} q_m^n\,,
 \end{align}
 where we have defined the Fleck factor \cite{Fle1971} as
 \begin{equation} \label{eq:fleckFactor}
@@ -371,13 +383,12 @@ where we have defined the Fleck factor \cite{Fle1971} as
   \right]\inv \,.
 \end{equation}
 
-We can use Eq.~\eqref{eq:urNPlusOne} to express the energy conservation
-equation~\eqref{eq:matenConservationUpdate}, in terms of \textsl{(i)} the starting
-material energy, \textsl{(ii)} the time-integrated absorption from the radiation, and
-\textsl{(iii)} the time-integrated emission from the material:
+Substituting Eq.~\eqref{eq:urNPlusOne} into~\eqref{eq:matenConservationUpdate}
+and rearranging, we obtain an energy balance equation using the linearized
+terms, the initial state, and the final radiation state:
 \begin{equation}\label{eq:matenConservationUpdate2}
   U_m^{n+1} = U_m^n + f^n \sigma^n \Delta_t^n
-  \left[ \phi^{n+1} - c U_r^n \right] \,.
+  \left[ \phi^{n+1} - c U_r^n \right] + f^n \Delta_t^n q_m^n \,.
 \end{equation}
 
 \subsection{Linearizing the transport equation}
@@ -410,14 +421,17 @@ material unknowns, $I$ and $U_r$:
  = \frac{\sigma^n c}{4\pi} U_r^{n+1}
   + \frac{1}{4\pi} q_r^n \,.
 \end{equation*}
-(The extraneous energy source $q_r$is known \emph{a priori}, so no approximation is made if $q_r^n$ is its time-averaged value.)
+(The extraneous energy source $q_r$ is known \emph{a priori}, so no
+approximation is made if $q_r^n$ is its time-averaged value.)
 Finally, we substitute $U_r^{n+1}$ from Eq.~\eqref{eq:urNPlusOne},
 which was derived from the material equation Eq.~\eqref{eq:semiMaterial}:
 \begin{align}\nonumber
   \frac{1}{c} \frac{I^{n+1} - I^n}{\Delta_t^n}
   + \vec{\Omega} \vd \del I^{n+1}
  + \sigma^n I^{n+1}
- &= \frac{\sigma^n c}{4\pi} \left[ \left(1 - f^n\right) \frac1c \phi^{n+1} + f^n U_r^n \right]
+ &= \frac{\sigma^n c}{4\pi} \left[ \left(1 - f^n\right) \frac1c \phi^{n+1}
+   + f^n U_r^n
+   + \left(1 - f^n\right)\frac{1}{c \sigma^n} q_m^n \right]
   + \frac{1}{4\pi} q_r^n
   \\ \label{eq:linearizedGrayTransport}
   \frac{1}{c} \frac{I^{n+1} - I^n}{\Delta_t^n}
@@ -425,13 +439,8 @@ which was derived from the material equation Eq.~\eqref{eq:semiMaterial}:
  + \sigma^n I^{n+1}
  &=  \left(1 - f^n\right) \sigma^n \frac{1}{4\pi} \phi^{n+1}
  + \frac{1}{4\pi} f^n \sigma^n c U_r^n
-  + \frac{1}{4\pi} q_r^n \,.
+ + \frac{1}{4\pi} \left[ q_r^n + \left(1 - f^n\right) q_m^n \right] \,.
 \end{align}
-As discussed earlier, $\phi$ is the zeroth angular moment of $I$:
-\begin{equation*}
-  \phi^{n+1}(\vec{x}) \equiv \int_{4\pi} I^{n+1}(\vec{x}, \vec{\Omega}) \ud \Omega
-  \,.
-\end{equation*}
 
 \subsection{Comments}\label{bgSIComments}
 If we compare Eq.~\eqref{eq:linearizedGrayTransport} to a temporally implicit
@@ -453,7 +462,7 @@ we find equivalences between the two:
   \left(1 - f^n\right) \sigma^n &\leftrightarrow \Sigma_s &&= \text{the scattering cross
   section,} 
   \\
-  f^n \sigma^n c U_r^n + q_r^n &\leftrightarrow q &&= \text{the isotropic source for time
+  f^n \sigma^n c U_r^n + q_r^n + \left(1 - f^n\right) q_m^n &\leftrightarrow q &&= \text{the isotropic source for time
   step $n$,}
   \\
   v   &\leftrightarrow c &&= \text{the particle velocity.}
@@ -469,11 +478,20 @@ Eq.~\eqref{eq:linearizedGrayTransport}, then we find the radiation
 energy conservation equation over the time step to be
 \begin{equation}\label{eq:semiImplicitZeroth}
   \frac{1}{c} \frac{\phi^{n+1} - \phi^n}{\Delta_t^n}
-  + \del \vd \vec{F}^{n+1} + f^n\sigma^n \phi^{n+1}
- =  f^n \sigma^n c U_r^n + q_r^n\,.
+  + \del \vd \vec{F}^{n+1} +\sigma_\text{ea}^n \phi^{n+1}
+ =  \sigma_\text{ea}^n c U_r^n + q_r^n + \left(1 - f^n\right) q_m^n \,,
 \end{equation}
-The quantity $\sigma_\text{ea}^n \equiv f^n\sigma^n$ is known as the
+where $\sigma_\text{ea}^n \equiv f^n\sigma^n$ is known as the
 ``effective absorption opacity.''
+
+This effective absorption term reappears in the material energy update
+equation~\eqref{eq:matenConservationUpdate2}:
+\begin{equation*}
+  U_m^{n+1} = U_m^n + \sigma_\text{ea}^n \Delta_t^n
+  \left[ \phi^{n+1} - c U_r^n \right] + f^n \Delta_t^n q_m^n \,.
+\end{equation*}
+The added energy from the radiation is the time-integrated effective absorption
+rate.
 
 \subsection{Summary}
 
@@ -491,7 +509,7 @@ equation~\eqref{eq:linearizedGrayTransport} with pseudo-scattering:
 and a material energy update equation~\eqref{eq:matenConservationUpdate2}:
 \begin{equation*}
   U_m^{n+1} = U_m^n + f^n \sigma^n \Delta_t^n
-  \left[ \phi^{n+1} - c U_r^n \right] \,.
+  \left[ \phi^{n+1} - c U_r^n \right] + f^n \Delta_t^n q_m^n \,.
 \end{equation*}
 
 
