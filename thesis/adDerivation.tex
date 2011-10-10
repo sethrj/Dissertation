@@ -1347,7 +1347,8 @@ propagate faster than the speed of light.  This undesirable property results
 from the assumption that the time derivative of the intensity varied slowly in
 time, $\frac{1}{c}\pder{I}{t} = O(\epsilon^2)$, effectively the same
 quasi-static approximation as standard diffusion. To overcome this defect, we
-apply a flux limiter (see \S\ref{sec:bgFld}).
+apply a flux limiter (see \S\ref{sec:bgFld}) to the anisotropic diffusion
+approximation.
 
 To recapitulate, a flux limiter enforces the following property
 of the true intensity:
@@ -1370,6 +1371,9 @@ Eq.~\eqref{eq:adFicks}, can violate Eq.~\eqref{eq:fluxLimit}:
 The left hand side can exceed the right if either $\Dtens$ or $\grad \phi$ is
 ``large'', which often occurs in optically thin regions or in a radiation shock
 wave.
+Flux-limited anisotropic diffusion (FLAD) modifies the
+transport-calculated anisotropic diffusion tensor to preserve
+Eq.~\eqref{eq:fluxLimit} in the presence of large gradients.
 
 Constructing a flux-limited diffusion tensor is not as straightforward as in
 standard diffusion, where the non-negative scalar diffusion coefficient $D$ may

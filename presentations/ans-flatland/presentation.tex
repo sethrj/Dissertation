@@ -1,0 +1,165 @@
+%\documentclass[draft]{beamer}
+\documentclass{beamer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\let\Tiny=\tiny
+\usefonttheme[onlymath]{serif}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage{booktabs}
+\input{SRJinclude.tex}
+\setSRJthesisfigurepaths
+
+\definecolor{lightgray}{gray}{0.85}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%30 minute presentation
+%15 minutes scheduled for questions
+%1 hour allotted total
+
+\usetheme{AnnArbor}
+\usecolortheme{seahorse}
+\usecolortheme{orchid}
+\setbeamercolor*{frametitle}{use=structure,bg=structure.fg!20!white}
+\setbeamercolor*{frametitle right}{use=structure,bg=structure.fg!20!white}
+\setbeamertemplate{navigation symbols}{\insertframenavigationsymbol}
+\setbeamertemplate{caption}[numbered]
+
+\title[Flatland]%
+{Diffusion Boundary Conditions in Flatland Geometry}
+
+\author[SRJ, EWL]{Seth~R.~Johnson \and Edward~W.~Larsen}
+
+\institute[UMich]{
+University of Michigan, Ann Arbor
+}
+\date[10/31/2011]{October 31, 2011}
+
+%\AtBeginSection[]
+%{
+%\begin{frame}
+%  \frametitle{Outline}
+%  \tableofcontents[currentsection]
+%\end{frame}
+%}
+
+\hypersetup{colorlinks=true,linkcolor=black}
+
+% only show section headings in table of contents
+\setcounter{tocdepth}{1}
+
+%use symbols for footnote
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\titlepage
+\begin{center}
+  \includegraphics[width=0.2\textwidth]{umlogo}
+\end{center}
+\smash{\includegraphics[width=0.2\textwidth]{neup-small}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%  \frametitle{Outline}
+%  \tableofcontents
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{What is flatland?}
+  \begin{itemize}
+    \item Fictional two-dimensional universe \cite{Abb1884} in which particles
+      are constrained to exist and travel in a 2-D plane
+    \item Multi-dimensional geometry with smaller phase space in angle
+      \begin{itemize}
+        \item Flatland: $(x,y,\omega)$; 2-D: $(x,y,\mu,\omega)$
+        \item Polar cosine is set to zero
+      \end{itemize}
+    \item Useful testbed for methods development
+      \begin{itemize}
+        \item Smaller phase space means computationally cheaper
+        \item Angle-dependent quantities are easier to visualize
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Channel surfing}
+\begin{center}
+  How do you design a 2-D test problem to model radiation in a channel?
+\end{center}
+\vspace{-.75in}
+
+\begin{minipage}[c]{2.25in}%
+  \vspace{.75in}%
+  \includegraphics<1-2>[width=2in]{chord-flatland}%
+  \includegraphics<3>[width=2in]{channel-xy}%
+\end{minipage}
+\begin{minipage}[c]{2.25in}%
+  \rule{0pt}{3in}%
+  \includegraphics<2>[width=2in]{chord-xyz}%
+  \includegraphics<3>[width=2in]{channel-xyz}%
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Channel surfing}
+\begin{center}
+  How do you design a 2-D test problem to model radiation in a channel?
+\end{center}
+\vspace{-.75in}
+
+\begin{minipage}[c]{2.25in}%
+  \vspace{.75in}%
+  \includegraphics<1-2>[width=2in]{chord-flatland}%
+  \includegraphics<3>[width=2in]{channel-xy}%
+\end{minipage}
+\begin{minipage}[c]{2.25in}%
+  \rule{0pt}{3in}%
+  \includegraphics<2>[width=2in]{chord-xyz}%
+  \includegraphics<3>[width=2in]{channel-xyz}%
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theory}
+\subsection{Theory}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  %\frametitle{Questions?}
+
+{\par\centering%
+  \includegraphics[height=2.75in]{bunny-transport}
+
+}
+{\setlength{\baselineskip}{-\baselineskip} \tiny 
+This material is based upon work supported under a National Science Foundation
+Graduate Research Fellowship and a Department of Energy Nuclear Energy
+University Programs Graduate Fellowship. Any opinions, findings, conclusions or
+recommendations expressed in this publication are those of the author and do
+not necessarily reflect the views of the National Science Foundation or the
+Department of Energy Office of Nuclear Energy.\par}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{References}
+\bibliographystyle{ans}
+\bibliography{../../SRJall}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+

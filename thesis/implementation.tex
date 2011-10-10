@@ -214,7 +214,11 @@ leakage.
 In certain simple problems, however, this is not an approximation. As long as the
 opacity is invariant with respect to one of the Cartesian coordinate system's
 axes (see \S\ref{sec:adVoids}), the off-diagonal terms of $\Dtens$ are
-identically zero.
+identically zero. For problems in which transverse leakage is non-negligible,
+the discretization scheme in this chapter must be used with caution: it is not
+truly consistent with the underlying mixed-derivative partial differential
+equation. Even when the grid size shrinks to zero, the off-diagonal diffusion
+components are still neglected.
 
 The simple ``diagonal-only'' centered difference scheme is also useful as an
 instructive tool, because we later develop a more complex difference scheme that
@@ -881,7 +885,7 @@ without introducing extra unknowns.
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Stencil A}
+\subsection{Stencil A}\label{sec:cellAnisoA}
 
 One approximation to the transverse derivative in Eq.~\eqref{eq:cellAnisoFlux}
 is the following second-order-accurate centered difference:

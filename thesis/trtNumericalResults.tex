@@ -4,40 +4,21 @@
 \chapter{Numerical Results: Thermal Radiative Transfer}
 \label{chap:trtNumericalResults}
 
-The large phase space of 2-D thermal radiative transfer makes visualization---%
-especially when comparing several methods---%
-a formidable challenge. The radiation unknown is a function of time, \xy\
-space, and angle; the material unknown is also time- and space-dependent.
-Analysis is further complicated by how to express the results; for example,
-should we compare the radiation energy density $\phi$ or
-the radiation temperature $T_\text{rad}=\phi^{1/4}$? Does the entire solution
-space matter, or do we only care about one particular output such as the
-position of the radiation wavefront?
-
-%These questions are unanswerable in the general sense. To guide us, we have
-%prior, and hopefully more well-informed, authors.
-
-One standard TRT benchmark, the Su--Olson problem \cite{Su1997}, is absent from
-our comparisons. The justification for its omission is obvious: it has an
-opacity constant in space and time; the AD method then gives a solution identical
-to diffusion.
-
-For these numerical simulations, we compare the results of several methods.
+For these numerical simulations, we compare the results of several methods. All
+are implemented in the \pytrt\ research code \cite{Pytrt}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Implicit Monte Carlo}
+\paragraph{Implicit Monte Carlo} Fleck and Cummings' gray IMC method
+\cite{Fle1971} is used with $10^7$ particles, implicit absorption, source
+tilting, census combing \cite{Urb2006}, and energy-weighted path length tallies.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Discrete ordinates}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Flux-limited diffusion}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Anisotropic diffusion}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Flux-limited anisotropic diffusion}
+\paragraph{Anisotropic methods} Because the opacity is a time-dependent quantity
+in TRT, the anisotropic diffusion coefficients must be recalculated at every
+time step. The first time step still uses 100 source iteration sweeps to
+calculate the coefficients, but each time step thereafter uses only one sweep to
+update them. (Because the transport problem for $f$ is purely absorbing, one
+sweep is sufficient to converge the diffusion coefficients in the interior.)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{1-D blast wave}

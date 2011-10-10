@@ -3,23 +3,96 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Numerical Results: Test Problems}\label{chap:simpleNumericalResults}
 
-The complexity of thermal radiative transport 
-In solving the anisotropic diffusion equations, any number of choices in the
-low-order discretization, the transport discretization, convergence criteria,
-etc. There is correspondingly a real possibility that the cancellation of
-errors may obscure the results of the TRT test problems. In this chapter we
-systematically investigate the components of 
+When solving the anisotropic diffusion equations numerically, the solution
+is not just a function of the physical problem: it is affected by the choice
+of low-order discretization scheme, the transport discretization used in
+calculating the AD coefficients, the transport convergence criteria, and many
+other parameters. Furthermore, the added complexity of time dependence and
+nonlinear opacities may obscure both the benefits and the shortcomings of the
+anisotropic diffusion methods. Additionally, because of the novelty of the
+flatland geometry which we use extensively, it is necessary to provide numeric
+validation for the flatland boundary conditions derived in
+Chapter~\ref{chap:flatland}.
+
+In this chapter, we systematically investigate certain attributes particular to
+anisotropic diffusion (AD), flux-limited anisotropic diffusion (FLAD), and
+anisotropic \Pone\ (\APone) by analyzing their behavior in simple steady-state
+and time-dependent problems. Most of these problems emulate attributes of
+realistic thermal radiative transfer problems, viz.~high scattering ratios and
+optically thin regions surrounded by optically thick regions.
+
+Our numerical simulations are executed with several existing methods as well
+as the new anisotropic diffusion methods. All
+are implemented in the \pytrt\ research code \cite{Pytrt}. Unless otherwise
+noted, we use the following solver parameters with each method.
+\begin{description}
+  \item[The Monte Carlo method] functions as our benchmark transport method. Our
+    implementation uses stratified sampling of source regions, and weight
+    windows that attempt to keep uniform the weight of particles both emitted
+    from sources and transported through previous time steps. The solver runs
+    $10^7$ particles and uses path length--weighted tallies.
+
+  \item[Standard diffusion] in our implementation uses a cell-centered
+    discretization \cite{Dud1976}. With all the following methods, we explicitly
+    construct a sparse matrix that is passed to the Trilinos library
+    \cite{Her2003}.  In problems with under 30,000 unknowns, we use the KLU
+    direct solver.
+
+  \item[Time-dependent \Pone] uses the standard ``staggered mesh''
+    discretization, where $\phi$ is cell-centered and $\vec{F}$ is
+    face-centered.
+
+  \item[Flux-limited diffusion] is implemented with the ``square root'' limiter
+    and discretization scheme discussed in \S\ref{sec:bgFld}. The unknowns and
+    diffusion coefficients are stored on cell centers.
+
+  \item[Anisotropic diffusion] uses
+    coefficients calculated with the diamond difference \SN\ method, using 100
+    sweep iterations. In 1-D, we use a Gauss--Legendre quadrature set with 16
+    ordinates (S$_{16}$); in flatland, we use a Chebyshev--Gauss quadrature set
+    (see \S\ref{sec:flatlandQuadrature} with 64 ordinates (16 per quadrant). As
+    with FLD, the opacities, diffusion coefficients, and unknowns are
+    cell-centered. We use the nine-point stencil given in
+    \S\ref{sec:cellAnisoA}.
+
+  \item[Flux-limited anisotropic diffusion] is implemented with the
+    ``max'' limiter described in \S\ref{sec:flad} using the flux limiter
+    discretization of \S\ref{sec:bgFld}. It is otherwise treated identically to
+    the above anisotropic diffusion method.
+
+  \item[Anisotropic \Pone] uses the same ``staggered mesh'' discretization
+    as \Pone, and in all other aspects it is identical to the other anisotropic
+    methods.
+
+\end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discretization error}
 
 In our numerical simulations, we must approximate the continuum transport
-solutions with discrete methods. The low-order spatial discretization for the
+solutions with discrete methods. With the anisotropic diffusion methods,
+discretization affects not only the diffusion solution but also the calculation
+of the anisotropic diffusion coefficients.
+
+The low-order spatial discretization for the
 tensor diffusion problems was formulated in Chapter~\ref{chap:implementation}.
 For the high-order transport, we use diamond difference \cite{Lew1984} with a
 ``flux fix-up'' to ensure positivity.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Diffusion spatial discretization: manufactured solutions}
+
+\begin{equation*}
+  - \grad \vd \Dtens \vd \grad \phi(\vec{x}) + \sigma_a \phi(\vec{x})
+  = q(\vec{x})\,, \quad \vec{x} \in V \,,
+\end{equation*}
+with the mixed boundary condition
+\begin{equation*}
+  4 F^{-}(\vec{x}) = \phi(\vec{x}) + 2 \vec{n}\vd \Dtens \vd \grad \phi(\vec{x})
+  \,, \vec{x}\in \partial V\,.
+\end{equation*}
+The problem domain $V$ is the square $-\tfrac12 \le x,y \le \tfrac12$. The
+diffusion coefficient is a constant.
 
 \begin{figure}[htb]
   \centering\small
@@ -456,18 +529,6 @@ equation~\eqref{eq:ap1FicksLawFinal}.
 \end{figure}
 
 The wavefront threshold in Fig.~\ref{fig:tdReactorWavefront} is 0.001.
-
-\begin{figure}[htb]
-  \centering\small
-  \subfloat[Channel, $y=2.5$]{%
-    \input{td_reactor/wavefront-phi-channel/plot}}
-
-  \subfloat[Medium, $y=0$]{%
-    \input{td_reactor/wavefront-phi-left/plot}}
-
-  \caption{Wavefront position along the $y$ axis.}
-  \label{fig:tdReactorWavefront}
-\end{figure}
 
 \begin{figure}[htb]
   \centering\small

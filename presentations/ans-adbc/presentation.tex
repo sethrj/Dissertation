@@ -1,0 +1,110 @@
+\documentclass[draft]{beamer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage{booktabs}
+\input{SRJinclude.tex}
+\setSRJthesisfigurepaths
+
+\definecolor{lightgray}{gray}{0.85}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%30 minute presentation
+%15 minutes scheduled for questions
+%1 hour allotted total
+
+\usetheme{AnnArbor}
+\usecolortheme{seahorse}
+\usecolortheme{orchid}
+\usefonttheme[onlymath]{serif}
+\setbeamercolor*{frametitle}{use=structure,bg=structure.fg!20!white}
+\setbeamercolor*{frametitle right}{use=structure,bg=structure.fg!20!white}
+\setbeamertemplate{navigation symbols}{\insertframenavigationsymbol}
+\setbeamertemplate{caption}[numbered]
+
+\title[AD BCs]%
+{Boundary Conditions for the Anisotropic Diffusion Approximation}
+
+\author[SRJ, EWL]{Seth~R.~Johnson \and Edward~W.~Larsen}
+
+\institute[UMich]{
+University of Michigan, Ann Arbor
+}
+\date[10/31/2011]{October 31, 2011}
+
+\AtBeginSection[]
+{
+\begin{frame}
+  \frametitle{Outline}
+  \tableofcontents[currentsection]
+\end{frame}
+}
+
+\hypersetup{colorlinks=true,linkcolor=black}
+
+% only show section headings in table of contents
+\setcounter{tocdepth}{1}
+
+%use symbols for footnote
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\titlepage
+\begin{center}
+  \includegraphics[width=0.2\textwidth]{umlogo}
+\end{center}
+\smash{\includegraphics[width=0.2\textwidth]{neup-small}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Theory}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Questions?}
+
+{\par\centering%
+  \includegraphics[height=2.75in]{larsen}
+
+}
+{\vspace{-.25in}%
+\setlength{\baselineskip}{-\baselineskip} \tiny 
+This material is based upon work supported under a National Science Foundation
+Graduate Research Fellowship and a Department of Energy Nuclear Energy
+University Programs Graduate Fellowship. Any opinions, findings, conclusions or
+recommendations expressed in this publication are those of the author and do
+not necessarily reflect the views of the National Science Foundation or the
+Department of Energy Office of Nuclear Energy.\par}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{References}
+\bibliographystyle{ans}
+\bibliography{../../SRJall}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+

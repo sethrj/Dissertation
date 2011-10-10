@@ -15,5 +15,8 @@ clean:
 	rm -f *.aux thesis.blg thesis.log thesis.out thesis.bbl thesis.lof \
 		     thesis.lot thesis.pdf thesis.toc
 
-.PHONY: all clean
+individual:
+	cd _individual && $(MAKE) $(MFLAGS)
+
+.PHONY: all clean individual
 
