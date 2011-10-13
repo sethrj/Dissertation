@@ -38,10 +38,8 @@ AD approximation in flatland geometry for use in our benchmark problems.
 %\begin{figure}[htb]
 %  \centering
 %  \includegraphics{chord-rz}
-%  \caption[A cross-section of the chord length problem in cylindrical
-%  geometry.]%
-%  {A cross-section of the chord length problem in cylindrical
-%  geometry. The orthogonal view looks like Fig.~\ref{fig:chordFlatland}.}
+%  \Caption{A cross-section of the chord length problem in cylindrical
+%  geometry.}{The orthogonal view looks like Fig.~\ref{fig:chordFlatland}.}
 %  \label{fig:chordRz}
 %\end{figure}
 
@@ -56,7 +54,7 @@ two-dimensional projection are identical, shown in Fig.~\ref{fig:chordFlatland}.
 \begin{figure}[htb]
   \centering
   \includegraphics{chord-flatland}
-  \caption[The infinite gap as represented on paper.]%
+  \Caption{The infinite gap as represented on paper.}%
   {The infinite gap as represented on paper. The gap is a distance
   $\tau$ across, $\omega$ is the azimuthal angle, and $s$ is the
   distance across the gap.}
@@ -71,9 +69,8 @@ effectively fixed at $\theta=\pi/2$, i.e., $\mu=\cos\theta = 0$.
 \begin{figure}[htb]
   \centering
   \includegraphics{chord-xyz}
-  \caption[A 3-D view of the ``2-D'' infinite gap.]%
-  {A 3-D view of the ``2-D'' infinite gap.
-  The polar angle cosine is $\mu= \cos \theta$, and the azimuthal angle is
+  \Caption{A 3-D view of the ``2-D'' infinite gap.}{
+    The polar angle cosine is $\mu= \cos \theta$, and the azimuthal angle is
   $\omega$.}
   \label{fig:chordXy}
 \end{figure}
@@ -480,7 +477,8 @@ $\omega_{31}$ & ${}=1.5462526341887264$ \\
 \end{tabular}%
 \hspace{\stretch{1}}
 \end{minipage}%
-\caption[Chebyshev--Gauss flatland quadrature sets.]{Chebyshev--Gauss
+\Caption{Chebyshev--Gauss flatland quadrature sets.}{
+  Chebyshev--Gauss
   flatland quadrature sets. Orders 2, 4, 8, 16, 32, and 64 are given for the
   first quadrant. The weights in each order are equal and sum to $4\pi$.}
   \label{tab:chebyQs}
@@ -1320,10 +1318,10 @@ Eq.~\eqref{eq:flatMarshakAdBc}, is:
 
 The diffusion coefficient is the second angular moment of a purely absorbing
 flatland transport solution $f$:
-\begin{equation*}
+\begin{equation}\label{eq:flatDDefinition}
   \Dtens(\vec{x}) \equiv \int_{0}^{2\pi} \vec{\Omega} \vec{\Omega}
   f(\vec{x}, \vec{\Omega}) \ud\omega \,,
-\end{equation*}
+\end{equation}
 where $f$ is given in Eq.~\eqref{eq:fadFVol} as:
 \begin{equation*}
   \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})

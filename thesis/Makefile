@@ -16,7 +16,7 @@ clean:
 		     thesis.lot thesis.pdf thesis.toc
 
 individual:
-	cd _individual && $(MAKE) $(MFLAGS)
+	cd _individual && ./make.sh
 
 .PHONY: all clean individual
 

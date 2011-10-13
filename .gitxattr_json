@@ -1247,9 +1247,6 @@
 "thesis/Makefile": {
 "creation": 1317233500
 }, 
-"thesis/_individual/Makefile": {
-"creation": 1318270638
-}, 
 "thesis/_individual/_preamble.tex": {
 "creation": 1280528054, 
 "xattrs": {
@@ -1292,6 +1289,9 @@
 "xattrs": {
 "com.apple.FinderInfo": "AAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
+}, 
+"thesis/_individual/make.sh": {
+"creation": 1318418815
 }, 
 "thesis/_individual/simpleNumericalResults.tex": {
 "creation": 1303788395, 
@@ -1362,7 +1362,8 @@
 "thesis/simpleNumericalResults.tex": {
 "creation": 1303788395, 
 "xattrs": {
-"com.apple.FinderInfo": "AAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+"com.apple.FinderInfo": "VEVYVAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
 }, 
 "thesis/thesis.tex": {

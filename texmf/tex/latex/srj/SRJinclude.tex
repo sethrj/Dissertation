@@ -1,6 +1,7 @@
 %%% INCLUDE FILE FOR DEFINITIONS
 %%% These may require various packages.
 
+
 % Shortcuts in regular text
 \newcommand{\degs}{\ensuremath{^\circ}}
 \newcommand{\EE}[1]{\ensuremath{\times 10^{#1}}}
@@ -22,7 +23,6 @@
 \newcommand{\horizsep}{\vspace{\baselineskip}\noindent\hspace{\stretch{1}}$
 \ast\qquad \ast\qquad \ast\qquad
 $ \hspace{\stretch{1}} \vspace{\baselineskip}}
-\newcommand{\pytrt}{\textsf{PyTRT}}
 
 % Research
 %\newcommand{\lop}[1]{\mathcal{L}\!\left[#1\right]}
@@ -53,10 +53,12 @@ $ \hspace{\stretch{1}} \vspace{\baselineskip}}
 \newcommand{\Iv}{I_\mathrm{v}}
 \newcommand{\Ibl}{I_\mathrm{bl}}
 \newcommand{\Iil}{I_\mathrm{il}}
-
+% Multi-sentence caption command for thesis
+\newcommand{\Caption}[2]{\caption[#1]{#1#2}}
 
 % Program names
 \newcommand{\cpp}{\textsf{C\raisebox{0.2ex}{++}}}
+\newcommand{\pytrt}{\textsf{PyTRT}}
 
 % General math shortcuts
 \newcommand{\ud}{\mathop{}\!\mathrm{d}}

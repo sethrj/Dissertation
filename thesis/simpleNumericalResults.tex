@@ -33,10 +33,12 @@ noted, we use the following solver parameters with each method.
     $10^7$ particles and uses path length--weighted tallies.
 
   \item[Standard diffusion] in our implementation uses a cell-centered
-    discretization \cite{Dud1976}. With all the following methods, we explicitly
+    discretization \cite{Dud1976}.  We use ``variational'' rather than
+    ``Marshak'' boundary conditions.
+    As with the following diffusion-like methods, we explicitly
     construct a sparse matrix that is passed to the Trilinos library
     \cite{Her2003}.  In problems with under 30,000 unknowns, we use the KLU
-    direct solver.
+    direct solver. 
 
   \item[Time-dependent \Pone] uses the standard ``staggered mesh''
     discretization, where $\phi$ is cell-centered and $\vec{F}$ is
@@ -50,10 +52,11 @@ noted, we use the following solver parameters with each method.
     coefficients calculated with the diamond difference \SN\ method, using 100
     sweep iterations. In 1-D, we use a Gauss--Legendre quadrature set with 16
     ordinates (S$_{16}$); in flatland, we use a Chebyshev--Gauss quadrature set
-    (see \S\ref{sec:flatlandQuadrature} with 64 ordinates (16 per quadrant). As
+    (see \S\ref{sec:flatlandQuadrature}) with 64 ordinates (S$_{32}$). As
     with FLD, the opacities, diffusion coefficients, and unknowns are
     cell-centered. We use the nine-point stencil given in
-    \S\ref{sec:cellAnisoA}.
+    \S\ref{sec:cellAnisoA}. The low-order boundary conditions use the
+    variational extrapolation distance 
 
   \item[Flux-limited anisotropic diffusion] is implemented with the
     ``max'' limiter described in \S\ref{sec:flad} using the flux limiter
@@ -67,73 +70,44 @@ noted, we use the following solver parameters with each method.
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discretization error}
+\section{Analysis of non-analytic AD coefficients}
 
-In our numerical simulations, we must approximate the continuum transport
-solutions with discrete methods. With the anisotropic diffusion methods,
-discretization affects not only the diffusion solution but also the calculation
-of the anisotropic diffusion coefficients.
+In prior work, the anisotropic diffusion coefficients have been calculated using
+analytic solutions of $f$ \cite{Lar2009c}. However, in all but the simplest
+problems, such solutions are impossible, so we use an \SN\ transport solver to
+calculate the coefficients. Because \SN\ is only an approximation to the
+transport equation, discretization in both the spatial and angular variables
+will affect the calculated diffusion coefficients $\Dtens$, which in turn affect
+the anisotropic diffusion solution $\phi$.
 
-The low-order spatial discretization for the
-tensor diffusion problems was formulated in Chapter~\ref{chap:implementation}.
-For the high-order transport, we use diamond difference \cite{Lew1984} with a
-``flux fix-up'' to ensure positivity.
+To assess the discrepancy in the solution incurred by using discrete transport,
+we compare the solutions of a simple test problem using \SN-calculated
+coefficients and analytically calculated coefficients.  We furthermore compare
+the analytic and discrete solutions to a Monte Carlo reference solution, to see
+if the discrepancy in the diffusion coefficients truly reduces the accuracy of
+the methods.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Diffusion spatial discretization: manufactured solutions}
+By varying the number of ordinates in the quadrature set, the spatial
+refinement in the \SN\ calculation, the \SN\ convergence criteria, and the
+choice of boundary conditions for the calculation of $f$ (reflecting or white),
+we can determine acceptable solver parameters for our later, more complex
+problems.  A
+voided channel surrounded by a diffusive, optically thick medium is
+representative of many of our later test problems.
 
-\begin{equation*}
-  - \grad \vd \Dtens \vd \grad \phi(\vec{x}) + \sigma_a \phi(\vec{x})
-  = q(\vec{x})\,, \quad \vec{x} \in V \,,
-\end{equation*}
-with the mixed boundary condition
-\begin{equation*}
-  4 F^{-}(\vec{x}) = \phi(\vec{x}) + 2 \vec{n}\vd \Dtens \vd \grad \phi(\vec{x})
-  \,, \vec{x}\in \partial V\,.
-\end{equation*}
-The problem domain $V$ is the square $-\tfrac12 \le x,y \le \tfrac12$. The
-diffusion coefficient is a constant.
-
-\begin{figure}[htb]
-  \centering\small
-  \input{manufactured/convergence-multisolve-offdiag/plot}
-  \caption[Solution error (absolute volume-weighted 2-norm) in the
-  finite difference discretization schemes.]{Solution error (absolute
-  volume-weighted 2-norm) in the finite difference discretization schemes. The
-  slopes of $\Delta_x^{2}$, $\Delta_x^{1.5}$, and
-  $\Delta_x$, respectively.}
-  \label{fig:manuConvergence}
-\end{figure}
-
-\begin{figure}[htb]
-  \centering
-  \includegraphics{manufactured/offdiag-contours}
-  \caption[Solution contours for the manufactured solutions test.]{
-  Solution contours for the manufactured solutions test. The red dashed line is
-  the Diagonal scheme, the blue dashed line is the Gol'din scheme, cyan and green
-  are the nine-point schemes, and the thin black line is the analytic solution.}
-  \label{fig:manuSolution}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Transport discretization: single steady-state channel}
+\subsection{Problem description}
 
 The prototypical anisotropic diffusion test problem, a flatland VHTR mock-up due
 to Larsen and Trahan \cite{Lar2009c}, consists of voided vertical channels in a
 diffusive medium. The diffusive region has $\sigma_d=1$, the channel
-$\sigma_c=0.01$. The scattering ratio is uniformly $0.99$.
-
-We will use a small portion of this problem, a single channel of unit width,
-with the 
-
-The simplicity of this model allows for $f$ to be calculated analytically
-rather than with an \SN\ transport solution. (Do I write the solution down
-here?) We can therefore assess the penalty of various approximations against an
-``exact'' solution.
-
-Because the anisotropic diffusion coefficient can be calculated analytically,
-the effect of using coarse-grid $\Dtens$ can be investigated independently of
-the spatial discretization error accrued in an \SN\ solve.
+$\sigma_c=0.01$. The scattering ratio is uniformly $0.99$.  We will use a small
+portion of this problem (Fig.~\ref{fig:ssSingleXsn}), a single channel of unit
+width, with diffusive regions on the left and right each with width 4. The left
+and lower boundaries are reflecting, and the right and upper boundaries are
+vacuum. The source is a Gaussian function,
+\begin{equation*}
+  q(x,y) = 2 \eexp^{-2 (x^2 + y^2)}\,.
+\end{equation*}
 
 %\begin{table}[htb]
 %  \centering
@@ -150,18 +124,58 @@ the spatial discretization error accrued in an \SN\ solve.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=3in]{ss_single_channel/xsn.png}
-  \caption[Source and cross sections for the single channel problem.]%
-  {Source and cross sections for the single channel problem. The colored region
-  in the lower left is the Gaussian source.}
+  \includegraphics[width=3.5in]{ss_single_channel/xsn.png}
+  \Caption{The single channel problem configuration.}
+  {The total opacity is plotted in black and white, and the colored region in the
+  lower left is the Gaussian source.}
   \label{fig:ssSingleXsn}
 \end{figure}
+
+The analytic solution for $f$ is based on the assumption that the channel is
+infinite in extent along the $y$ axis, and that the diffusive regions are
+infinitely wide. We therefore expect reflecting boundaries on the \SN\ transport
+problem for $f$ to produce answers closer to the analytic values, but since the
+channel is \emph{not} indeed infinite, reflecting boundaries will not
+necessarily produce more accurate answers compared to the reference transport
+solution. Using the analytic solution for $f$, we calculate exact solutions for
+the anisotropic diffusion coefficient $\Dtens$ from
+Eq.~\eqref{eq:flatDDefinition}
+as well as boundary coefficient given in Eq.~\eqref{eq:flatAdBoundaryIntegral}:
+\begin{equation*}
+  \vec{d}(\vec{x}) = -4\int_{\vec{\Omega}\vd\vec{n} < 0}
+  V(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
+\end{equation*}
+
+All of the diffusion solutions, even though they may use analytically-calculated
+coefficients, are solved using the standard five-point cell-centered diffusion
+scheme%
+\footnote{%
+Because the opacity is symmetric about the $x$ axis, $D^{xy}=0$
+throughout the problem; see \S\ref{sec:adLinalg}.
+} using a uniform cell width of 0.0625.
+
+\subsection{Solution}
+The solution of the problem using four different methods is plotted in
+Fig.~\ref{fig:ssSingleContour}. The Monte Carlo solution is the reference
+solution.  We have also shown the anisotropic diffusion solutions with
+both analytically calculated coefficients and \SN-calculated coefficients. The
+latter uses reflecting boundaries on the transport calculation for $f$ with
+$10^4$ source iterations. For comparative purposes, we also plot the standard
+diffusion solution.
+
+Before exploring the parameter space of \SN\ solver options, we first point out
+some features in the solution characteristic of anisotropic diffusion. Unlike
+the Monte Carlo and diffusion solutions, which have discontinuities at the
+boundary between channel and medium, the anisotropic diffusion solution is
+smooth. The AD solution is less accurate near the material boundaries, but along
+the centerline of the channel (Fig.~\ref{fig:ssSingleCenterline}) and a few mean
+free paths into the medium, it matches the reference solution very closely.
 
 \begin{figure}[htb]
   \centering
   \includegraphics{ss_single_channel/phi.pdf}
-  \caption[Contour plot of $\phi$ in the steady-state single channel
-  problem.]{Contour plot of $\phi$ in the steady-state single channel problem.
+  \Caption{ Contour plot of $\phi$ in the steady-state single channel problem.}{
   The dashed black line is the reference Monte Carlo solution; the dotted red
   line is standard diffusion; the broken black line is the anisotropic
   diffusion solution with analytic coefficients; the solid blue line is
@@ -173,72 +187,145 @@ the spatial discretization error accrued in an \SN\ solve.
 \begin{figure}[htb]
   \centering
   \input{ss_single_channel/phi-channel/plot}
-  \caption{Scalar intensity along $x=5.0$.}
+  \Caption{Scalar intensity along $x=5.0$.}{
+    The ``AD'' curve is the solution using analytic diffusion coefficients;
+  the ``AD$_N$'' curves use S$_N$-calculated coefficients.}
   \label{fig:ssSingleCenterline}
 \end{figure}
 
-Interestingly, the global norms have about the same error rate as the
-channel-only. 
+\subsection{\texorpdfstring{\SN}{SN} parameter convergence}
+Figure~\ref{fig:ssSingleAbsConv} plots the convergence of the solution $\phi$
+against the solution with analytically-calculated AD coefficients, for four
+different combinations of \SN\ solver parameters, as a function of the number of
+source iterations (transport sweeps) in the calculation of $f$.
+
+Likewise, figure~\ref{fig:ssSingleQsConv} plots the convergence of the \SN\ 
+solution with increasing number of ordinates. The black line shows that refining
+the quadrature brings the solution closer to the analytic value, but the red
+line demonstrates that it does \emph{not} converge to the Monte Carlo transport
+solution.
 
 \begin{figure}[htb]
   \centering
-  \input{ss_single_channel/absconv/plot}
-  \caption{Convergence of the solution $\phi$ (volume-weighted 2-norm) with
-  increasing iterations used for the AD coefficient solve, relative to $\phi$
-  with analytic AD coefficients.}
-  \label{fig:ssSingleMcconv}
-\end{figure}
-
-I also observed convergence as a function of the number of ordinates (using
-Chebyshev equal-weight quadrature). The coarse-grid convergence was performed
-with a diffusion grid of $\Delta_x = 1/32$.
-
-\begin{figure}[htb]
-  \centering
+  \subfloat[Source iterations]{%
+    \label{fig:ssSingleAbsConv}
+    \input{ss_single_channel/absconv/plot}}%
   \subfloat[Quadrature sets]{%
     \label{fig:ssSingleQsConv}
     \input{ss_single_channel/qsconv/plot}}%
-  \subfloat[AD grid coarseness]{%
-    \label{fig:ssSingleMgConv}
-    \input{ss_single_channel/mgconv/plot}}%
-  \caption{Error introduced by coarse spatial and angular grids in
-  calculating the AD coefficients.}
+  \Caption{Convergence of $\phi$ as a function of \SN\ parameters.}{
+    The AD solution $\phi$ with \SN-calculated coefficients is compared
+    against the solution with analytic coefficients using a volume-weighted
+    2-norm, as a function of increasing source iterations in the calculation of
+    $f$. The red line in (b) shows convergence compared to the Monte Carlo
+    solution.}
   \label{fig:ssSingleConv}
 \end{figure}
 
-Realized last night that I didn't set the boundary conditions on the analytic
-problem. \verb|:)| Plots have been updated accordingly. Quadrature set does
-actually converge. Phew.
-
-Figure~\ref{fig:ssSingleMgConv} is the steady-state channel problem with a
-diffusive region width of 4.0 and a channel width of 1.0.
-
-The rightmost data point in Fig.~\ref{fig:ssSingleMgConv} has a coarse cell
-width of $\Delta_x=0.5$, half the width of the channel.
-
-\begin{figure}[htb]
-  \centering
-  \subfloat[$D^{xx}$]{%
-  \includegraphics[width=3in]{ss_single_channel/mg-dxx.png}}%
-\subfloat[$D^{yy}$]{%
-  \includegraphics[width=3in]{ss_single_channel/mg-dyy.png}}%
-  \caption{Calculated diffusion coefficients for different grid coarseness.}
-  \label{fig:ssSingleMgD}
-\end{figure}
-
-The differences calculated here are volume-weighted relative 2-norms:
+The convergence is calculated using a volume-weighted relative 2-norm:
 \begin{equation}\label{eq:rel2norm}
   \text{reported difference} =
-  \left[ \sum_{i \in \text{cells}} \left( 1 -
-  \frac{\phi_i}{\phi_{i,\text{reference}}} \right)^2 (V_i)^2\right]^{1/2} \,.
+  \left[ \sum_{i \in \text{cells}} \left
+  \frac{\phi_i}{\phi_{i,\text{reference}}} - 1 \right)^2 (V_i)^2\right]^{1/2} \,.
 \end{equation}
+This is \emph{not} the convergence of the transport solution $f$, which only
+indirectly affects the $\phi$.
 Compared to the reference solution, AD (with analytic coefficients) has a 4.5\%
 absolute error and standard diffusion has a 19.8\% error.
 
+The data in Fig.~\ref{fig:ssSingleAbsConv} suggest that with a finite number of
+ordinates, which cannot exactly
+approximate the angular domain, there is little added benefit to using more than
+a few sweeps: the error introduced by the angular approximation overwhelms
+the lack of convergence. But Fig.~\ref{fig:ssSingleQsConv} shows that, since
+even the analytic AD solution differs from the exact solution by ~5\%, even a
+coarse quadrature set can provide accuracy within the inherent limits of the
+method.
+%Additionally, the choice of reflecting or white boundary conditions has
+%little effect on the solution of this problem.
+
+This conclusion may not hold for some problems, of course, but it suggests that
+a modest number of ordinates and sweeps are sufficient to yield answers with
+close to the accuracy of an analytic anisotropic diffusion solution.
+
+\clearpage
+\subsubsection{Coarse spatial grid calculation of \texorpdfstring{$\Dtens$}{D}}
+
+In addition to investigating how the AD solution changes with the granularity of
+the angular variable in the solution of $f$, we test the discrepancy
+introduced by calculating $f$ on a coarser spatial grid. As discussed in
+\S\ref{sec:adSmoothness}, the solution of $f$ is a smooth function of space, and
+$\Dtens$ likewise has no discontinuities. We have implemented the basic
+multigrid operations of prolongation and restriction in the \pytrt\ code
+for cell-centered quantities and quantities on the boundary face \cite{Pytrt}.
+
+%The total opacity is restricted using a volume-weighted harmonic average 
+We run the transport calculation for $f$ on a coarse grid and prolongate the
+diffusion tensor $\Dtens$ and boundary coefficient $\vec{d}$ back to the fine
+grid, where $\phi$
+is then solved. With this methodology, the spatial discretization error of the
+diffusion solve is unaffected; the only difference is that the diffusion
+coefficients are a coarser function of space. Figure~\ref{fig:ssSingleMgD} shows
+the resulting coarse anisotropic diffusion coefficients.
+
+\begin{figure}[htb]
+  \centering
+\subfloat[$D^{xx}$]{%
+  \includegraphics[width=3in]{ss_single_channel/mg-dxx.png}}%
+\subfloat[$D^{yy}$]{%
+  \includegraphics[width=3in]{ss_single_channel/mg-dyy.png}}%
+  \Caption{Calculated diffusion coefficients for different grid coarseness.}{
+  Every two units downward represents a factor of four refinement in the
+  number of fine cells per coarse cell.}
+  \label{fig:ssSingleMgD}
+\end{figure}
+
+Figure~\ref{fig:ssSingleMgConv} plots the error in $\phi$ introduced by using
+coarse approximations to the anisotropic diffusion coefficient. (In this
+problem, the grid and refinements were chosen so that in the coarsest case, each
+coarse cell was composed of a single material.) 
+The rightmost data point in the figure has a coarse cell width of
+$\Delta_x=0.5$, half the width of the channel.
+\begin{figure}[htb]
+  \centering
+  \input{ss_single_channel/mgconv/plot}
+  \caption{Error introduced by coarse spatial grids in calculating the AD
+  coefficients.}
+  \label{fig:ssSingleMgConv}
+\end{figure}
+Clearly, in this simple problem with well-defined material boundaries, the
+solution is relatively insensitive to using less spatially refined diffusion
+coefficients. This is perhaps not surprising, as, for example, the standard
+diffusion coefficient has no spatial variation inside a homogeneous material.
+
+The implication of all these results is clear: high-fidelity transport
+calculations are \emph{not} needed in calculation of the anisotropic diffusion
+coefficients. Because the cost of the transport calculation is
+roughly proportional to $
+  (\text{the number of transport sweeps}) \times 
+  (\text{the number of ordinates}) \times 
+  (\text{the number of spatial cells})$,
+using only a modest number of sweeps and a small quadrature set with a
+coarse-grid calculation can provide a substantial speedup when compared with a
+fine-grid calculation that might improve the answer only by a tenth of a
+percent. Because we do not expect the anisotropic diffusion approximation to
+yield truly transport-quality solutions, and because a high-fidelity transport
+calculation requires far more computational effort than a diffusion solve, the
+small error incurred by using a coarse transport solution is well worth reducing
+the run time by orders of magnitude.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \section{Flatland boundary conditions}
+
+As a test problem, we consider a homogeneous flatland problem with a
+total cross section $\sigma=1$ and scattering ratio $c=0.99$. The spatial 
+domain is the rectangle $0 \le x \le 2$, $0 \le y \le 10$, with
+reflecting boundaries on the left,
+right, and top sides. The bottom side has a specified unit-current incident
+flux; we consider three different angular
+distributions given in Table~\ref{tab:angularDistributions}. These
+distributions were chosen because of their prior use in a boundary
+matching analysis in \cite{Dav2006}
 
 \begin{table}[htb]
   \centering
@@ -257,32 +344,25 @@ Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\omega) = \delta(\omega-\sin\inv.1)$
   \label{tab:angularDistributions}
 \end{table}
 
-As a test problem, we consider a homogeneous flatland problem with a
-total cross section $\sigma=1$ and scattering ratio $c=0.99$. It lives on the
-domain $0 \le x \le 2$, $0 \le y \le 10$, with reflecting boundaries on the left,
-right, and top sides. The bottom side has a specified boundary
-condition with unit incident current, and we consider three different angular
-distributions.
+We compare a transport method (Monte Carlo using $10^7$ particles)
+with a finite difference diffusion implementation on a fine spatial grid.
+Figure~\ref{fig:delta},
+ a line-out of the scalar flux $\phi_0$ along
+$x=1$ for the normally incident boundary, illustrates the differences between
+the methods. The diffusion
+approximation cannot reproduce the boundary layer that the true transport
+solution features, but the variational approximation to the flatland
+diffusion boundary condition allows the asymptotic diffusion solution to
+closely match the transport solution. The Marshak boundary does not.
 
-The first distribution is isotropic, $\psi^b(\omega) = \frac{1}{2}$. The second
-is a normally incident flux, with all particles entering
-perpendicular to the surface, $\psi^b(\omega) = \delta(\omega -
-\frac{\pi}{2})$. The third incident distribution is at a grazing angle, with 
-$\psi^b(\omega) = 10 \delta(\omega - \sin^{-1}.1)$.
-These are the same angular distributions used in a boundary matching analysis
-in \cite{Dav2006}.
-
-Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi_0$ along
-$x=1$ for an isotropic incident source. Because the left-hand sides of
-Eqs.~\eqref{eq:flatMarshak} and~\eqref{eq:flatVarBc} are the same, the
-differences in the solution are only due to the slightly different
-extrapolation distance.
-
-However, for the highly anisotropic normal and grazing cases,
-Figs.~\ref{fig:delta} and~\ref{fig:grazing}, the Marshak boundary fails to
-limit to the transport solution outside of the boundary layer. As
-expected, the variational boundary condition does a much better job of
-approximating the interior solution of the scalar flux.
+Figure~\ref{fig:relative} quantitatively compares both ``variational'' and
+``Marshak'' diffusion boundary conditions against the transport solution
+for all three incident distributions.  
+As with the variational boundary condition for 3-D geometry, the flatland
+variational boundary condition gives an interior scalar flux accurate to within
+a few percent. The Marshak condition fails to limit to the transport solution except in
+the case of an isotropic boundary source, where only the extrapolation
+distance differs from the variational boundary condition.
 
 \begin{figure}[htb!]
   \centering\small
@@ -294,80 +374,90 @@ approximating the interior solution of the scalar flux.
   \label{fig:isotropic}
 \end{figure}
 
-\begin{figure}[htb!]
-  \centering\small
-  \hspace{-.5in}
-  \input{flatlandbc-channel/delta-phi/plot}
-  \hspace{-.5in}
-  \caption{Scalar flux with a normally incident boundary condition in a
-  homogeneous flatland problem.}
-  \label{fig:delta}
-\end{figure}
-
-\begin{figure}[htb!]
-  \centering\small
-  \hspace{-.5in}
-  \input{flatlandbc-channel/grazing-phi/plot}
-  \hspace{-.5in}
-  \caption{Scalar flux with a grazing boundary condition in a homogeneous
-  flatland problem.}
-  \label{fig:grazing}
-\end{figure}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion boundary conditions}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Steady-state flatland channel}
-As a test problem, we consider a diffusive medium in flatland on
-the domain $0
-\le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
-vertically through the middle. The diffusive region has $\sigma=1$ and
-$\sigma_s=0.99$, and the channel has $\sigma=0.01$ and $\sigma_s=0.0099$. It has
-reflecting boundaries on the top, left, and right sides, and an incident
-boundary condition on the bottom. The geometry and cross sections are similar to Larsen
-and Trahan's VHTR problem \cite{Lar2009c}.
+\subsection{Boundary source}
+As a test problem, we consider a homogeneous flatland problem with a
+total cross section $\sigma=1$ and scattering ratio $c=0.99$. The spatial 
+domain is the rectangle $0 \le x \le 2$, \linebreak $0 \le y \le 10$, with
+reflecting boundaries on the left,
+right, and top sides. The bottom side has a specified unit-current incident
+flux; we consider three different angular
+distributions.
 
-We compare the AD method using three different boundary conditions for $f$ on
-the bottom surface: a reflecting boundary, a white boundary, and a vacuum
-boundary. The vacuum boundary is not consistent with our theory but
-is shown to gauge how much $\phi$ is affected by the choice of $\zeta$.
+The first distribution is isotropic, $\psi^b(\omega) = \frac{1}{2}$. The second
+is a normally incident flux, with all particles entering
+perpendicular to the surface, $\psi^b(\omega) = \delta(\omega -
+\frac{\pi}{2})$. The third incident distribution is at a grazing angle, with 
+$\psi^b(\omega) = 10 \delta(\omega - \sin^{-1}.1)$.
 
-Figure~\ref{fig:bcChannelIsotropic} shows a line-out of the scalar flux
-$\phi(2.5,y)$, along the center
-of the channel. Standard diffusion fails because $\sigma=0.01$ leads to a very
-large diffusion coefficient, resulting in a nearly constant solution inside the
-channel. Anisotropic diffusion performs exceedingly well, and curiously the
-white boundary gives a better result than the reflecting boundary.
+We compare a transport method (Monte Carlo using $10^7$ particles)
+with a finite difference diffusion implementation on a fine spatial grid.
+Figure~\ref{fig:delta},
+ a line-out of the scalar flux $\phi_0$ along
+$x=1$ for the normally incident boundary, illustrates the differences between
+the methods. The diffusion
+approximation cannot reproduce the boundary layer that the true transport
+solution features, but the variational approximation to the flatland
+diffusion boundary condition allows the asymptotic diffusion solution to
+closely match the transport solution. The Marshak boundary does not.
 
-\begin{figure}[htb]
-  \centering\small
+Figure~\ref{fig:relative} quantitatively compares both ``variational'' and
+``Marshak'' diffusion boundary conditions against the transport solution
+for all three incident distributions.  
+As with the variational boundary condition for 3-D geometry, the flatland
+variational boundary condition gives an interior scalar flux accurate to within
+a few percent. The Marshak condition fails to limit to the transport solution except in
+the case of an isotropic boundary source, where only the extrapolation
+distance differs from the variational boundary condition.
+
+
+%Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi_0$ along
+%$x=1$ for an isotropic incident source.
+%
+%For the highly anisotropic normal and grazing cases,
+%Figs.~\ref{fig:delta} and~\ref{fig:grazing}, the Marshak boundary fails to
+%limit to the transport solution outside of the boundary layer. However, 
+%the variational boundary condition yields much more accurate
+%approximates the scalar flux in the interior of the system.
+
+%\begin{figure}[tbh!]
+%  \centering
+%  \hspace{-.5in}
+%  \input{flatlandbc-channel/isotropic-phi/plot}
+%  \hspace{-.5in}
+%  \caption{Scalar flux with an isotropic boundary condition.}
+%  \label{fig:isotropic}
+%\end{figure}
+
+\begin{figure}[tb]
+  \centering
   \hspace{-.5in}
-  \input{adbc-channel/isotropic-phi/plot}
+  \input{flatlandbc-channel/delta-phi/plot}
   \hspace{-.5in}
-  \caption{Scalar flux along the centerline of the channel with an isotropic
-  boundary condition at $y=0$.}
-  \label{fig:bcChannelIsotropic}
+  \caption{Scalar flux with a normally incident boundary condition.}
+  \label{fig:delta}
 \end{figure}
 
-\begin{figure}[htb]
-  \centering\small
+%\begin{figure}[tbh]
+%  \centering
+%  \hspace{-.5in}
+%  \input{flatlandbc-channel/grazing-phi/plot}
+%  \hspace{-.5in}
+%  \caption{Scalar flux with a grazing boundary condition.}
+%  \label{fig:grazing}
+%\end{figure}
+%
+\begin{figure}[tb]
+  \centering
   \hspace{-.5in}
-  \input{adbc-channel/delta-phi/plot}
+  \input{flatlandbc-channel/relative-errors/plot}
   \hspace{-.5in}
-  \caption{Scalar flux along the centerline of the channel with a normal
-  boundary condition at $y=0$.}
-  \label{fig:bcChannelDelta}
-\end{figure}
-
-\begin{figure}[htb]
-  \centering\small
-  \hspace{-.5in}
-  \input{adbc-channel/grazing-phi/plot}
-  \hspace{-.5in}
-  \caption{Scalar flux along the centerline of the channel with a grazing
-  boundary condition at $y=0$.}
-  \label{fig:bcChannelGrazing}
+  \caption{Relative errors ($\phi/\phi_\text{MC} - 1$) of the three tested
+  distributions.}
+  \label{fig:relative}
 \end{figure}
 
 A visualization of the angular flux for each method (replacing Monte Carlo with
@@ -381,7 +471,7 @@ diffusive region (the lobes on the left and right).
 The linear-in-angle diffusion approximation cannot represent any of these
 features.  
 
-\begin{figure}[htb!]
+\begin{figure}[htb]
   \centering\small
   \vspace{-.25in}
   \hspace{-.5in}
@@ -401,6 +491,12 @@ that the qualitatively best way to satisfy Eq.~\eqref{eq:hoBc} may be
 to have the incident distribution of $f$ take the shape of the true boundary
 condition.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\subsection{Interior source}
+
+As a more realistic test of the boundary conditions, we consider a problem with
+an interior source and vacuum boundary conditions.
 
 \begin{figure}[htb]
   \centering\small
@@ -420,47 +516,46 @@ condition.
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\subsection{Steady-state flatland checkers}
-Not sure if this problem is useful or should be included.
-
-Here we consider a difficult problem that has repeating variations in both $x$
-and $y$ directions. It uses $c=0.99$, 
-
-The anisotropic diffusion coefficients are plotted as ellipses in
-Fig.~\ref{fig:bcCheckersAdcoeff}. The major axis is along the principal
-eigenvector of the diffusion tensor and is in length proportional to the
-principal eigenvalue; the more isotropic the tensor, the more circular the
-glyph. Red and larger ellipses represent larger AD coefficients.
-
-\begin{figure}[htb]
-  \centering\small
-  \includegraphics[width=3in]{adbc-checkers/adcoeff}
-  \caption[Anisotropic diffusion coefficients for the checker problem.]{
-  Anisotropic diffusion coefficients for the checker problem. Dark
-  regions have $\sigma=1$, light regions have $\sigma=0.01$.}
-  \label{fig:bcCheckersAdcoeff}
-\end{figure}
-
-\begin{figure}[htb]
-  \centering\small
-  \hspace{-.5in}
-  \input{adbc-checkers/isotropic-phi/plot}
-  \hspace{-.5in}
-  \caption{Scalar flux along $x=2$ of the checker problem with an isotropic
-  boundary condition at $y=0$.}
-  \label{fig:bcCheckersIsotropic}
-\end{figure}
-
-\begin{figure}[htb]
-  \centering\small
-  \hspace{-.5in}
-  \input{adbc-checkers/delta-phi/plot}
-  \hspace{-.5in}
-  \caption{Scalar flux along $x=2$ of the checker problem with a normal
-  boundary condition at $y=0$.}
-  \label{fig:bcCheckersDelta}
-\end{figure}
+%\clearpage
+%\subsection{Steady-state flatland checkers}
+%Not sure if this problem is useful or should be included.
+%
+%Here we consider a difficult problem that has repeating variations in both $x$
+%and $y$ directions. It uses $c=0.99$, 
+%
+%The anisotropic diffusion coefficients are plotted as ellipses in
+%Fig.~\ref{fig:bcCheckersAdcoeff}. The major axis is along the principal
+%eigenvector of the diffusion tensor and is in length proportional to the
+%principal eigenvalue; the more isotropic the tensor, the more circular the
+%glyph. Red and larger ellipses represent larger AD coefficients.
+%
+%\begin{figure}[htb]
+%  \centering\small
+%  \includegraphics[width=3in]{adbc-checkers/adcoeff}
+%  \Caption{Anisotropic diffusion coefficients for the checker problem.}{
+%  Dark regions have $\sigma=1$, light regions have $\sigma=0.01$.}
+%  \label{fig:bcCheckersAdcoeff}
+%\end{figure}
+%
+%\begin{figure}[htb]
+%  \centering\small
+%  \hspace{-.5in}
+%  \input{adbc-checkers/isotropic-phi/plot}
+%  \hspace{-.5in}
+%  \caption{Scalar flux along $x=2$ of the checker problem with an isotropic
+%  boundary condition at $y=0$.}
+%  \label{fig:bcCheckersIsotropic}
+%\end{figure}
+%
+%\begin{figure}[htb]
+%  \centering\small
+%  \hspace{-.5in}
+%  \input{adbc-checkers/delta-phi/plot}
+%  \hspace{-.5in}
+%  \caption{Scalar flux along $x=2$ of the checker problem with a normal
+%  boundary condition at $y=0$.}
+%  \label{fig:bcCheckersDelta}
+%\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
@@ -487,8 +582,8 @@ equation~\eqref{eq:ap1FicksLawFinal}.
 \begin{figure}[bp]
   \centering
   \includegraphics[width=2in]{td_reactor/xsn}
-  \caption[Time-dependent reactor problem setup.]{Time-dependent reactor problem
-    setup. The source region is the red square in the lower-left; the black
+  \Caption{Time-dependent reactor problem setup.}{
+    The source region is the red square in the lower-left; the black
     and white area in the bottom half shows $\sigma$, the colored region above
     shows $\varsigma = 1/\int_{S} f \ud\Omega$, and the ellipses are a
     visualization of the diffusion tensor $\Dtens=\int_{S}
@@ -524,7 +619,7 @@ equation~\eqref{eq:ap1FicksLawFinal}.
   \subfloat[$t=15$]{%
     \includegraphics[width=3in]{td_reactor/phi-015}}
 
-  \caption{Scalar intensity $\phi$ along the centerline of the channel.}
+  \caption{Contour plots of the scalar intensity at four times.}
   \label{fig:tdReactorContour}
 \end{figure}
 
