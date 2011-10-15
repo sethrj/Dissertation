@@ -225,7 +225,7 @@ solution.
 The convergence is calculated using a volume-weighted relative 2-norm:
 \begin{equation}\label{eq:rel2norm}
   \text{reported difference} =
-  \left[ \sum_{i \in \text{cells}} \left
+  \left[ \sum_{i \in \text{cells}} \left(
   \frac{\phi_i}{\phi_{i,\text{reference}}} - 1 \right)^2 (V_i)^2\right]^{1/2} \,.
 \end{equation}
 This is \emph{not} the convergence of the transport solution $f$, which only
@@ -395,7 +395,7 @@ $\psi^b(\omega) = 10 \delta(\omega - \sin^{-1}.1)$.
 
 We compare a transport method (Monte Carlo using $10^7$ particles)
 with a finite difference diffusion implementation on a fine spatial grid.
-Figure~\ref{fig:delta},
+Figure~\ref{fig:flatlandBcDelta},
  a line-out of the scalar flux $\phi_0$ along
 $x=1$ for the normally incident boundary, illustrates the differences between
 the methods. The diffusion
@@ -404,7 +404,7 @@ solution features, but the variational approximation to the flatland
 diffusion boundary condition allows the asymptotic diffusion solution to
 closely match the transport solution. The Marshak boundary does not.
 
-Figure~\ref{fig:relative} quantitatively compares both ``variational'' and
+Figure~\ref{fig:flatlandBcRelative} quantitatively compares both ``variational'' and
 ``Marshak'' diffusion boundary conditions against the transport solution
 for all three incident distributions.  
 As with the variational boundary condition for 3-D geometry, the flatland
@@ -414,42 +414,15 @@ the case of an isotropic boundary source, where only the extrapolation
 distance differs from the variational boundary condition.
 
 
-%Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi_0$ along
-%$x=1$ for an isotropic incident source.
-%
-%For the highly anisotropic normal and grazing cases,
-%Figs.~\ref{fig:delta} and~\ref{fig:grazing}, the Marshak boundary fails to
-%limit to the transport solution outside of the boundary layer. However, 
-%the variational boundary condition yields much more accurate
-%approximates the scalar flux in the interior of the system.
-
-%\begin{figure}[tbh!]
-%  \centering
-%  \hspace{-.5in}
-%  \input{flatlandbc-channel/isotropic-phi/plot}
-%  \hspace{-.5in}
-%  \caption{Scalar flux with an isotropic boundary condition.}
-%  \label{fig:isotropic}
-%\end{figure}
-
 \begin{figure}[tb]
   \centering
   \hspace{-.5in}
   \input{flatlandbc-channel/delta-phi/plot}
   \hspace{-.5in}
   \caption{Scalar flux with a normally incident boundary condition.}
-  \label{fig:delta}
+  \label{fig:flatlandBcDelta}
 \end{figure}
-
-%\begin{figure}[tbh]
-%  \centering
-%  \hspace{-.5in}
-%  \input{flatlandbc-channel/grazing-phi/plot}
-%  \hspace{-.5in}
-%  \caption{Scalar flux with a grazing boundary condition.}
-%  \label{fig:grazing}
-%\end{figure}
-%
+ 
 \begin{figure}[tb]
   \centering
   \hspace{-.5in}
@@ -457,7 +430,7 @@ distance differs from the variational boundary condition.
   \hspace{-.5in}
   \caption{Relative errors ($\phi/\phi_\text{MC} - 1$) of the three tested
   distributions.}
-  \label{fig:relative}
+  \label{fig:flatlandBcRelative}
 \end{figure}
 
 A visualization of the angular flux for each method (replacing Monte Carlo with
@@ -492,11 +465,20 @@ to have the incident distribution of $f$ take the shape of the true boundary
 condition.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \subsection{Interior source}
 
-As a more realistic test of the boundary conditions, we consider a problem with
-an interior source and vacuum boundary conditions.
+As a more realistic test of the boundary conditions, we consider the same
+problem, except instead of a reflecting boundary on top and a source on bottom,
+the bottom is reflecting and the top is a vacuum.
+
+\begin{figure}[tb]
+  \centering
+  \hspace{-.5in}
+  \input{adbc-reactor/phi-channel/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux with a normally incident boundary condition.}
+  \label{fig:bcReactorFlux}
+\end{figure}
 
 \begin{figure}[htb]
   \centering\small
@@ -652,4 +634,25 @@ The initial condition is
 where $a$ is a normalization constant that gives a total initial $\int \phi
 \ud V$ of $100 + 0.001 V$. We use $\sigma=1$ inside the channel, $\sigma=10$
 outside, $c=0.99$ everywhere.
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[Along center]{%
+    \input{td_blastpipe/phi-center-01/plot}}%
+  \subfloat[Orthogonal view]{%
+    \input{td_blastpipe/phi-ortho-01/plot}}%
+
+  \caption{Scalar intensity at $t=1$ in the blast wave problem.}
+  \label{fig:tdBlastwave}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering\small
+    \input{td_blastpipe/phi-all/plot}
+
+  \caption{Comparison of Monte Carlo and flux-limited anisotropic diffusion at
+  four times in the blast wave problem.}
+  \label{fig:tdBlastwaveAll}
+\end{figure}
+
 

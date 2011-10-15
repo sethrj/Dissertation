@@ -376,6 +376,12 @@
 "figures/adbc-reactor/angle-insideleftedge-ymax/plot.tex": {
 "creation": 1317845921
 }, 
+"figures/adbc-reactor/phi-channel/phi-channel.pdf": {
+"creation": 1318641392
+}, 
+"figures/adbc-reactor/phi-channel/plot.tex": {
+"creation": 1318641392
+}, 
 "figures/boltzmann.jpg": {
 "creation": 1285954034, 
 "xattrs": {
@@ -929,6 +935,24 @@
 }, 
 "figures/ss_single_channel/xsn.png": {
 "creation": 1316800334
+}, 
+"figures/td_blastpipe/phi-all/phi-all.pdf": {
+"creation": 1318641392
+}, 
+"figures/td_blastpipe/phi-all/plot.tex": {
+"creation": 1318641392
+}, 
+"figures/td_blastpipe/phi-center-01/phi-center-01.pdf": {
+"creation": 1318641392
+}, 
+"figures/td_blastpipe/phi-center-01/plot.tex": {
+"creation": 1318641392
+}, 
+"figures/td_blastpipe/phi-ortho-01/phi-ortho-01.pdf": {
+"creation": 1318641392
+}, 
+"figures/td_blastpipe/phi-ortho-01/plot.tex": {
+"creation": 1318641392
 }, 
 "figures/td_reactor/lineout-phi-channel-10/lineout-phi-channel-10.pdf": {
 "creation": 1317845921
