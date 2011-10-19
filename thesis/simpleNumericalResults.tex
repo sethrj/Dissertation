@@ -37,7 +37,7 @@ noted, we use the following solver parameters with each method.
     ``Marshak'' boundary conditions.
     As with the following diffusion-like methods, we explicitly
     construct a sparse matrix that is passed to the Trilinos library
-    \cite{Her2003}.  In problems with under 30,000 unknowns, we use the KLU
+    \cite{Her2003}.  In problems with fewer than 50,000 unknowns, we use the KLU
     direct solver. 
 
   \item[Time-dependent \Pone] uses the standard ``staggered mesh''
@@ -108,19 +108,6 @@ vacuum. The source is a Gaussian function,
 \begin{equation*}
   q(x,y) = 2 \eexp^{-2 (x^2 + y^2)}\,.
 \end{equation*}
-
-%\begin{table}[htb]
-%  \centering
-%  \begin{tabular}{rll}
-%    \\
-%    $0 \le \omega < \frac{\pi}{2}$ &
-%    $\sigma_d\inv + (\sigma_c \inv - \sigma_d\inv)
-%    \left( 1 - \eexp^{ - \sigma_c (W + x) / \cos \omega} \right)
-%    \frac{\pi}{2} < \omega < \pi &
-%  \end{tabular}
-%  \caption{<+Caption text+>}
-%  \label{tab:<+label+>}
-%\end{table}<++>
 
 \begin{figure}[htb]
   \centering
@@ -317,15 +304,20 @@ the run time by orders of magnitude.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flatland boundary conditions}
 
-As a test problem, we consider a homogeneous flatland problem with a
+The flatland boundary conditions derived in Chapter~\ref{chap:flatland} must,
+for the sake of completeness, be numerically verified. We compare the novel
+diffusion boundary conditions against a Monte Carlo reference solution in a
+simple, diffusive test problem.
+
+We consider a homogeneous flatland problem with a
 total cross section $\sigma=1$ and scattering ratio $c=0.99$. The spatial 
 domain is the rectangle $0 \le x \le 2$, $0 \le y \le 10$, with
 reflecting boundaries on the left,
-right, and top sides. The bottom side has a specified unit-current incident
+right, and top sides. The bottom side has a specified unit incident radiation
 flux; we consider three different angular
-distributions given in Table~\ref{tab:angularDistributions}. These
-distributions were chosen because of their prior use in a boundary
-matching analysis in \cite{Dav2006}
+distributions given in Table~\ref{tab:angularDistributions}.\footnote{These
+distributions were chosen because of their prior use in a 1-D boundary
+matching analysis in \cite{Dav2006}.}
 
 \begin{table}[htb]
   \centering
@@ -344,57 +336,6 @@ Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\omega) = \delta(\omega-\sin\inv.1)$
   \label{tab:angularDistributions}
 \end{table}
 
-We compare a transport method (Monte Carlo using $10^7$ particles)
-with a finite difference diffusion implementation on a fine spatial grid.
-Figure~\ref{fig:delta},
- a line-out of the scalar flux $\phi_0$ along
-$x=1$ for the normally incident boundary, illustrates the differences between
-the methods. The diffusion
-approximation cannot reproduce the boundary layer that the true transport
-solution features, but the variational approximation to the flatland
-diffusion boundary condition allows the asymptotic diffusion solution to
-closely match the transport solution. The Marshak boundary does not.
-
-Figure~\ref{fig:relative} quantitatively compares both ``variational'' and
-``Marshak'' diffusion boundary conditions against the transport solution
-for all three incident distributions.  
-As with the variational boundary condition for 3-D geometry, the flatland
-variational boundary condition gives an interior scalar flux accurate to within
-a few percent. The Marshak condition fails to limit to the transport solution except in
-the case of an isotropic boundary source, where only the extrapolation
-distance differs from the variational boundary condition.
-
-\begin{figure}[htb!]
-  \centering\small
-  \hspace{-.5in}
-  \input{flatlandbc-channel/isotropic-phi/plot}
-  \hspace{-.5in}
-  \caption{Scalar flux with an isotropic boundary condition in a homogeneous
-  flatland problem.}
-  \label{fig:isotropic}
-\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Anisotropic diffusion boundary conditions}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Boundary source}
-As a test problem, we consider a homogeneous flatland problem with a
-total cross section $\sigma=1$ and scattering ratio $c=0.99$. The spatial 
-domain is the rectangle $0 \le x \le 2$, \linebreak $0 \le y \le 10$, with
-reflecting boundaries on the left,
-right, and top sides. The bottom side has a specified unit-current incident
-flux; we consider three different angular
-distributions.
-
-The first distribution is isotropic, $\psi^b(\omega) = \frac{1}{2}$. The second
-is a normally incident flux, with all particles entering
-perpendicular to the surface, $\psi^b(\omega) = \delta(\omega -
-\frac{\pi}{2})$. The third incident distribution is at a grazing angle, with 
-$\psi^b(\omega) = 10 \delta(\omega - \sin^{-1}.1)$.
-
-We compare a transport method (Monte Carlo using $10^7$ particles)
-with a finite difference diffusion implementation on a fine spatial grid.
 Figure~\ref{fig:flatlandBcDelta},
  a line-out of the scalar flux $\phi_0$ along
 $x=1$ for the normally incident boundary, illustrates the differences between
@@ -413,24 +354,64 @@ a few percent. The Marshak condition fails to limit to the transport solution ex
 the case of an isotropic boundary source, where only the extrapolation
 distance differs from the variational boundary condition.
 
-
 \begin{figure}[tb]
-  \centering
+  \centering\small
   \hspace{-.5in}
   \input{flatlandbc-channel/delta-phi/plot}
   \hspace{-.5in}
-  \caption{Scalar flux with a normally incident boundary condition.}
+  \caption{Scalar flux with a normally incident boundary condition in a
+  homogeneous flatland problem.}
   \label{fig:flatlandBcDelta}
 \end{figure}
  
 \begin{figure}[tb]
-  \centering
+  \centering\small
   \hspace{-.5in}
   \input{flatlandbc-channel/relative-errors/plot}
   \hspace{-.5in}
   \caption{Relative errors ($\phi/\phi_\text{MC} - 1$) of the three tested
   distributions.}
   \label{fig:flatlandBcRelative}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anisotropic diffusion boundary conditions}
+
+In Chapter~\ref{chap:adDerivation}, we derived boundary conditions for the
+anisotropic diffusion approximation. These boundary conditions reduce to the
+standard diffusion boundary condition in a homogeneous medium, but they were
+derived under a different set of asymptotic assumptions. We test the extent of
+their applicability using a steady-state flatland test problem similar to the
+above.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Boundary source}
+The test problem is similar to the above flatland boundary condition test
+problem. It features a diffusive medium in flatland on the domain $0
+\le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
+vertically through the middle ($2.5 \le x \le 3.5$). The diffusive region has
+$\sigma=1$ and $\sigma_s=0.99$, and the channel has $\sigma=0.01$ and
+$\sigma_s=0.0099$. The problem has reflecting boundaries on the top, left, and
+right sides, and an incident boundary condition on the bottom with unit
+incident radiation flux. We consider the same angular distributions as in
+Table~\ref{tab:angularDistributions}.
+
+Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi(2.5,y)$,
+along the center
+of the channel. Standard diffusion fails because $\sigma=0.01$ leads to a very
+large diffusion coefficient, resulting in a nearly constant solution inside the
+channel. The anisotropic diffusion performs exceedingly well, and the
+white boundary condition for $f$ gives a better result than the reflecting
+boundary condition.
+
+\begin{figure}[htb!]
+  \centering
+  \hspace{-.5in}
+  \input{adbc-channel/isotropic-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux along the centerline of the channel with an isotropic
+  boundary condition at $y=0$.}
+  \label{fig:isotropic}
 \end{figure}
 
 A visualization of the angular flux for each method (replacing Monte Carlo with
@@ -456,6 +437,15 @@ features.
   \label{fig:bcChannelIsotropicAngular}
 \end{figure}
 
+A close examination of the numerical solutions gives some insight into these
+results.  AD does not exactly model the peak of freely streaming
+photons in the channel, but it does accurately approximate the angular flux
+shape driven by scattering from the diffusive regions along the edge of the
+channel. 
+The standard linear-in-angle diffusion approximation does not accurately
+represent these
+features.
+
 The shape around $\omega=\pi/2$ gives insight into why the white boundary
 performs better in this problem: a reflecting boundary produces a peak in $f$
 along the channel, but a white boundary gives a more isotropic shape near that
@@ -469,14 +459,20 @@ condition.
 
 As a more realistic test of the boundary conditions, we consider the same
 problem, except instead of a reflecting boundary on top and a source on bottom,
-the bottom is reflecting and the top is a vacuum.
+the bottom is reflecting and the top is a vacuum. There is an isotropic
+Gaussian-shaped radiation source in the lower-left corner:
+\begin{equation*}
+  q(x,y) = \pi \eexp^{-2 (x^2 + y^2) } \,.
+\end{equation*}
+(With this normalization, the volume-integrated source is 2.)
+The grid width used is $\Delta_x = 0.1$.
 
 \begin{figure}[tb]
   \centering
   \hspace{-.5in}
   \input{adbc-reactor/phi-channel/plot}
   \hspace{-.5in}
-  \caption{Scalar flux with a normally incident boundary condition.}
+  \caption{Scalar flux in the steady-state interior source problem.}
   \label{fig:bcReactorFlux}
 \end{figure}
 
@@ -550,16 +546,28 @@ time-dependent problems with time-independent opacities.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reactor}
 
-We consider a time-dependent problem represented in
-Fig.~\ref{fig:tdReactorProblem}.
-with a unit source in the bottom left corner of a diffusive medium of width
-$2$ with $\sigma=1$ and a scattering ratio $c=.99$. A voided region with
-$\sigma=0.01$ and $c=.99$ is to the right. The problem has reflecting boundaries
-on the bottom, left, and right sides; the top has a vacuum boundary.
+We devised a time-dependent problem, represented in
+Fig.~\ref{fig:tdReactorProblem}, meant to be a case where the temporal and
+spatial gradients are moderate but significant enough to distinguish diffusion
+from transport. It features a unit source in the bottom left corner of a
+diffusive medium of width~$2$ with
+$\sigma=1$ and a scattering ratio~$c=.99$. A voided region with width $0.5$,
+$\sigma=0.01$, and $c=.99$ lies along the right edge of the problem. The bottom,
+left, and right boundaries are reflecting; the top of the problem has a vacuum
+boundary.
 
-Figure~\ref{fig:tdReactorProblem} also displays the calculated coefficients
-$\varsigma$ and $\Dtens$ used in the anisotropic \Pone\
-equation~\eqref{eq:ap1FicksLawFinal}.
+Because this problem is time-dependent, it is our first test of the anisotropic
+\Pone\ method devised in Chapter~\ref{chap:aponeDerivation}. This new method
+uses not only the anisotropic diffusion tensors $\Dtens$ but also a nonlocal
+opacity $\varsigma$:
+\begin{equation}\tagref{eq:ap1FicksLawFinal}
+  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
+  + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
+  + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
+  = 0 \,.
+\end{equation}
+Figure~\ref{fig:tdReactorProblem} overlays these transport-calculated
+coefficients on the problem layout.
 
 \begin{figure}[bp]
   \centering
@@ -573,6 +581,19 @@ equation~\eqref{eq:ap1FicksLawFinal}.
   \label{fig:tdReactorProblem}
 \end{figure}
 
+The anisotropic diffusion tensors are plotted as ellipses, where the major axis
+lies along the principal eigenvector of $\Dtens$, and the size of that axis is
+proportional to the corresponding eigenvalue. The minor axis is proportional to
+the second eigenvalue of the tensor. Where $f$ is isotropic, $\Dtens$ is
+proportional to the identity tensor, and its two eigenvalues are equal: thus, in
+the interior, the anisotropic diffusion coefficient appears as a circle whose
+size is proportional to $1/\sigma$.
+
+The time evolution of $\phi$ along the center of the channel (i.e., at the
+right edge of the problem) is plotted in Fig.~\ref{fig:tdReactor}. A contour
+plot showing the difference between \Pone\ and \Apone\ is given in
+Fig.~\ref{fig:tdReactorContour}.
+
 \begin{figure}[htb]
   \centering\small
   \subfloat[$t=2$]{%
@@ -585,7 +606,7 @@ equation~\eqref{eq:ap1FicksLawFinal}.
   \subfloat[$t=15$]{%
     \input{td_reactor/lineout-phi-channel-15/plot}}
 
-  \caption{Scalar intensity $\phi$ along the centerline of the channel.}
+  \caption{Scalar intensity $\phi$ along the centerline of the channel, $y=2.5$.}
   \label{fig:tdReactor}
 \end{figure}
 
@@ -601,11 +622,15 @@ equation~\eqref{eq:ap1FicksLawFinal}.
   \subfloat[$t=15$]{%
     \includegraphics[width=3in]{td_reactor/phi-015}}
 
-  \caption{Contour plots of the scalar intensity at four times.}
+  \Caption{Contour plots of the scalar intensity at four times.}{The black
+    dashed line is the Monte Carlo solution, the blue solid line is the
+    \APone\ solution, and the red dotted line is the \Pone\ solution.
   \label{fig:tdReactorContour}
 \end{figure}
 
-The wavefront threshold in Fig.~\ref{fig:tdReactorWavefront} is 0.001.
+As a final diagnostic, we plot the ``wavefront'' positions---determined by the
+location at which $\phi=0.001$---for all of the
+methods in Fig.~\ref{fig:tdReactorWavefront}.
 
 \begin{figure}[htb]
   \centering\small
@@ -623,17 +648,20 @@ The wavefront threshold in Fig.~\ref{fig:tdReactorWavefront} is 0.001.
 \clearpage
 \subsection{Blast wave}
 
-Ran a test problem inside a channel with a ``blast wave'' initial condition. It
-resides in $0 \le x \le 3$, $-1.1 \le y \le 1.1$, with a thin region inside
-$-.1 \le y \le .1$. It has reflecting boundary conditions everywhere.
+The ``blast wave'' test problem features a localized impulse of radiation; the
+magnitude of the coefficients is based on a recurrent test problem in the field
+of thermal radiative transfer \cite{Kno1999a,Kno2001,Rau2005,Ols2007}. The
+domain of this problem is $0 \le x \le 3$ and $-1.1 \le y \le 1.1$.
+It features an optically thin channel with $\sigma=1$ and $\sigma_s=0.99$ inside
+$-.1 \le y \le .1$, with a diffusive region $\sigma=10$ and $\sigma_s=9.99$
+outside it. All boundaries are specularly reflecting.
 
-The initial condition is
+The initial condition is a local but smooth Gaussian function:
 \begin{equation*}
-  \phi(x,y) = 0.001 + a \eexp^{-100 (x^2 + y^2) }
+  \phi(x,y) = 0.001 + a \eexp^{-100 (x^2 + y^2) }\,,
 \end{equation*}
 where $a$ is a normalization constant that gives a total initial $\int \phi
-\ud V$ of $100 + 0.001 V$. We use $\sigma=1$ inside the channel, $\sigma=10$
-outside, $c=0.99$ everywhere.
+\ud V$ of $100 + 0.001 V$.
 
 \begin{figure}[htb]
   \centering\small

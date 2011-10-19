@@ -2,14 +2,27 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Conclusions}\label{chap:conclusion}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anisotropic diffusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Flux-limited anisotropic diffusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Anisotropic \texorpdfstring{\Pone}{P1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Future work}
 
-implicitly balanced treatment: how necessary is it to update the opacities in
-the AD calculation, how well does it perform
+The anisotropic diffusion approximation is still in its infancy. Its novel
+formulation, which uses an integral transport operation and asymptotic
+expansions, can be extended to generate entirely new methods. The application
+of anisotropic diffusion to time-dependent transport also has room to grow,
+both in the use of flux limiters and in 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Improved discontinuity treatment}
 In the derivation of the anisotropic diffusion method, we discarded
 terms of $O(\epsilon^2)$ using the following scaling of Eq.~\eqref{eq:capPsiVol}:
@@ -72,27 +85,29 @@ In \S\ref{sec:flad}, we proposed a flux-limited modification to anisotropic
 diffusion theory. For ease of understanding and implementation, we chose a
 ``max'' limiter that multiplied the tensor by a scalar that preserved the
 physical property $\vec{F} \le \phi$. However, other flux limiting
-methods---some of which may be more well behaved numerically---are possible. The
-two properties a flux-limited diffusion tensor $\tilde\Dtens$ must retain are
-that:
-\begin{enumerate}
-  \item it must reduce to the true, transport-calculated $\Dtens$ in the absence
-    of strong gradients; and
-  \item in the presence of strong gradients it must satisfy $ \norm{
-    \tilde\Dtens \vd \grad \phi} = \phi$.
-\end{enumerate}
-Because the anisotropic diffusion coefficient is, in multiple spatial
-dimensions, a rank-2 tensor, there is a degree of flexibility not present in
-standard diffusion theory. For instance, suppose that we write 
-
-TODO
+methods---some of which may be more well behaved numerically---are possible.
+These flux limiters would be more complicated than the standard scalar diffusion
+coefficients: the extra degrees of freedom in being anisotropic tensors rather
+than isotropic scalars would allow a more options in formulating the tensor.
+An additional complication is that for a ``square root''-type limiter, as an
+example, a ``matrix square root'' would have to be calculated.
+%The
+%two properties a flux-limited diffusion tensor $\tilde\Dtens$ must retain are
+%that:
+%\begin{enumerate}
+%  \item it must reduce to the true, transport-calculated $\Dtens$ in the absence
+%    of strong gradients; and
+%  \item in the presence of strong gradients it must satisfy $ \norm{
+%    \tilde\Dtens \vd \grad \phi} = \phi$.
+%\end{enumerate}
+%Because the anisotropic diffusion coefficient is, in multiple spatial
+%dimensions, a rank-2 tensor, there is a degree of flexibility not present in
+%standard diffusion theory.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Higher-order anisotropic \texorpdfstring{\PN}{PN} methods}
-The conceptualization of an anisotropic transport equation opens the door to
-any number of potential approximations to radiation transport.
-
-For example, instead of defining the anisotropic intensity as $I -
+The new derivation of the AD method opens the door to other potential
+approximations to radiation transport.  $I -
 \frac{1}{4\pi}\phi$, we could also subtract off the linearly anisotropic
 component:
 \begin{equation*}
