@@ -313,6 +313,24 @@
 "com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
+"figures/1d_trt_blastwave_long/dcoeff-t3/dcoeff-t3.pdf": {
+"creation": 1319061280
+}, 
+"figures/1d_trt_blastwave_long/dcoeff-t3/plot.tex": {
+"creation": 1319061280
+}, 
+"figures/1d_trt_blastwave_long/mattemp3/mattemp3.pdf": {
+"creation": 1319061280
+}, 
+"figures/1d_trt_blastwave_long/mattemp3/plot.tex": {
+"creation": 1319061280
+}, 
+"figures/1d_trt_blastwave_long/wavefront/plot.tex": {
+"creation": 1319061280
+}, 
+"figures/1d_trt_blastwave_long/wavefront/wavefront.pdf": {
+"creation": 1319061280
+}, 
 "figures/adbc-channel/angle-isotropic-cmfp/angle-isotropic-cmfp.pdf": {
 "creation": 1315801508
 }, 
@@ -1007,6 +1025,39 @@
 }, 
 "figures/td_reactor/xsn.png": {
 "creation": 1317845921
+}, 
+"figures/trt_crashpipealt/dcoeff-center-t3/dcoeff-center-t3.pdf": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/dcoeff-center-t3/plot.tex": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/dcoeff-ortho-t3/dcoeff-ortho-t3.pdf": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/dcoeff-ortho-t3/plot.tex": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/mattemp-center3/mattemp-center3.pdf": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/mattemp-center3/plot.tex": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/mattemp-ortho3/mattemp-ortho3.pdf": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/mattemp-ortho3/plot.tex": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/mattemp2d-t2.png": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/wavefront-center/plot.tex": {
+"creation": 1319061280
+}, 
+"figures/trt_crashpipealt/wavefront-center/wavefront-center.pdf": {
+"creation": 1319061280
 }, 
 "figures/umlogo.pdf": {
 "creation": 1285162895

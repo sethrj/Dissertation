@@ -24,26 +24,78 @@ sweep is sufficient to converge the diffusion coefficients in the interior.)
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\section{1-D blast wave}
-%This test problem is from \cite{Rau2005,Ols2007}.
+\section{1-D blast wave}
+We begin by testing a simple one-dimensional problem on a refined spatial
+and temporal grid.
+
+This test problem is from \cite{Rau2005,Ols2007}. It features a smooth but
+localized energy peak in the initial condition:
+\begin{equation*}
+  \phi(x,0) = [T(x,0)]^{1/4} = 0.001 + 100 \eexp^{-100 x^2} \,.
+\end{equation*}
+The material is uniform with a constant $c_v = 1$ and a temperature-dependent
+opacity $\sigma(T) = T^{-3}$.
+
+\begin{figure}[htb]
+  \centering\small
+  \input{1d_trt_blastwave_long/mattemp3/plot}
+  \caption{Material temperature at $t=3$ in the 1-D blast wave problem.}
+  \label{fig:1dblastMattemp}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering\small
+  \input{1d_trt_blastwave_long/wavefront/plot}
+  \caption{Wavefront position of $\phi$ in 1-D blast wave problem.}
+  \label{fig:1dblastWavefront}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\section{1-D boundary source}
+\section{Flatland pipe with internal source}
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[Centerline view]{%
+    \input{trt_crashpipealt/mattemp-center3/plot}
+  }%
+  \hspace{-.5in}
+  \subfloat[Orthogonal view]{%
+    \input{trt_crashpipealt/mattemp-ortho3/plot}
+  }%
+  \caption{Material temperature at $t=3$ in the flatland source problem.}
+  \label{fig:crashaltMattemp}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering\small
+  \input{trt_crashpipealt/wavefront-center/plot}
+  \caption{Wavefront position of $\phi$ in the flatland source problem.}
+  \label{fig:crashaltWavefront}
+\end{figure}
+
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[Centerline view]{%
+    \input{trt_crashpipealt/dcoeff-center-t3/plot}
+  }%
+  \hspace{-.5in}
+  \subfloat[Orthogonal view]{%
+    \input{trt_crashpipealt/dcoeff-ortho-t3/plot}
+  }%
+  \caption{Diffusion coefficients at $t=3$ in the flatland pipe problem.}
+  \label{fig:crashaltDcoeff}
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flatland pipe with blast wave}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flatland pipe with boundary source}
+\section{2-D obstacle problem}
+\cite{Mou2006}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{CRASH problem}
 The profile of energy deposition in the wall is an important diagnostic in the
 radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{2-D obstacle problems}
-\cite{Mou2006}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
