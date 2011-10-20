@@ -56,10 +56,11 @@ opacity $\sigma(T) = T^{-3}$.
 \begin{figure}[htb]
   \centering\small
   \subfloat[Centerline view]{%
+    \hspace{-.25in}%
     \input{trt_crashpipealt/mattemp-center3/plot}
   }%
-  \hspace{-.5in}
   \subfloat[Orthogonal view]{%
+    \hspace{-.25in}%
     \input{trt_crashpipealt/mattemp-ortho3/plot}
   }%
   \caption{Material temperature at $t=3$ in the flatland source problem.}
@@ -77,10 +78,11 @@ opacity $\sigma(T) = T^{-3}$.
 \begin{figure}[htb]
   \centering\small
   \subfloat[Centerline view]{%
+    \hspace{-.25in}%
     \input{trt_crashpipealt/dcoeff-center-t3/plot}
   }%
-  \hspace{-.5in}
   \subfloat[Orthogonal view]{%
+    \hspace{-.25in}%
     \input{trt_crashpipealt/dcoeff-ortho-t3/plot}
   }%
   \caption{Diffusion coefficients at $t=3$ in the flatland pipe problem.}
@@ -89,13 +91,137 @@ opacity $\sigma(T) = T^{-3}$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{2-D obstacle problem}
-\cite{Mou2006}
+\section{2-D \texorpdfstring{``easy''}{easy} obstacle problem}
+The ``easy'' obstacle problem is described in \cite{Mou2006} (and also used in
+\cite{Kno2007}), where two square obstacles impede a radiation shock. In
+\cite{Mou2006} the problem halts at $t=3$; for the sake of completeness we
+compare the convergence of the solutions until $t=8$ in
+Fig.~\ref{fig:easymkConvergence}.
+
+\begin{figure}[htb]
+  \centering
+  \subfloat[Radiation temperature]{%
+    \includegraphics[width=3in]{trt_easymk/radtemp_contour_t3}
+  }%
+  \subfloat[Material temperature]{%
+    \includegraphics[width=3in]{trt_easymk/mattemp_contour_t3}
+  }%
+  \Caption{Contour plot of the solution at $t=3$ in the easy obstacle
+  problem.}{
+  The black dashed line is the IMC solution, the blue solid line is the
+  FLAD solution, and the red dotted line is the FLD solution.}
+  \label{fig:easymkContour}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \subfloat[Radiation temperature]{%
+    \hspace{-.25in}%
+    \input{trt_easymk/radtemp-center3-00/plot}
+  }%
+  \subfloat[Material temperature]{%
+    \hspace{-.25in}%
+    \input{trt_easymk/mattemp-center3-00/plot}
+  }%
+  \caption{Solution along the centerline at $t=3$ in the easy obstacle
+  problem.}
+  \label{fig:easymkCenterline}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \input{trt_easymk/convergence-mattemp/plot}
+  \caption{Relative difference of the material temperature in the easy obstacle
+  problem.}
+  \label{fig:easymkConvergence}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{2-D \texorpdfstring{``hard''}{hard} obstacle problem}
+
+\begin{figure}[htb]
+  \centering
+  \input{trt_hardmk/wavefront-diag/plot}
+  \caption{Wavefront plot along the diagonal in the hard obstacle problem.}
+  \label{fig:hardmkContour}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \subfloat[Radiation temperature]{%
+    \hspace{-.25in}%
+    \input{trt_hardmk/radtemp-diag3-00/plot}
+  }%
+  \subfloat[Material temperature]{%
+    \hspace{-.25in}%
+    \input{trt_hardmk/mattemp-diag3-00/plot}
+  }%
+  \caption{Solution along the diagonal at $t=3$ in the hard obstacle problem.}
+  \label{fig:hardmkCenterline}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \hspace{-1in}%
+  \includegraphics[width=4in]{trt_hardmk/radtemp_t25}
+  \Caption{Pseudocolor plots of the radiation temperature at $t=2.5$.}{
+  Clockwise from upper left: IMC, FLAD, AP1, FLD.}
+  \label{fig:hardmkConvergence}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \section{CRASH problem}
 The profile of energy deposition in the wall is an important diagnostic in the
 radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
+
+The physical opacities in Fig.~\ref{fig:seriousOpacity} are interpolated from a
+table of Rosseland opacities given as $\sigma(\log \rho, \log T)$, 
+%
+\begin{figure}[htb]
+  \centering\small
+  \input{trt_serious/physical-opacity/plot}
+  \Caption{True opacities and modeled versions used in the CRASH simulation
+  problem.}{
+  The true opacities (solid line) are generated from physical data,
+  and the model opacities (dashed lines of the same color and marker) are
+  fitted.}
+  \label{fig:seriousOpacity}
+\end{figure}
+%
+and a crude temperature model approximates the more realistic model:
+\begin{equation*}
+  \sigma(T;\gamma,T_1,T_2) =
+  \begin{cases}
+    \gamma   & T < T_1\,, \\
+    \gamma \left( \frac{T}{T_1} \right)^{-3}   & T_1 \le T < T_2\,, \\
+    \gamma \left( \frac{T_2}{T_1} \right)^{-3}
+    \left( \frac{T}{T_2} \right)^{-1/2}   & T_2 \le T \,.
+  \end{cases}
+\end{equation*}
+
+The values for $\gamma$, $T_1$, and $T_2$, along with other physical properties
+of the materials, are given in Table~\ref{tab:seriousPhysics}.
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{llllll}
+\toprule
+ Material & Width & $c_v$ & $\gamma$ & $T_1$ & $T_2$
+\\ \midrule
+Plastic (original) & 0.0025 & $1.89\EE{23}$ & $14500$ & $80$ & $2.3\EE3$\\
+Plastic (stretched) & 0.01 & $4.73\EE{22}$ & $3620$ & $80$ & $2.3\EE3$\\
+Be & 0.1 & $1.05\EE{21}$ & $154$ & $30$ & $1.0\EE3$\\
+Xe (post-shock) & 0.08 & $2.06\EE{20}$ & $138$ & $150$ & $4.7\EE3$\\
+Xe (shock) & 0.02 & $1.14\EE{21}$ & $729$ & $150$ & $4.5\EE3$\\
+Xe (pre-shock) & 0.20 & $6.74\EE{19}$ & $45.4$ & $150$ & $5\EE3$
+\\ \bottomrule
+  \end{tabular}
+  \Caption{Physical parameters used in the CRASH simulation problem.}{
+  The ``stretched'' version of the plastic is used in our simulation; it
+  replaces the original physics.}
+  \label{tab:seriousPhysics}
+\end{table}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}

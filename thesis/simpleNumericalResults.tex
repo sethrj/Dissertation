@@ -112,8 +112,8 @@ vacuum. The source is a Gaussian function,
 \begin{figure}[htb]
   \centering
   \includegraphics[width=3.5in]{ss_single_channel/xsn.png}
-  \Caption{The single channel problem configuration.}
-  {The total opacity is plotted in black and white, and the colored region in the
+  \Caption{The single channel problem configuration.}{
+  The total opacity is plotted in black and white, and the colored region in the
   lower left is the Gaussian source.}
   \label{fig:ssSingleXsn}
 \end{figure}
@@ -356,9 +356,8 @@ distance differs from the variational boundary condition.
 
 \begin{figure}[tb]
   \centering\small
-  \hspace{-.5in}
+  \hspace{-.25in}%
   \input{flatlandbc-channel/delta-phi/plot}
-  \hspace{-.5in}
   \caption{Scalar flux with a normally incident boundary condition in a
   homogeneous flatland problem.}
   \label{fig:flatlandBcDelta}
@@ -366,9 +365,8 @@ distance differs from the variational boundary condition.
  
 \begin{figure}[tb]
   \centering\small
-  \hspace{-.5in}
+  \hspace{-.25in}%
   \input{flatlandbc-channel/relative-errors/plot}
-  \hspace{-.5in}
   \caption{Relative errors ($\phi/\phi_\text{MC} - 1$) of the three tested
   distributions.}
   \label{fig:flatlandBcRelative}
@@ -406,9 +404,8 @@ boundary condition.
 
 \begin{figure}[htb!]
   \centering
-  \hspace{-.5in}
+  \hspace{-.25in}%
   \input{adbc-channel/isotropic-phi/plot}
-  \hspace{-.5in}
   \caption{Scalar flux along the centerline of the channel with an isotropic
   boundary condition at $y=0$.}
   \label{fig:isotropic}
@@ -427,11 +424,10 @@ features.
 
 \begin{figure}[htb]
   \centering\small
-  \vspace{-.25in}
-  \hspace{-.5in}
+  \vspace{-.25in}%
+  \hspace{-.25in}%
   \input{adbc-channel/angle-isotropic-cmfp/plot}
-  \hspace{-.5in}
-  \vspace{-.25in}
+  \vspace{-.25in}%
   \caption{Angular flux $\psi(2.5, 1., \omega)$ for the incident isotropic
   problem, in the centerline of the channel one unit from the boundary.}
   \label{fig:bcChannelIsotropicAngular}
@@ -469,9 +465,8 @@ The grid width used is $\Delta_x = 0.1$.
 
 \begin{figure}[tb]
   \centering
-  \hspace{-.5in}
+  \hspace{-.25in}%
   \input{adbc-reactor/phi-channel/plot}
-  \hspace{-.5in}
   \caption{Scalar flux in the steady-state interior source problem.}
   \label{fig:bcReactorFlux}
 \end{figure}
@@ -622,9 +617,9 @@ Fig.~\ref{fig:tdReactorContour}.
   \subfloat[$t=15$]{%
     \includegraphics[width=3in]{td_reactor/phi-015}}
 
-  \Caption{Contour plots of the scalar intensity at four times.}{The black
-    dashed line is the Monte Carlo solution, the blue solid line is the
-    \APone\ solution, and the red dotted line is the \Pone\ solution.}
+  \Caption{Contour plots of the scalar intensity at four times.}{
+    The black dashed line is the Monte Carlo solution, the blue solid line is
+    the \APone\ solution, and the red dotted line is the \Pone\ solution.}
   \label{fig:tdReactorContour}
 \end{figure}
 
