@@ -45,15 +45,18 @@ noted, we use the following solver parameters with each method.
     face-centered.
 
   \item[Flux-limited diffusion] is implemented with the ``square root'' limiter
-    and discretization scheme discussed in \S\ref{sec:bgFld}. The unknowns and
-    diffusion coefficients are stored on cell centers.
+    and discretization scheme discussed in \S\ref{sec:bgFld}. The limiter is
+    treated semi-implicitly; i.e., the nonlinear flux-limited diffusion
+    coefficient is not converged. The unknowns and diffusion coefficients are
+    stored on cell centers.
 
   \item[Anisotropic diffusion] uses
     coefficients calculated with the diamond difference \SN\ method, using 100
-    sweep iterations. In 1-D, we use a Gauss--Legendre quadrature set with 16
-    ordinates (S$_{16}$); in flatland, we use a Chebyshev--Gauss quadrature set
-    (see \S\ref{sec:flatlandQuadrature}) with 64 ordinates (S$_{32}$). As
-    with FLD, the opacities, diffusion coefficients, and unknowns are
+    sweep iterations. In flatland, we use a Chebyshev--Gauss quadrature set
+    (see \S\ref{sec:flatlandQuadrature}) with 64 ordinates (S$_{32}$).
+    %In 1-D, we use a Gauss--Legendre quadrature set with 16 ordinates
+    %(S$_{16}$); 
+    As with FLD, the opacities, diffusion coefficients, and unknowns are
     cell-centered. We use the nine-point stencil given in
     \S\ref{sec:cellAnisoA}. The low-order boundary conditions use the
     variational extrapolation distance 
@@ -624,8 +627,8 @@ Fig.~\ref{fig:tdReactorContour}.
 \end{figure}
 
 As a final diagnostic, we plot the ``wavefront'' positions---determined by the
-location at which $\phi=0.001$---for all of the
-methods in Fig.~\ref{fig:tdReactorWavefront}.
+location at which $\phi=0.001$ after applying a small amount of smoothing---for
+all of the methods in Fig.~\ref{fig:tdReactorWavefront}.
 
 \begin{figure}[htb]
   \centering\small
@@ -653,10 +656,8 @@ outside it. All boundaries are specularly reflecting.
 
 The initial condition is a local but smooth Gaussian function:
 \begin{equation*}
-  \phi(x,y) = 0.001 + a \eexp^{-100 (x^2 + y^2) }\,,
+  \phi(x,y) = 0.001 + 100 \eexp^{-100 (x^2 + y^2) }\,.
 \end{equation*}
-where $a$ is a normalization constant that gives a total initial $\int \phi
-\ud V$ of $100 + 0.001 V$.
 
 \begin{figure}[htb]
   \centering\small
@@ -678,4 +679,6 @@ where $a$ is a normalization constant that gives a total initial $\int \phi
   \label{fig:tdBlastwaveAll}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
 

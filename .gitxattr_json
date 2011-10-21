@@ -325,6 +325,12 @@
 "figures/1d_trt_blastwave_long/mattemp3/plot.tex": {
 "creation": 1319061280
 }, 
+"figures/1d_trt_blastwave_long/radtemp3/plot.tex": {
+"creation": 1319214921
+}, 
+"figures/1d_trt_blastwave_long/radtemp3/radtemp3-00.pdf": {
+"creation": 1319214921
+}, 
 "figures/1d_trt_blastwave_long/wavefront/plot.tex": {
 "creation": 1319061280
 }, 
@@ -1038,6 +1044,9 @@
 "figures/trt_crashpipealt/dcoeff-ortho-t3/plot.tex": {
 "creation": 1319061280
 }, 
+"figures/trt_crashpipealt/materials.png": {
+"creation": 1319214921
+}, 
 "figures/trt_crashpipealt/mattemp-center3/mattemp-center3.pdf": {
 "creation": 1319061280
 }, 
@@ -1103,6 +1112,12 @@
 }, 
 "figures/trt_hardmk/wavefront-diag/wavefront-diag.pdf": {
 "creation": 1319151550
+}, 
+"figures/trt_serious/adcoeff.png": {
+"creation": 1319214921
+}, 
+"figures/trt_serious/materials.png": {
+"creation": 1319214921
 }, 
 "figures/trt_serious/physical-opacity/physical-opacity.pdf": {
 "creation": 1319151550

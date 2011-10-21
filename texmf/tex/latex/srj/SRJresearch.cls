@@ -36,7 +36,6 @@
 \geometry{letterpaper,top=0.75in,left=0.75in,headheight=14pt}
 
 \input{SRJinclude}
-\newcommand{\units}[1]{\:\text{#1}}%
 
 \AtBeginDocument{%
  \hypersetup{pdfauthor={\@author}, pdftitle={\@title}, pdfsubject={Research notes}}

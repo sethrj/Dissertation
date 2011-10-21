@@ -11,8 +11,8 @@ are implemented in the \pytrt\ research code \cite{Pytrt}.
 
   \item[Implicit Monte Carlo] is implemented  with implicit
     absorption, source tilting, census combing, and
-    energy-weighted path length tallies \cite{Urb2006}. In most problems, we run
-    with $10^7$ particles.
+    energy-weighted path length tallies \cite{Urb2006}. Each problem uses
+    roughly $10^7$ particles.
 
   \item[Anisotropic methods] Because the opacity is a time-dependent quantity
 in TRT, the anisotropic diffusion coefficients must be recalculated at every
@@ -21,27 +21,73 @@ calculate the coefficients, but each time step thereafter uses only one sweep to
 update them. (Because the transport problem for $f$ is purely absorbing, one
 sweep is sufficient to converge the diffusion coefficients in the interior.)
 
+  \item[\Pone-like methods] A known shortcoming of \Pone\ is that, in
+    multidimensional geometry with steep gradients, the radiation can have a
+    negative solution. To prevent unphysical negative temperatures, we
+    ``fix'' non-positive values for the radiation by setting them
+    to $10^{-16}$, violating conservation by adding energy to the problem.
+
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{1-D blast wave}
-We begin by testing a simple one-dimensional problem on a refined spatial
-and temporal grid.
+We begin by testing a simple one-dimensional slab geometry problem on a refined
+spatial and temporal grid. The anisotropic diffusion approximation is less
+meaningful in 1-D: the rank-2 tensor becomes a scalar. Nevertheless, the AD
+coefficient is still nonlocal and distinct from the standard diffusion
+coefficient.
 
+\subsection{Problem description}
 This test problem is from \cite{Rau2005,Ols2007}. It features a smooth but
-localized energy peak in the initial condition:
+localized energy peak as an initial condition in both the material and the
+radiation:
 \begin{equation*}
-  \phi(x,0) = [T(x,0)]^{1/4} = 0.001 + 100 \eexp^{-100 x^2} \,.
+  \phi(x,0) = [ a c T(x,0)]^{4} = 0.001 + 100 \eexp^{-100 x^2} \,.
 \end{equation*}
 The material is uniform with a constant $c_v = 1$ and a temperature-dependent
-opacity $\sigma(T) = T^{-3}$.
+opacity $\sigma(T) = T^{-3}$. We use a uniform spatial and temporal grid of
+$\Delta_x = \Delta_t = 0.01$. The boundaries at $x=0$ and $x=3$ are reflecting.
+
+The problem uses a scaled unit system often seen in TRT methods development: $c
+= a = 1$. The anisotropic diffusion coefficients are calculated with a
+Gauss--Legendre $S_{16}$ quadrature set and the step characteristics method.
+anisotropic diffusion coefficients.
+
+\subsection{Results}
+
+The radiation temperature, defined as
+\begin{equation}\label{eq:radTemp}
+  T_\text{rad} = \left( \frac{\phi}{ac} \right)^{1/4}
+\end{equation}
+is often used in lieu of the radiation density in TRT problem analysis, as it
+can be more closely compared against the material temperature $T$. At
+thermal equilibrium, just as $I = B = \frac{1}{4\pi} acT^4$, the radiation
+temperature satisfies $T_\text{rad} = T$.
+
+The radiation and material temperatures at the simulation end time are plotted
+in Fig.~\ref{fig:1dblastTemp}.
 
 \begin{figure}[htb]
   \centering\small
-  \input{1d_trt_blastwave_long/mattemp3/plot}
-  \caption{Material temperature at $t=3$ in the 1-D blast wave problem.}
-  \label{fig:1dblastMattemp}
+  \centering
+  \subfloat[Radiation temperature]{%
+    \hspace{-.25in}%
+    \input{1d_trt_blastwave_long/radtemp3/plot}
+  }%
+  \subfloat[Material temperature]{%
+    \hspace{-.25in}%
+    \input{1d_trt_blastwave_long/mattemp3/plot}
+  }%
+  \caption{Solution at $t=3$ in the 1-D blast wave problem.}
+  \label{fig:1dblastTemp}
 \end{figure}
+
+The wavefront position (Fig.~\ref{fig:1dblastWavefront}) provides an effective
+visualization of the problem's time evolution. The position is calculated at
+each point in time by taking the radiation temperature, convolving it with a
+weighted five-point kernel to smooth out potential noise in the solution, and
+using linear interpolation to find the point at which the radiation temperature
+is twice the initial temperature of the problem.
 
 \begin{figure}[htb]
   \centering\small
@@ -50,8 +96,87 @@ opacity $\sigma(T) = T^{-3}$.
   \label{fig:1dblastWavefront}
 \end{figure}
 
+\subsection{Discussion}
+
+This one-dimensional problem contains certain features that manifest in
+higher-dimensional geometries.
+
+First, we note how Fig.~\ref{fig:1dblastWavefront}
+shows that, during the streaming-dominated early times, both standard diffusion
+and anisotropic diffusion display an unphysical wave speed. It is this
+shortcoming that motivated the development of both flux-limited diffusion
+(\S\ref{sec:bgFld}) and our flux-limited anisotropic diffusion
+(\S\ref{sec:flad}). Both the standard \Pone\ and anisotropic \Pone\ are wave
+equations, so they respect the speed limit of $c=1$.
+
+Both \Pone-like methods have the characteristic wavefront shape induced by a
+radiation pulse. The \APone\ approximation, because it uses a non-local
+$\varsigma$ rather than a local $\sigma$, is smoother: the wavefront's ``hump''
+is not as peaked, but the larger $\varsigma$ retards the propagation.
+
+Flux-limited diffusion matches the transport solution very closely in this
+problem: the gradients in the interior are small, the radiation is predominantly
+isotropic, and the difficulties with streaming are overcome by the flux limiter.
+However, at later times, the wavefront drops off more abruptly than the
+transport solution.
+
+Flux-limited anisotropic diffusion better matches the wavefront position and
+shape of the transport solution. However, near $x=0$, the temperature is too
+high: because the AD coefficients are smaller than the diffusion coefficients
+because of their nonlocal nature, radiation tends to be less homogeneous than
+with standard FLD.
+
+Overall, in this simple problem, the flux-limited methods match the transport
+solution most closely. (The problem was after all constructed to test the
+relative performance of flux-limited diffusion.)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flatland pipe with internal source}
+
+We now extend our testing to 2-D.
+
+\subsection{Problem description}
+
+The second problem we run is a ``flatland'' problem similar to the
+1-D problem. As represented in Fig.~\ref{fig:crashaltMaterials}, it consists of:
+\begin{itemize}
+  \item a radiation source region with an energy emission rate density $q_r=25$, 
+    a constant opacity $\sigma=0.5$, and a constant heat capacity $c_v=0.5$;
+  \item a channel region with $\sigma = T^{-3}$ and $c_v=1.0$; and
+  \item a diffusive region with $\sigma = 25 T^{-3}$ and $c_v=2.5$.
+\end{itemize}
+It uses the unitless system $c=a=1$.
+
+The time step is approximately linear, varying from $\Delta_t=0.002$ at $t=0$ to
+$\Delta_t=0.02$ at $t=0.1$ and staying constant thereafter. The mesh size used
+is $\Delta_x=\Delta_y=0.02$. The initial condition is uniformly $\phi = T^4 = 0.001$, and
+the problem is run until time $t=3$. All problem boundaries are reflecting.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3in]{trt_crashpipealt/materials}
+  \Caption{Materials, geometry, and grid spacing in the flatland pipe problem.}{
+   Each ``cell'' shown on the grid encompasses $5\times5$ cells in the true
+   numerical simulation. The green zone is the radiation source, the red zone is
+ the channel, and the blue zone is the diffusive region.}
+  \label{fig:crashaltMaterials}
+\end{figure}
+
+\subsection{Results}
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[Centerline view]{%
+    \hspace{-.25in}%
+    \input{trt_crashpipealt/dcoeff-center-t3/plot}
+  }%
+  \subfloat[Orthogonal view]{%
+    \hspace{-.25in}%
+    \input{trt_crashpipealt/dcoeff-ortho-t3/plot}
+  }%
+  \caption{Diffusion coefficients at $t=3$ in the flatland pipe problem.}
+  \label{fig:crashaltDcoeff}
+\end{figure}
 
 \begin{figure}[htb]
   \centering\small
@@ -75,28 +200,39 @@ opacity $\sigma(T) = T^{-3}$.
 \end{figure}
 
 
-\begin{figure}[htb]
-  \centering\small
-  \subfloat[Centerline view]{%
-    \hspace{-.25in}%
-    \input{trt_crashpipealt/dcoeff-center-t3/plot}
-  }%
-  \subfloat[Orthogonal view]{%
-    \hspace{-.25in}%
-    \input{trt_crashpipealt/dcoeff-ortho-t3/plot}
-  }%
-  \caption{Diffusion coefficients at $t=3$ in the flatland pipe problem.}
-  \label{fig:crashaltDcoeff}
-\end{figure}
-
+\subsection{Discussion}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \section{2-D \texorpdfstring{``easy''}{easy} obstacle problem}
+
+\subsection{Problem description}
+
 The ``easy'' obstacle problem is described in \cite{Mou2006} (and also used in
-\cite{Kno2007}), where two square obstacles impede a radiation shock. In
-\cite{Mou2006} the problem halts at $t=3$; for the sake of completeness we
+\cite{Kno2007}), where two square obstacles impede a radiation shock. It is a
+two-dimensional problem on the domain $0 \le x \le 2$, $0 \le y \le 1$ with
+$\Delta_x=\Delta_y=1/32$. The
+problem has a uniform heat capacity $c_v = 1$, and the opacity is
+$\sigma=T^{-3}$ everywhere except inside two obstacles, where $\sigma= 1.5
+T^{-3}$. These obstacles are squares of width $5/8$, with lower-left corners
+at $(3/16, 3/16)$ and $(19/16, 3/16)$.
+
+The top and bottom boundaries are reflecting; on the left of the problem is an
+isotropic incident radiation source with $T_\text{rad} = 5^{1/4}$, and the right
+side of the problem has a vacuum boundary. The initial condition is $\phi =
+T^{4} = 0.001$.
+
+In \cite{Mou2006} the problem halts at $t=3$; for the sake of completeness we
 compare the convergence of the solutions until $t=8$ in
-Fig.~\ref{fig:easymkConvergence}.
+Fig.~\ref{fig:easymkConvergence}. We use a uniform time step $\Delta_t=0.01$.
+
+We use a ``level-symmetric'' Chebyshev--Legendre S$_{16}$ quadrature set for
+calculating the AD coefficients. (This quadrature set uses a Gauss--Legendre
+quadrature to obtain polar angles, and Chebyshev--Gauss quadratures for the
+azimuthal directions, with fewer azimuthal ordinates with increasing polar
+level.)
+
+\subsection{Results}
 
 \begin{figure}[htb]
   \centering
@@ -132,12 +268,39 @@ Fig.~\ref{fig:easymkConvergence}.
   \centering
   \input{trt_easymk/convergence-mattemp/plot}
   \caption{Relative difference of the material temperature in the easy obstacle
-  problem.}
+  problem, compared against IMC.}
   \label{fig:easymkConvergence}
 \end{figure}
 
+\subsection{Discussion}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{2-D \texorpdfstring{``hard''}{hard} obstacle problem}
+
+A second problem from \cite{Mou2006} has steeper gradients and no clear-cut
+``channels:'' it is therefore outside the comfort zone of the anisotropic
+diffusion methods.
+
+\subsection{Problem description}
+
+The ``hard'' obstacle problem has the 2-D domain $0 \le x,y \le 1$ and uses a
+cell width $\Delta_x=\Delta_y=1/64$. The heat capacity is uniform, $c_v=1$, and
+the opacity is $\sigma=T^{-3}$ outside of two square obstacles, which have
+$\sigma=10 T^{-3}$. The obstacles, each with width and height of $1/4$, are
+stationed with lower-left corners at $(3/16, 9/16)$ and $(9/16,3/16)$.
+
+All energy in the problem comes from the Gaussian initial condition:
+\begin{equation*}
+  \phi(x,y,0) = [ a c T(x,y,0)]^{4} = 0.001 + 100 \eexp^{-100 (x^2 + y^2) } \,.
+\end{equation*}
+The unit system uses $a=c=1$.
+
+The problem is run until $t=3$. The time step increases linearly from $\Delta_t=.0001$ at
+$t=0$ to $\Delta_t=.01$ at $t=1$ and is constant thereafter. To calculate the
+anisotropic diffusion coefficients, we use the same Chebyshev--Legendre level
+symmetric quadrature set as in the easy obstacle problem.
+
+\subsection{Results}
 
 \begin{figure}[htb]
   \centering
@@ -163,17 +326,20 @@ Fig.~\ref{fig:easymkConvergence}.
 \begin{figure}[htb]
   \centering
   \hspace{-1in}%
-  \includegraphics[width=4in]{trt_hardmk/radtemp_t25}
+  \includegraphics[width=5in]{trt_hardmk/radtemp_t25}
   \Caption{Pseudocolor plots of the radiation temperature at $t=2.5$.}{
-  Clockwise from upper left: IMC, FLAD, AP1, FLD.}
+  The methods compared are, clockwise from upper left: IMC, FLAD, AP1, FLD. The
+temperature scale is linear and ranges from $0.18$ to $1$.}
   \label{fig:hardmkConvergence}
 \end{figure}
+
+\subsection{Discussion}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \section{CRASH problem}
-The profile of energy deposition in the wall is an important diagnostic in the
-radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
+
+\subsection{Problem description}
 
 The physical opacities in Fig.~\ref{fig:seriousOpacity} are interpolated from a
 table of Rosseland opacities given as $\sigma(\log \rho, \log T)$, 
@@ -201,12 +367,18 @@ and a crude temperature model approximates the more realistic model:
 \end{equation*}
 
 The values for $\gamma$, $T_1$, and $T_2$, along with other physical properties
-of the materials, are given in Table~\ref{tab:seriousPhysics}.
+of the materials, are given in Table~\ref{tab:seriousPhysics}. The unit system
+uses electron volts (eV) as a unit of energy, and eV$_T$ as a unit of temperature, where
+$1\units{K} = 8.6173324\EE{-5} \units{eV$_T$}$. The unit of length is centimeters
+(cm), and time is in nanoseconds (ns). With these scalings, $c=29.9792458
+\units{cm/ns}$, and $a=8.5634228\EE{13} \units{eV/cm$^3$-eV$_T^4$}$.
+
 \begin{table}[htb]
   \centering
   \begin{tabular}{llllll}
 \toprule
- Material & Width & $c_v$ & $\gamma$ & $T_1$ & $T_2$
+Material & Width [cm] & $c_v$ [eV/eV$_T$-cm$^{-3}$] & $\gamma$ [cm$^{-1}$]
+& $T_1$ [eV$_T$] & $T_2$ [eV$_T$]
 \\ \midrule
 Plastic (original) & 0.0025 & $1.89\EE{23}$ & $14500$ & $80$ & $2.3\EE3$\\
 Plastic (stretched) & 0.01 & $4.73\EE{22}$ & $3620$ & $80$ & $2.3\EE3$\\
@@ -222,6 +394,32 @@ Xe (pre-shock) & 0.20 & $6.74\EE{19}$ & $45.4$ & $150$ & $5\EE3$
   \label{tab:seriousPhysics}
 \end{table}
 
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=6in]{trt_serious/materials}
+  \Caption{Materials, geometry, and grid spacing in the CRASH problem.}{
+   Each ``cell'' shown on the grid encompasses $5\times5$ cells in the true
+   numerical simulation. The red zone is plastic, yellow is Be, blue is
+   post-shock Xe, cyan is shock Xe, and green is pre-shock Xe.}
+  \label{fig:seriousMaterials}
+\end{figure}
+
+\subsection{Results}
+
+The profile of energy deposition in the wall is an important diagnostic in the
+radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=6in]{trt_serious/adcoeff}
+  \Caption{Opacity and AD tensors of the CRASH problem near the shock at $t=0.2$.}{
+   The opacity is plotted on a log scale in shades of gray (white is optically
+   thin). The AD coefficients range from very small (red) in the optically
+   thick regions to very large (violet).}
+  \label{fig:seriousAdcoeff}
+\end{figure}
+
+\subsection{Discussion}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}

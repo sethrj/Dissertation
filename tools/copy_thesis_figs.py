@@ -30,7 +30,7 @@ class ResearchCopier( object):
                 try:
                     self.handle_symlink( root, filename, isdir=isdir)
                 except IOError, e:
-                    print "Error modifying file:", e
+                    print e
 
     def handle_symlink(self, root, filename, isdir=False):
         old_path = os.path.join(root, filename)
@@ -69,7 +69,8 @@ class ResearchCopier( object):
             # RENAME TEX FILE
             old_tex_name = os.path.join( original, texname + ".tex")
             new_tex_name = os.path.join( new_path, "plot.tex")
-            print "new tex file:", new_tex_name
+            if not moved_folder:
+                print "Adding new tex file:", new_tex_name
             rewrite_tex(old_tex_name, new_tex_name, new_pdf_name)
             shutil.copystat(old_tex_name, new_tex_name)
 
@@ -77,10 +78,10 @@ class ResearchCopier( object):
             # it's an image, etc.
             # - make sure the directory exists
             # - replace the symlink with a copy of the orginal file
-            try:
+            if not os.path.exists( new_path ):
+                print "Adding new file:", new_path
+            else:
                 os.remove( new_path )
-            except OSError, e:
-                pass
 
             parent_dir = os.path.split( new_path)[0]
             if not os.path.exists( parent_dir ):
@@ -109,14 +110,14 @@ if __name__ == "__main__":
     if len(sys.argv) == 3:
         (oldroot, newroot) = sys.argv[1:]
     else:
-        print "%s oldroot newroot" % sys.argv[0]
-        print "Using defaults"
+        print "Syntax: %s oldroot newroot" % sys.argv[0]
+        print "No roots specified; using defaults"
 
     rc = ResearchCopier(oldroot, newroot)
 
     print "Preparing to copy from <%s> to <%s>" % (rc.oldroot, rc.newroot)
-    result = raw_input("Do you really want to do this [y/N]? ")
-    if not result.lower().startswith("y"):
+    result = raw_input("Do you really want to update existing figures [Y/n]? ")
+    if result.lower().startswith("n"):
         print "Aborting..."
         sys.exit(1)
 

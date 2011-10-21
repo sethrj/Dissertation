@@ -65,7 +65,6 @@
 %% suggestions for improvements
 %% And thanks to the writers of the umdiss.cls, umich-thesis.cls, and the 
 %% beavtex.cls, from which much of this was stolen
-%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %foo
@@ -188,12 +187,13 @@
 %% set. Also, I commented out the lines adding space between figures/tables of
 %% different chapters. I am not sure yet if it is necessary. The following code
 %% is pretty much copied from book.cls. If it looks messy, don't blame me :P
+%% SRJ added code to keep ``Chapter'' out of the PDF bookmark contents
 \def\@chapter[#1]#2{
   \ifnum \c@secnumdepth >\m@ne
     \if@mainmatter
       \refstepcounter{chapter}
       \typeout{\@chapapp\space\thechapter.}
-      \addcontentsline{\ext@toc}{\if@appendix chapter\else chapter\fi}{\if@appendix \chaptername\ \protect\numberline{\thechapter}#1\else \textbf{\chaptername\ \protect\numberline{\thechapter}#1}\fi}
+      \addcontentsline{\ext@toc}{\if@appendix chapter\else chapter\fi}{\if@appendix \chaptername\ \protect\numberline{\thechapter}#1\else {\texorpdfstring{\textbf{\chaptername\ \protect\numberline{\thechapter}#1}}{\protect\numberline{\thechapter}#1}}\fi}
     \else
       \addcontentsline{\ext@toc}{chapter}{#1}
     \fi
