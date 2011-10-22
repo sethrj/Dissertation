@@ -1,5 +1,5 @@
-%\documentclass[draft]{beamer}
-\documentclass{beamer}
+\documentclass[draft]{beamer}
+%\documentclass{beamer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \let\Tiny=\tiny
 \usefonttheme[onlymath]{serif}
@@ -108,12 +108,7 @@ University of Michigan, Ann Arbor
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Channel surfing}
-\begin{center}
-  How do you design a 2-D test problem to model radiation in a channel?
-\end{center}
-\vspace{-.75in}
-
+\begin{frame}{Channels in 2-D}
 \begin{minipage}[c]{2.25in}%
   \vspace{.75in}%
   \includegraphics<1-2>[width=2in]{chord-flatland}%
@@ -126,9 +121,123 @@ University of Michigan, Ann Arbor
 \end{minipage}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Motivation}
+  \begin{itemize}
+    \item Testing new methods in flatland requires existing methods to be fully
+      formulated in flatland
+    \item Flatland diffusion has been derived \cite{Asa2008} but without
+      boundary conditions
+  \end{itemize}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
-\subsection{Theory}
+\subsection{Transport}
+\begin{frame}{Transport equation}
+
+\begin{equation}\label{eq:generalTransport}
+  \vec{\Omega}\vd \grad \psi + \sigma \psi
+  = \frac{c \sigma}{\gamma_0} \int_{S} \psi \ud\Omega + \frac{q}{\gamma_0}
+  \quad \vec{x}\in V,\ \vec{\Omega}\in S \,,
+\end{equation}
+
+  \vspace{2ex}
+
+  \small
+  \centering
+  Angular variables:
+  \begin{tabular}{rccc}
+\toprule
+   Geometry & $\vec{\Omega}=(\Omega_x, \Omega_y)$ & Domain $S$ & $\ud\Omega$
+\\ \midrule
+2-D & $( \sqrt{1-\mu^2} \cos \omega,
+   \sqrt{1-\mu^2} \sin \omega)$
+   & $-1 \le \mu \le 1$, $0 \le \omega < 2\pi$ & $\ud\mu \ud \omega$
+   \\
+   Flatland & $ ( \cos \omega, \sin \omega )$
+   & $0 \le \omega < 2\pi$ & $\ud \omega$
+\\ \bottomrule
+  \end{tabular}
+
+  \vspace{2ex}
+
+Angular moments:
+  \centering
+  \begin{tabular}{rccc}
+\toprule
+   Geometry
+   & $\gamma_0 \equiv \int_S \ud\Omega$
+   & $\gamma_1 \equiv \int_S \abs{\vec{\Omega}\vd\vec{i}} \ud\Omega$
+   & $\gamma_2 \equiv \int_S (\vec{\Omega}\vd\vec{i})^2 \ud\Omega$
+\\ \midrule
+   2-D & $4\pi$ & $2\pi$ & $\frac{4\pi}{3}$
+   \\
+   Flatland & $2\pi$ & $4$ & $\pi$
+\\ \bottomrule
+  \end{tabular}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Monte Carlo sampling}
+Example of lower computational cost of flatland transport: isotropic volume
+source
+\begin{equation}\label{eq:volumeSourcePdf}
+  f(\vec{\Omega}) \ud\Omega = \frac{\ud\Omega}{\gamma_0} \,,
+  \quad \vec{\Omega} \in S\,.
+\end{equation}
+
+\begin{columns}
+  \column{.5\textwidth}
+  \begin{block}{2D}
+\begin{multline*}
+  f(\mu,\omega) \ud\mu\ud\omega = \frac{\ud\mu}{2}\frac{\ud\omega}{2\pi} \,,
+  \\
+  -1\le \mu \le 1,\ 0 \le \omega < 2\pi\,,
+\end{multline*}
+\begin{equation*}
+  \omega = 2\pi \xi_1\,, 
+  \mu = \sqrt{ \xi_2} \,, 
+\end{equation*}
+  \end{block}
+
+  \column{.5\textwidth}
+  \begin{block}{Flatland}
+\begin{equation*}
+  f(\omega) \ud\omega = \frac{\ud\omega}{2\pi} \,,
+  \quad 0 \le \omega < 2\pi\,,
+\end{equation*}
+\begin{equation*}
+  \omega = 2\pi \xi_1\,.
+\end{equation*}
+  \end{block}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Diffusion}
+\begin{frame}
+Assume $\psi$ is linear in angle:
+\begin{equation} \label{eq:diffusionIntensity}
+  \psi(\vec{x}, \vec{\Omega})
+  = \frac{1}{\gamma_0} \left( \phi(\vec{x})
+  - \frac{1}{\sigma(\vec{x})}
+  \vec{\Omega} \vd \grad \phi(\vec{x}) \right) \,.
+\end{equation}
+
+\begin{equation} \label{eq:fickGeneral}
+  \vec{J}(\vec{x})
+  = - \frac{\gamma_2}{\gamma_0} \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x})
+  \equiv -D(\vec{x}) \grad \phi(\vec{x})\,.
+\end{equation}
+\end{frame}<++>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Marshak boundaries}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{``Variational'' boundaries}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}

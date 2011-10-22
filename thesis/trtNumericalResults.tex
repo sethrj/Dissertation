@@ -131,18 +131,29 @@ solution most closely. (The problem was after all constructed to test the
 relative performance of flux-limited diffusion.)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flatland pipe with internal source}
+%\section{Flatland pipe}
+\section{Ceci est pas une pipe}
 
-We now extend our testing to 2-D.
+For virtually all transport approximations, the extension from one to multiple
+dimensions is nontrivial. In the case of anisotropic diffusion, as we saw, the
+diffusion coefficient becomes a diffusion tensor, necessitating new
+discretization schemes. At the same time, the added complexity for anisotropic
+diffusion gives it an advantage relative to standard diffusion.
+
+Much of the theory used to justify the application of flux limiters is based on
+the assumption of 1-D radiation behavior. In multiple dimensions, the
+anisotropic diffusion methods may gain additional traction relative to FLD
+because their smaller diffusion coefficients reduce the necessity for flux
+limiting.
 
 \subsection{Problem description}
 
-The second problem we run is a ``flatland'' problem similar to the
-1-D problem. As represented in Fig.~\ref{fig:crashaltMaterials}, it consists of:
+The second problem we run in flatland geometry is similar to the 1-D problem. As
+represented in Fig.~\ref{fig:crashaltMaterials}, it consists of:
 \begin{itemize}
   \item a radiation source region with an energy emission rate density $q_r=25$, 
     a constant opacity $\sigma=0.5$, and a constant heat capacity $c_v=0.5$;
-  \item a channel region with $\sigma = T^{-3}$ and $c_v=1.0$; and
+  \item a small channel region with $\sigma = T^{-3}$ and $c_v=1.0$; and
   \item a diffusive region with $\sigma = 25 T^{-3}$ and $c_v=2.5$.
 \end{itemize}
 It uses the unitless system $c=a=1$.
@@ -156,13 +167,20 @@ the problem is run until time $t=3$. All problem boundaries are reflecting.
   \centering
   \includegraphics[width=3in]{trt_crashpipealt/materials}
   \Caption{Materials, geometry, and grid spacing in the flatland pipe problem.}{
-   Each ``cell'' shown on the grid encompasses $5\times5$ cells in the true
+   Each ``cell'' shown on the grid encompasses $5\times5$ cells in the actual
    numerical simulation. The green zone is the radiation source, the red zone is
  the channel, and the blue zone is the diffusive region.}
   \label{fig:crashaltMaterials}
 \end{figure}
 
 \subsection{Results}
+
+The channel begins optically thick ($\sigma=0.001^{-4/3}$) and, as the material
+heats up, becomes thinner. The magnitude of the anisotropic diffusion tensor
+remains consistently smaller than the diffusion coefficients, slowing down the
+radiative transfer even compared to flux-limited diffusion.
+Figure~\ref{fig:crashaltDcoeff} shows the diffusion coefficients of FLAD, FLD,
+and standard diffusion at the final time.
 
 \begin{figure}[htb]
   \centering\small
@@ -174,9 +192,19 @@ the problem is run until time $t=3$. All problem boundaries are reflecting.
     \hspace{-.25in}%
     \input{trt_crashpipealt/dcoeff-ortho-t3/plot}
   }%
-  \caption{Diffusion coefficients at $t=3$ in the flatland pipe problem.}
+  \Caption{Diffusion coefficients at $t=3$ in the flatland pipe problem.}{
+    The three components of the FLAD tensor are plotted as solid lines; the
+    flux-limited diffusion and standard diffusion coefficients are plotted for
+    comparison.}
   \label{fig:crashaltDcoeff}
 \end{figure}
+
+Two cross-sections of the material temperatures are plotted in
+Fig.~\ref{fig:crashaltMattemp}. The slower wave speed modeled by the anisotropic
+diffusion methods (because of the smaller diffusion coefficient) causes more
+energy to be pushed into the diffusive region near $x=0$, removing it from the
+radiation by heating up the cold material. 
+
 
 \begin{figure}[htb]
   \centering\small
@@ -195,7 +223,7 @@ the problem is run until time $t=3$. All problem boundaries are reflecting.
 \begin{figure}[htb]
   \centering\small
   \input{trt_crashpipealt/wavefront-center/plot}
-  \caption{Wavefront position of $\phi$ in the flatland source problem.}
+  \caption{Wavefront position of $\phi$ in the flatland pipe problem.}
   \label{fig:crashaltWavefront}
 \end{figure}
 

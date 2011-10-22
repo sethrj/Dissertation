@@ -1,5 +1,8 @@
 \documentclass[draft]{beamer}
+%\documentclass{beamer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\let\Tiny=\tiny
+\usefonttheme[onlymath]{serif}
 \usepackage{bm}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -18,7 +21,6 @@
 \usetheme{AnnArbor}
 \usecolortheme{seahorse}
 \usecolortheme{orchid}
-\usefonttheme[onlymath]{serif}
 \setbeamercolor*{frametitle}{use=structure,bg=structure.fg!20!white}
 \setbeamercolor*{frametitle right}{use=structure,bg=structure.fg!20!white}
 \setbeamertemplate{navigation symbols}{\insertframenavigationsymbol}
@@ -34,13 +36,13 @@ University of Michigan, Ann Arbor
 }
 \date[10/31/2011]{October 31, 2011}
 
-\AtBeginSection[]
-{
-\begin{frame}
-  \frametitle{Outline}
-  \tableofcontents[currentsection]
-\end{frame}
-}
+%\AtBeginSection[]
+%{
+%\begin{frame}
+%  \frametitle{Outline}
+%  \tableofcontents[currentsection]
+%\end{frame}
+%}
 
 \hypersetup{colorlinks=true,linkcolor=black}
 
@@ -61,6 +63,11 @@ University of Michigan, Ann Arbor
 \smash{\includegraphics[width=0.2\textwidth]{neup-small}}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%  \frametitle{Outline}
+%  \tableofcontents
+%\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
