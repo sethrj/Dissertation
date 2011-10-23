@@ -23,6 +23,7 @@ expansions, can be extended to generate entirely new methods. The application
 of anisotropic diffusion to time-dependent transport also has room to grow,
 both in the use of flux limiters and in 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Improved discontinuity treatment}
 In the derivation of the anisotropic diffusion method, we discarded
 terms of $O(\epsilon^2)$ using the following scaling of Eq.~\eqref{eq:capPsiVol}:
@@ -78,7 +79,7 @@ diffusion approximation lacks: a ``kink'' in the solution $\phi$. Because
 $\vec{E}$ is discontinuous at a material boundary, it will induce a
 discontinuity in $\grad \phi$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Alternative flux limiters}
 
 In \S\ref{sec:flad}, we proposed a flux-limited modification to anisotropic
@@ -104,7 +105,7 @@ example, a ``matrix square root'' would have to be calculated.
 %dimensions, a rank-2 tensor, there is a degree of flexibility not present in
 %standard diffusion theory.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Higher-order anisotropic \texorpdfstring{\PN}{PN} methods}
 The new derivation of the AD method opens the door to other potential
 approximations to radiation transport.  $I -
@@ -129,4 +130,10 @@ This would be substituted into the first moment of the transport equation,
 \end{equation*}
 It would almost certainly involve higher-order gradients of $\phi$ and $\vec{F}$
 as well as more complex tensors.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Three-dimensional problems}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Preconditioners}
 

@@ -1,0 +1,455 @@
+\section{Diffusion}
+
+An accurate flatland diffusion formulation
+is needed for benchmarking the anisotropic diffusion
+approximation against diffusion solutions.
+In the following section we derive ``Marshak'' and ``variational'' boundary
+conditions for the flatland diffusion equation. (A summary of this original
+work is published in \cite{Joh2011a}.)
+%There is no loss of generality in
+%ignoring the time dependence because of the quasi-static approximation made in
+%the derivation of the diffusion coefficient (see \S\ref{sec:bgDiffusion}).
+
+The difference between diffusion in flatland and 2-D results from the
+angular moments in the two geometries, which
+are defined (and evaluated in Table~\ref{tab:angularMoments}) as:
+\begin{equation*}
+  \gamma_n \equiv \int_S \abs{\vec{\Omega} \vd \vec{i}}^n \ud\Omega\,.
+\end{equation*}
+These give rise not only to a different diffusion coefficient in the interior
+but also different boundary conditions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Interior diffusion approximation}
+
+The diffusion approximation begins by assuming that $\psi$ is linear in angle:
+\begin{equation*}
+  \psi(\vec{x}, \vec{\Omega}) \approx f(\vec{x}) + \vec{\Omega} \vd
+  \vec{g}(\vec{x})\,.
+\end{equation*}
+The zeroth angular moment of $\psi$ determines $f$:
+\begin{equation*}
+  \phi = \int_S \psi \ud\Omega
+= \int_S \left( f + \vec{\Omega}\vd \vec{g} \right) \ud\Omega
+= \int_S\ud\Omega f + 0
+= \gamma_0 f \,,
+\end{equation*}
+and the first moment of $\psi$ determines $g$:
+\begin{equation*}
+  \vec{J} = \int_S \vec{\Omega} \psi \ud\Omega
+= f \int_S \vec{\Omega} \ud\Omega
+  + \vec{g} \vd \int_S \vec{\Omega}\vec{\Omega} \ud\Omega
+= \gamma_2 \vec{g} \,.
+\end{equation*}
+This is the \Pone\ approximation to the radiation angular flux:
+\begin{equation}\label{eq:ssPone}
+  \psi(\vec{x}, \vec{\Omega})
+  \approx \frac{1}{\gamma_0} \phi(\vec{x})
+  + \frac{1}{\gamma_2} \vec{\Omega} \vd \vec{J}(\vec{x})\,.
+\end{equation}
+
+The diffusion approximation is a closure for the first angular moment of
+the transport equation. Operating on Eq.~\eqref{eq:ssTransportVol} by
+$\int_S \vec{\Omega} (\cdot) \ud\Omega$ and substituting
+the approximation in Eq.~\eqref{eq:ssPone} reduces the first angular moment of
+the transport equation to the following:
+\begin{align*}
+  \grad \vd \int_S \vec{\Omega} \vec{\Omega} \psi
+  \ud\Omega
+  + \sigma \int_S \vec{\Omega} \psi \ud\Omega
+  &=
+  \frac{c\sigma}{\gamma_0} \phi \int_S \vec{\Omega} \ud\Omega
+  + \frac{1}{\gamma_0} q \int_S \vec{\Omega} \ud\Omega
+  \\
+  \grad \vd \int_S \vec{\Omega} \vec{\Omega} \left(
+  \frac{1}{\gamma_0}\phi + \frac{1}{\gamma_2} \vec{\Omega} \vd \vec{J}
+  \right)
+  \ud\Omega
+  + \sigma \vec{J}
+  &= 0
+  \\
+  \frac{1}{\gamma_0} \grad \vd \int_S \vec{\Omega} \vec{\Omega}
+  \ud\Omega\, \phi 
+  + \sigma \vec{J} &= 0
+  \\
+  \frac{\gamma_2}{\gamma_0} \grad \phi + \sigma \vec{J} &= 0 \,.
+\end{align*}
+Solving for $\vec{J}$ gives Fick's law, expressed in the general form:
+\begin{equation} \label{eq:fickGeneral}
+  \vec{J}(\vec{x})
+  = - \frac{\gamma_2}{\gamma_0} \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x})
+  \equiv -D(\vec{x}) \grad \phi(\vec{x})\,.
+\end{equation}
+In 2-D and 3-D, $\gamma_2/\gamma_0 = (4\pi / 3) / (4\pi) = 1/3$; in
+flatland, $\gamma_2/\gamma_0 = \pi / (2\pi) = 1/2$. Thus, $D=\frac{1}{3\sigma}$ in
+2-D but $D=\frac{1}{2\sigma}$ in flatland.
+
+Substituting Fick's law into the linear-in-angle approximation,
+Eq.~\eqref{eq:ssPone}, we obtain the diffusion approximation to the angular
+angular flux:
+\begin{align} \nonumber
+  \psi(\vec{x}, \vec{\Omega})
+  &\approx \frac{1}{\gamma_0} \phi(\vec{x})
+  + \frac{1}{\gamma_2} \vec{\Omega} \vd \left[ - \frac{\gamma_2}{\gamma_0}
+  \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x}) \right]
+  \\ \label{eq:diffusionIntensity}
+  \psi(\vec{x}, \vec{\Omega})
+  &= \frac{1}{\gamma_0} \left[ \phi(\vec{x})
+  - \frac{1}{\sigma(\vec{x})}
+  \vec{\Omega} \vd \grad \phi(\vec{x}) \right] \,.
+\end{align}
+In physical geometry this is the standard diffusion approximation
+\begin{equation*}
+ \psi(\vec{x}, \vec{\Omega})
+= \frac{1}{4\pi} \left[ \phi(\vec{x}) - \frac{1}{\sigma(\vec{x})} \vec{\Omega}
+\vd \grad \phi(\vec{x}) \right] \,,
+\end{equation*}
+and in flatland, the diffusion approximation is
+\begin{equation}\label{eq:flatlandDiffusion}
+ \psi(\vec{x}, \vec{\Omega})
+= \frac{1}{2\pi} \left[ \phi(\vec{x}) - \frac{1}{\sigma(\vec{x})} \vec{\Omega}
+\vd \grad \phi(\vec{x}) \right]\,.
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Marshak boundary condition}
+The Marshak boundary condition \cite{Mar1947} preserves the incident radiation
+current (the partial first moment for incoming directions) on the boundary. It is
+derived by substituting the approximate diffusion
+angular flux from Eq.~\eqref{eq:diffusionIntensity} into the boundary condition,
+Eq.~\eqref{eq:ssBndy}, multiplying by $\abs{\vec{\Omega}\vd \vec{n}}$, and integrating over
+incident directions:
+\begin{align*}
+\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}}
+\psi^b \ud\Omega
+ &= 
+\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}} 
+ \frac{1}{\gamma_0} \left[ \phi - \frac{1}{\sigma}
+  \vec{\Omega} \vd \grad \phi \right]
+  \ud\Omega
+\\
+J^{-}
+&= 
+\frac{1}{\gamma_0} \phi \left( \int_{\vec{\Omega}\vd \vec{n} < 0 }
+\abs{\vec{\Omega}\vd \vec{n}} \ud\Omega \right) 
+  - \frac{1}{\gamma_0}\frac{1}{\sigma}
+  \left( \int_{\vec{\Omega}\vd \vec{n} < 0 } [-\vec{\Omega}\vd \vec{n}]
+  \vec{\Omega} \ud\Omega  \right) \vd \grad \phi
+\\
+J^{-}
+&=
+\frac{1}{\gamma_0} \phi \left( \frac{\gamma_1}{2} \right) 
+  + \frac{1}{\gamma_0}\frac{1}{\sigma} \left( \vec{n} \vd
+  \frac{\gamma_2}{2} \Identitytens \right)
+  \vd \grad \phi
+\\
+J^{-}
+&=
+\frac{\gamma_1}{2\gamma_0} \phi
++ \frac{\gamma_2}{2\gamma_0}\frac{1}{\sigma} \vec{n} \vd \grad \phi\,.
+\end{align*}
+This is the Marshak diffusion boundary condition:
+\begin{equation} \label{eq:marshak}
+\frac{2\gamma_0}{\gamma_1} J^{-}
+=
+\phi + \frac{\gamma_2}{\gamma_1}\frac{1}{\sigma} \vec{n} \vd \grad \phi\,.
+\end{equation}
+
+The value
+\begin{equation*}
+  \frac{\gamma_2}{\gamma_1}
+  =
+  \begin{cases}
+    \frac{2}{3} \approx 0.6667 & \text{in 1-D, 2-D, 3-D; and} \\
+    \frac{\pi}{4} \approx 0.7854 & \text{in flatland,}
+  \end{cases}
+\end{equation*}
+is the Marshak extrapolation distance.
+The underlying physical reason for the longer extrapolation distance in flatland
+is that in 2-D, a greater fraction of particles travel at a steep angle to the
+$x,y$-plane, yielding a steeper slope for $\phi$ on the boundary.
+
+We can also rewrite the Marshak boundary condition in terms of the diffusion
+coefficient by substituting $D$ from Eq.~\eqref{eq:fickGeneral}:
+\begin{equation*}
+\frac{2\gamma_0}{\gamma_1} J^{-}
+= \phi + \frac{\gamma_0}{\gamma_1} D \vec{n} \vd \grad \phi\,.
+\end{equation*}
+In 1-D, 2-D, and 3-D geometries, this is the standard Marshak boundary condition
+\begin{equation*}
+4 J^{-}
+= \phi + 2 D \vec{n} \vd \grad \phi\,.
+\end{equation*}
+In flatland, it is the following:
+\begin{equation}\label{eq:flatMarshak}
+\pi J^{-}
+= \phi + \frac{\pi}{2} D \vec{n} \vd \grad \phi\,.
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Variational boundary condition} \label{sec:varBndy}
+It is known that the Marshak boundary condition is heuristic and that
+a more accurate boundary condition for diffusion can be derived from an
+asymptotic matched boundary layer analysis. However, a simpler
+method of deriving a more accurate (than Marshak) boundary condition is to use
+a variational analysis \cite{Mal1991}.
+A shorter but equivalent analysis, adapted to flatland geometry, follows.
+
+We consider a homogeneous, source-free ($q=0$), purely scattering ($c=1$)
+transport problem in a
+semi-infinite flatland plane.\footnote{%
+The justification for setting $c=1$ and $q=0$ relates to the asymptotic
+scaling used to derive diffusion from the transport equation:
+both $q$ and $1-c$ are $O(\epsilon^2)$ quantities \cite{Mal1991}.}
+The transport equation~\eqref{eq:ssTransportVol} becomes
+\begin{subequations} \label{eqs:flatTransport}
+\begin{equation}\label{eq:flatTransportVol}
+  \cos \omega \pder{\psi}{x} + \sin \omega \pder{\psi}{y} + \sigma \psi
+  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi \ud \omega'\,,\quad
+ -\infty < x < \infty,\ 0 \le y < \infty,\ 0 \le \omega < 2\pi\,.
+\end{equation}
+It has a uniform incident boundary condition,
+\begin{equation}\label{eq:flatTransportBndy}
+  \psi(x, 0, \omega) = \psi^b(\omega) \,,\quad -\infty < x < \infty,\ 
+  0 \le \omega < \pi \,.
+\end{equation}
+\end{subequations}
+
+Because neither the boundary condition nor $\sigma$ varies
+in $x$, $\tpder{\psi}{x}=0$, and Eq.~\eqref{eq:flatTransportVol} reduces to the
+one-dimensional flatland transport equation 
+\begin{equation*}
+  \sin \omega \pder{}{y}\psi(y,\omega) + \sigma \psi(y,\omega)
+  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi(y,\omega') \ud \omega'\,.
+\end{equation*}
+which is \emph{not} the 1-D planar geometry transport equation.
+
+We define the $y$ components of the angular moments of $\psi$ as
+\begin{equation} \label{eq:flatPhi}
+  \phi_m(y) = \int_{0}^{2\pi} (\vec{\Omega}\vd\vec{j})^m \psi(y,\omega) \ud\omega
+  = \int_{0}^{2\pi} (\sin\omega)^m \psi(y,\omega) \ud\omega \,.
+\end{equation}
+As $y\to\infty$, the angular flux $\psi$ will approach a constant $\varphi/2\pi$,
+which gives $\phi_0(\infty)=\phi(\infty)\equiv\varphi$.
+Concordantly, $\phi_1(\infty)=0$.
+
+Operating on the transport equation by $\int_{0}^{2\pi} (\sin\omega)^m (\cdot)
+\ud\omega$ gives the $m$th angular moment in the $y$ direction:
+\begin{align} \nonumber
+  \pder{}{y} \int_{0}^{2\pi} (\sin\omega)^{m+1} \psi \ud\omega
+  + \sigma \int_{0}^{2\pi} (\sin\omega)^{m} \psi \ud\omega
+  &= \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi \ud \omega'
+  \int_{0}^{2\pi} (\sin\omega)^{m} \ud\omega
+  \\ \label{eq:flatMoments}
+  \pder{\phi_{m+1}}{y}
+  + \sigma \phi_{m}
+  &= \frac{\sigma}{2\pi} \phi_{0}
+  \int_{0}^{2\pi} (\sin\omega)^{m} \ud\omega\,.
+\end{align}
+For $m=0$, the conservation equation, Eq.~\eqref{eq:flatMoments} evaluates to
+\begin{equation*}
+  \pder{\phi_{1}}{y}
+  + \sigma \phi_{0}
+  = \frac{\sigma}{2\pi} \phi_{0} (2\pi)
+  \lra
+  \pder{\phi_{1}}{y} = 0\,.
+\end{equation*}
+In other words, the current is a constant, and because $\phi_1(\infty)=0$,
+that constant is zero. Physically, a constant $\phi_1$ means that at every
+point, the rate of energy being transferred away from the boundary is balanced
+by energy moving toward the boundary. This logically follows from the lack of
+absorption in the problem: at steady-state, the only means of energy loss is
+through exiting the boundary.
+
+Evaluating Eq.~\eqref{eq:flatMoments} for $m=1$ and using the result that
+$\phi_{1}=0$, we obtain
+\begin{equation*}
+  \pder{\phi_{2}}{y}
+  + \sigma \phi_{1}
+  = \frac{\sigma}{2\pi} \phi_{0} (0)
+  \lra
+  \pder{\phi_{2}}{y} = 0\,.
+\end{equation*}
+Thus $\phi_{2}$ is also a constant. At large distances from the boundary,
+$y\to\infty$, the radiation assumes an isotropic distribution,
+$\psi\to\varphi/2\pi$. From these two facts we relate the second angular moment
+throughout the problem to the equilibrium scalar flux $\varphi$:
+\begin{equation*}
+  \phi_{2} = \int_{0}^{2\pi} (\sin\omega)^2 \frac{\varphi}{2\pi} \ud\omega
+  = \frac{1}{2} \varphi\,.
+\end{equation*}
+% in 1-D, this would be $\int_{-1}^{1}\mu^2\frac{\varphi}{2} \ud \mu =
+% \frac{1}{3} \varphi$.
+
+Since $\phi_1=0$, we can add $\alpha \phi_1$ to the previous equation for any
+$\alpha$:
+\begin{align*}
+ \alpha\phi_1 + \phi_{2} &= \frac{\varphi}{2} \\
+ \int_{0}^{2\pi} (\alpha \sin\omega + \sin^2\omega)
+ \psi(y,\omega) \ud\omega
+ &= \frac{\varphi}{2}\,.
+\end{align*}
+At the boundary $y=0$, $\psi=\psi^b$ for incident angles $0 \le \omega < \pi$.
+The variational analysis in \cite{Mal1991} reveals that certain trial functions
+allow an exiting angular distribution that is isotropic to second order accuracy,
+so we make the ``variational'' approximation that $\psi(0,\omega)=\psi^\text{out}$.
+The previous equation then yields
+\begin{equation*}
+ \int_{0}^{\pi} (\alpha \sin\omega + \sin^2\omega)
+ \psi^b(\omega) \ud\omega
+ + \int_{\pi}^{2\pi} (\alpha \sin\omega + \sin^2\omega)\ud\omega \psi^\text{out}
+ = \frac{\varphi}{2}\,.
+\end{equation*}
+The value $\alpha=\pi/4$ eliminates the integral over outgoing directions and
+gives the following relation between moments of the incident angular current and the
+magnitude of the angular current as $y\to\infty$:
+\begin{equation}\label{eq:varBoundary}
+ \varphi = 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
+ \psi^b(\omega) \ud\omega
+ \,.
+\end{equation}
+
+We wish our boundary condition to preserve the value of
+$\varphi$ when the diffusion method is used, so we substitute the diffusion
+approximation, Eq.~\eqref{eq:flatlandDiffusion}:
+\begin{align*}
+ \varphi &= 2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
+ \psi^b(\omega) \ud\omega
+ \\
+ &= 
+  2\int_{0}^{\pi} \left( \frac{\pi}{4} \sin\omega + \sin^2\omega \right)
+ \left( \frac{1}{2\pi} \phi -
+  \frac{1}{\sigma} \sin\omega \pder{\phi}{y}\right)\ud\omega
+\\
+ &= 
+\frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin\omega + 2 \sin^2\omega
+\right)\ud\omega
+ \,\phi -
+ \frac{1}{2\pi} \int_{0}^{\pi} \left( \frac{\pi}{2} \sin^2\omega + 2 \sin^3\omega \right)\ud\omega
+  \,\frac{1}{\sigma} \pder{\phi}{y}
+  \\
+ &= 
+ \frac{1}{2\pi} \left( \frac{\pi}{2} [2] + 2 \frac{\pi}{2}
+\right) \phi
+-
+\frac{1}{2\pi} \left( \frac{\pi}{2} \left[ \frac{\pi}{2} \right] + 2 \left[
+\frac{4}{3} \right] \right) \frac{1}{\sigma} \pder{\phi}{y}
+\\
+ &= 
+  \phi
+- \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma} \pder{\phi}{y}
+\,.
+\end{align*}
+In this problem, the boundary surface outer normal is $\vec{n}=-\vec{j}$. 
+Replacing $\sin \omega$ with $-\vec{\Omega}\vd\vec{n}$, we obtain the following
+flatland variational boundary condition:
+\begin{equation} \label{eq:flatVarBc}
+\int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
+\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
+\psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+= 
+  \phi(\vec{x})
+  - \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma}
+  \vec{n}\vd\grad \phi(\vec{x})\,.
+\end{equation}
+Compared to the flatland Marshak boundary condition,
+Eq.~\eqref{eq:flatMarshak}, the variational boundary condition not only yields a
+different extrapolation distance $\frac{\pi}{8} + \frac{4}{3\pi} \approx
+0.8171$ but also uses a different moment of the incident boundary current.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Generalization}\label{sec:flatlandV}
+
+Recall from the discussion of boundary conditions in
+Chapter~\ref{chap:adDerivation} that to eliminate the boundary layer solution
+in the interior of a 3-D problem, the necessary condition is
+\begin{equation}\tagref{eq:tdKillBndy}
+  \int_{\vec{\Omega}\vd\vec{n} < 0}
+  W(\abs{\vec{\Omega}\vd\vec{n}}) \Ibl(\vec{x},\vec{\Omega}) \ud\Omega
+  = 0\,,
+  \quad \vec{x}\in \partial V ,\ \vec{\Omega}\vd \vec{n} < 0\,,
+\end{equation}
+where $W$ is related to Chandrasekhar's $H$-function \cite{Cha1960} and can be
+approximated by a variationally-derived polynomial $W_2$:
+\begin{equation} \tagref{eq:chandraW}
+  W(\mu) = \frac{\sqrt{3}}{2} \mu H(\mu)
+  \approx W_2(\mu) \equiv \mu + \tfrac{3}{2} \mu^2 \,, \quad 0 < \mu \le 1 \,.
+\end{equation}
+The exact extrapolation distance is the first moment of $W$:
+\begin{equation*}
+  z_0 = \int_{0}^{1} \mu W(\mu) \ud\mu
+  \approx 0.7104\,,
+\end{equation*}
+and the variational approximation gives the following extrapolation distance:
+\begin{equation*}
+  z_0 \approx \int_{0}^{1} \mu W_2(\mu) \ud\mu = \tfrac{17}{24}
+  \approx 0.7083\,.
+\end{equation*}
+Similarly, the 3-D Marshak boundary condition uses
+\begin{equation*}
+  W(\mu) \approx W_1(\mu) \equiv 2 \mu \,,
+\end{equation*}
+which gives the Marshak extrapolation distance
+\begin{equation*}
+  z_0 \approx \int_{0}^{1} \mu W_1(\mu) \ud\mu = \tfrac{2}{3}
+  \approx 0.6667\,.
+\end{equation*}
+
+In our analysis of flatland boundary conditions, we have essentially been
+investigating flatland equivalent of the $W$ function, which we term ``$V$'',
+that preserves the interior solution of a flatland problem:
+\begin{equation}\label{eq:flatKillBndy}
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+\psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+=
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I_\text{approx}(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation}
+The ``true'' function $V$ might be calculable, for example, by using a
+flatland formulation of the $F_N$ method \cite{Sie1979}, but we instead used a
+``variational'' analysis and the standard Marshak treatment to approximate $V$.
+
+We define $V(\mu)$ on the domain $0 < \mu \le 1$, where for our purposes $\mu =
+\abs{\vec{\Omega} \vd \vec{n}}$, and normalize the function and its
+approximations so that in flatland geometry:
+\begin{equation*}
+  \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}}) \ud\Omega
+  = \int_{0}^{\pi} V(\sin\omega) \ud\omega
+  = 1 \,.
+\end{equation*}
+The approximations to $V$ should also have this normalization. Analogous to the
+$W$ function, the flatland extrapolation distance is the first moment of $V$:
+\begin{equation*}
+  z_0 = \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd\vec{n}}
+    V( \abs{\vec{\Omega}\vd\vec{n}}) \ud\Omega
+  = \int_{0}^{\pi} V(\sin\omega) \sin\omega \ud\omega \,.
+\end{equation*}
+
+The flatland Marshak approximation uses only the first angular moment, which,
+after normalization, is:
+\begin{equation}\label{eq:flatV1}
+  V_1(\mu) \equiv \frac{1}{2} \mu \,,
+  \quad 0 < \mu \le 1 \,,
+\end{equation}
+giving the flatland extrapolation distance
+\begin{equation*}
+ z_0 = \int_{0}^{\pi} V_1(\sin\omega) \sin\omega \ud\omega
+  = \frac{\pi}{4} \approx 0.7854 \,.
+\end{equation*}
+
+The variational analysis yielded the following two-term approximation to $V$:
+\begin{equation}\label{eq:flatV2}
+  V_2(\mu) \equiv \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 \,,
+  \quad 0 < \mu \le 1 \,.
+\end{equation}
+The resulting variational flatland extrapolation distance is:
+\begin{equation*}
+ z_0 = \int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega
+  = \frac{\pi}{8} + \frac{4}{3\pi} \approx 0.8171\,.
+\end{equation*}
+
+Using the variational $V(\mu)\approx V_2(\mu)$ with the diffusion
+approximation, Eq.~\eqref{eq:flatlandDiffusion}, we obtain
+Eq.~\eqref{eq:flatVarBc}. With the Marshak $V(\mu)\approx V_1(\mu)$, the result
+is the less accurate Eq.~\eqref{eq:flatMarshak}.
+

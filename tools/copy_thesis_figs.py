@@ -31,6 +31,8 @@ class ResearchCopier( object):
                     self.handle_symlink( root, filename, isdir=isdir)
                 except IOError, e:
                     print e
+            #elif not isdir:
+            #    print root, filename
 
     def handle_symlink(self, root, filename, isdir=False):
         old_path = os.path.join(root, filename)
@@ -110,8 +112,9 @@ if __name__ == "__main__":
     if len(sys.argv) == 3:
         (oldroot, newroot) = sys.argv[1:]
     else:
-        print "Syntax: %s oldroot newroot" % sys.argv[0]
-        print "No roots specified; using defaults"
+        pass
+        #print "Syntax: %s oldroot newroot" % sys.argv[0]
+        #print "No roots specified; using defaults"
 
     rc = ResearchCopier(oldroot, newroot)
 

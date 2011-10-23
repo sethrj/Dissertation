@@ -164,7 +164,7 @@ free paths into the medium, it matches the reference solution very closely.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics{ss_single_channel/phi.pdf}
+  \includegraphics[width=3in]{ss_single_channel/phi.pdf}
   \Caption{ Contour plot of $\phi$ in the steady-state single channel problem.}{
   The dashed black line is the reference Monte Carlo solution; the dotted red
   line is standard diffusion; the broken black line is the anisotropic
@@ -658,15 +658,17 @@ The initial condition is a local but smooth Gaussian function:
 \begin{equation*}
   \phi(x,y) = 0.001 + 100 \eexp^{-100 (x^2 + y^2) }\,.
 \end{equation*}
+We use a grid spacing of $\Delta_x=\Delta_y=0.02$, and a uniform time step
+$\Delta_t=0.02$.
 
 \begin{figure}[htb]
   \centering\small
   \subfloat[Along center]{%
-    \input{td_blastpipe/phi-center-01/plot}}%
+    \input{td_blastpipe/phi-center03-00/plot}}%
   \subfloat[Orthogonal view]{%
-    \input{td_blastpipe/phi-ortho-01/plot}}%
+    \input{td_blastpipe/phi-ortho03-00/plot}}%
 
-  \caption{Scalar intensity at $t=1$ in the blast wave problem.}
+  \caption{Scalar intensity at $t=3$ in the blast wave problem.}
   \label{fig:tdBlastwave}
 \end{figure}
 

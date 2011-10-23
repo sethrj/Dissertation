@@ -1,5 +1,5 @@
-\documentclass[draft]{beamer}
-%\documentclass{beamer}
+%\documentclass[draft]{beamer}
+\documentclass{beamer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \let\Tiny=\tiny
 \usefonttheme[onlymath]{serif}
@@ -180,58 +180,120 @@ Angular moments:
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Monte Carlo sampling}
-Example of lower computational cost of flatland transport: isotropic volume
-source
-\begin{equation}\label{eq:volumeSourcePdf}
-  f(\vec{\Omega}) \ud\Omega = \frac{\ud\Omega}{\gamma_0} \,,
-  \quad \vec{\Omega} \in S\,.
-\end{equation}
-
-\begin{columns}
-  \column{.5\textwidth}
-  \begin{block}{2D}
-\begin{multline*}
-  f(\mu,\omega) \ud\mu\ud\omega = \frac{\ud\mu}{2}\frac{\ud\omega}{2\pi} \,,
-  \\
-  -1\le \mu \le 1,\ 0 \le \omega < 2\pi\,,
-\end{multline*}
-\begin{equation*}
-  \omega = 2\pi \xi_1\,, 
-  \mu = \sqrt{ \xi_2} \,, 
-\end{equation*}
-  \end{block}
-
-  \column{.5\textwidth}
-  \begin{block}{Flatland}
-\begin{equation*}
-  f(\omega) \ud\omega = \frac{\ud\omega}{2\pi} \,,
-  \quad 0 \le \omega < 2\pi\,,
-\end{equation*}
-\begin{equation*}
-  \omega = 2\pi \xi_1\,.
-\end{equation*}
-  \end{block}
-\end{columns}
-\end{frame}
+%\begin{frame}{Monte Carlo sampling}
+%Example of lower computational cost of flatland transport: isotropic volume
+%source
+%\begin{equation}\label{eq:volumeSourcePdf}
+%  f(\vec{\Omega}) \ud\Omega = \frac{\ud\Omega}{\gamma_0} \,,
+%  \quad \vec{\Omega} \in S\,.
+%\end{equation}
+%
+%\begin{columns}
+%  \column{.5\textwidth}
+%  \begin{block}{2D}
+%\begin{multline*}
+%  f(\mu,\omega) \ud\mu\ud\omega = \frac{\ud\mu}{2}\frac{\ud\omega}{2\pi} \,,
+%  \\
+%  -1\le \mu \le 1,\ 0 \le \omega < 2\pi\,,
+%\end{multline*}
+%\begin{equation*}
+%  \omega = 2\pi \xi_1\,, 
+%  \mu = \sqrt{ \xi_2} \,, 
+%\end{equation*}
+%  \end{block}
+%
+%  \column{.5\textwidth}
+%  \begin{block}{Flatland}
+%\begin{equation*}
+%  f(\omega) \ud\omega = \frac{\ud\omega}{2\pi} \,,
+%  \quad 0 \le \omega < 2\pi\,,
+%\end{equation*}
+%\begin{equation*}
+%  \omega = 2\pi \xi_1\,.
+%\end{equation*}
+%  \end{block}
+%\end{columns}
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Diffusion}
-\begin{frame}
-Assume $\psi$ is linear in angle:
-\begin{equation} \label{eq:diffusionIntensity}
+\begin{frame}{Linear-in-angle approximation}
+The diffusion approximation begins by assuming that $\psi$ is linear in angle:
+\begin{equation*}
+  \psi(\vec{x}, \vec{\Omega}) \approx f(\vec{x}) + \vec{\Omega} \vd
+  \vec{g}(\vec{x})\,.
+\end{equation*}
+The zeroth angular moment of $\psi$ determines $f$:
+\begin{equation*}
+  \phi = \int_S \psi \ud\Omega
+= \int_S \left( f + \vec{\Omega}\vd \vec{g} \right) \ud\Omega
+= \int_S\ud\Omega f + 0
+= \gamma_0 f \,,
+\end{equation*}
+and the first moment of $\psi$ determines $g$:
+\begin{equation*}
+  \vec{J} = \int_S \vec{\Omega} \psi \ud\Omega
+= f \int_S \vec{\Omega} \ud\Omega
+  + \vec{g} \vd \int_S \vec{\Omega}\vec{\Omega} \ud\Omega
+= \gamma_2 \vec{g} \,.
+\end{equation*}
+\only<1>{%
+This is the \Pone\ approximation to the radiation intensity:
+\begin{equation}\label{eq:ssPone}
   \psi(\vec{x}, \vec{\Omega})
-  = \frac{1}{\gamma_0} \left( \phi(\vec{x})
-  - \frac{1}{\sigma(\vec{x})}
-  \vec{\Omega} \vd \grad \phi(\vec{x}) \right) \,.
-\end{equation}
+  \approx \frac{1}{\gamma_0} \phi(\vec{x})
+  + \frac{1}{\gamma_2} \vec{\Omega} \vd \vec{F}(\vec{x})\,.
+\end{equation}%
+}%
+\only<2>{%
+This is the \alert{2-D} \Pone\ approximation to the radiation intensity:
+\begin{equation*}
+  \psi(\vec{x}, \vec{\Omega})
+  \approx \frac{1}{4\pi} \phi(\vec{x})
+  + \frac{3}{4\pi} \vec{\Omega} \vd \vec{F}(\vec{x})\,.
+\end{equation*}%
+}%
+\only<3>{%
+This is the \alert{flatland} \Pone\ approximation to the radiation intensity:
+\begin{equation*}
+  \psi(\vec{x}, \vec{\Omega})
+  \approx \frac{1}{2\pi} \phi(\vec{x})
+  + \frac{1}{\pi} \vec{\Omega} \vd \vec{F}(\vec{x})\,.
+\end{equation*}%
+}%
+\end{frame}
 
+\begin{frame}{Fick's law}
+The linear-in-angle approximation is a spherical harmonics closure to the
+transport equation.
+
+Operate on \eqref{eq:generalTransport} by $\int_S \vec{\Omega} (\cdot)
+\ud\Omega$ and substitute \eqref{eq:ssPone}:
+\begin{align*}
+  \grad \vd \int_S \vec{\Omega} \vec{\Omega} \left(
+  \frac{1}{\gamma_0}\phi + \frac{1}{\gamma_2} \vec{\Omega} \vd \vec{J}
+  \right)
+  \ud\Omega
+  + \sigma \vec{J}
+  &=
+  \frac{c\sigma}{\gamma_0} \phi \int_S \vec{\Omega} \ud\Omega
+  + \frac{1}{\gamma_0} q \int_S \vec{\Omega} \ud\Omega
+  \\
+  \frac{\gamma_2}{\gamma_0} \grad \phi + \sigma \vec{J} &= 0 \,.
+\end{align*}
+
+Solve for $\vec{J}$:
 \begin{equation} \label{eq:fickGeneral}
   \vec{J}(\vec{x})
   = - \frac{\gamma_2}{\gamma_0} \frac{1}{\sigma(\vec{x})} \grad \phi(\vec{x})
   \equiv -D(\vec{x}) \grad \phi(\vec{x})\,.
 \end{equation}
-\end{frame}<++>
+
+\begin{equation*}
+  \text{2-D: } D = \frac{1}{3\sigma} \qquad
+  \text{Flatland: } D = \frac{1}{2\sigma}\,.
+\end{equation*}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Marshak boundaries}
@@ -241,7 +303,37 @@ Assume $\psi$ is linear in angle:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \includegraphics{flatlandbc-problem}
+  \caption{Flatland test problem.}
+  \label{fig:problem}
+\end{figure}
+\end{frame}
 
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \hspace{-.5in}
+  \input{flatlandbc-presentation/delta-phi/plot}
+  \hspace{-.5in}
+  \caption{Scalar flux with a normally incident boundary condition.}
+  \label{fig:delta}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \hspace{-.5in}
+  \input{flatlandbc-presentation/relative-errors/plot}
+  \hspace{-.5in}
+  \caption{Relative errors ($\phi/\phi_\text{MC} - 1$) of the three tested
+  distributions.}
+  \label{fig:relative}
+\end{figure}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

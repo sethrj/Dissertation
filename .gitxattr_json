@@ -852,6 +852,36 @@
 "figures/flatlandbc-channel/relative-errors/relative-errors.pdf": {
 "creation": 1315801508
 }, 
+"figures/flatlandbc-presentation/delta-phi/delta-phi.pdf": {
+"creation": 1319330831
+}, 
+"figures/flatlandbc-presentation/delta-phi/plot.tex": {
+"creation": 1319330831
+}, 
+"figures/flatlandbc-presentation/grazing-phi/grazing-phi.pdf": {
+"creation": 1319330831
+}, 
+"figures/flatlandbc-presentation/grazing-phi/plot.tex": {
+"creation": 1319330831
+}, 
+"figures/flatlandbc-presentation/isotropic-phi/isotropic-phi.pdf": {
+"creation": 1319330831
+}, 
+"figures/flatlandbc-presentation/isotropic-phi/plot.tex": {
+"creation": 1319330831
+}, 
+"figures/flatlandbc-presentation/relative-errors/plot.tex": {
+"creation": 1319330831
+}, 
+"figures/flatlandbc-presentation/relative-errors/relative-errors.pdf": {
+"creation": 1319330831
+}, 
+"figures/flatlandbc-problem.pdf": {
+"creation": 1319329708, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
 "figures/goldin-righthalf.pdf": {
 "creation": 1280774631, 
 "xattrs": {
@@ -966,17 +996,17 @@
 "figures/td_blastpipe/phi-all/plot.tex": {
 "creation": 1318641392
 }, 
-"figures/td_blastpipe/phi-center-01/phi-center-01.pdf": {
-"creation": 1318641392
+"figures/td_blastpipe/phi-center03-00/phi-center03-00.pdf": {
+"creation": 1319330831
 }, 
-"figures/td_blastpipe/phi-center-01/plot.tex": {
-"creation": 1318641392
+"figures/td_blastpipe/phi-center03-00/plot.tex": {
+"creation": 1319330831
 }, 
-"figures/td_blastpipe/phi-ortho-01/phi-ortho-01.pdf": {
-"creation": 1318641392
+"figures/td_blastpipe/phi-ortho03-00/phi-ortho03-00.pdf": {
+"creation": 1319330831
 }, 
-"figures/td_blastpipe/phi-ortho-01/plot.tex": {
-"creation": 1318641392
+"figures/td_blastpipe/phi-ortho03-00/plot.tex": {
+"creation": 1319330831
 }, 
 "figures/td_reactor/lineout-phi-channel-10/lineout-phi-channel-10.pdf": {
 "creation": 1317845921
@@ -1031,6 +1061,9 @@
 }, 
 "figures/td_reactor/xsn.png": {
 "creation": 1317845921
+}, 
+"figures/trt_crashpipealt/anisotropy.png": {
+"creation": 1319330832
 }, 
 "figures/trt_crashpipealt/dcoeff-center-t3/dcoeff-center-t3.pdf": {
 "creation": 1319061280
@@ -1113,17 +1146,62 @@
 "figures/trt_hardmk/wavefront-diag/wavefront-diag.pdf": {
 "creation": 1319151550
 }, 
+"figures/trt_serious/absorption-plastedge0-20/absorption-plastedge0-20.pdf": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/absorption-plastedge0-20/plot.tex": {
+"creation": 1319330832
+}, 
 "figures/trt_serious/adcoeff.png": {
 "creation": 1319214921
 }, 
+"figures/trt_serious/anisotropy.png": {
+"creation": 1319330832
+}, 
 "figures/trt_serious/materials.png": {
 "creation": 1319214921
+}, 
+"figures/trt_serious/mattemp-center0-20/mattemp-center0-20.pdf": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/mattemp-center0-20/plot.tex": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/mattemp-plastedge0-20/mattemp-plastedge0-20.pdf": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/mattemp-plastedge0-20/plot.tex": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/mattemp-prea0-20/mattemp-prea0-20.pdf": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/mattemp-prea0-20/plot.tex": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/mattemp01.png": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/mattemp02.png": {
+"creation": 1319330832
 }, 
 "figures/trt_serious/physical-opacity/physical-opacity.pdf": {
 "creation": 1319151550
 }, 
 "figures/trt_serious/physical-opacity/plot.tex": {
 "creation": 1319151550
+}, 
+"figures/trt_serious/radtemp-center0-20/plot.tex": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/radtemp-center0-20/radtemp-center0-20.pdf": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/radtemp01.png": {
+"creation": 1319330832
+}, 
+"figures/trt_serious/radtemp02.png": {
+"creation": 1319330832
 }, 
 "figures/umlogo.pdf": {
 "creation": 1285162895
@@ -1149,6 +1227,9 @@
 "xattrs": {
 "com.apple.FinderInfo": "AAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
+}, 
+"presentations/ans-flatland/flatland-rp.tex": {
+"creation": 1319330823
 }, 
 "presentations/ans-flatland/paper.pdf": {
 "creation": 1318271499

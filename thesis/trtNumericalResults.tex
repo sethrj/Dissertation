@@ -334,7 +334,7 @@ symmetric quadrature set as in the easy obstacle problem.
   \centering
   \input{trt_hardmk/wavefront-diag/plot}
   \caption{Wavefront plot along the diagonal in the hard obstacle problem.}
-  \label{fig:hardmkContour}
+  \label{fig:hardmkWavefront}
 \end{figure}
 
 \begin{figure}[htb]
@@ -446,6 +446,39 @@ radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
    thick regions to very large (violet).}
   \label{fig:seriousAdcoeff}
 \end{figure}
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[Radiation temperature]{%
+    \includegraphics[width=6in]{trt_serious/radtemp02}
+  }
+
+  \subfloat[Material temperature]{%
+    \includegraphics[width=6in]{trt_serious/mattemp02}
+  }
+
+  \Caption{Solution at $t=0.2\units{ns}$ in the CRASH problem.}{
+  From top to bottom, the solutions for AD, FLD, and FLAD are plotted.}
+  \label{fig:seriousTemp}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \subfloat[Radiation temperature]{%
+    \hspace{-.25in}%
+    \input{trt_serious/radtemp-center0-20/plot}
+  }
+
+  \subfloat[Material temperature]{%
+    \hspace{-.25in}%
+    \input{trt_serious/mattemp-center0-20/plot}
+  }
+  \caption{Solution along the centerline ($x=0$) at $t=0.2\units{ns}$ in the
+  CRASH problem.}
+  \label{fig:seriousCenterline}
+\end{figure}
+
+
 
 \subsection{Discussion}
 
