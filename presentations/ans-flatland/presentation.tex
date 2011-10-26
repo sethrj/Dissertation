@@ -216,7 +216,7 @@ Angular moments:
 %\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Diffusion}
+\subsection{Diffusion interior}
 \begin{frame}{Linear-in-angle approximation}
 The diffusion approximation begins by assuming that $\psi$ is linear in angle:
 \begin{equation*}
@@ -296,20 +296,190 @@ Solve for $\vec{J}$:
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Marshak boundaries}
+\subsection{Diffusion Marshak boundary condition}
+\begin{frame}{Marshak boundary condition}
+  Heuristic: preserve the incident current (particle rate/flux) on the boundary
+
+\begin{align*}
+\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}}
+\psi^b \ud\Omega
+ &= 
+\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}} 
+ \frac{1}{\gamma_0} \left[ \phi - \frac{1}{\sigma}
+  \vec{\Omega} \vd \grad \phi \right]
+  \ud\Omega
+\\
+J^{-}
+&=
+\frac{1}{\gamma_0} \phi \left( \frac{\gamma_1}{2} \right) 
+  + \frac{1}{\gamma_0}\frac{1}{\sigma} \left( \vec{n} \vd
+  \frac{\gamma_2}{2} \Identitytens \right)
+  \vd \grad \phi
+\\
+J^{-}
+&=
+\frac{\gamma_1}{2\gamma_0} \phi
++ \frac{\gamma_2}{2\gamma_0}\frac{1}{\sigma} \vec{n} \vd \grad \phi\,.
+\end{align*}
+
+\only<1>{%
+General Marshak boundary condition:
+\begin{equation} \label{eq:marshak}
+\frac{2\gamma_0}{\gamma_1} J^{-}
+=
+\phi + \frac{\gamma_2}{\gamma_1}\frac{1}{\sigma} \vec{n} \vd \grad \phi\,.
+\end{equation}
+}%
+\only<2>{%
+\alert{2-D} Marshak boundary condition:
+\begin{equation} \label{eq:twodMarshak}
+4 J^{-}
+= \phi + 2 D \vec{n} \vd \grad \phi\vphantom{\frac\pi2}\,.
+\end{equation}
+}%
+\only<3>{%
+\alert{Flatland} Marshak boundary condition:
+\begin{equation} \label{eq:flatMarshak}
+\pi J^{-}
+= \phi + \frac{\pi}{2} D \vec{n} \vd \grad \phi\,.
+\end{equation}
+}%
+\end{frame}
+
+\begin{frame}{Extrapolation distance}
+\begin{equation*}
+  \frac{\gamma_2}{\gamma_1}
+  =
+  \begin{cases}
+    \frac{2}{3} \approx 0.6667 & \text{in 1-D, 2-D, 3-D; and} \\
+    \frac{\pi}{4} \approx 0.7854 & \text{in flatland,}
+  \end{cases}
+\end{equation*}
+  
+INSERT FIGURE HERE
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{``Variational'' boundaries}
+\subsection{Diffusion ``variational'' boundary condition}
+\begin{frame}
+  \begin{itemize}
+    \item Marshak boundaries are heuristic (inaccurate when incident angular
+      flux is \emph{not} isotropic)
+    \item Asymptotic analysis relates diffusion and transport quantitatively
+    \item \emph{Matched boundary layer analysis} relates ``interior'' transport
+      solution to diffusion solution
+    \item Exact solution of the boundary layer equation (F$_N$ method)
+      gives transport extrapolation distance:
+      \begin{equation*}
+        z_0 = \int_{0}^{1} \mu W(\mu) \ud\mu
+        \approx 0.7104
+      \end{equation*}
+    \item Much simpler variational analysis \cite{Mal1991} gives
+      \begin{equation*}
+        W(\mu) \approx  W_2(\mu) \equiv \mu + \tfrac{3}{2} \mu^2  
+      \end{equation*}
+      (extrapolation distance${}= \tfrac{17}{24}
+      \approx 0.7083$)
+    \item We apply the same analysis to flatland
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Variational analysis summary}
+  \begin{enumerate}
+    \item Formulate a purely scattering half-space problem$^*$ with a specified
+      incident boundary
+    \item Approximate exiting particle distribution as isotropic (result of an
+      actual variational analysis)
+    \item Relate incident particle distribution to transport interior solution
+      %$\phi(\infty) \equiv \varphi$
+    \item Require diffusion boundary condition to yield the same interior
+      solution
+  \end{enumerate}
+
+\only<1>{%
+  Result in \alert{2-D}:
+\begin{multline*}
+\int_{\vec{\Omega}\vd\vec{n} < 0} \left[
+\abs{\vec{\Omega}\vd\vec{n}} + \tfrac{3}{2} (\vec{\Omega}\vd\vec{n})^2 \right]
+\psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+\\ = 
+  \phi(\vec{x})
+  - \left( \frac{17}{24} \right) \frac{1}{\sigma}
+  \vec{n}\vd\grad \phi(\vec{x})\,.
+\end{multline*}
+(Variational extrapolation distance: $\tfrac{17}{24} \approx 0.7083$)
+}%
+\only<2>{%
+  Result in \alert{flatland}
+\begin{multline*}
+\int_{\vec{\Omega}\vd\vec{n} < 0} \left[ \frac{\pi}{2}
+\abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2 \right]
+\psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+\\ = 
+  \phi(\vec{x})
+  - \left( \frac{\pi}{8} + \frac{4}{3\pi} \right) \frac{1}{\sigma}
+  \vec{n}\vd\grad \phi(\vec{x})\,.
+\end{multline*}
+(Variational extrapolation distance: $\frac{\pi}{8} + \frac{4}{3\pi} \approx
+0.8171$)
+}%
+\end{frame}
+
+%\begin{frame}
+%Transport equation:
+%\begin{subequations} \label{eqs:flatTransport}
+%\begin{equation}\label{eq:flatTransportVol}
+%  \sin \omega \pder{}{y}\psi(y,\omega) + \sigma \psi(y,\omega)
+%  = \frac{\sigma}{2\pi} \int_{0}^{2\pi} \psi(y,\omega') \ud \omega'\,,
+%\end{equation}
+%with boundary condition
+%\begin{equation}\label{eq:flatTransportBndy}
+%  \psi(x, 0, \omega) = \psi^b(\omega) \,,\quad -\infty < x < \infty,\ 
+%  0 \le \omega < \pi \,.
+%\end{equation}
+%\end{subequations}
+%
+%By taking angular moments $\int_{0}^{2\pi} (\sin\omega)^m (\cdot)
+%\ud\omega$ of this equation, we find:
+%\begin{itemize}
+%  \item The current is, throughout space, constant and zero
+%  \item The second angular moment is \emph{also} a constant
+%  \item Since $\psi(\infty,\omega)$ is isotropic, $\phi_{2} = \int_{0}^{2\pi}
+%    (\sin\omega)^2 \frac{\phi(\infty)}{2\pi} \ud\omega
+%  = \frac{1}{2} \phi(\infty)$
+%\end{itemize}
+%  
+%\end{frame}
+
+\begin{frame}
+\begin{equation}\label{eq:flatKillBndy}
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+\psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+=
+\int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
+I_\text{approx}(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation}
+  
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \begin{frame}
+Compare fine-grid diffusion against Monte Carlo flatland surface source:
+\begin{equation*}
+  \vec{\Omega} = (1 - 2\xi_1) \vec{i} + \sqrt{1 - (1 - 2\xi_1)^2} \vec{j}\,.
+\end{equation*}
+
 \begin{figure}[tb]
-  \centering
+  \centering\vspace{-.25in}%
   \includegraphics{flatlandbc-problem}
+  \vspace{-.25in}
+
   \caption{Flatland test problem.}
   \label{fig:problem}
 \end{figure}
+
 \end{frame}
 
 \begin{frame}
