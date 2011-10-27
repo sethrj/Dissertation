@@ -1,5 +1,5 @@
-%\documentclass[draft]{beamer}
-\documentclass{beamer}
+\documentclass[draft]{beamer}
+%\documentclass{beamer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \let\Tiny=\tiny
 \usefonttheme[onlymath]{serif}
@@ -452,15 +452,45 @@ INSERT FIGURE HERE
 %  
 %\end{frame}
 
-\begin{frame}
-\begin{equation}\label{eq:flatKillBndy}
+\begin{frame}{2-D boundary layer matching}
+\begin{equation*}
+\int_{\vec{\Omega}\vd\vec{n} < 0} W( \abs{\vec{\Omega}\vd\vec{n}})
+\psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
+=
+\int_{\vec{\Omega}\vd\vec{n} < 0} W( \abs{\vec{\Omega}\vd\vec{n}})
+I_\text{approx}(\vec{x}, \vec{\Omega}) \ud\Omega \,.
+\end{equation*}
+Marshak (diffusion extrapolation distance $0.6667$):
+\begin{equation*}
+  W_1(\mu) \equiv \vphantom{\frac12} 2 \mu \,,
+\end{equation*}
+Variational (diffusion extrapolation distance $0.7083$):
+\begin{equation*}
+   W_2(\mu) \equiv \mu + \frac{3}{2} \mu^2 \,,
+\end{equation*}
+
+($\mu={}$polar angle cosine)
+\end{frame}
+
+\begin{frame}{Flatland boundary layer matching}
+\begin{equation*}
 \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
 \psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
 =
 \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
 I_\text{approx}(\vec{x}, \vec{\Omega}) \ud\Omega \,.
-\end{equation}
-  
+\end{equation*}
+Marshak (diffusion extrapolation distance $0.7854$):
+\begin{equation*}
+  V_1(\mu) \equiv \frac{1}{2} \mu \,,
+\end{equation*}
+Variational (diffusion extrapolation distance $0.8171$):
+\begin{equation*}
+  V_2(\mu) \equiv \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 \,,
+\end{equation*}
+
+($\mu=\cos\omega={}$azimuthal angle cosine, $-\frac{\pi}{2} < \omega <
+\frac{\pi}{2}$)
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -509,20 +539,20 @@ Compare fine-grid diffusion against Monte Carlo flatland surface source:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  %\frametitle{Questions?}
-
-{\par\centering%
-  \includegraphics[height=2.75in]{bunny-transport}
-
-}
-{\setlength{\baselineskip}{-\baselineskip} \tiny 
-This material is based upon work supported under a National Science Foundation
-Graduate Research Fellowship and a Department of Energy Nuclear Energy
-University Programs Graduate Fellowship. Any opinions, findings, conclusions or
-recommendations expressed in this publication are those of the author and do
-not necessarily reflect the views of the National Science Foundation or the
-Department of Energy Office of Nuclear Energy.\par}
+\begin{frame}{}
+% %\frametitle{Questions?}
+{\par\raggedleft Questions?
+\par}%\vspace{-.3in}
+%{\par\centering%
+%  \includegraphics[height=2.75in]{bunny-transport}
+%  \par}
+%{\setlength{\baselineskip}{-\baselineskip} \tiny 
+%This material is based upon work supported under a National Science Foundation
+%Graduate Research Fellowship and a Department of Energy Nuclear Energy
+%University Programs Graduate Fellowship. Any opinions, findings, conclusions or
+%recommendations expressed in this publication are those of the author and do
+%not necessarily reflect the views of the National Science Foundation or the
+%Department of Energy Office of Nuclear Energy.\par}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
