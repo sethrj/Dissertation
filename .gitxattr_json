@@ -337,29 +337,17 @@
 "figures/1d_trt_blastwave_long/wavefront/wavefront.pdf": {
 "creation": 1319061280
 }, 
-"figures/adbc-channel/angle-isotropic-cmfp/angle-isotropic-cmfp.pdf": {
-"creation": 1315801508
+"figures/adbc-channel/angle-isotropic-center-y1/angle-isotropic-center-y1.pdf": {
+"creation": 1319834883
 }, 
-"figures/adbc-channel/angle-isotropic-cmfp/plot.tex": {
-"creation": 1315801508
+"figures/adbc-channel/angle-isotropic-center-y1/plot.tex": {
+"creation": 1319834883
 }, 
-"figures/adbc-channel/delta-phi/delta-phi.pdf": {
-"creation": 1315801508
+"figures/adbc-channel/isotropic-phi-channel/isotropic-phi-channel.pdf": {
+"creation": 1319834883
 }, 
-"figures/adbc-channel/delta-phi/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/adbc-channel/grazing-phi/grazing-phi.pdf": {
-"creation": 1315801508
-}, 
-"figures/adbc-channel/grazing-phi/plot.tex": {
-"creation": 1315801508
-}, 
-"figures/adbc-channel/isotropic-phi/isotropic-phi.pdf": {
-"creation": 1315801508
-}, 
-"figures/adbc-channel/isotropic-phi/plot.tex": {
-"creation": 1315801508
+"figures/adbc-channel/isotropic-phi-channel/plot.tex": {
+"creation": 1319834883
 }, 
 "figures/adbc-checkers/adcoeff.png": {
 "creation": 1308594922
@@ -382,17 +370,77 @@
 "figures/adbc-checkers/isotropic-phi/plot.tex": {
 "creation": 1315801508
 }, 
+"figures/adbc-presentation/adf-center-ymax/adf-center-ymax.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/adf-center-ymax/plot.tex": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/adf-insideleftedge-ymax/adf-insideleftedge-ymax.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/adf-insideleftedge-ymax/plot.tex": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/center-y0/center-y0.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/center-y0/plot.tex": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/center-y5/center-y5.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/center-y5/plot.tex": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/center-ymax/center-ymax.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/center-ymax/plot.tex": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/insideleftedge-y5/insideleftedge-y5.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/insideleftedge-y5/plot.tex": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/phi-channel/phi-channel.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/phi-channel/plot.tex": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/phi-left/phi-left.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-presentation/phi-left/plot.tex": {
+"creation": 1319834883
+}, 
 "figures/adbc-reactor/angle-center-y0/angle-center-y0.pdf": {
 "creation": 1317845921
 }, 
 "figures/adbc-reactor/angle-center-y0/plot.tex": {
 "creation": 1317845921
 }, 
+"figures/adbc-reactor/angle-center-y5/angle-center-y5.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-reactor/angle-center-y5/plot.tex": {
+"creation": 1319834883
+}, 
 "figures/adbc-reactor/angle-center-ymax/angle-center-ymax.pdf": {
 "creation": 1317845921
 }, 
 "figures/adbc-reactor/angle-center-ymax/plot.tex": {
 "creation": 1317845921
+}, 
+"figures/adbc-reactor/angle-insideleftedge-y5/angle-insideleftedge-y5.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-reactor/angle-insideleftedge-y5/plot.tex": {
+"creation": 1319834883
 }, 
 "figures/adbc-reactor/angle-insideleftedge-ymax/angle-insideleftedge-ymax.pdf": {
 "creation": 1317845921
@@ -405,6 +453,15 @@
 }, 
 "figures/adbc-reactor/phi-channel/plot.tex": {
 "creation": 1318641392
+}, 
+"figures/adbc-reactor/phi-left/phi-left.pdf": {
+"creation": 1319834883
+}, 
+"figures/adbc-reactor/phi-left/plot.tex": {
+"creation": 1319834883
+}, 
+"figures/adbc-reactor/xsn.png": {
+"creation": 1319834883
 }, 
 "figures/boltzmann.jpg": {
 "creation": 1285954034, 
@@ -852,6 +909,12 @@
 "figures/flatlandbc-channel/relative-errors/relative-errors.pdf": {
 "creation": 1315801508
 }, 
+"figures/flatlandbc-incident.pdf": {
+"creation": 1319809403, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
 "figures/flatlandbc-presentation/delta-phi/delta-phi.pdf": {
 "creation": 1319330831
 }, 
@@ -887,6 +950,9 @@
 "xattrs": {
 "com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
+}, 
+"figures/larsen-tux.png": {
+"creation": 1319829996
 }, 
 "figures/larsen.png": {
 "creation": 1305980994

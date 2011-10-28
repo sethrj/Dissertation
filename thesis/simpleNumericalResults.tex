@@ -407,8 +407,9 @@ boundary condition.
 
 \begin{figure}[htb!]
   \centering
+  \centering\small
   \hspace{-.25in}%
-  \input{adbc-channel/isotropic-phi/plot}
+  \input{adbc-channel/isotropic-phi-channel/plot}
   \caption{Scalar flux along the centerline of the channel with an isotropic
   boundary condition at $y=0$.}
   \label{fig:isotropic}
@@ -428,8 +429,7 @@ features.
 \begin{figure}[htb]
   \centering\small
   \vspace{-.25in}%
-  \hspace{-.25in}%
-  \input{adbc-channel/angle-isotropic-cmfp/plot}
+  \input{adbc-channel/angle-isotropic-center-y1/plot}
   \vspace{-.25in}%
   \caption{Angular flux $\psi(2.5, 1., \omega)$ for the incident isotropic
   problem, in the centerline of the channel one unit from the boundary.}
@@ -483,11 +483,11 @@ The grid width used is $\Delta_x = 0.1$.
   \subfloat[$\psi(2.5,10,\omega)$]{%
     \input{adbc-reactor/angle-center-ymax/plot}}%
   \hspace{-.5in}%
-  \subfloat[$\psi(1.5,10,\omega)$]{%
-    \input{adbc-reactor/angle-insideleftedge-ymax/plot}}%
+  \subfloat[$\psi(1.55,5,\omega)$]{%
+    \input{adbc-reactor/angle-insideleftedge-y5/plot}}%
   \hspace{-.75in}
   \caption{Angular flux in the channel at (a) the bottom center, (b) the top
-  center, and (c) the top left edge.}
+  center, and (c) the middle left edge.}
   \label{fig:bcReactor}
 \end{figure}
 

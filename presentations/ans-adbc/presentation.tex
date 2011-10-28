@@ -1,5 +1,5 @@
-\documentclass[draft]{beamer}
-%\documentclass{beamer}
+%\documentclass[draft]{beamer}
+\documentclass{beamer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \let\Tiny=\tiny
 \usefonttheme[onlymath]{serif}
@@ -34,7 +34,7 @@
 \institute[UMich]{
 University of Michigan, Ann Arbor
 }
-\date[10/31/2011]{October 31, 2011}
+\date[11/1/2011]{November 1, 2011}
 
 %\AtBeginSection[]
 %{
@@ -78,32 +78,140 @@ University of Michigan, Ann Arbor
 \section{Theory}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 
+\subsection{Problem description}
+\begin{frame}
+\begin{figure}[tb]
+  \includegraphics[height=2.75in]{adbc-reactor/xsn}
+
+  \caption{Test problem (flatland geometry). Gaussian source in lower-left;
+  black and white give cross sections; reflecting boundaries on left, bottom,
+  right.}
+  \label{fig:problem}
+\end{figure}
+\end{frame}
+  
+\begin{frame}{Compared methods}
+  \begin{itemize}
+    \item Monte Carlo (and \SN\ for visualization of $\psi$)
+    \item AD with specularly reflecting boundary for $f$ on top
+    \item AD with white boundary for $f$ on top
+    \item AD with ``na\"ive'' boundary: vacuum $f$ on top, use Marshak diffusion
+      boundary with $\Dtens \vd \vec{n}$
+    \item Diffusion
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lineouts}
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/phi-channel/plot}
+  \caption{Scalar flux along the centerline of the channel.}
+  \label{fig:phiChannel}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/phi-left/plot}
+  \caption{Scalar flux along the left edge of the problem.}
+  \label{fig:phiLeft}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Purely absorbing transport solution}
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/adf-center-ymax/plot}
+  \caption{Transport solution $f(2.5,10,\omega)$, at end of channel.}
+  \label{fig:fMid}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/adf-insideleftedge-ymax/plot}
+  \caption{Transport solution $f(1.55,10,\omega)$, at end of channel.}
+  \label{fig:fLeft}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Angular flux}
+%\begin{frame}
+%\begin{figure}[tb]
+%  \centering
+%  \input{adbc-presentation/center-y0/plot}
+%  \caption{Angular flux $\psi(2.5,0,\omega)$, at beginning of channel.}
+%  \label{fig:psi0}
+%\end{figure}
+%\end{frame}
+
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/center-y5/plot}
+  \caption{Angular flux $\psi(2.5,5,\omega)$, in middle of channel.}
+  \label{fig:psi5}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/center-ymax/plot}
+  \caption{Angular flux $\psi(2.5,10,\omega)$, at end of channel.}
+  \label{fig:psi10}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/insideleftedge-y5/plot}
+  \caption{Angular flux $\psi(1.55,5)$, at left edge of middle of channel.}
+  \label{fig:psiEdge}
+\end{figure}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
+\begin{frame}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Questions?}
 
-{\par\centering%
-  \includegraphics[height=2.75in]{larsen}
+{\par\centering\hspace{-.35in}
+  \includegraphics[height=2.75in]{larsen-tux}
+  \par}
 
-}
+\vspace{-3in}
+{\par\Huge Questions?
+\par}%
+\vspace{3in}
+
 {\vspace{-.25in}%
-\setlength{\baselineskip}{-\baselineskip} \tiny 
+\setlength{\baselineskip}{-\baselineskip} \tiny %\raggedright
 This material is based upon work supported under a National Science Foundation
 Graduate Research Fellowship and a Department of Energy Nuclear Energy
 University Programs Graduate Fellowship. Any opinions, findings, conclusions or
 recommendations expressed in this publication are those of the author and do
 not necessarily reflect the views of the National Science Foundation or the
 Department of Energy Office of Nuclear Energy.\par}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
