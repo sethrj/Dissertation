@@ -30,7 +30,7 @@ sweep is sufficient to converge the diffusion coefficients in the interior.)
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{1-D blast wave}
+\section{1-D Marshak wave}
 We begin by testing a simple one-dimensional slab geometry problem on a refined
 spatial and temporal grid. The anisotropic diffusion approximation is less
 meaningful in 1-D: the rank-2 tensor becomes a scalar. Nevertheless, the AD
@@ -370,7 +370,7 @@ temperature scale is linear and ranges from $0.18$ to $1$.}
 \subsection{Problem description}
 
 The physical opacities in Fig.~\ref{fig:seriousOpacity} are interpolated from a
-table of Rosseland opacities given as $\sigma(\log \rho, \log T)$, 
+table of Rosseland-averaged opacities given as $\sigma(\log \rho, \log T)$, 
 %
 \begin{figure}[htb]
   \centering\small
@@ -478,9 +478,16 @@ radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
   \label{fig:seriousCenterline}
 \end{figure}
 
-
-
 \subsection{Discussion}
+
+To understand these results, we must recall that this is a one-group (``gray'')
+transport problem using Rosseland-averaged opacities, which assume a diffusive
+behavior of the radiation \cite{Pom1973,Lar1983a}. These harmonically-averaged
+opacities result in most materials being optically thick and, when the material
+is cold, diffusive. Thus, diffusion in this realistic gray problem is a very
+accurate approximation. The spatial and temporal gradients are small, and most
+of the problem is highly scattering. Flux-limited diffusion, standard diffusion,
+\Pone, and IMC all give similar answers in most of the problem.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
