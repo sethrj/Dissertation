@@ -11,6 +11,9 @@
 \input{SRJinclude.tex}
 \setSRJthesisfigurepaths
 
+\newcommand{\psiv}{\psi_\mathrm{v}}
+\newcommand{\psibl}{\psi_\mathrm{bl}}
+
 \definecolor{lightgray}{gray}{0.85}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -71,13 +74,249 @@ University of Michigan, Ann Arbor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
+\begin{frame}{Anisotropic diffusion}
+  \begin{itemize}
+    \item New (Larsen and Trahan 2009 \cite{Lar2009c}, Morel 2007
+      \cite{Mor2007}) non-local tensor diffusion approximation:
+      \begin{equation*}
+        \vec{J} = - \Dtens \vd \grad \phi \,,
+      \end{equation*}
+      where $\Dtens$ is the second angular moment of a simple transport problem
+    \item Extant derivations of anisotropic diffusion assume an infinite medium
+    \item Numerical results so far have been for very large systems (hundreds of
+      mfp) \cite{Lar2009c,Joh2011} or heuristically used specular reflecting
+      boundaries \cite{Tra2011}
+    \item New (simpler) derivation accounts for time dependence,
+      boundary conditions
+  \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Transport equation}
+
 \begin{frame}
+  Steady-state, monoenergetic, 3-D transport equation:
+\begin{subequations} \label{eqs:fullTransport}
+\begin{equation} 
+    \label{eq:fullTransportVol}
+  \vec{\Omega}\vd \grad \psi(\vec{x}, \vec{\Omega})
+  + \sigma(\vec{x}) \psi (\vec{x}, \vec{\Omega})
+  = \frac{\sigma_s(\vec{x})}{4\pi} \int_{4\pi} \psi(\vec{x},\vec{\Omega}')
+    \ud\Omega' + \frac{q(\vec{x})}{4\pi} 
+\end{equation}
+with an incident flux boundary condition
+\begin{equation} \label{eq:fullTransportBndy}
+  \psi(\vec{x}, \vec{\Omega}) = \psi^b(\vec{x}, \vec{\Omega}) \,,
+ \quad \vec{x} \in \partial V, \ \vec{\Omega} \vd \vec{n} < 0\,.
+\end{equation}
+\end{subequations}
+
+Write as a superposition of an interior solution and a boundary layer solution:
+\begin{equation}\label{eq:superposition}
+  \psi(\vec{x}, \vec{\Omega}) = \psiv(\vec{x}, \vec{\Omega}) + \psibl(\vec{x}, \vec{\Omega})
+\end{equation}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Interior solution}
+%\begin{frame}
+%Transport equation for the interior has extraneous source but no boundaries:
+%\begin{equation} \label{eq:tdVol}
+%  \vec{\Omega}\vd \grad \psiv(\vec{x},\vec{\Omega})
+%  + \sigma(\vec{x}) \psiv(\vec{x},\vec{\Omega})
+%  = \frac{\sigma_s(\vec{x})}{4\pi}
+%  \phi(\vec{x}) + \frac{q(\vec{x})}{4\pi}
+%\end{equation}
+%Interior scalar flux:
+%\begin{equation} \label{eq:tdPhi}
+%  \phi(\vec{x}) \equiv \int_{4\pi} \psiv(\vec{x}, \vec{\Omega}) \ud \Omega
+%\end{equation}
+%
+%Zeroth angular moment (particle conservation):
+%\begin{equation} \label{eq:loVol}
+%  \grad \vd\vec{J}(\vec{x}) + \sigma(\vec{x}) \phi(\vec{x})
+% = \sigma_s(\vec{x}) \phi(\vec{x}) + q(\vec{x})\,.
+%\end{equation}
+%Interior current:
+%\begin{equation}\label{eq:tdF}
+%  \vec{J} \equiv \int_{4\pi} \vec{\Omega} \psiv(\vec{x}, \vec{\Omega}) \ud
+%  \Omega
+%\end{equation}
+%\end{frame}
+
+%\begin{frame}
+%Add $\vec{\Omega}\vd \grad \phi$ to both sides of Eq.~\eqref{eq:loVol}, multiply
+%the resulting equation by $\frac{1}{4\pi}$:
+%\begin{align*}
+%  \left[\vec{\Omega}\vd \grad + \sigma \right]
+%  \left( \frac{1}{4\pi} \phi \right)
+%  = \frac{\sigma_s}{4\pi} \phi + \frac{q}{4\pi}
+%  - \frac{1}{4\pi} \grad \vd\vec{J} 
+%  + \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
+%\end{align*}
+%Subtract from Eq.~\eqref{eq:tdVol} to cancel the isotropic source
+%and scattering terms on the right-hand side:
+%\begin{equation}\label{eq:capPsiVol}
+%  \left[\vec{\Omega}\vd \grad + \sigma \right]
+%  \left( \psiv - \frac{1}{4\pi} \phi \right)
+%  = \frac{1}{4\pi} \grad \vd\vec{J} -
+%  \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi\,.
+%\end{equation}
+%\end{frame}
+
+\begin{frame}{Interior solution}
+Transport equation for the interior has extraneous source but no boundaries:
+\begin{equation} \label{eq:tdVol}
+  \vec{\Omega}\vd \grad \psiv(\vec{x},\vec{\Omega})
+  + \sigma(\vec{x}) \psiv(\vec{x},\vec{\Omega})
+  = \frac{\sigma_s(\vec{x})}{4\pi}
+  \phi(\vec{x}) + \frac{q(\vec{x})}{4\pi}
+\end{equation}
+  \begin{enumerate}
+    \item Manipulate interior equations:
+    \begin{equation}\label{eq:capPsiVol}
+      \left[\vec{\Omega}\vd \grad + \sigma \right]
+      \left( \psiv - \frac{1}{4\pi} \phi \right)
+      = \frac{1}{4\pi} \grad \vd\vec{J} -
+      \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi
+    \end{equation}
+    \item Take physically-motivated asymptotic scaling (but don't match terms;
+      avoid linear-in-angle result)
+    \item Apply integral transport equation to get nonlocal expression for
+      $\psiv$
+    \item Use Taylor series to approximate nonlocal unknowns with
+      local unknowns, discard asymptotically small terms
+  \end{enumerate}
+  Result:
+  \begin{equation*}
+    \psiv \approx \frac{\phi}{4\pi} - f(\vec{x},\vec{\Omega}) \vec{\Omega}\vd
+    \grad \phi
+  \end{equation*}
+\end{frame}
+
+\begin{frame}
+  Interior approximation to the angular flux:
+  \begin{equation*}
+    \psiv \approx \frac{\phi}{4\pi} - f(\vec{x},\vec{\Omega}) \vec{\Omega}\vd
+    \grad \phi
+  \end{equation*}
+  where
+  \begin{equation*}
+    \vec{\Omega}\vd \grad f + \sigma f = \tfrac{1}{4\pi}
+  \end{equation*}
+
+  ``Anisotropic Fick's law'' for the interior:
+  \begin{equation*}
+    \vec{J} = - \Dtens \vd \grad \phi
+  \end{equation*}
+  with the nonlocal anisotropic diffusion tensor:
+  \begin{equation*}
+    \Dtens = \int_{4\pi} \vec{\Omega} \vec{\Omega} f \ud\Omega
+  \end{equation*}
+  %But we need boundary conditions for $\phi$ and $f$ that 
+\end{frame}
+
+\subsection{Boundary layer solution}
+\begin{frame}{Boundary layer}
+Transport equation:
+\begin{equation*}
+  \vec{\Omega}\vd \grad \psibl(\vec{x},\vec{\Omega})
+  + \sigma(\vec{x}) \psibl(\vec{x},\vec{\Omega})
+  = \frac{\sigma_s(\vec{x})}{4\pi}
+  \int_{4\pi} \psibl(\vec{x},\vec{\Omega}') \ud \Omega' \,.
+\end{equation*}
+Boundary condition uses superposition equation:
+\begin{equation*}
+\psiv(\vec{x},\vec{\Omega})
++ \psibl(\vec{x},\vec{\Omega})
+ = \psi^b(\vec{x},\vec{\Omega}) \,,
+  \quad \vec{x}\in \partial V ,\ \vec{\Omega}\vd \vec{n} < 0,
+\end{equation*}
+
+  \begin{itemize}
+    \item No extraneous source
+    \item Decays rapidly away from problem boundary
+  \end{itemize}
+
+  To eliminate boundary layer in interior:
+  \begin{equation*}
+    \int_{\vec{\Omega}\vd \vec{n} < 0} W(\abs{\vec{\Omega}\vd
+    \vec{n}}) \psibl(\vec{x},\vec{\Omega}) \ud \Omega = 0
+  \end{equation*}
+\end{frame}
+
+\begin{frame}
+  Operate by $\int_{\vec{\Omega}\vd \vec{n} < 0} W (\cdot) \ud\Omega $ on
+  superposition equation on the boundary:
+  \begin{equation*}
+\int_{\vec{\Omega}\vd \vec{n} < 0} W \psiv \ud\Omega + 0
+= \int_{\vec{\Omega}\vd \vec{n} < 0} W \psi^b \ud\Omega
+  \end{equation*}
+  Introduce AD approximation for the interior solution:
+  \begin{equation*}
+    \int_{\vec{\Omega}\vd \vec{n} < 0} W \left[ \frac{\phi}{4\pi} -
+      f \vec{\Omega}\vd \grad \phi \right] \ud\Omega + 0
+  = \int_{\vec{\Omega}\vd \vec{n} < 0} W \psi^b \ud\Omega
+  \end{equation*}
+
+Result:
+\begin{multline*}
+2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+\psi^b(\vec{x},\vec{\Omega}) \ud\Omega
+\\
+=
+\phi(\vec{x})
++ 2 \left[ -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
+\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vd \grad \phi(\vec{x})\,.
+\end{multline*}
+\end{frame}
+
+\begin{frame}
+  Notice that the boundary condition depends on $f$ for \emph{incident}
+  directions. (Interior analysis gives $f$ for \emph{exiting} directions.) To
+  determine $f$, enforce on boundary:
+  \begin{itemize}
+    \item Satisfy on the boundary:
+      \begin{equation*}
+        \phi = \int_{4\pi} \psiv \ud\Omega
+      \end{equation*}
+    \item Preserve diffusion solution in the homogeneous medium case
+  \end{itemize}
+
+  \begin{align*}
+    \phi &= \int_{4\pi} \left[ \frac{\phi}{4\pi} -
+      f \vec{\Omega}\vd \grad \phi \right] \ud\Omega
+    \\
+  \int_{\vec{\Omega}\vd\vec{n} > 0} (\vec{\Omega}\vd \vec{n})
+  f(\vec{x}, \vec{\Omega}) \ud\Omega
+  &=
+  \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega
+  \end{align*}
+\end{frame}
+
+\begin{frame}
+  Boundary condition for $f$ preserves ``current'':
+  \begin{align*}
+  \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
+  f(\vec{x}, \vec{\Omega}) \ud\Omega
+  \end{align*}
+ To reproduce diffusion boundary condition, two options:
+ \begin{enumerate}
+   \item Specular reflecting boundary:
+     \begin{equation*}
+       f(\vec{x}, \vec{\Omega}) = f(\vec{x},\vec{\Omega} - 2[\vec{\Omega} \vd
+         \vec{n}] \vec{n}) 
+     \end{equation*}
+   \item White boundary:
+     \begin{equation*}
+       f(\vec{x}, \vec{\Omega}) = \frac{1}{2\pi} \int_{\vec{\Omega}\vd\vec{n} >
+     0} (\vec{\Omega}\vd \vec{n}) f(\vec{x}, \vec{\Omega}) \ud\Omega
+     \end{equation*}
+ \end{enumerate}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,7 +328,8 @@ University of Michigan, Ann Arbor
   \includegraphics[height=2.75in]{adbc-reactor/xsn}
 
   \caption{Test problem (flatland geometry). Gaussian source in lower-left;
-  black and white give cross sections; reflecting boundaries on left, bottom,
+  diffusive black region ($\sigma=1$, $\sigma_s=0.99$), voided white regions
+  ($\sigma=0.01$, $\sigma_s=0.0099$); reflecting boundaries on left, bottom,
   right.}
   \label{fig:problem}
 \end{figure}
@@ -104,26 +344,6 @@ University of Michigan, Ann Arbor
       boundary with $\Dtens \vd \vec{n}$
     \item Diffusion
   \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Lineouts}
-\begin{frame}
-\begin{figure}[tb]
-  \centering
-  \input{adbc-presentation/phi-channel/plot}
-  \caption{Scalar flux along the centerline of the channel.}
-  \label{fig:phiChannel}
-\end{figure}
-\end{frame}
-
-\begin{frame}
-\begin{figure}[tb]
-  \centering
-  \input{adbc-presentation/phi-left/plot}
-  \caption{Scalar flux along the left edge of the problem.}
-  \label{fig:phiLeft}
-\end{figure}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,6 +363,26 @@ University of Michigan, Ann Arbor
   \input{adbc-presentation/adf-insideleftedge-ymax/plot}
   \caption{Transport solution $f(1.5,10,\omega)$, at end of channel.}
   \label{fig:fLeft}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lineouts}
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/phi-channel/plot}
+  \caption{Scalar flux along the centerline of the channel.}
+  \label{fig:phiChannel}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[tb]
+  \centering
+  \input{adbc-presentation/phi-left/plot}
+  \caption{Scalar flux along the left edge of the problem.}
+  \label{fig:phiLeft}
 \end{figure}
 \end{frame}
 
@@ -187,6 +427,9 @@ University of Michigan, Ann Arbor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 \begin{frame}
+\begin{itemize}
+  \item 
+\end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

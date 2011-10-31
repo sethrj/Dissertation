@@ -75,7 +75,7 @@ University of Michigan, Ann Arbor
   \begin{itemize}
     \item Fictional two-dimensional universe \cite{Abb1884} in which particles
       are constrained to exist and travel in a 2-D plane
-    \item Multi-dimensional geometry with smaller phase space in angle
+    \item Multi-dimensional geometry with simpler direction variable
       \begin{itemize}
         \item Flatland: $(x,y,\omega)$; 2-D: $(x,y,\mu,\omega)$
         \item Polar cosine is set to zero
@@ -91,7 +91,7 @@ University of Michigan, Ann Arbor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Channel surfing}
 \begin{center}
-  How do you design a 2-D test problem to model axial variation of particles in
+  How do you design a 2-D test problem to model axial behavior in
   a channel?
 \end{center}
 \vspace{-.75in}
@@ -358,7 +358,8 @@ General Marshak boundary condition:
     \item Asymptotic analysis relates diffusion and transport quantitatively
     \item \emph{Matched boundary layer analysis} relates ``interior'' transport
       solution to diffusion solution
-    \item Exact solution of the boundary layer equation (F$_N$ method)
+    \item Exact solution of the boundary layer equation (singular eigenfunction
+      expansions)
       gives transport extrapolation distance:
       \begin{equation*}
         z_0 = \int_{0}^{1} \mu W(\mu) \ud\mu
@@ -390,7 +391,7 @@ General Marshak boundary condition:
   Result in \alert{2-D}:
 \begin{multline*}
 \int_{\vec{\Omega}\vd\vec{n} < 0} \left[
-\abs{\vec{\Omega}\vd\vec{n}} + \tfrac{3}{2} (\vec{\Omega}\vd\vec{n})^2 \right]
+\abs{\vec{\Omega}\vd\vec{n}} + \frac{3}{2} (\vec{\Omega}\vd\vec{n})^2 \right]
 \psi^b(\vec{x}, \vec{\Omega}) \ud\Omega
 \\ = 
   \phi(\vec{x})
