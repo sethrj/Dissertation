@@ -18,7 +18,7 @@ particular regime of radiative transfer known as thermal radiative transfer
 (TRT).
 
 The difficulty, expense, and impracticality of performing physical
-experiments in many fields has produced a tremendous drive to cheaply
+experiments in many fields has produced a tremendous drive to inexpensively
 simulate physics. The exponentially increasing power and decreasing cost of
 computers have led to the rise of computational methods development:
 researching and implementing accurate, practical approximations to the physical
@@ -47,7 +47,9 @@ approximations. One new member of this family is the anisotropic
 Although we develop the theory for a general three-dimensional (3-D) space,
 true \mbox{3-D} simulations are expensive because of the expansive problem phase
 space: the transport equations operate in three spatial coordinates $(x,y,z)$,
-two angular coordinates $(\mu,\omega)$, and time $t$. Even two-dimensional (2-D)
+two angular coordinates $(\mu,\omega)$, and time $t$.\footnote{%
+Our work does not consider the additional variable of frequency $\nu$.}
+Even two-dimensional (2-D)
 problems, which model a system invariant in the $z$ direction, operate in the
 space $(x,y,\mu,\omega,t)$. A ``toy'' geometry called \emph{flatland}
 \cite{Abb1884}, recently used in particle transport methods development
@@ -77,7 +79,7 @@ thereof. The primary test bed, though, is a flatland simulation
 the behavior of a laser-driven shock wave in a small tube filled with xenon
 gas---%
 in the Center for Radiative Shock Hydrodynamics (CRASH) program
-\cite{Crash2010}. In addition to this problem, we test some other difficult
+\cite{Crash2010}. In addition to this problem, we test other difficult
 two-dimensional problems \cite{Mou2006}. These comparisons provide a wide and
 fair assessment of the AD method, demonstrating both its limitations and its
 benefits.
@@ -92,7 +94,7 @@ benefits.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Thermal radiative transfer}
 
-As stated earlier, thermal radiative transfer models the behavior of
+As stated earlier, \emph{thermal radiative transfer} models the behavior of
 energy-transferring photons in hot materials. Radiation is the primary means of
 heat transfer in a number of relevant physical problems, such as stellar
 astrophysics and fusion experiments \cite{Pom1973,Mih1984}. These systems
@@ -115,7 +117,8 @@ $\vec{\Omega}$, and time $t$.
 (In this discussion, we ignore the frequency-dependent nature of radiation.)
 The spatial and temporal variables are self-explanatory; the angular
 variable essentially determines a photon's velocity${}=c\vec{\Omega}$, using
-the speed of light $c$. More photons headed in a certain direction at a certain
+the speed of light $c$. More photons traveling in a certain direction at a
+certain
 point in space-time give rise to a larger value in the intensity---%
 an example (outside of TRT) could be an ``intense'' flashlight being shone in
 one's eyes.  The time-dependent behavior of the intensity is described by the
@@ -138,7 +141,8 @@ thermal radiative transfer process. The rate of absorption of photons is
 proportional to the opacity $\sigma$, analogous to the neutron cross section in
 reactor physics. Unlike the neutron cross section, the value of $\sigma$ is
 a strong function of the material temperature, usually proportional to
-$T^{-3}$, so colder materials tend to be more opaque, or optically thick.
+$T^{-3}$, so colder regions of a given material are more opaque, or optically
+thick.
 
 Because of the inverse cubic proportionality of the opacity and the quartic
 proportionality of radiative emission, most TRT problems share a qualitative
@@ -225,7 +229,7 @@ random ``noise'' in the solution), the number of particles per
 space-time region must remain roughly constant. Finally, unlike linear Monte
 Carlo methods, which only need to tally aspects of each particle, IMC requires
 that the full state of the radiation intensity be stored in computer memory.
-Therefore, generating an accurate fine-mesh solution with IMC can take an
+Therefore, generating an accurate fine-mesh solution with IMC requires an
 exceedingly large
 amount of computer time and memory.
 
@@ -264,8 +268,8 @@ term, \SN\ solutions for TRT problems can converge very slowly.
 Like IMC, the \SN\ method requires the full solution of the radiation intensity
 $I$ to be stored at the end of each time step. As a transport method, this is
 computationally intensive and requires large amounts of storage. These
-requirements make high-fidelity transport solutions to some realistic problems
-beyond the capability of even today's computers.
+requirements make high-fidelity transport solutions to some realistic 3-D
+problems beyond the capability of even today's computers.
 
 \subsection{The diffusion approximation}
 If true transport methods are out of reach, it becomes necessary to make
@@ -301,7 +305,10 @@ inexpensive, so it a common means of simulating TRT.
 \section{Contribution of this work}
 
 The different approximations to TRT are represented qualitatively in
-Fig.~\ref{fig:fidelity}.
+Fig.~\ref{fig:fidelity}. The two major transport methods---IMC and \SN---are
+accurate but slow; flux-limited diffusion is fast but potentially
+inaccurate. No method yet provides a middle ground that balances accuracy and
+speed.
 
 \begin{figure}[htb]
   \centering
@@ -324,7 +331,7 @@ The remainder of this thesis is organized into the following chapters.
 
 \chaptersynopsis{chap:trtBackground}
 The assertions about the difficulty of computational modeling of thermal
-radiative transfer are bolstered by presenting the equations themselves. We give
+radiative transfer are explained by presenting the equations themselves. We give
 a brief overview of existing approximations to the TRT equations and discuss how
 those approximations are used in our work. Particular emphasis is given to the
 semi-implicit treatment, which allows the nonlinear problem to be approximated

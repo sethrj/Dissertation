@@ -142,8 +142,8 @@ be compatible with multiple solution techniques.
 
 \subsection{The radiation intensity}
 
-The state of the photons in a system is described by the radiation photon
-density,
+The state of the photons in a system is described by the radiation
+\emph{photon density},
 \begin{align*}
   N(\vec{x},\vec{\Omega}, \nu, t) \ud V \ud \Omega
   &= \topbox{the number of photons inside the differential volume $\ud V$
@@ -170,13 +170,14 @@ Integrating over all energy gives the gray intensity, which we use from this poi
 \end{equation*}
 
 Additionally, integrating over all angles (i.e.~taking the zeroth angular
-moment) yields the ``scalar intensity''
+moment) yields the \emph{scalar intensity}
 \begin{align} \label{eq:intensityZeroth}
   \phi(\vec{x},t) &\equiv \int_{4\pi} I(\vec{x},\vec{\Omega}, t) \ud \Omega
   \\
   &= c \int_{4\pi} \int_0^\infty h\nu N(\vec{x},\vec{\Omega},\nu, t) \ud\nu
    \ud \Omega
-\\ \intertext{which is directly proportional to the radiation energy density:}
+\\ \intertext{which is directly proportional to the \emph{radiation energy
+density}:}
 \nonumber
 \frac{1}{c} \phi(\vec{x},t) \ud V
 &= \topbox{the amount of energy in the radiation field inside the differential
@@ -189,7 +190,7 @@ scaled system of variables $c=a=1$, our later results can use ``scalar
 intensity'' and ``radiation energy density'' interchangeably.
 
 The first angular moment of the intensity also has physical significance. The
-radiation flux is defined as
+\emph{radiation flux} is defined as
 \begin{equation} \label{eq:intensityFirst}
   \vec{F}(\vec{x},t) \equiv \int_{4\pi} \vec{\Omega}
   I(\vec{x},\vec{\Omega}, t) \ud \Omega \,.
@@ -232,7 +233,7 @@ nonlinear treatment in our implementations of anisotropic diffusion and the
 other tested methods, and because the semi-implicit scheme for radiation
 transport is usually glossed over in other works, we derive
 it here in a practical level of detail. Existing derivations also omit the
-``material source'' term $q_m$.
+\emph{material source} term $q_m$.
 
 For the semi-implicit discretization, it is convenient to write
 Eqs.~\eqref{eqs:explanTRT} in a slightly altered form:
@@ -249,12 +250,13 @@ and the material energy balance equation,
   \pder{U_m}{t} = \sigma \phi - \sigma c U_r + q_m \,.
 \end{equation}
 \end{subequations}
-Here, we have defined the material energy density, which is a function of the
+Here, we have defined the \emph{material energy density}, which is a function of
+the
 material's temperature and specific heat capacity $c_v$:
 \begin{equation} \label{eq:matEnergyDens}
   U_m(T) = \int_{0}^{T} c_v(T') \ud T' \,,
 \end{equation}
-and the ``equilibrium radiation energy density'' of a
+and the \emph{equilibrium radiation energy density} of a
 material, which is a scaled integral of the Planckian emission function:
 \begin{equation} \label{eq:radEnergyDens}
   U_r(T) \equiv aT^4
@@ -267,10 +269,12 @@ $U_r$.  The quantity $U_r$ is \emph{not} equal to the energy density stored in
 the material, $U_m$.
 
 Note here that Eqs.~\eqref{eqs:semiTRT} are two equations with three unknowns:
-$I$, $U_r$, and $U_m$. However, $U_r$ and $U_m$ are material properties,
-explicit functions of the material temperature $T$, so there are only two
-underlying unknowns, one describing the radiation state and the other
-describing the material state.
+$I$, $U_r$, and $U_m$. However, $U_r$ and $U_m$ are both properties of the
+material---%
+explicit functions of the material temperature $T$---%
+so there are only two
+underlying unknowns: one describing the radiation state (intensity), and the
+other describing the material state (temperature).
 
 \subsection{Linearizing the material energy equation}
 
@@ -466,7 +470,7 @@ we find equivalences between the two:
   f^n \sigma^n c U_r^n + q_r^n + \left(1 - f^n\right) q_m^n &\leftrightarrow q &&= \text{the isotropic source for time
   step $n$,}
   \\
-  v   &\leftrightarrow c &&= \text{the particle velocity.}
+  v   &\leftrightarrow c &&= \text{the particle speed.}
 \end{alignat*}
 Even though the original radiation transport equation was purely
 absorbing, the linearization scheme created a ``pseudo-scattering''
@@ -567,8 +571,8 @@ given angular treatment. The choice of temporal discretization is usually
 independent of the method used.
 
 Each approximation applied to the transport
-equation introduces a source of error. The angular approximations to $I$
-introduce errors that are particularly hard to assess. Asymptotic
+equation introduces an error. The angular approximations to $I$
+introduce errors that are particularly difficult to assess. Asymptotic
 analysis can be used to describe quantitative regimes of applicability of most
 methods \cite{Lar1983a,Ada1998a,Mor2000}, but we will confine our discussion
 here to some of the qualitative
@@ -592,7 +596,8 @@ higher-order methods require not only complex discretization schemes but also
 iteration on the nonlinearities (or the
 application of Jacobi-free Newton--Krylov techniques). In our work, we will use
 only the simple semi-implicit linearization with the backward Euler implicit time
-discretization. Thus, our discussion of the methods in this section will represent
+discretization. Thus, in our discussion of the methods in this section, we
+represent
 the transport equation in the linearized form
 \begin{equation}\label{eq:siTransport}
   \frac{1}{c} \frac{I^{n+1} - I^n}{\Delta_t^n}
@@ -635,14 +640,14 @@ rearrange it slightly:
   + \sigma^n \right) I_{m}^{n+1}
   = \frac{1}{c\Delta_t^n} I_{m}^n
   + \frac{1}{4\pi} \sigma_\mathrm{es}^n \phi^{n+1}
-  + \frac{1}{4\pi} Q^n
+  + \frac{1}{4\pi} Q^n \,,
 \end{equation*}
 or, combining all $M$ equations into abstract linear operators (similar to
 \cite{War2004}),
 \begin{equation*}
-  L \psi = S \psi + q\,,
+  L \psi = S \psi + q\,.
 \end{equation*}
-where $L$ is the operator representing ``streaming plus collision'' on the left
+Here $L$ is the operator representing ``streaming plus collision'' on the left
 hand side, $S$ represents the isotropic redistribution of photons via
 scattering, $\psi$ is the vector of unknown angular intensity at the new time
 step, and $q$ is the isotropic source plus the initial condition. At every time
@@ -735,10 +740,11 @@ Equation~\eqref{eq:p1FirstMoment} becomes
 
 Rather than the $M$ unknowns per spatial coordinate of the \SN\ method, the
 \Pone\ has four (or, in 2-D space, three). It is therefore easier to solve and
-store in computer memory. The disadvantages of \Pone\ are pronounced, however.
+store in computer memory. Unfortunately, the disadvantages of \Pone\ are
+pronounced..
 First, most obviously, the linear-in-angle approximation is not generally valid, so
 the solution will
-always lag in accuracy compared to a transport method. Second, it happens that
+usually lag in accuracy compared to a transport method. Second, it happens that
 the approximation in Eq.~\eqref{eq:p1FirstMoment2} yields a plane wave
 propagation speed of $c/\sqrt{3}$ rather than the physical $c$
 \cite{Mih1984,War2002}. Even worse, the \Pone\ equation and in fact the entire
@@ -797,8 +803,8 @@ yield transport-quality answers.
 
 Furthermore, the time-dependent diffusion approximation yields a parabolic equation
 for $\phi$, allowing energy to be transferred faster than the speed of light. This
-often severe shortcoming is addressed in a method known as ``flux-limited
-diffusion,'' which we discuss next.
+often severe shortcoming is addressed in a method known as \emph{flux-limited
+diffusion}, which is discussed next.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Flux-limited diffusion}\label{sec:bgFld}
@@ -827,7 +833,7 @@ In an optically thin region where $\sigma\approx 0$, $D\to\infty$, and this cond
 will usually be violated. Additionally, the large radiation energy gradient at a
 wavefront can lead to a violation of the limit.
 
-A ``flux limiter'' is designed to combat these problems by enforcing
+A \emph{flux limiter} is designed to combat these problems by enforcing
 Eq.~\eqref{eq:fluxLimitDiffusion} through an \emph{ad hoc} modification to
 the definition of $D$.
 Although certain flux limiters \cite{Lev1984} are based on

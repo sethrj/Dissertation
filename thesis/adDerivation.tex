@@ -28,6 +28,7 @@ diffusion approximation in a linear, time-dependent, finite problem. We will
 later demonstrate this analysis' applicability to nonlinear thermal radiative
 transfer.
 
+%\clearpage
 The linear, time-dependent transport equation with isotropic scattering is
 \begin{subequations} \label{eqs:tdTransport}
 \begin{multline} \label{eq:tdTransportVol}
@@ -69,9 +70,10 @@ linear superposition of three distinct transport solutions:
   + \Ibl(\vec{x},\vec{\Omega},t)
   + \Iil(\vec{x},\vec{\Omega},t)\,.
 \end{equation}
-Here, $\Iv$ is an ``interior'' solution valid many mean free paths away from
-the exterior problem boundary and many free times away from $t=0$, $\Ibl$ is a
-``boundary layer'' solution that decays rapidly away from the exterior boundary,
+Here, $\Iv$ is an ``interior'' solution, valid several mean free paths away from
+the exterior problem boundary and several free times away from $t=0$; $\Ibl$ is
+a
+``boundary layer'' solution that decays rapidly away from the exterior boundary;
 and $\Iil$ is an ``initial layer'' that decays rapidly away from $t=0$.
 Figure~\ref{fig:layers} represents these three regimes graphically. In the
 interior, spatial and temporal variations are small; in the boundary layer,
@@ -120,15 +122,15 @@ which is the \emph{interior} scalar intensity. We write Eq.~\eqref{eq:tdVol} as
   \phi + \frac{q}{4\pi} \,.
 \end{equation*}
 
-Taking the zeroth angular moment of Eq.~\eqref{eq:tdVol} gives a conservation
-equation in the interior,
+Taking the zeroth angular moment of Eq.~\eqref{eq:tdVol} gives a
+\emph{conservation equation} in the interior,
 \begin{equation} \label{eq:loVol}
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
   + \grad \vd\vec{F}(\vec{x}, t)
   + \sigma(\vec{x}) \phi(\vec{x}, t)
  = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,.
 \end{equation}
-Here we have defined the interior radiation flux:
+Here we have defined the \emph{interior} radiation flux:
 \begin{equation}\label{eq:tdF}
   \vec{F} \equiv \int_{4\pi} \vec{\Omega} \Iv(\vec{x}, \vec{\Omega},t) \ud
   \Omega\,,
@@ -273,12 +275,12 @@ We write this equation as
   = \frac{1}{4\pi} \phi (\vec{x},t)
   - \left[ f(\vec{x}, \vec{\Omega}) \right] \vec{\Omega}\vd \grad \phi(\vec{x},t)\,,
 \end{equation}
-where we have defined
+where
 \begin{equation*}
   f(\vec{x},\vec{\Omega}) = \left(\vec{\Omega}\vd \grad  + \sigma \right)\inv
-  \frac{1}{4\pi} \,,
+  \frac{1}{4\pi}
 \end{equation*}
-which is the solution to the following differential transport equation:
+is the solution to the following differential transport equation:
 \begin{equation} \label{eq:fVol}
   \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
   + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega})
@@ -324,7 +326,8 @@ The anisotropic diffusion approximation to the interior solution $\Iv$
 comprises \textsl{(i)} the transport equation~\eqref{eq:fVol} for $f$,
 \textsl{(ii)} the definition in Eq.~\eqref{eq:dDefinition} of the diffusion
 tensor $\Dtens$, and \textsl{(iii)} the anisotropic diffusion
-equation~\eqref{eq:tdVolDiffusion}. We note that the transport equation for $f$
+equation~\eqref{eq:tdVolDiffusion}. We note that the transport
+equation~\eqref{eq:fVol} for $f$
 is very simple---it has no scattering. Thus, it is much less costly to solve
 than the original transport problem.
 
@@ -731,6 +734,7 @@ I^b(\vec{x},\vec{\Omega},t) \ud\Omega
 + 2 \left[ -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
 \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\right] \vd \grad \phi(\vec{x},t)\,.
 \end{equation*}
+
 To make this equation clearer, we define the bracketed vector term to be
 \begin{equation}\label{eq:adBoundaryIntegral}
   \vec{d}(\vec{x}) = -\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
@@ -844,11 +848,11 @@ that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBc} becomes
   2\int_{\vec{\Omega}\vd \vec{n} < 0}
   ( 2\abs{\vec{\Omega} \vd \vec{n}} ) I^b(\vec{\Omega}) \ud\Omega
   &= \phi
-  + 2\vec{d} \vd \grad \phi
-  \\
+  + 2\vec{d} \vd \grad \phi \,,
+  \\ \intertext{or}
   4 F^-
   &= \phi
-  + 2\vec{d} \vd \grad \phi
+  + 2\vec{d} \vd \grad \phi \,.
 \end{align*}
 
 With the Marshak approximation to $W(\mu)$, the expression for $\vec{d}$
@@ -860,12 +864,11 @@ simplifies greatly.  Equation~\eqref{eq:adBoundaryIntegral}, becomes
   \\
   &= 
   2 \vec{n}\vd \int_{\vec{\Omega}\vd\vec{n} < 0} \vec{\Omega}
-  \vec{\Omega} f \ud\Omega
+  \vec{\Omega} f \ud\Omega \,.
   \\
   \intertext{Because our chosen boundary condition of $f$ gives
   $f(\vec{\Omega})=f(-\vec{\Omega})$ if $f$ is azimuthally symmetric, the
   integrand is an even function of $\vec{\Omega}$:}
-  \\
    \vec{d} &=
   \vec{n}\vd\int_{4\pi} \vec{\Omega} \vec{\Omega} f \ud\Omega \,.
   \\ 
@@ -1023,8 +1026,8 @@ law:
 \begin{equation*}
   \vec{F}(\vec{x},t) = - \frac{1}{3 \sigma(\vec{x},t)} \grad \phi(\vec{x},t)\,.
 \end{equation*}
-In other words, in the diffusion limit, anisotropic diffusion is equivalent to
-diffusion, to first order.
+In other words, in the conventional diffusion limit, anisotropic diffusion
+limits to conventional diffusion to first order.
 
 We therefore assert that the anisotropic diffusion method will
 satisfy the conventional diffusive limit of the transport equation for thermal
@@ -1058,8 +1061,8 @@ The anisotropic diffusion tensor is calculated from $f$, the solution to the
 purely absorbing transport problem in Eqs.~\eqref{eqs:fFull}  with a unit
 isotropic source,
 ``conservative'' boundary conditions, and the same opacities as the physical problem
-being simulated. It is a steady-state transport problem, although a
-time-dependent $\sigma$ necessitates a recalculation of $f$.
+being simulated. This is a steady-state transport problem, although a
+time-dependent $\sigma$ necessitates a recalculation of $f$ at each time step.
 
 In an infinite medium problem, a discrete ordinates (\SN)
 solution for $f$ would take only one transport sweep to complete, because there
@@ -1085,7 +1088,7 @@ $f$. The ``averaging'' effect of the white boundary leads to a solution along
 the voided region is no longer singular, and source iteration will converge more
 quickly.
 
-In the case of a time-dependent problem where $\sigma$ remains constant from one
+For time-dependent problems in which $\sigma$ remains constant from one
 time step to the next, the calculation for $f$ needs only to be run once. In
 nonlinear problems where $\sigma$ is a function of time, storing $f$ on the
 outer boundaries of the problem (which is already necessary for reflecting
@@ -1115,7 +1118,7 @@ Eq.~\eqref{eq:adFicks}, we reproduce the \emph{standard} Fick's law:
 \begin{equation*}
   \vec{F} = - \frac{1}{3\sigma} \grad \phi\,.
 \end{equation*}
-In other words, for a homogeneous medium, the anisotropic diffusion method
+Thus, for a homogeneous medium, the anisotropic diffusion method
 reduces to the standard diffusion method. In a finite problem, either a specular
 reflecting or a white boundary will produce an isotropic incident
 $f=1/(4\pi\sigma)$, which reproduces the standard diffusion coefficient near the
@@ -1414,8 +1417,8 @@ radiation inside a time step.
 
 These equations limit to the standard diffusion approximation in a homogeneous
 medium, but they do not require the diffusion approximation that the radiation
-intensity is linear in
-angle. We therefore expect the AD method to generate more accurate solutions
+intensity be linear in
+angle. We therefore expect the AD method to yield more accurate solutions
 for problems in which the intensity is a complex function of angle.
 Chapters~\ref{chap:simpleNumericalResults}
 and~\ref{chap:trtNumericalResults} will put this expectation to the test.

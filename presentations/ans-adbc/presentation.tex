@@ -81,11 +81,13 @@ University of Michigan, Ann Arbor
       \begin{equation*}
         \vec{J} = - \Dtens \vd \grad \phi \,,
       \end{equation*}
-      where $\Dtens$ is the second angular moment of a simple transport problem
+      where $\Dtens$ is the second angular moment of $f$, the solution to a
+      simple transport problem
     \item Extant derivations of anisotropic diffusion assume an infinite medium
+      (no boundary conditions for $\phi$ or $f$)
     \item Numerical results so far have been for very large systems (hundreds of
       mfp) \cite{Lar2009c,Joh2011} or heuristically used specular reflecting
-      boundaries \cite{Tra2011}
+      boundaries $f$ \cite{Tra2011}
     \item New (simpler) derivation accounts for time dependence,
       boundary conditions
   \end{itemize}
@@ -313,7 +315,7 @@ Result:
      \end{equation*}
    \item White boundary:
      \begin{equation*}
-       f(\vec{x}, \vec{\Omega}) = \frac{1}{2\pi} \int_{\vec{\Omega}\vd\vec{n} >
+       f(\vec{x}, \vec{\Omega}) = \frac{1}{\pi} \int_{\vec{\Omega}\vd\vec{n} >
      0} (\vec{\Omega}\vd \vec{n}) f(\vec{x}, \vec{\Omega}) \ud\Omega
      \end{equation*}
  \end{enumerate}
@@ -428,7 +430,13 @@ Result:
 \section{Conclusions}
 \begin{frame}
 \begin{itemize}
-  \item 
+  \item We have extended the anisotropic diffusion approximation to include
+    finite problems
+  \item Anisotropic diffusion incorporates extra transport physics with little
+    additional cost
+  \item White boundaries tend to yield more accurate answers (for the problems
+    we've run)
+  \item Boundary conditions are important!
 \end{itemize}
 \end{frame}
 
