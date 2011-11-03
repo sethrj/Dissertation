@@ -3,39 +3,47 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Low-order discretization schemes} \label{chap:implementation}
 
-Tensor diffusion---the diffusion of particles through anisotropic fields---has
+Tensor diffusion---the diffusion of particles through anisotropic media---has
 many applications outside of radiation transport, including the fields of geology,
 magnetohydrodynamics, and image reconstruction. Numerous tensor diffusion
-schemes have been developed, but many of these are more general than we need in
-our work. The anisotropic diffusion tensor derived in
+schemes have been developed, but many of these are more general than is needed
+in our work. The anisotropic diffusion tensor derived in
 Chapter~\ref{chap:adDerivation} is relatively well behaved: it is a smooth
 function in space, it tends toward isotropy in optically thick problems, it is
-SPD, it is diagonally dominant, and so forth. Additionally, our test problems
+SPD, and it is diagonally dominant. Additionally, our test problems
 are executed in a structured
-two-dimensional Cartesian mesh, a simple testbed environment where all cells are
+two-dimensional Cartesian mesh, a simple testbed environment in which all cells
+are
 quadrilaterals, each interior cell is connected to four adjacent cells through
 four faces, and each face is
 perpendicular to one of the coordinate system axes.
 
-Because of these simplifying properties, we need not use some of the more
-complex discretization schemes, which tend to have higher numbers of unknowns
+Because of these simplifying properties, we need not use the more
+complex discretization schemes, which have more unknowns
 per spatial cell and are therefore more costly to solve.
 (An example is the Support Operators Method \cite{Mor1998,Run2006}, with
-roughly three unknowns per cell.) Instead, we derive some simple, conservative
+roughly three unknowns per cell.) Instead, we derive some simple, second-order,
+conservative
 difference schemes for anisotropic diffusion. Because the
 boundary conditions for our AD method are distinct from standard diffusion
 boundary conditions, we also present a second-order-accurate discretization of
-them.
+these.
 
 The ``Anisotropic \Pone'' scheme is entirely new, so we develop a discretization
 scheme for it by making a minor modification to the traditional \Pone\
-discretization: a
-``staggered mesh'' where the scalar intensity $\phi$ is cell-centered and
-the exiting radiation flux $\vec{F}\vd \vec{n}$ is
-stored on the edges of each cell \cite{War2003}.
+discretization. It uses a ``staggered mesh,'' in which the scalar intensity
+$\phi$ is cell-centered and the exiting radiation flux $\vec{F}\vd \vec{n}$ is
+edge-centered \cite{War2003}.
 % This approach conserves radiation energy, but it does not conserve radiation
 % momentum, an important quantity when coupling with hydrodynamics codes
 % \cite{Pom1973}.
+
+Each discretization derived in this chapter simplifies to the standard
+five-point finite difference diffusion scheme in the case of an
+\emph{isotropic} diffusion tensor and a steady-state problem. We admit the
+possibility that, because of the simplicity of these discretizations, they were
+developed independently decades ago, but an extensive literature search did not
+unearth any previously formulated schemes equivalent to ours.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -57,7 +65,8 @@ $\vec{F}=\vec{F}(t^{n+1})$, $\phi=\phi(t^{n+1})$, $\sigma_a$ is
 the absorption opacity plus the constant $\frac{1}{c\Delta_t}$, and the source
 $Q$ contains an additional $\frac{\phi(t^{n})}{c\Delta_t}$.) 
 
-The first step in a finite difference scheme is to assume that the unknown---%
+The first step in deriving our finite difference scheme is to assume that the
+unknown---%
 in this case, $\phi$---is constant over a single cell, represented in
 Fig.~\ref{fig:cellDiagram}. 
 %
@@ -80,7 +89,8 @@ $i,j$ and applying the divergence theorem gives the following equation:
 + \Delta_{x,i}\Delta_{y,j} \sigma_{a,i,j} \phi_{i,j}
 = \Delta_{x,i}\Delta_{y,j} q_{i,j}\,.
 \end{equation}
-The unknown face-averaged radiation flux $F$---also known as leakage---and the
+The unknown face-averaged radiation flux $F$---also known as the
+\emph{leakage}---and the
 unknown cell-averaged scalar intensity are diagrammed in
 Fig.~\ref{fig:cellUnknowns}.
 In all discretizations of the conservation equation, it is
@@ -99,18 +109,19 @@ conservative.
 \subsection{Anisotropic closure equations}
 
 The radiation flux $\vec{F}$ and scalar intensity $\phi$ are related, in the
-case of anisotropic diffusion, by the anisotropic Fick's law:
-\begin{equation}\tagref{eq:adFicks}
+case of anisotropic diffusion, by the anisotropic Fick's law
+of Eq.~\eqref{eq:adFicks}:
+\begin{equation*}
   \vec{F}(\vec{x}) = - \Dtens(\vec{x}) \vd \grad \phi(\vec{x}) \,.
-\end{equation}
-The anisotropic \Pone\ approximation contains an additional term that accounts
-for stringer time dependence:
-\begin{equation}\tagref{eq:ap1FicksLawFinal}
+\end{equation*}
+The anisotropic \Pone\ approximation, given in Eq.~\eqref{eq:ap1FicksLawFinal},
+contains an additional term that accounts for stronger time dependence:
+\begin{equation*}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
   + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
   + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
   = 0 \,.
-\end{equation}
+\end{equation*}
 We discretize this equation implicitly in time in accordance with the
 semi-implicit approximation. Applying the backward Euler approximation to
 $\phi$ and $\vec{F}$, then solving for $\vec{F}$, we obtain:
@@ -211,7 +222,7 @@ of it that uses a staggered mesh \cite{War2003}.
 In the structured Cartesian geometry we consider, the simplifying assumption is
 to neglect the off-diagonal terms of the diffusion tensor that cause transverse
 leakage.
-In certain simple problems, however, this is not an approximation. As long as the
+In certain simple problems, however, this is not an approximation. If the
 opacity is invariant with respect to one of the Cartesian coordinate system's
 axes (see \S\ref{sec:adVoids}), the off-diagonal terms of $\Dtens$ are
 identically zero. For problems in which transverse leakage is non-negligible,
@@ -227,7 +238,7 @@ uses the same principles.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Anisotropic diffusion}
 The discretization scheme for anisotropic diffusion presented here is only a
-very slight modification of common cell-centered diffusion scheme: the
+slight modification of common cell-centered diffusion scheme: the
 orientation of the faces determines which component of the anisotropic diffusion
 tensor is used.  This centered difference scheme was used in the earliest work
 on the anisotropic diffusion approximation \cite{Lar2009c}.
@@ -297,9 +308,9 @@ gives the following expression for the net leakage through the right face of
 cell $i,j$:
 \begin{equation}\label{eq:diagF}
   F_R^x= -\frac{D^{xx}_{i+1/2,j}}{\Delta_{x,i+1/2}}
-  \left( \phi_{i+1,j} - \phi_{i,j} \right)\,,
+  \left( \phi_{i+1,j} - \phi_{i,j} \right)\,.
 \end{equation}
-where we have defined a harmonically averaged cell-edge diffusion coefficient:
+Here we have defined a harmonically averaged cell-edge diffusion coefficient:
 \begin{equation} \label{eq:cellEdgeDHarmonic}
   \frac{D^{xx}_{i+1/2,j}}{\Delta_{x,i+1/2}} \equiv \left[
   \frac12 \left( \frac{D^{xx}_{i,j}}{\Delta_{x,i}} \right)\inv
@@ -323,7 +334,7 @@ The same procedure yields similar for the three other faces of cell $i,j$:
   \left( \phi_{i,j} - \phi_{i,j-1} \right)\,.
 \end{align*}
 These terms, substituted into Eq.~\eqref{eq:ssConservationDisc}, relate the
-cell-centered values of $\phi$ in the interior:
+cell-centered values of $\phi$ in the interior of the system:
 \begin{multline} \label{eq:diagConservation}
   \hphantom{ {}+{} }
   \Delta_{x,i} \left(
@@ -354,7 +365,7 @@ to a well-known five-point stencil:
   + \phi_{i,j-1} - 4\phi_{i,j} \right) + \sigma_{a} = q\,.
 \end{equation*}
 
-When a cell has one or more face on an exterior boundary, the above relations
+When a cell has one or more faces on an exterior boundary, the above relations
 for $\vec{n}\vd \vec{F}$ are replaced by a discretized form of the boundary
 condition, which we shall derive presently.
 
@@ -421,7 +432,7 @@ Equations~\eqref{eqs:diagApone} relate the flux at a face with the scalar
 intensity in the adjacent cells. They provide one equation for each interior
 face; the conservation equation~\eqref{eq:ssConservationDisc} provides an
 equation for each cell; and a discretization of the anisotropic \Pone\ boundary
-conditions provides an equation for each boundary face.
+conditions (described next) provides an equation for each boundary face.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Boundary conditions}
@@ -494,7 +505,7 @@ Flatland
   \end{tabular}
   \Caption{Coefficients for the discretized boundary conditions.}{
     The flatland values
-    and the function $V$ are discussed in Chapter~\ref{chap:flatland}. }
+    and the function $V$ are discussed in Chapter~\ref{chap:flatland}.}
   \label{tab:discreteBcCoeffs}
 \end{table}
 
@@ -514,7 +525,7 @@ and the boundary coefficient is pointed along the outward normal:
   \vec{d} \to d \vec{n}\,.
 \end{equation*}
 
-Under this assumption, Eq.~\eqref{eq:discreteBcGeneral} simplifies greatly
+Under this assumption, Eq.~\eqref{eq:discreteBcGeneral} simplifies
 (using the fact that $\vec{n}$ is a unit vector):
 \begin{align} \nonumber
   q &= \phi + r (1 - \eta) \left[ d \vec{n} \right] \vd \grad \phi
@@ -522,12 +533,12 @@ Under this assumption, Eq.~\eqref{eq:discreteBcGeneral} simplifies greatly
   \hat{\vec{F}}\,,
   \\ \label{eq:discreteBcGeneralQ}
  q &=  \phi + (1 - \eta) dr \vec{n} \vd \grad \phi
-  - \frac{\eta dr}{D} \hat{F} \,,
+  - \frac{\eta dr}{D} \hat{F} \,.
 \end{align}
-where we have defined the outward component of the previous time step's
-radiation flux as
+Here we have defined the outward component of the radiation flux at the
+beginning of the time step ($t^n$):
 \begin{equation*}
-  \hat{F} \equiv  \vec{n} \vd \hat{\vec{F}} = \vec{n} \vd \hat{\vec{F}}(t^n)\,.
+  \hat{F} \equiv  \vec{n} \vd \hat{\vec{F}} = \vec{n} \vd \vec{F}(t^n)\,.
 \end{equation*}
 
 In both the case of anisotropic diffusion and anisotropic \Pone, we seek the
@@ -540,7 +551,7 @@ product of the outward normal $\vec{n}$ and Eq.~\eqref{eq:ap1FicksImplicit}:
   \\ \label{eq:discreteBcGeneralF}
   F &= - [1 - \eta] D \vec{n} \vd \grad \phi + \eta \hat{F} \,,
 \end{align}
-where we have introduced the notation
+where
 \begin{equation*}
   F \equiv \vec{n} \vd \vec{F} \,.
 \end{equation*}
@@ -567,8 +578,8 @@ and~\eqref{eq:discreteBcGeneralF} then become:
   F &= - [1 - \eta] D\frac{\phi_* - \phi}{\Delta/2} + \eta \hat{F} \,.
   \end{align}
 \end{subequations}
-Solving Eqs.~\eqref{eqs:discreteBcGeneral2} for $F$ and eliminating $\phi_*$
-using straightforward but tedious algebra, we obtain an equation for the exiting
+Eliminating $\phi_*$ in Eqs.~\eqref{eqs:discreteBcGeneral2},
+we obtain an equation for the exiting
 radiation flux on the boundary for the \APone approximation:
 \begin{equation}\label{eq:discreteBcAponeFinal}
   F = \left[ \frac{\Delta/2}{1 - \eta} + dr \right]\inv
@@ -593,8 +604,8 @@ discretized standard diffusion boundary condition:
 The discretization in \S\ref{sec:discreteDiag} relies on discarding the
 components of the diffusion tensor that lead to transverse leakage. If those
 components are non-negligible, i.e.~in the case where the problem's opacity
-varies strongly along both the $x$ and $y$ axes, we would like a discretization
-scheme that preserves those components.
+varies strongly along both the $x$ and $y$ axes, we would like a
+more accurate discretization scheme that preserves those components.
 
 One scheme is an adaptation an existing difference method for quasidiffusion
 (QD) that is attributed to Fryazinov \cite{Fry1976}, used by Aksenov and Gol'din
@@ -744,7 +755,7 @@ F_B^y
 - D_{i,j}^{xy} \frac{\phi_R - \phi_L}{ \Delta_{x,i} }\,.
 \end{align*}
 
-At each interior face, we demand that the scalar intensity $\phi$ is continuous,
+At each interior face, we demand that the scalar intensity $\phi$ be continuous,
 i.e.,
 \begin{equation*}
   \phi_{R,i,j} = \phi_{L,i+1,j} \equiv \phi_{i+1/2,j}\,.
@@ -808,7 +819,7 @@ edges:
 
 If $D^{xy} = D^{yx}=0$, the edge-centered $\phi$ can be algebraically eliminated
 without approximation, and
-the QD-like method will reduce to the simple cell-centered difference scheme of
+the QD-like method reduces to the simple cell-centered difference scheme of
 \S\ref{sec:discreteDiag}.
 
 Equations~\eqref{eqs:goldin} give one relation for each cell and interior edge.
@@ -825,7 +836,8 @@ Because the QD-like method uses three times as many unknowns as the simple
 cell-centered difference method given in \S\ref{sec:discreteDiag}, it is
 computationally more expensive to solve. We desire a discretization scheme that
 incorporates transverse leakage but has only $MN$ unknowns on an $M\times N$
-structured Cartesian mesh. One way is to develop a stencil where the transverse
+structured Cartesian mesh. One way is to develop a stencil in which the
+transverse
 leakage is approximated using both the adjacent cell and cells along the
 diagonal, as depicted in Fig.~\ref{fig:anisoStencils}.
 
@@ -923,7 +935,7 @@ might be the method of ``ghost cells.''}
 
 A different approximation to the transverse derivatives in
 Eq.~\eqref{eq:cellAnisoFlux} is to formulate some to-be-determined approximate
-edge centered$\phi$:
+edge centered $\phi$:
 \begin{subequations}\label{eqs:cellAnisoB}
 \begin{equation}\label{eq:cellAnisoPderY}
   \pder{\phi}{y} \Bigg|_{x_{i+1/2}^-} \approx \frac{\phi_{i,j+1/2} -
@@ -1005,7 +1017,26 @@ and
 D_{i,j-1}^{yy} / \Delta_{y,j-1}} \phi_{i,j-1} \,.
 \end{equation*}
 These edge values are then introduced into Eqs.~\eqref{eqs:cellAnisoB} to
-approximate the transverse leakage through a face normal to the $x$ axis.
+approximate the transverse leakage through a face normal to the $x$ axis. In
+the interior, then,
+\begin{align*}
+  \pder{\phi}{y} \Bigg|_{x_{i+1/2}^-} & \approx
+  \frac{\phi_{i,j+1/2} - \phi_{i,j-1/2}}{\Delta_{y,j}}
+  \\
+  &= \frac{1}{\Delta_{y,j}} \Bigg[
+  \frac{D_{i,j}^{yy} / \Delta_{y,j}}{D_{i,j+1}^{yy} / \Delta_{y,j+1} +
+  D_{i,j}^{yy} / \Delta_{y,j}} \phi_{i,j+1}
++ \frac{D_{i,j+1}^{yy} / \Delta_{y,j+1}}{D_{i,j+1}^{yy} / \Delta_{y,j+1} +
+D_{i,j}^{yy} / \Delta_{y,j}} \phi_{i,j}
+\\
+&\qquad\qquad -
+  \frac{D_{i,j-1}^{yy} / \Delta_{y,j-1}}{D_{i,j}^{yy} / \Delta_{y,j} +
+  D_{i,j-1}^{yy} / \Delta_{y,j-1}} \phi_{i,j}
+- \frac{D_{i,j}^{yy} / \Delta_{y,j}}{D_{i,j}^{yy} / \Delta_{y,j} +
+D_{i,j-1}^{yy} / \Delta_{y,j-1}} \phi_{i,j-1}
+    \Bigg] \,.
+\end{align*}
+
 
 If the anisotropic diffusion coefficients are homogeneous and the grid is
 uniform, Eq.~\eqref{eq:cellAnisoEdge} and Eqs.~\eqref{eqs:cellAnisoB} simplify
@@ -1014,23 +1045,24 @@ to Eqs.~\eqref{eqs:cellAnisoA}. The nine-point stencil for $-\grad \vd \grad
 \begin{alignat*}{3}
   \tfrac{1}{2}D^{xy} & \phi_{i-1,j+1} \quad&
              -D^{yy} & \phi_{i,j+1} \quad&
- -\tfrac{1}{2}D^{xy} & \phi_{i+11,j+1}\quad
+ -\tfrac{1}{2}D^{xy} & \phi_{i+1,j+1}\quad
 \\
              -D^{yy} & \phi_{i-1,j} &
- \left( 2D^{xx} + 2D^{yy} \right) & \phi_{i,j} &
+ +\left( 2D^{xx} + 2D^{yy} \right) & \phi_{i,j} &
              -D^{xx} & \phi_{i+1,j}
 \\
  -\tfrac{1}{2}D^{xy} & \phi_{i-1,j-1} &
-             -D^{yy} & \phi_{i,j-1} \quad.&
-  \tfrac{1}{2}D^{xy} & \phi_{i+11,j-1}
+             -D^{yy} & \phi_{i,j-1} \quad&
+  +\tfrac{1}{2}D^{xy} & \phi_{i+1,j-1} \,.
 \end{alignat*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 
 We have derived several discretizations of the anisotropic diffusion and
-anisotropic \Pone\ equations. The first simple discretization, where transverse
-leakage is neglected, is only a minor modification of existing cell-centered
+anisotropic \Pone\ equations. The first simple discretization, in which
+transverse
+leakage is neglected, is a minor modification of existing cell-centered
 difference schemes. The second quasi-diffusion-like scheme is a new application
 of an existing methodology, but it undesirably introduces additional unknowns.
 The final discretization scheme is, as far as we are aware, a novel extension of

@@ -382,11 +382,17 @@ In Chapter~\ref{chap:adDerivation}, we derived boundary conditions for the
 anisotropic diffusion approximation. These boundary conditions reduce to the
 standard diffusion boundary condition in a homogeneous medium, but they were
 derived under a different set of asymptotic assumptions. We test the extent of
-their applicability using a steady-state flatland test problem similar to the
-above.
+their applicability using several steady-state flatland test problem similar to
+the above.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Boundary source}
+
+The first test problems for the anisotropic diffusion boundary conditions test a
+simple problem with incident boundary conditions.
+
+\subsubsection{Problem description}
+
 The test problem is similar to the above flatland boundary condition test
 problem. It features a diffusive medium in flatland on the domain $0
 \le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
@@ -396,6 +402,8 @@ $\sigma_s=0.0099$. The problem has reflecting boundaries on the top, left, and
 right sides, and an incident boundary condition on the bottom with unit
 incident radiation flux. We consider the same angular distributions as in
 Table~\ref{tab:angularDistributions}.
+
+\subsubsection{Results and Discussion}
 
 Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi(2.5,y)$,
 along the center
@@ -456,15 +464,69 @@ condition.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Interior source}
 
-As a more realistic test of the boundary conditions, we consider the same
-problem, except instead of a reflecting boundary on top and a source on bottom,
-the bottom is reflecting and the top is a vacuum. There is an isotropic
-Gaussian-shaped radiation source in the lower-left corner:
+The problems with an incident particle flux on the boundary potentially have
+strong gradients and anisotropy outside the applicable range of the anisotropic
+diffusion approximation. As an alternative test of the boundary conditions, we
+formulate a problem with a spatially smooth source in the interior, where the
+primary ``sink'' for particles is by exiting one boundary several mean
+free paths away from the source region.
+
+\subsubsection{Problem description}
+
+The problem has the same physical description as the previous: two diffusive
+regions surrounding an optically thin channel. The boundary conditions are
+different, however: the bottom is reflecting, and the top is a vacuum. 
+The source is an isotropic Gaussian-shaped radiation source in the lower-left
+corner:
 \begin{equation*}
-  q(x,y) = \pi \eexp^{-2 (x^2 + y^2) } \,.
+  q(x,y) = 2 \eexp^{-2 (x^2 + y^2) } \,.
 \end{equation*}
-(With this normalization, the volume-integrated source is 2.)
-The grid width used is $\Delta_x = 0.1$.
+The grid width used is $\Delta_x = \Delta_y = 0.1$.
+
+We compare a Monte Carlo solution, a diffusion solution, and three instances of
+anisotropic diffusion with different choices for the boundary condition on the
+vacuum boundary.
+
+\subsubsection{Results and discussion}
+
+To begin, we plot $f$ (Fig.~\ref{fig:bcReactorF}) at the top of the problem for the three alternative
+boundary conditions for the purely absorbing transport problem. Only two---the white and reflecting
+conditions---satisfy Eq.~\eqref{eq:hoBc}. The ``na\"ive'' boundary condition
+sets the incident values of $f$ to zero.
+
+\begin{figure}[tb]
+  \centering
+  \subfloat[$f(2.5,10,\omega)$]{%
+   \hspace{-.5in}\input{adbc-presentation/adf-center-ymax/plot}\hspace{-.5in}%
+    %\input{adbc-reactor/adf-center-ymax/plot}%
+   \label{fig:bcReactorFchan}%
+  }%
+  \subfloat[$f(1.5,10,\omega)$]{%
+   \hspace{-.5in}\input{adbc-presentation/adf-insideleftedge-ymax/plot}\hspace{-.5in}%
+    %\input{adbc-reactor/adf-insideleftedge-ymax/plot}
+  }%
+  \Caption{Plots of the purely absorbing transport solution at two points in
+  at the end of the channel.}{
+  The center of the channel (a) shows the highly anisotropic behavior $f$ can
+  take; further from material discontinuities (b), $f$ tends toward isotropy.
+  }
+  \label{fig:bcReactorF}
+\end{figure}
+
+The boundary condition's effect on $f$ is straightforward: a reflecting boundary
+condition mirrors the angular distribution across the $x$ axis, and a white
+boundary condition yields an isotropic distribution for incident angles. The
+na\"ive boundary condition is positive only for exiting angles. For the sake of
+comparison, the diffusion approximation $f(\vec{x},\vec{\Omega}) =
+\frac{1}{2\pi \sigma(\vec{x})}$ could be plotted as a circle. (In
+Fig.~\ref{fig:bcReactorFchan}, it would be out of range of the plot.) Both the
+anisotropic diffusion tensor $\Dtens$ and the boundary coefficient
+$\vec{d}$ change as a result of the boundary conditions.
+
+The different diffusion and boundary coefficients naturally cause the
+anisotropic diffusion solutions $\phi$ to differ. Figure~\ref{fig:bcReactorFlux}
+compares the three instances of anisotropic diffusion with the Monte Carlo
+reference solution and the diffusion solution.
 
 \begin{figure}[tb]
   \centering
@@ -474,6 +536,20 @@ The grid width used is $\Delta_x = 0.1$.
   \label{fig:bcReactorFlux}
 \end{figure}
 
+Clearly, anisotropic diffusion is superior to conventional diffusion: it differs
+from the reference solution by only few percent globally. The two choices of
+boundary conditions for $f$ consistent with Eq.~\eqref{eq:hoBc}, reflecting and
+white, produce very similar answers. In contrast, the inconsistent choice of a
+vacuum boundary for $f$ introduces a significant global error, even many mean
+free paths away from the boundary.
+
+To help understand the accuracy of anisotropic diffusion as compared to standard
+diffusion, we have plotted in Fig.~\ref{fig:bcReactorAngular} the angular
+intensity at several points in the problem as approximated by \SN, AD, and
+standard diffusion. Whereas diffusion approximates the radiation as linear in
+angle, anisotropic diffusion has much more \emph{shape} that results from the
+anisotropy in $f$.
+
 \begin{figure}[htb]
   \centering\small
   \subfloat[$\psi(2.5,0,\omega)$]{%
@@ -482,13 +558,13 @@ The grid width used is $\Delta_x = 0.1$.
   \hspace{-.75in}
   \subfloat[$\psi(2.5,10,\omega)$]{%
     \input{adbc-reactor/angle-center-ymax/plot}}%
-  \hspace{-.5in}%
+  \hspace{-.25in}%
   \subfloat[$\psi(1.55,5,\omega)$]{%
     \input{adbc-reactor/angle-insideleftedge-y5/plot}}%
   \hspace{-.75in}
   \caption{Angular flux in the channel at (a) the bottom center, (b) the top
   center, and (c) the middle left edge.}
-  \label{fig:bcReactor}
+  \label{fig:bcReactorAngular}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -537,6 +613,11 @@ The grid width used is $\Delta_x = 0.1$.
 \clearpage
 \section{Linear time-dependent behavior}
 
+One novel extension to the anisotropic diffusion approximation is the
+formulation for time-dependent transport. Even though our primary application is
+the time-dependent nonlinear thermal radiative transfer, we stress that the
+nonlinearities are completely incidental to the AD approximation. We therefore 
+
 Before considering the complex nonlinear behavior of TRT, we should
 independently analyze how the newly developed methods behave in linear,
 time-dependent problems with time-independent opacities.
@@ -557,13 +638,13 @@ boundary.
 Because this problem is time-dependent, it is our first test of the anisotropic
 \Pone\ method devised in Chapter~\ref{chap:aponeDerivation}. This new method
 uses not only the anisotropic diffusion tensors $\Dtens$ but also a nonlocal
-opacity $\varsigma$:
-\begin{equation}\tagref{eq:ap1FicksLawFinal}
+opacity $\varsigma$, as formulated in \eqref{eq:ap1FicksLawFinal}:
+\begin{equation*}
   \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
   + \varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t)
   + \varsigma(\vec{x})\vec{F}(\vec{x},t) 
   = 0 \,.
-\end{equation}
+\end{equation*}
 Figure~\ref{fig:tdReactorProblem} overlays these transport-calculated
 coefficients on the problem layout.
 
