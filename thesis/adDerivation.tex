@@ -342,7 +342,7 @@ The initial layer solution accounts for the transition
 between the initial condition and the interior solution, using
 Eq.~\eqref{eq:tdSuperposition}. It is significant only near the initial time
 $t=0$,
-where the time derivatives are not assumed to be $O(\epsilon^2)$ but rather
+at which point the time derivatives are not assumed to be $O(\epsilon^2)$ but rather
 $O(1)$. The initial layer problem is defined in the spatial interior of the problem, where
 spatial gradients are $O(\epsilon)$, and the boundary layer
 solution has decayed to zero. (See Fig.~\ref{fig:layers} for a depiction of the
@@ -1089,8 +1089,8 @@ the voided region is no longer singular, and source iteration will converge more
 quickly.
 
 For time-dependent problems in which $\sigma$ remains constant from one
-time step to the next, the calculation for $f$ needs only to be run once. In
-nonlinear problems where $\sigma$ is a function of time, storing $f$ on the
+time step to the next, the calculation for $f$ needs only to be run once. For
+nonlinear problems in which $\sigma$ is a function of time, storing $f$ on the
 outer boundaries of the problem (which is already necessary for reflecting
 boundary conditions) will greatly speed up the recalculation of $f$. After the
 first time step, a good guess for $f$ on the boundary means that only
@@ -1378,9 +1378,10 @@ Flux-limited anisotropic diffusion (FLAD) modifies the
 transport-calculated anisotropic diffusion tensor to preserve
 Eq.~\eqref{eq:fluxLimit_3} in the presence of large gradients.
 
-Constructing a flux-limited diffusion tensor is not as straightforward as in
-standard diffusion, where the non-negative scalar diffusion coefficient $D$ may
-simply be moved outside the magnitude operator $\norm{\cdot}$.
+Constructing a flux limiter for anisotropic diffusion is less straightforward
+than for standard diffusion. The scalar diffusion coefficient $D$ may
+simply be moved outside the magnitude operator $\norm{\cdot}$, but the
+\emph{tensor} with anisotropic diffusion cannot be treated that way.
 However, a ``max'' limiter for anisotropic diffusion can be easily formulated.
 A semi-implicit implementation of this limiter is
 \begin{equation}\label{eq:flad}

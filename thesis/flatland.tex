@@ -13,7 +13,7 @@ polar cosine~$\mu$ and the azimuthal~$\omega$),
 flatland is a computationally simpler testing ground that retains the
 complexity of multidimensional geometry. For this reason, flatland has recently
 been used in the development and testing of multi-D transport methods, including
-the new anisotropic diffusion method \cite{Lar2009c,Joh2011,Tra2011}.
+the new anisotropic diffusion method \cite{Lar2009c,Bor2010,Joh2011,Tra2011}.
 
 Previous work has shown that the 3-D diffusion coefficient
 $\frac{1}{3\sigma}$ differs from the flatland diffusion coefficient
@@ -62,7 +62,7 @@ two-dimensional projection are identical, shown in Fig.~\ref{fig:chordFlatland}.
 \end{figure}
 %
 However, in the 2-D case, the figure is merely a slice of a three-dimensional
-problem where the two gray rectangles and the gap are infinite in extent
+problem in which the two gray rectangles and the gap are infinite in extent
 (Fig.~\ref{fig:chordXy}). In the flatland case, the polar angle $\theta$ is
 effectively fixed at $\theta=\pi/2$, i.e., $\mu=\cos\theta = 0$.
 %
@@ -175,13 +175,14 @@ circle, $\norm{\vec{\Omega}}=1$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Monte Carlo sampling}
 
-In numerically testing the anisotropic diffusion approximation, we use Monte Carlo
-methods to generate the reference solutions.
+In numerically testing the anisotropic diffusion approximation, we use Monte
+Carlo methods (with a very large number of particles) to generate the reference
+solutions.
 The Monte Carlo method approximates the transport equation by tracking the
 random histories of statistically large numbers of particles as they traverse a
 problem. The behavior during their lifetime depends on probability distribution
 functions (PDFs) that describe how they are born, how far they travel without a
-collision, how they behave when they collide, and so on \cite{Lew1984,Bro2004a}.
+collision, how they behave when they collide, et cetera \cite{Lew1984,Bro2004a}.
 
 In this section, we form and discuss the probability distributions particular to
 flatland geometry. We briefly derive those PDFs,
@@ -190,7 +191,7 @@ integrate them to get cumulative distribution functions
 pseudo-random number $\xi \in [0,1)$ may be used to determine particle behavior
 in flatland. Because the geometry tracking routines of steady state Monte Carlo
 and Fleck and Cummings' IMC are identical, the results in this section are
-applicable any flatland Monte Carlo implementation.
+applicable to any flatland Monte Carlo implementation.
 
 \subsubsection{Isotropic volume source}
 A particle emitted from an isotropic internal source, whether an extraneous
@@ -212,7 +213,7 @@ following value for $\alpha$ in any geometry:
   \lra
   \alpha = \frac{1}{\gamma_0}\,.
 \end{align*}
-Thus the angular distribution of an isotropic volume source is
+Thus, the angular distribution of an isotropic volume source is
 \begin{equation}\label{eq:volumeSourcePdf}
   f(\vec{\Omega}) \ud\Omega = \frac{\ud\Omega}{\gamma_0} \,,
   \quad \vec{\Omega} \in S\,.
@@ -274,7 +275,7 @@ faster simulation times.
 
 \subsubsection{Isotropic surface source}\label{sec:isoSurface}
 Particles emitted from an isotropic surface source have a cosine distribution
-\cite{Gre2002}, where the partial first moment in each differential angle is
+\cite{Gre2002}, in which the partial first moment in each differential angle is
 constant. The PDF for a surface source is
 \begin{equation*}
   f(\vec{\Omega}) \ud\Omega = \alpha \abs{\vec{\Omega}\vd \vec{n}} \ud\Omega \,,
@@ -383,7 +384,7 @@ a Chebyshev quadrature set for the first quadrant is:
 \end{enumerate}
 For ease of implementation, we normalized the quadrature weights so that they sum
 to $4\pi$ instead of $2\pi$. This allows flatland quadrature sets to be used in
-an existing 2-D discrete ordinates code, where the scattering kernel expects the
+an existing 2-D discrete ordinates code in which the scattering kernel expects the
 quadrature set to be normalized to $4\pi$. Table~\ref{tab:chebyQs} gives several
 orders of the Chebyshev quadrature set with sixteen digits of precision; a more
 extensive and computer-readable set of ordinates is available online at
@@ -674,7 +675,7 @@ The value
   \end{cases}
 \end{equation*}
 is the Marshak extrapolation distance.
-The underlying physical reason for the longer extrapolation distance in flatland
+The physical reason for the longer extrapolation distance in flatland
 is that in 2-D, a greater fraction of particles travel at a steep angle to the
 $x,y$-plane, yielding a steeper slope for $\phi$ on the boundary.
 
@@ -697,38 +698,16 @@ In flatland, it is the following:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Variational boundary condition} \label{sec:varBndy}
-It is known that the Marshak boundary condition is heuristic and that
-a more accurate boundary condition for diffusion can be derived from an
-asymptotic matched boundary layer analysis. However, a simpler
-method of deriving a more accurate (than Marshak) boundary condition is to use
+The Marshak boundary condition is heuristic: it attempts only to conserve the
+rate of energy entering through the boundary.
+A more accurate boundary condition recognizes that the diffusion
+approximation is an asymptotic limit of the transport equation and uses an
+asymptotic matched boundary layer analysis to relate the transport solution
+on the boundary to the diffusive solution in the interior. However, a simpler
+(than asymptotic) method of deriving a more accurate (than Marshak) boundary
+condition is to use
 a variational analysis \cite{Mal1991}.
 A shorter but equivalent analysis, adapted to flatland geometry, follows.
-
-%A lengthy asymptotic boundary layer
-%matching analysis \cite{Hab1975} shows that the correct weighting of the
-%boundary condition is not $\abs{\vec{\Omega}\vd\vec{n}}$ but rather
-%$W(\abs{\vec{\Omega}\vd\vec{n}})$, where $W$ is related to Chandrasekhar's
-%$H$-function \cite{Cha1960}:
-%\begin{equation*}
-%  W(\mu) = \frac{\sqrt{3}}{2} \mu H(\mu) \,,
-%\end{equation*}
-%which gives an extrapolation distance of
-%\begin{align*}
-%  z_0 = \frac{\int_{0}^{1} \mu W(\mu) \ud \mu}{\int_{0}^{1} W(\mu) \ud
-%  \mu} \approx 0.7104\,.
-%\end{align*}
-%
-%A variational analysis \cite{Mal1991} has been used to
-%derive a very accurate approximation to $W$:
-%\begin{equation*}
-%W(\mu) \approx \mu + \tfrac{3}{2} \mu^2 \,,
-%\end{equation*}
-%which gives the approximate extrapolation distance of
-%\begin{equation*}
-%  z_0 = \frac{\int_{0}^{1} \mu (\mu + \tfrac{3}{2} \mu^2 ) \ud
-%  \mu}{\int_{0}^{1} (\mu + \tfrac{3}{2} \mu^2 ) \ud \mu} 
-%  = \frac{17}{24} \approx 0.7083 \,.
-%\end{equation*}
 
 We consider a homogeneous, source-free ($q=0$), purely scattering ($c=1$)
 transport problem in a
@@ -756,20 +735,20 @@ It has a uniform incident boundary condition,
 %variational estimate of the transport solution also accurate to $O(\epsilon^2)$.
 
 Because neither the boundary condition nor $\sigma$ varies
-in $x$, $\tpder{I}{x}=0$, and Eq.~\eqref{eq:flatTransportVol} reduces to the
-one-dimensional flatland transport equation 
-\begin{equation*}
+in $x$, $\tpder{I}{x}=0$, and Eq.~\eqref{eq:flatTransportVol} reduces to a
+one-dimensional flatland transport equation:
+\begin{equation}\label{eq:scatteringOnedFlatland}
   \sin \omega \pder{}{y}I(y,\omega) + \sigma I(y,\omega)
   = \frac{\sigma}{2\pi} \int_{0}^{2\pi} I(y,\omega') \ud \omega'\,.
-\end{equation*}
-which is \emph{not} the 1-D planar geometry transport equation.
+\end{equation}
+This is \emph{not} the 1-D planar geometry transport equation.
 
 We define the $y$ components of the angular moments of $I$ as
 \begin{equation} \label{eq:flatPhi}
   \phi_m(y) = \int_{0}^{2\pi} (\vec{\Omega}\vd\vec{j})^m I(y,\omega) \ud\omega
   = \int_{0}^{2\pi} (\sin\omega)^m I(y,\omega) \ud\omega \,.
 \end{equation}
-As $y\to\infty$, the intensity $I$ will approach a constant $\varphi/2\pi$,
+As $y\to\infty$, the intensity $I$ approaches a constant $\varphi/2\pi$,
 which gives $\phi_0(\infty)=\phi(\infty)\equiv\varphi$.
 Concordantly, $\phi_1(\infty)=0$.
 
@@ -794,8 +773,8 @@ For $m=0$, the conservation equation, Eq.~\eqref{eq:flatMoments} evaluates to
   \lra
   \pder{\phi_{1}}{y} = 0\,.
 \end{equation*}
-In other words, the radiation flux is a constant, and because $\phi_1(\infty)=0$,
-that constant is zero. Physically, a constant $\phi_1$ means that at every
+Thus, the radiation flux is a constant, and because $\phi_1(\infty)=0$,
+that constant is zero. Physically, $\phi_1=0$ means that at every
 point, the rate of energy being transferred away from the boundary is balanced
 by energy moving toward the boundary. This logically follows from the lack of
 absorption in the problem: at steady-state, the only means of energy loss is
@@ -900,7 +879,7 @@ different extrapolation distance $\frac{\pi}{8} + \frac{4}{3\pi} \approx
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Generalization}\label{sec:flatlandV}
 
-Recall from the discussion of boundary conditions in
+We recall from the discussion of boundary conditions in
 Chapter~\ref{chap:adDerivation} that to eliminate the boundary layer solution
 in the interior of a 3-D problem, the necessary condition is
 \begin{equation}\label{eq:tdKillBndy_6}
@@ -935,9 +914,10 @@ which gives the Marshak extrapolation distance
   \approx 0.6667\,.
 \end{equation*}
 
-In our analysis of flatland boundary conditions, we have essentially been
-investigating flatland equivalent of the $W$ function, which we term ``$V$'',
-that preserves the interior solution of a flatland problem:
+In our analysis of flatland boundary conditions, we have essentially
+investigated an equivalent of the $W$ function for flatland. This new 
+function, which we term ``$V$'', preserves the interior solution in a purely
+scattering \emph{flatland} half-space:
 \begin{equation}\label{eq:flatKillBndy}
 \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
 I^b(\vec{x}, \vec{\Omega}) \ud\Omega
@@ -946,8 +926,9 @@ I^b(\vec{x}, \vec{\Omega}) \ud\Omega
 I_\text{approx}(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation}
 The ``true'' function $V$ might be calculable, for example, by using a
-flatland formulation of the $F_N$ method \cite{Sie1979}, but we instead used a
-``variational'' analysis and the standard Marshak treatment to approximate $V$.
+singular eigenvalue solution \cite{Cas1953} of Eq.~\eqref{eq:scatteringOnedFlatland}, but we
+instead used a ``variational'' analysis and the standard Marshak treatment to
+approximate $V$.
 
 We define $V(\mu)$ on the domain $0 < \mu \le 1$, where for our purposes $\mu =
 \abs{\vec{\Omega} \vd \vec{n}}$, and normalize the function and its
@@ -996,7 +977,7 @@ is the less accurate Eq.~\eqref{eq:flatMarshak}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion}
 The anisotropic diffusion method presented in
-chapter~\ref{chap:adDerivation} needs little modification to be formulated
+Chapter~\ref{chap:adDerivation} needs little modification to be formulated
 in the flatland geometry. The most notable change is in formulating the
 low-order boundary conditions, which use the flatland function ``$V$'' rather
 than the 3-D Chandrasekhar ``$W$.''
@@ -1024,8 +1005,8 @@ and the initial condition
   \quad \vec{x}\in V ,\ \vec{\Omega} \in S\,.
 \end{equation}
 \end{subequations}
-In flatland, the unit sphere $S$ is $0 \le \omega < 2\pi$, $\Omega$ lives on
-the unit circle, and $\gamma_0=2\pi$.
+In flatland, the unit sphere $S$ is $0 \le \omega < 2\pi$, $\vec{\Omega}$ lives
+on the unit circle, and $\gamma_0=2\pi$.
 
 As before, we write the transport solution as a superposition of an interior
 solution (far from initial conditions and exterior boundaries), a boundary layer
@@ -1127,7 +1108,9 @@ to the gradient of $\phi$, the same anisotropic Fick's law as in
 \begin{equation}\label{eq:adFicks_6}
   \vec{F}(\vec{x},t) = - \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t) \,.
 \end{equation}
-Here, $\Dtens$ is the second moment of the transport solution $f$. In 3-D
+Here, $\Dtens$ is a
+second-order tensor, the second moment of the transport solution $f$. In
+flatland, it is a $2\times 2$ matrix. In 3-D
 geometry, in a homogeneous medium, $f=1/(4\pi\sigma)$ so $\Dtens = 1/(3\sigma)$.
 In flatland, $f = 1/(2\pi\sigma)$, and its second moment is
 \begin{equation*}
@@ -1300,8 +1283,10 @@ Eq.~\eqref{eq:fadLoVol}:
   = \sigma_s(\vec{x}) \phi(\vec{x},t) + q(\vec{x},t)\,,\quad \vec{x}\in V\,,
   0 \le t < \infty\,.
 \end{equation*}
-This low-order equation is identical to its 3-D counterpart, but the value of
-the anisotropic diffusion tensor $\Dtens$ will be different.
+This low-order equation is identical in form to its 3-D counterpart, but the
+value and size of the anisotropic diffusion tensor $\Dtens$ will be different.
+(It is a $2\times 2$ matrix, and it approaches $\frac{1}{2\sigma}
+\Identitytens$ away from material boundaries.)
 The initial condition for the low-order unknown $\phi$ is the zeroth moment of
 the transport initial condition:
 \begin{equation*}
@@ -1328,7 +1313,7 @@ where $f$ is given in Eq.~\eqref{eq:fadFVol} as:
   + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega})
 = \frac{1}{2\pi} \,, \quad \vec{x}\in V\,, 0 \le \omega < 2\pi \,.
 \end{equation*}
-The incident boundary condition for $f$ should satisfy Eq.~\eqref{eq:hoBc},
+The incident boundary condition for $f$ satisfies Eq.~\eqref{eq:hoBc},
 \begin{equation*}
   \int_{\vec{\Omega}\vd\vec{n} > 0} (\vec{\Omega}\vd \vec{n})
   f(\vec{x}, \vec{\Omega}) \ud\Omega
@@ -1362,34 +1347,31 @@ and $V$ is well-approximated by the variational form derived in
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
-The reduced phase space of flatland geometry makes it computationally less
-expensive than 2-D geometry. In Monte Carlo
+Compared to 2-D geometry, flatland is less computationally expensive to
+simulate because of its reduced phase space. In Monte Carlo
 implementations, fewer random numbers are sampled per event and fewer expensive
 transcendental functions are evaluated. Additionally, the smaller phase space
 implies that fewer particles need be run to achieve a statistical
 accuracy comparable to a 2-D problem. In the discrete ordinates method, only
-one polar angle $\mu=0$
-needs to be accounted for. The correspondingly smaller quadrature set reduces
+one polar angle ($\mu=0$) is needed in flatland. The correspondingly smaller
+quadrature set reduces
 the cost of a transport sweep and the computational memory burden.
 
 We derived both Marshak and variational boundary conditions for flatland
 diffusion. The simpler Marshak boundary uses
-the first moment of the incident boundary source, $\pi
-\int_{\vec{\Omega}\vd \vec{n} < 0 } \abs{\vec{\Omega}\vd \vec{n}} I^b
-\ud\Omega$, and gives an extrapolation distance of about $0.7854$.
+the first moment of the incident boundary source and gives an extrapolation
+distance of about $0.7854$.
 The more accurate variational boundary condition given in
-Eq.~\eqref{eq:flatVarBc} uses $\int_{\vec{\Omega}\vd\vec{n} < 0}
-\big[ \frac{\pi}{2} \abs{\vec{\Omega}\vd\vec{n}} + 2 (\vec{\Omega}\vd\vec{n})^2
-\big] I^b(\vec{x}, \vec{\Omega}) \ud\Omega$ with the extrapolation
+Eq.~\eqref{eq:flatVarBc} uses a more complex angular moment and results in
+an extrapolation
 distance of about $0.8171$. The accuracy of these methods will be compared in
 Chapter~\ref{chap:simpleNumericalResults}.
 
-The formulation of the anisotropic diffusion method is virtually identical to
-that presented in chapter~\ref{chap:adDerivation}. The only differences are in
-the transport problem itself---%
-which still uses a unit isotropic source---%
-and the boundary conditions, which closely resemble the flatland diffusion
-conditions derived earlier.
+The formulation of the flatland anisotropic diffusion method is virtually
+identical to
+that presented in Chapter~\ref{chap:adDerivation}. The only differences between
+flatland and 2-D are in the angular variable of the transport problem and the
+coefficients in the boundary condition.
 
 With the flatland versions of anisotropic diffusion and the benchmark methods in
 hand, we will evaluate the performance of the AD approximation with numerical

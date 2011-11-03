@@ -40,7 +40,7 @@ much work in the methods development field neglects these complex phenomena by
 \end{itemize}
 
 For the purposes of discussion and the later AD derivation, we consider a
-general, 3-D universe, where the spatial coordinates $x$, $y$, and $z$ define a
+general, 3-D universe, in which the spatial coordinates $x$, $y$, and $z$ define a
 spatial point
 \begin{equation*}
   \vec{x}
@@ -216,8 +216,8 @@ method. It is
 therefore necessary to discuss \emph{discretization} schemes,
 in which the continuous unknowns in Eqs.~\eqref{eqs:explanTRT} are approximated
 with discrete unknowns. In this section, we discuss the discretization of the
-time variable in the context of \emph{linearization}, where the nonlinear
-aspects of the TRT equations are approximated to allow a linear algebraic
+time variable in the context of \emph{linearization}, which approximates
+the nonlinear aspects of the TRT equations to allow a linear algebraic
 representation of the system of unknowns, facilitating their solution on a
 computer.
 
@@ -829,7 +829,7 @@ energy at that point. The identity can be shown using the triangle inequality:
   \\ \label{eq:fluxLimitDiffusion}
   \norm{\grad \phi} & \le \frac{\phi}{D} \,.
 \end{align}
-In an optically thin region where $\sigma\approx 0$, $D\to\infty$, and this condition
+In an optically thin region, $\sigma\approx 0$, $D\to\infty$, and this condition
 will usually be violated. Additionally, the large radiation energy gradient at a
 wavefront can lead to a violation of the limit.
 
@@ -837,10 +837,10 @@ A \emph{flux limiter} is designed to combat these problems by enforcing
 Eq.~\eqref{eq:fluxLimitDiffusion} through an \emph{ad hoc} modification to
 the definition of $D$.
 Although certain flux limiters \cite{Lev1984} are based on
-idealized models that the radiation intensity might take where
-Eq.~\eqref{eq:fluxLimit} tends to be violated, the usual approach is more
+idealized models that the radiation intensity might take in an optically thin
+region, the usual approach is more
 straightforward. The flux-limited diffusion (FLD) coefficient should approach the
-standard diffusion coefficient $1/3\sigma$ where the spatial gradients are weak,
+standard diffusion coefficient $1/3\sigma$ when the spatial gradients are weak,
 but it should satisfy Eq.~\eqref{eq:fluxLimit} when the gradients are strong.
 A standard formulation \cite{Ols2000} is
 \begin{equation} \label{eq:fluxLimiter}

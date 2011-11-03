@@ -510,7 +510,7 @@ Flatland
 \end{table}
 
 At this point, Eq.~\eqref{eq:discreteBcGeneral} applies to arbitrary geometries,
-both anisotropic methods, and problems where $D^{xy} \ne 0$.
+both anisotropic methods, and problems in which $D^{xy} \ne 0$.
 Now we make the analysis slightly less general by demanding
 that $\eta$ be azimuthally symmetric about the outward normal of the boundary face.
 (Equivalently, we discard the $D^{yx}=D^{xy}$ terms if the boundary face is
@@ -603,8 +603,8 @@ discretized standard diffusion boundary condition:
 
 The discretization in \S\ref{sec:discreteDiag} relies on discarding the
 components of the diffusion tensor that lead to transverse leakage. If those
-components are non-negligible, i.e.~in the case where the problem's opacity
-varies strongly along both the $x$ and $y$ axes, we would like a
+components are non-negligible, i.e.~in a problem with opacities
+that vary strongly along both the $x$ and $y$ axes, we would like a
 more accurate discretization scheme that preserves those components.
 
 One scheme is an adaptation an existing difference method for quasidiffusion
@@ -955,7 +955,7 @@ or if the cell is not in the interior,
 
 To derive an expression for $\phi_{i+1,j+1/2}$ that depends only on cells local
 to $i,j$, we consider the finite difference scheme of \S\ref{sec:discreteDiag},
-where we introduced a temporary cell-edge unknown and discarded the off-diagonal
+in which we introduced a temporary cell-edge unknown and discarded the off-diagonal
 terms of the diffusion tensor. In evaluating Eq.~\eqref{eq:cellAnisoPderY} for
 the transverse partial derivative in the $y$ direction, let us apply the
 difference using conservation of current, and discarding the transverse leakage

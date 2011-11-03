@@ -71,13 +71,21 @@ where
 \begin{equation*}
   \vec{E} = \int_{4\pi} \vec{\Omega} f \ud\Omega\,.
 \end{equation*}
+This new approximation introduces an advection term.
+
 Away from material discontinuities, $\vec{E}$ is exponentially small; but
 near a discontinuity, $\vec{E}$ is non-negligible. This additional term may
 improve the accuracy of the anisotropic diffusion approximation in asymptotic
-sense, but it will re-introduce a qualitative property that our anisotropic
+sense, and it will re-introduce a qualitative property that our anisotropic
 diffusion approximation lacks: a ``kink'' in the solution $\phi$. Because
 $\vec{E}$ is discontinuous at a material boundary, it will induce a
 discontinuity in $\grad \phi$.
+
+The difficulty with this extra term is that advection-diffusion equations
+require troublesome discretization schemes. Advection-diffusion is also non-SPD,
+so the fast and simple conjugate gradient (CG) method could no longer be used to
+solve the resulting matrix: more costly methods (such as GMRES) would be
+required.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Alternative flux limiters}
