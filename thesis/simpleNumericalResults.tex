@@ -390,10 +390,13 @@ their applicability using several steady-state flatland test problem similar to
 the above.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Boundary source}
+\subsection{Interior source}
 
-The first test problems for the anisotropic diffusion boundary conditions test a
-simple problem with incident boundary conditions.
+The first test of the anisotropic diffusion boundary conditions is a highly
+scattering problem with a spatially smooth source in the interior. A vacuum
+boundary in the problem serves as the primary sink for particles in the
+problem; we therefore expect the global solution to be sensitive to the choice
+of boundary conditions.
 
 \subsubsection{Problem description}
 
@@ -402,87 +405,14 @@ problem. It features a diffusive medium in flatland on the domain $0
 \le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
 vertically through the middle ($2.5 \le x \le 3.5$). The diffusive region has
 $\sigma=1$ and $\sigma_s=0.99$, and the channel has $\sigma=0.01$ and
-$\sigma_s=0.0099$. The problem has reflecting boundaries on the top, left, and
+$\sigma_s=0.0099$.
+The problem has reflecting boundaries on the top, left, and
 right sides, and an incident boundary condition on the bottom with unit
 incident radiation flux. We consider the same angular distributions as in
-Table~\ref{tab:angularDistributions}.
-
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=2in]{adbc-reactor/xsn}
-
-  \Caption{Steady-state AD boundary condition test problem.}{
-    The black region is diffusive ($\sigma=1$, $\sigma_s=0.99$), the white
-    region is optically thin ($\sigma=0.01$, $\sigma_s=0.0099$). The colored
-    region in the lower-left is a Gaussian source used in a later problem.}
-  \label{fig:bcReactorProblem}
-\end{figure}
-
-
-\subsubsection{Results and Discussion}
-
-Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi(2.5,y)$,
-along the center
-of the channel. Standard diffusion fails because $\sigma=0.01$ leads to a very
-large diffusion coefficient, resulting in a nearly constant solution inside the
-channel. The anisotropic diffusion performs exceedingly well, and the
-white boundary condition for $f$ gives a better result than the reflecting
-boundary condition.
-
-\begin{figure}[htb!]
-  \centering
-  \centering\small
-  \hspace{-.25in}%
-  \input{adbc-channel/isotropic-phi-channel/plot}
-  \caption{Scalar flux along the centerline of the channel with an isotropic
-  boundary condition at $y=0$.}
-  \label{fig:isotropic}
-\end{figure}
-
-A visualization of the angular flux for each method (replacing Monte Carlo with
-an \SN\ solution), Fig.~\ref{fig:bcChannelIsotropicAngular}, helps explain the
-accuracy
-of the AD method and the difference between the reflecting and white boundary
-treatments. Even though AD cannot exactly model the peak of freely streaming
-photons in the channel (which the \SN\ angular flux shows at $\omega=3\pi/2$),
-it accurately approximates the angular flux shape driven by scattering from the
-diffusive region (the lobes on the left and right).
-The linear-in-angle diffusion approximation cannot represent any of these
-features.  
-
-\begin{figure}[htb]
-  \centering\small
-  \vspace{-.25in}%
-  \input{adbc-channel/angle-isotropic-center-y1/plot}
-  \vspace{-.25in}%
-  \caption{Angular flux $\psi(2.5, 1., \omega)$ for the incident isotropic
-  problem, in the centerline of the channel one unit from the boundary.}
-  \label{fig:bcChannelIsotropicAngular}
-\end{figure}
-
-The shape around $\omega=\pi/2$ gives insight into why the white boundary
-performs better in this problem: a reflecting boundary produces a peak in $f$
-along the channel, but a white boundary gives a more isotropic shape near that
-range, better matching the incident isotropic boundary condition. This suggests
-that the qualitatively best way to satisfy Eq.~\eqref{eq:hoBc} may be
-to have the incident distribution of $f$ take the shape of the true boundary
-condition.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Interior source}
-
-The problems with an incident particle flux on the boundary potentially have
-strong gradients and anisotropy outside the applicable range of the anisotropic
-diffusion approximation. As an alternative test of the boundary conditions, we
-formulate a problem with a spatially smooth source in the interior.
-In this problem, the
-primary ``sink'' for particles is by exiting one boundary several mean
-free paths away from the source region.
-
-\subsubsection{Problem description}
 
 The problem has the same physical description as the previous: two diffusive
-regions surrounding an optically thin channel. The boundary conditions are
+regions surround an optically thin channel.
+The boundary conditions are
 different, however: the bottom is reflecting, and the top is a vacuum. 
 The source is an isotropic Gaussian-shaped radiation source in the lower-left
 corner:
@@ -576,6 +506,85 @@ anisotropy in $f$.
   center, and (c) the middle left edge.}
   \label{fig:bcReactorAngular}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Boundary source}
+
+The problems with an incident particle flux on the boundary potentially have
+strong gradients and anisotropy outside the applicable range of the anisotropic
+diffusion approximation. As an alternative test of the boundary conditions, we
+The first test problems for the anisotropic diffusion boundary conditions test a
+simple problem with incident boundary conditions.
+
+\subsubsection{Problem description}
+
+This test problem has opacities identical to the previous: two diffusive
+regions surround an optically thin channel. However, rather than being driven
+by an extraneous source, the problem has an incident radiation flux on the
+bottom face. The top, left, and right sides are reflecting. We consider the same
+angular distributions as in
+Table~\ref{tab:angularDistributions}.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=2in]{adbc-reactor/xsn}
+
+  \Caption{Steady-state AD boundary condition test problem.}{
+    The black region is diffusive ($\sigma=1$, $\sigma_s=0.99$), the white
+    region is optically thin ($\sigma=0.01$, $\sigma_s=0.0099$). The colored
+    region in the lower-left is the Gaussian source.}
+  \label{fig:bcReactorProblem}
+\end{figure}
+
+
+\subsubsection{Results and Discussion}
+
+Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi(2.5,y)$,
+along the center
+of the channel. Standard diffusion fails because $\sigma=0.01$ leads to a very
+large diffusion coefficient, resulting in a nearly constant solution inside the
+channel. The anisotropic diffusion performs exceedingly well, and the
+white boundary condition for $f$ gives a better result than the reflecting
+boundary condition.
+
+\begin{figure}[htb!]
+  \centering
+  \centering\small
+  \hspace{-.25in}%
+  \input{adbc-channel/isotropic-phi-channel/plot}
+  \caption{Scalar flux along the centerline of the channel with an isotropic
+  boundary condition at $y=0$.}
+  \label{fig:isotropic}
+\end{figure}
+
+A visualization of the angular flux for each method (replacing Monte Carlo with
+an \SN\ solution), Fig.~\ref{fig:bcChannelIsotropicAngular}, helps explain the
+accuracy
+of the AD method and the difference between the reflecting and white boundary
+treatments. Even though AD cannot exactly model the peak of freely streaming
+photons in the channel (which the \SN\ angular flux shows at $\omega=3\pi/2$),
+it accurately approximates the angular flux shape driven by scattering from the
+diffusive region (the lobes on the left and right).
+The linear-in-angle diffusion approximation cannot represent any of these
+features.  
+
+\begin{figure}[htb]
+  \centering\small
+  \vspace{-.25in}%
+  \input{adbc-channel/angle-isotropic-center-y1/plot}
+  \vspace{-.25in}%
+  \caption{Angular flux $\psi(2.5, 1., \omega)$ for the incident isotropic
+  problem, in the centerline of the channel one unit from the boundary.}
+  \label{fig:bcChannelIsotropicAngular}
+\end{figure}
+
+The shape around $\omega=\pi/2$ gives insight into why the white boundary
+performs better in this problem: a reflecting boundary produces a peak in $f$
+along the channel, but a white boundary gives a more isotropic shape near that
+range, better matching the incident isotropic boundary condition. This suggests
+that the qualitatively best way to satisfy Eq.~\eqref{eq:hoBc} may be
+to have the incident distribution of $f$ take the shape of the true boundary
+condition.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\clearpage
@@ -774,4 +783,9 @@ $\Delta_t=0.02$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
+
+With the linear numerical experiments in this chapter, we have verified the
+theory developed in the previous chapters. The boundary conditions we proposed
+in Chapter~\ref{chap:adDerivation} yield accurate answers in our test problems.
+
 
