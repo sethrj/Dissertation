@@ -337,6 +337,12 @@
 "figures/1d_trt_blastwave_long/wavefront/wavefront.pdf": {
 "creation": 1319061280
 }, 
+"figures/adbc-channel/angle-delta-center-y1/angle-delta-center-y1.pdf": {
+"creation": 1320527285
+}, 
+"figures/adbc-channel/angle-delta-center-y1/plot.tex": {
+"creation": 1320527285
+}, 
 "figures/adbc-channel/angle-isotropic-center-y1/angle-isotropic-center-y1.pdf": {
 "creation": 1319834883
 }, 
@@ -348,6 +354,12 @@
 }, 
 "figures/adbc-channel/isotropic-phi-channel/plot.tex": {
 "creation": 1319834883
+}, 
+"figures/adbc-channel/relative-errors/plot.tex": {
+"creation": 1320527285
+}, 
+"figures/adbc-channel/relative-errors/relative-errors.pdf": {
+"creation": 1320527285
 }, 
 "figures/adbc-checkers/adcoeff.png": {
 "creation": 1308594922
@@ -417,6 +429,18 @@
 }, 
 "figures/adbc-presentation/phi-left/plot.tex": {
 "creation": 1319834883
+}, 
+"figures/adbc-reactor/adf-center-ymax/adf-center-ymax.pdf": {
+"creation": 1320527285
+}, 
+"figures/adbc-reactor/adf-center-ymax/plot.tex": {
+"creation": 1320527285
+}, 
+"figures/adbc-reactor/adf-insideleftedge-ymax/adf-insideleftedge-ymax.pdf": {
+"creation": 1320527285
+}, 
+"figures/adbc-reactor/adf-insideleftedge-ymax/plot.tex": {
+"creation": 1320527285
 }, 
 "figures/adbc-reactor/angle-center-y0/angle-center-y0.pdf": {
 "creation": 1317845921

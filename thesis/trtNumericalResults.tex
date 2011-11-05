@@ -365,7 +365,7 @@ temperature scale is linear and ranges from $0.18$ to $1$.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\section{CRASH problem}
+\section{CRASH-like problem}
 
 \subsection{Problem description}
 
@@ -374,8 +374,9 @@ table of Rosseland-averaged opacities given as $\sigma(\log \rho, \log T)$,
 %
 \begin{figure}[htb]
   \centering\small
+  \hspace{-.5in}%
   \input{trt_serious/physical-opacity/plot}
-  \Caption{True opacities and modeled versions used in the CRASH simulation
+  \Caption{True opacities and modeled versions used in the CRASH-like
   problem.}{
   The true opacities (solid line) are generated from physical data,
   and the model opacities (dashed lines of the same color and marker) are
@@ -416,7 +417,7 @@ Xe (shock) & 0.02 & $1.14\EE{21}$ & $729$ & $150$ & $4.5\EE3$\\
 Xe (pre-shock) & 0.20 & $6.74\EE{19}$ & $45.4$ & $150$ & $5\EE3$
 \\ \bottomrule
   \end{tabular}
-  \Caption{Physical parameters used in the CRASH simulation problem.}{
+  \Caption{Physical parameters used in the CRASH-like simulation problem.}{
   The ``stretched'' version of the plastic is used in our simulation; it
   replaces the original physics.}
   \label{tab:seriousPhysics}
@@ -425,7 +426,7 @@ Xe (pre-shock) & 0.20 & $6.74\EE{19}$ & $45.4$ & $150$ & $5\EE3$
 \begin{figure}[htb]
   \centering
   \includegraphics[width=6in]{trt_serious/materials}
-  \Caption{Materials, geometry, and grid spacing in the CRASH problem.}{
+  \Caption{Materials, geometry, and grid spacing in the CRASH-like problem.}{
    Each ``cell'' shown on the grid encompasses $5\times5$ cells in the true
    numerical simulation. The red zone is plastic, yellow is Be, blue is
    post-shock Xe, cyan is shock Xe, and green is pre-shock Xe.}
@@ -457,7 +458,7 @@ radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
     \includegraphics[width=6in]{trt_serious/mattemp02}
   }
 
-  \Caption{Solution at $t=0.2\units{ns}$ in the CRASH problem.}{
+  \Caption{Solution at $t=0.2\units{ns}$ in the CRASH-like problem.}{
   From top to bottom, the solutions for AD, FLD, and FLAD are plotted.}
   \label{fig:seriousTemp}
 \end{figure}
@@ -473,10 +474,20 @@ radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
     \hspace{-.25in}%
     \input{trt_serious/mattemp-center0-20/plot}
   }
-  \caption{Solution along the centerline ($x=0$) at $t=0.2\units{ns}$ in the
-  CRASH problem.}
-  \label{fig:seriousCenterline}
+  \caption{Solution along the centerline ($y=0$) at $t=0.2\units{ns}$ in the
+  CRASH-like problem.}
+  \label{fig:seriousTempCenterline}
 \end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \hspace{-.25in}%
+  \input{trt_serious/absorption-plastedge0-20/plot}
+  \caption{Absorption along the inside edge of the plastic centerline
+    ($y=0.028750$) at $t=0.2\units{ns}$ in the CRASH-like problem.}
+  \label{fig:seriousAbsorption}
+\end{figure}
+
 
 \subsection{Discussion}
 

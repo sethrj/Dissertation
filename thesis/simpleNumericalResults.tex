@@ -400,7 +400,8 @@ of boundary conditions.
 
 \subsubsection{Problem description}
 
-The test problem is similar to the above flatland boundary condition test
+The test problem (Fig.~\ref{fig:bcReactorProblem}) is similar to the above
+flatland boundary condition test
 problem. It features a diffusive medium in flatland on the domain $0
 \le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
 vertically through the middle ($2.5 \le x \le 3.5$). The diffusive region has
@@ -409,6 +410,17 @@ $\sigma_s=0.0099$.
 The problem has reflecting boundaries on the top, left, and
 right sides, and an incident boundary condition on the bottom with unit
 incident radiation flux. We consider the same angular distributions as in
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=2in]{adbc-reactor/xsn}
+
+  \Caption{Steady-state AD boundary condition test problem.}{
+    The black region is diffusive ($\sigma=1$, $\sigma_s=0.99$), the white
+    region is optically thin ($\sigma=0.01$, $\sigma_s=0.0099$). The colored
+    region in the lower-left is the Gaussian source.}
+  \label{fig:bcReactorProblem}
+\end{figure}
 
 The problem has the same physical description as the previous: two diffusive
 regions surround an optically thin channel.
@@ -419,31 +431,30 @@ corner:
 \begin{equation*}
   q(x,y) = 2 \eexp^{-2 (x^2 + y^2) } \,.
 \end{equation*}
-This problem, with the Gaussian source, is depicted in
-Fig.~\ref{Fig:bcReactorProblem}. The grid width used is $\Delta_x = \Delta_y =
-0.1$.
+The grid width used is $\Delta_x = \Delta_y = 0.1$.
 
 We compare a Monte Carlo solution, a diffusion solution, and three instances of
 anisotropic diffusion with different choices for the boundary condition on the
-vacuum boundary.
+vacuum boundary. Only two---the white and reflecting
+conditions---satisfy Eq.~\eqref{eq:hoBc}. The ``na\"ive'' boundary condition
+sets the incident values of $f$ to zero.
 
 \subsubsection{Results and discussion}
 
-To begin, we plot $f$ (Fig.~\ref{fig:bcReactorF}) at the top of the problem for the three alternative
-boundary conditions for the purely absorbing transport problem. Only two---the white and reflecting
-conditions---satisfy Eq.~\eqref{eq:hoBc}. The ``na\"ive'' boundary condition
-sets the incident values of $f$ to zero.
+To begin, we plot $f$ (Fig.~\ref{fig:bcReactorF}) at the top of the problem for
+the three alternative boundary conditions for the purely absorbing transport
+problem.
 
 \begin{figure}[tb]
   \centering
   \subfloat[$f(2.5,10,\omega)$]{%
-   \hspace{-.5in}\input{adbc-presentation/adf-center-ymax/plot}\hspace{-.5in}%
-    %\input{adbc-reactor/adf-center-ymax/plot}%
+    \hspace{-.25in}%
+    \input{adbc-reactor/adf-center-ymax/plot}%
    \label{fig:bcReactorFchan}%
   }%
   \subfloat[$f(1.5,10,\omega)$]{%
-   \hspace{-.5in}\input{adbc-presentation/adf-insideleftedge-ymax/plot}\hspace{-.5in}%
-    %\input{adbc-reactor/adf-insideleftedge-ymax/plot}
+    \hspace{-.25in}%
+    \input{adbc-reactor/adf-insideleftedge-ymax/plot}
   }%
   \Caption{Plots of the purely absorbing transport solution at two points in
   at the end of the channel.}{
@@ -468,7 +479,7 @@ anisotropic diffusion solutions $\phi$ to differ. Figure~\ref{fig:bcReactorFlux}
 compares the three instances of anisotropic diffusion with the Monte Carlo
 reference solution and the diffusion solution.
 
-\begin{figure}[tb]
+\begin{figure}[htb]
   \centering
   \hspace{-.25in}%
   \input{adbc-reactor/phi-channel/plot}
@@ -488,33 +499,34 @@ diffusion, we have plotted in Fig.~\ref{fig:bcReactorAngular} the angular
 intensity at several points in the problem as approximated by \SN, AD, and
 standard diffusion. Whereas diffusion approximates the radiation as linear in
 angle, anisotropic diffusion has much more \emph{shape} that results from the
-anisotropy in $f$.
+anisotropy in $f$. As we asserted in Chapter~\ref{chap:adDerivation}, this extra
+transport-derived information results in a more accurate answer.
 
 \begin{figure}[htb]
   \centering\small
   \subfloat[$\psi(2.5,0,\omega)$]{%
+    \hspace{-.25in}%
     \input{adbc-reactor/angle-center-y0/plot}}
 
-  \hspace{-.75in}
   \subfloat[$\psi(2.5,10,\omega)$]{%
+    \hspace{-.25in}%
     \input{adbc-reactor/angle-center-ymax/plot}}%
-  \hspace{-.25in}%
   \subfloat[$\psi(1.55,5,\omega)$]{%
+    \hspace{-.25in}%
     \input{adbc-reactor/angle-insideleftedge-y5/plot}}%
-  \hspace{-.75in}
   \caption{Angular flux in the channel at (a) the bottom center, (b) the top
   center, and (c) the middle left edge.}
   \label{fig:bcReactorAngular}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \subsection{Boundary source}
 
 The problems with an incident particle flux on the boundary potentially have
 strong gradients and anisotropy outside the applicable range of the anisotropic
 diffusion approximation. As an alternative test of the boundary conditions, we
-The first test problems for the anisotropic diffusion boundary conditions test a
-simple problem with incident boundary conditions.
+consider three boundary source--driven problems.
 
 \subsubsection{Problem description}
 
@@ -522,39 +534,43 @@ This test problem has opacities identical to the previous: two diffusive
 regions surround an optically thin channel. However, rather than being driven
 by an extraneous source, the problem has an incident radiation flux on the
 bottom face. The top, left, and right sides are reflecting. We consider the same
-angular distributions as in
-Table~\ref{tab:angularDistributions}.
-
-\begin{figure}[tb]
-  \centering
-  \includegraphics[width=2in]{adbc-reactor/xsn}
-
-  \Caption{Steady-state AD boundary condition test problem.}{
-    The black region is diffusive ($\sigma=1$, $\sigma_s=0.99$), the white
-    region is optically thin ($\sigma=0.01$, $\sigma_s=0.0099$). The colored
-    region in the lower-left is the Gaussian source.}
-  \label{fig:bcReactorProblem}
-\end{figure}
-
+angular distributions as in Table~\ref{tab:angularDistributions}: an isotropic
+source, a normally-incident source, and a grazing source.
 
 \subsubsection{Results and Discussion}
 
-Figure~\ref{fig:isotropic} shows a line-out of the scalar flux $\phi(2.5,y)$,
-along the center
-of the channel. Standard diffusion fails because $\sigma=0.01$ leads to a very
+Figure~\ref{fig:adbcIsotropic} shows a line-out of the scalar flux $\phi(2.5,y)$
+along the center of the channel in the isotropic incident case. Standard
+diffusion fails because $\sigma=0.01$ leads to a very
 large diffusion coefficient, resulting in a nearly constant solution inside the
-channel. The anisotropic diffusion performs exceedingly well, and the
+channel. Anisotropic diffusion performs exceedingly well, and the
 white boundary condition for $f$ gives a better result than the reflecting
 boundary condition.
 
-\begin{figure}[htb!]
+\begin{figure}[htb]
   \centering
   \centering\small
   \hspace{-.25in}%
   \input{adbc-channel/isotropic-phi-channel/plot}
   \caption{Scalar flux along the centerline of the channel with an isotropic
   boundary condition at $y=0$.}
-  \label{fig:isotropic}
+  \label{fig:adbcIsotropic}
+\end{figure}
+
+The AD approximation and its boundary conditions do have their limits. In the
+case of a strongly anisotropic boundary source, the ansatz that
+$\vec{F} = O(\epsilon)$ is violated in swaths of the problem, so the solutions
+for the normal and grazing boundary conditions have large errors
+(Fig.~\ref{fig:adbcRelErr}).
+
+\begin{figure}[htb]
+  \centering
+  \centering\small
+  \hspace{-.25in}%
+  \input{adbc-channel/relative-errors/plot}
+  \caption{Relative errors along the centerline of the channel with the three
+  different incident boundary conditions.}
+  \label{fig:adbcRelErr}
 \end{figure}
 
 A visualization of the angular flux for each method (replacing Monte Carlo with
@@ -564,69 +580,39 @@ of the AD method and the difference between the reflecting and white boundary
 treatments. Even though AD cannot exactly model the peak of freely streaming
 photons in the channel (which the \SN\ angular flux shows at $\omega=3\pi/2$),
 it accurately approximates the angular flux shape driven by scattering from the
-diffusive region (the lobes on the left and right).
+diffusive region (the lobes on the left and right) in the isotropic incident
+case. In the strongly anisotropic (normal incident source) case, where
+uncollided particles from the boundary dominate the scattered particles,
+anisotropic diffusion is unable to accurately approximate the particle
+distribution in the channel.
 The linear-in-angle diffusion approximation cannot represent any of these
-features.  
+features.
 
 \begin{figure}[htb]
   \centering\small
+  \subfloat[Isotropic]{%
+  \input{adbc-channel/angle-isotropic-center-y1/plot}%
   \vspace{-.25in}%
-  \input{adbc-channel/angle-isotropic-center-y1/plot}
+  }%
+  \subfloat[Normal]{%
+  \input{adbc-channel/angle-delta-center-y1/plot}%
   \vspace{-.25in}%
-  \caption{Angular flux $\psi(2.5, 1., \omega)$ for the incident isotropic
-  problem, in the centerline of the channel one unit from the boundary.}
+  }%
+  \Caption{Angular flux $\psi(2.5, 1, \omega)$ in the incident boundary source
+  problem.}{
+  The isotropic (a) and normal (b) incident cases are plotted in the centerline
+  of the channel, one unit from the boundary.}
   \label{fig:bcChannelIsotropicAngular}
 \end{figure}
 
 The shape around $\omega=\pi/2$ gives insight into why the white boundary
-performs better in this problem: a reflecting boundary produces a peak in $f$
+performs slightly better in the case of an isotropic incident boundary
+condition: a reflecting boundary produces a peak in $f$
 along the channel, but a white boundary gives a more isotropic shape near that
 range, better matching the incident isotropic boundary condition. This suggests
 that the qualitatively best way to satisfy Eq.~\eqref{eq:hoBc} may be
 to have the incident distribution of $f$ take the shape of the true boundary
 condition.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\clearpage
-%\subsection{Steady-state flatland checkers}
-%Not sure if this problem is useful or should be included.
-%
-%Here we consider a difficult problem that has repeating variations in both $x$
-%and $y$ directions. It uses $c=0.99$, 
-%
-%The anisotropic diffusion coefficients are plotted as ellipses in
-%Fig.~\ref{fig:bcCheckersAdcoeff}. The major axis is along the principal
-%eigenvector of the diffusion tensor and is in length proportional to the
-%principal eigenvalue; the more isotropic the tensor, the more circular the
-%glyph. Red and larger ellipses represent larger AD coefficients.
-%
-%\begin{figure}[htb]
-%  \centering\small
-%  \includegraphics[width=3in]{adbc-checkers/adcoeff}
-%  \Caption{Anisotropic diffusion coefficients for the checker problem.}{
-%  Dark regions have $\sigma=1$, light regions have $\sigma=0.01$.}
-%  \label{fig:bcCheckersAdcoeff}
-%\end{figure}
-%
-%\begin{figure}[htb]
-%  \centering\small
-%  \hspace{-.5in}
-%  \input{adbc-checkers/isotropic-phi/plot}
-%  \hspace{-.5in}
-%  \caption{Scalar flux along $x=2$ of the checker problem with an isotropic
-%  boundary condition at $y=0$.}
-%  \label{fig:bcCheckersIsotropic}
-%\end{figure}
-%
-%\begin{figure}[htb]
-%  \centering\small
-%  \hspace{-.5in}
-%  \input{adbc-checkers/delta-phi/plot}
-%  \hspace{-.5in}
-%  \caption{Scalar flux along $x=2$ of the checker problem with a normal
-%  boundary condition at $y=0$.}
-%  \label{fig:bcCheckersDelta}
-%\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
@@ -637,16 +623,19 @@ formulation for time-dependent transport. Even though our primary application is
 the time-dependent nonlinear thermal radiative transfer, we stress that the
 nonlinearities are completely incidental to the AD approximation. We therefore 
 test the behavior of the anisotropic diffusion methods in a more simple
-time-dependent situation: a linear, time-dependent problem with no material
+situation: linear, time-dependent problems with no material
 coupling and time-independent opacities.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Smooth linear problem}
 
-We devised a time-dependent problem, represented in
-Fig.~\ref{fig:tdReactorProblem}, meant to be a case in which the temporal and
-spatial gradients are moderate but significant enough to distinguish diffusion
-from transport. It features a unit source in the bottom left corner of a
+We devised a time-dependent problem where the temporal and spatial gradients are
+expected to be moderate but significant enough to distinguish diffusion from
+transport.
+
+\subsubsection{Problem description}
+
+This smooth problem features a unit source in the bottom left corner of a
 diffusive medium of width~$2$ with
 $\sigma=1$ and a scattering ratio~$c=.99$. A voided region with width $0.5$,
 $\sigma=0.01$, and $c=.99$ lies along the right edge of the problem. The bottom,
@@ -664,7 +653,7 @@ opacity $\varsigma$, as formulated in \eqref{eq:ap1FicksLawFinal}:
   = 0 \,.
 \end{equation*}
 Figure~\ref{fig:tdReactorProblem} overlays these transport-calculated
-coefficients on the problem layout.
+coefficients on the problem's physical description.
 
 \begin{figure}[bp]
   \centering
@@ -687,26 +676,43 @@ proportional to the identity tensor, and its two eigenvalues are equal: thus, in
 the interior, the anisotropic diffusion coefficients appear as circles whose
 sizes are proportional to $1/\sigma$.
 
+\subsubsection{Results and Discussion}
+
 The time evolution of $\phi$ along the center of the channel (i.e., at the
-right edge of the problem) is plotted in Fig.~\ref{fig:tdReactor}. A contour
-plot showing the difference between \Pone\ and \APone\ is given in
-Fig.~\ref{fig:tdReactorContour}.
+right edge of the problem) is plotted in Fig.~\ref{fig:tdReactor}. Anisotropic
+diffusion and conventional diffusion, which both assume a quasi-static problem,
+are significantly less accurate and are not plotted in that figure. Their
+flux-limited counterparts, FLAD and FLD, are shown instead.
 
 \begin{figure}[htb]
   \centering\small
   \subfloat[$t=2$]{%
+    \hspace{-.25in}%
     \input{td_reactor/lineout-phi-channel-2/plot}}%
   \subfloat[$t=5$]{%
+    \hspace{-.25in}%
     \input{td_reactor/lineout-phi-channel-5/plot}}
 
   \subfloat[$t=10$]{%
+    \hspace{-.25in}%
     \input{td_reactor/lineout-phi-channel-10/plot}}%
   \subfloat[$t=15$]{%
+    \hspace{-.25in}%
     \input{td_reactor/lineout-phi-channel-15/plot}}
 
   \caption{Scalar intensity $\phi$ along the centerline of the channel, $y=2.5$.}
   \label{fig:tdReactor}
 \end{figure}
+
+None of the low-order methods consistently matches the transport solution at
+all times. As the problem tends toward steady-state, however, the anisotropic
+methods become relatively accurate. (We recall that both FLAD and \APone\ limit
+to the AD method when the solution varies slowly in time.)
+
+A contour plot showing the difference between \Pone\ and \APone\ is given in
+Fig.~\ref{fig:tdReactorContour}. The \APone\ solution is generally more accurate
+than \Pone. As the system evolves in time, it becomes like the steady-state
+channel problems analyzed earlier: diffusion fails in these problems.
 
 \begin{figure}[htb]
   \centering\small
@@ -733,11 +739,11 @@ all of the methods in Fig.~\ref{fig:tdReactorWavefront}.
 \begin{figure}[htb]
   \centering\small
   \subfloat[Channel, $y=2.5$]{%
+    \hspace{-.25in}%
     \input{td_reactor/wavefront-phi-channel/plot}}
-
   \subfloat[Medium, $y=0$]{%
+    \hspace{-.25in}%
     \input{td_reactor/wavefront-phi-left/plot}}
-
   \caption{Wavefront position along the $y$ axis.}
   \label{fig:tdReactorWavefront}
 \end{figure}
@@ -745,6 +751,10 @@ all of the methods in Fig.~\ref{fig:tdReactorWavefront}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \subsection{Blast wave}
+
+
+
+\subsubsection{Problem description}
 
 The ``blast wave'' test problem features a localized impulse of radiation; the
 magnitude of the coefficients is based on a recurrent test problem in the field
@@ -761,11 +771,15 @@ The initial condition is a local but smooth Gaussian function:
 We use a grid spacing of $\Delta_x=\Delta_y=0.02$, and a uniform time step
 $\Delta_t=0.02$.
 
+\subsubsection{Results and Discussion}
+
 \begin{figure}[htb]
   \centering\small
   \subfloat[Along center]{%
+    \hspace{-.25in}%
     \input{td_blastpipe/phi-center03-00/plot}}%
   \subfloat[Orthogonal view]{%
+    \hspace{-.25in}%
     \input{td_blastpipe/phi-ortho03-00/plot}}%
 
   \caption{Scalar intensity at $t=3$ in the blast wave problem.}
@@ -774,6 +788,7 @@ $\Delta_t=0.02$.
 
 \begin{figure}[htb]
   \centering\small
+    \hspace{-.25in}%
     \input{td_blastpipe/phi-all/plot}
 
   \caption{Comparison of Monte Carlo and flux-limited anisotropic diffusion at
