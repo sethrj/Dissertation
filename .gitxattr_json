@@ -300,12 +300,7 @@
 "creation": 1315799321
 }, 
 "SRJall.bib": {
-"creation": 1264200745, 
-"xattrs": {
-"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
-"com.apple.TextEncoding": "dXRmLTg7MTM0MjE3OTg0\n", 
-"net.sourceforge.bibdesk.BDSKDocumentWindowAttributes": "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\n"
-}
+"creation": 1264200745
 }, 
 "defense date.numbers": {
 "creation": 1317649853, 
@@ -1079,6 +1074,18 @@
 }, 
 "figures/ss_single_channel/xsn.png": {
 "creation": 1316800334
+}, 
+"figures/td_blastpipe/errors-phi-center-t3/errors-phi-center-t3.pdf": {
+"creation": 1320695633
+}, 
+"figures/td_blastpipe/errors-phi-center-t3/plot.tex": {
+"creation": 1320695633
+}, 
+"figures/td_blastpipe/errors-phi-ortho-t3/errors-phi-ortho-t3.pdf": {
+"creation": 1320695633
+}, 
+"figures/td_blastpipe/errors-phi-ortho-t3/plot.tex": {
+"creation": 1320695633
 }, 
 "figures/td_blastpipe/phi-all/phi-all.pdf": {
 "creation": 1318641392

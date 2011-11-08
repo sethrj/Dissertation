@@ -4,12 +4,12 @@ TEXFILES="adDerivation aponeDerivation conclusion flatland implementation introd
 
 for f in ${TEXFILES}; do
 	echo "Compiling $f"
-	#	pdflatex -draftmode -interaction=batchmode $f
-	#	bibtex -terse $f
-	#	pdflatex -interaction=batchmode $f
-	if [ -n $(grep "Rerun to get cross-references right" $f.log) ]; then
+	pdflatex -draftmode -interaction=batchmode $f
+	bibtex -terse $f
+	#pdflatex -interaction=batchmode $f
+	grep 'Rerun to get cross-references right' $f.log
+	if [ $? -eq 0 ]; then
 		pdflatex -interaction=batchmode $f
-		echo "No third run necessary"
 	fi
 done
 chflags hidden *.aux *.blg *.bbl

@@ -4,15 +4,29 @@
 \chapter{Numerical Results: Thermal Radiative Transfer}
 \label{chap:trtNumericalResults}
 
-In these numerical simulations, we compare several methods. All
-are implemented in the \pytrt\ research code \cite{Pytrt}.
+Thermal radiative transfer, as we discussed at length in
+Chapter~\ref{chap:trtBackground}, is more complex than linear particle transport
+in several respects. The radiation source and absorption terms are coupled to a
+material temperature field, and the material temperature determines the opacity.
+The problem's physical properties are therefore time-dependent, which
+necessitates that the anisotropic diffusion coefficients be recalculated at
+every time step.
 
+We test a wide range of TRT problems, beginning with diffusive 1-D problems that
+contain temperature-dependent opacities. In addition to testing multi-D problems
+with optically thin channels, we compare the performance of the anisotropic
+methods against conventional methods using standard 2-D TRT benchmark problems.
+
+Most of the methods we compare are described at the start of
+Chapter~\ref{chap:simpleNumericalResults}, but the following methods need
+further discussion when applied to TRT:
 \begin{description}
 
-  \item[Implicit Monte Carlo] is implemented  with implicit
+  \item[Monte Carlo] is replaced by Implicit Monte Carlo. Our implementation
+    uses implicit
     absorption, source tilting, census combing, and
     energy-weighted path length tallies \cite{Urb2006}. Each problem uses
-    roughly $10^7$ particles.
+    roughly $10^7$ particles per time step.
 
   \item[Anisotropic methods] Because the opacity is a time-dependent quantity
 in TRT, the anisotropic diffusion coefficients must be recalculated at every
@@ -131,8 +145,8 @@ solution most closely. (The problem was after all constructed to test the
 relative performance of flux-limited diffusion.)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\section{Flatland pipe}
-\section{Ceci est pas une pipe}
+\section{Flatland pipe}
+%\section{Ceci est pas une pipe}
 
 For virtually all transport approximations, the extension from one to multiple
 dimensions is nontrivial. In the case of anisotropic diffusion, as we saw, the

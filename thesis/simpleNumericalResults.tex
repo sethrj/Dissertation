@@ -678,7 +678,12 @@ sizes are proportional to $1/\sigma$.
 
 \subsubsection{Results and Discussion}
 
-The time evolution of $\phi$ along the center of the channel (i.e., at the
+The large phase space of time-dependent transport forces us to carefully choose
+representative metrics. We use contour plots to compare select methods at
+select times, lineouts to compare more methods in greater detail, and wavefront
+plots to visualize the detailed time evolution of the problem.
+
+The behavior of $\phi$ along the center of the channel (i.e., at the
 right edge of the problem) is plotted in Fig.~\ref{fig:tdReactor}. Anisotropic
 diffusion and conventional diffusion, which both assume a quasi-static problem,
 are significantly less accurate and are not plotted in that figure. Their
@@ -704,15 +709,18 @@ flux-limited counterparts, FLAD and FLD, are shown instead.
   \label{fig:tdReactor}
 \end{figure}
 
-None of the low-order methods consistently matches the transport solution at
-all times. As the problem tends toward steady-state, however, the anisotropic
+None of the low-order methods yields the transport solution. Even with flux
+limiting, FLD and FLAD overestimate the rate of particles flowing into the void.
+As the problem tends toward steady-state, the anisotropic
 methods become relatively accurate. (We recall that both FLAD and \APone\ limit
 to the AD method when the solution varies slowly in time.)
 
 A contour plot showing the difference between \Pone\ and \APone\ is given in
 Fig.~\ref{fig:tdReactorContour}. The \APone\ solution is generally more accurate
 than \Pone. As the system evolves in time, it becomes like the steady-state
-channel problems analyzed earlier: diffusion fails in these problems.
+channel problems analyzed earlier: diffusion (the steady-state limit of \Pone)
+fails in these problems, so it is unsurprising that \APone\ outperforms \Pone\
+at late times.
 
 \begin{figure}[htb]
   \centering\small
@@ -734,14 +742,26 @@ channel problems analyzed earlier: diffusion fails in these problems.
 
 As a final diagnostic, we plot the ``wavefront'' positions---determined by the
 location at which $\phi=0.001$ after applying a small amount of smoothing---for
-all of the methods in Fig.~\ref{fig:tdReactorWavefront}.
+all of the methods in Fig.~\ref{fig:tdReactorWavefront}. These plots again show
+how FLAD and AD both overestimate the scalar flux at early times, and they also
+point to an explanation. Because the flux limiters are not iterated upon, the
+solution of the first time step is the same as the standard diffusion
+solution. (In Fig.~\ref{fig:tdReactorWavefrontLeft}, the flux-limited and
+standard diffusion methods share a starting point.) As a result, the
+flux-limited methods carry that artifact of non-flux-limited particles for all
+later time steps. To obviate this error, shorter initial time steps (where
+the effective time absorption $1/c\Delta_t$ reduces the magnitude of the
+precursor) could be used, or the nonlinear flux-limited diffusion coefficient
+could be converged.
 
 \begin{figure}[htb]
   \centering\small
-  \subfloat[Channel, $y=2.5$]{%
+  \hspace{.25in}%
+  \subfloat[Channel, $x=2.5$]{%
     \hspace{-.25in}%
     \input{td_reactor/wavefront-phi-channel/plot}}
-  \subfloat[Medium, $y=0$]{%
+  \subfloat[Medium, $x=0$]{%
+    \label{fig:tdReactorWavefrontLeft}%
     \hspace{-.25in}%
     \input{td_reactor/wavefront-phi-left/plot}}
   \caption{Wavefront position along the $y$ axis.}
@@ -752,7 +772,9 @@ all of the methods in Fig.~\ref{fig:tdReactorWavefront}.
 \clearpage
 \subsection{Blast wave}
 
-
+Thermal radiative transfer problems often contain strong spatial and temporal
+gradients. We consider a more stressful test of the different anisotropic
+approximations to the transport equation.
 
 \subsubsection{Problem description}
 
@@ -773,6 +795,18 @@ $\Delta_t=0.02$.
 
 \subsubsection{Results and Discussion}
 
+The final state ($t=3$) of the problem is plotted in Fig.~\ref{fig:tdBlastwave}.
+Several features characteristic of the methods are apparent. First, only the
+transport solution (Monte Carlo) contains the peak of uncollided particles at
+$x=3$. Aside from that peak, the particles that have undergone
+multiple collisions, the anisotropic diffusion methods all match reasonably
+well. In this particular problem, flux-limited anisotropic diffusion is the most
+accurate. The \Pone\ method fails even to produce a positive solution: this is a
+known limitation of the method in multi-dimensional problems with strong spatial
+and temporal gradients. Interestingly, the \APone\ solution is markedly better.
+The smoothness of $\Dtens$ and $\varsigma$ as compared to $1/3\sigma$ and
+$\sigma$ presumably obviate the strain on the wavelike behavior of the problem.
+
 \begin{figure}[htb]
   \centering\small
   \subfloat[Along center]{%
@@ -786,6 +820,11 @@ $\Delta_t=0.02$.
   \label{fig:tdBlastwave}
 \end{figure}
 
+The time-dependent behavior of the transport solution (MC) and flux-limited
+anisotropic diffusion (FLAD) is shown in Fig.~\ref{fig:tdBlastwaveAll}. At longer
+times, the FLAD solution approaches the MC solution away from the uncollided
+pulse of particles.
+
 \begin{figure}[htb]
   \centering\small
     \hspace{-.25in}%
@@ -796,11 +835,69 @@ $\Delta_t=0.02$.
   \label{fig:tdBlastwaveAll}
 \end{figure}
 
+\subsubsection{Extended problem parameter space}
+To quantitatively verify that the positive results in this problem are not a
+fluke, we parameterized the problem and extensively investigated the parameter
+space.
+Using Latin Hypercube Sampling \cite{Ima2008}, we sampled 40 instances of
+the above problem with the following parameters and corresponding distributions:
+\begin{itemize}
+  \item the width of the diffusive region (uniform on $[0,2]$);
+  \item the width of the channel region (uniform on $[0,1]$);
+  \item the sharpness of the Gaussian (exponential with $\lambda = 100$);
+  \item the value of $\sigma$ in the diffusive region (uniform on $[1,20]$); and
+  \item the value of $\sigma$ in the channel region (exponential with
+    $\lambda=0.1$).
+\end{itemize}
+
+As a metric of error, we compared the volume-weighted
+2-norm error (with the reference solution being a Monte Carlo simulation
+with $10^6$ particles) along the channel centerline and a cross-section of the
+problem at $x=0.3$ at the final problem time. (Other metrics yielded similar
+results.)
+
+The error distributions are plotted in Fig.~\ref{fig:tdBlastwaveParameterized}.
+Distributions more peaked toward the left of the plot are more accurate, and
+wider distributions indicate a method inconsistent in its accuracy. As one might
+expect from the detailed discussion of one instance of the blast wave problem,
+flux-limited anisotropic diffusion is the most accurate, and \Pone\ is the least
+accurate.
+
+\begin{figure}[htb]
+  \centering\small
+  \subfloat[Along center]{%
+    \hspace{-.25in}%
+    \input{td_blastpipe/errors-phi-center-t3/plot}}%
+  \subfloat[Orthogonal view]{%
+    \hspace{-.25in}%
+    \input{td_blastpipe/errors-phi-ortho-t3/plot}}%
+
+  \caption{Distributions of errors in the parameterized blast wave problem.}
+  \label{fig:tdBlastwaveParameterized}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
+We first established and tested some approximations that undergird the rest of
+our results.  Namely, we ensured that non-analytic (discrete
+ordinates--calculated) AD coefficients do not compromise the accuracy of the
+method. The number of iterations required to converge the solution to the limit
+of the exact solution's accuracy is also small enough not to make an AD
+solution intractable.
+
 With the linear numerical experiments in this chapter, we have verified the
 theory developed in the previous chapters. The boundary conditions we proposed
-in Chapter~\ref{chap:adDerivation} yield accurate answers in our test problems.
+for anisotropic diffusion in Chapter~\ref{chap:adDerivation} yield accurate
+answers in our test problems where the radiation is not strongly anisotropic
+throughout the problem. The boundary conditions for flatland diffusion were also
+successfully tested.
 
+Finally, we performed the first test of time-dependent anisotropic diffusion. In
+a wide variety of problems with optically thin channels, the anisotropic
+diffusion methods (particularly flux-limited anisotropic diffusion) outperformed
+their conventional counterparts.
+
+With these positive results for linear, time-dependent problems, we continue to
+more difficult non-linear problems in Chapter~\ref{chap:trtNumericalResults}.
 
