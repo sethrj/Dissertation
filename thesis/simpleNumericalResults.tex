@@ -164,7 +164,7 @@ free paths into the medium, it matches the reference solution very closely.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=3in]{ss_single_channel/phi.pdf}
+  \includegraphics{ss_single_channel/phi.pdf}
   \Caption{ Contour plot of $\phi$ in the steady-state single channel problem.}{
   The dashed black line is the reference Monte Carlo solution; the dotted red
   line is standard diffusion; the broken black line is the anisotropic
@@ -658,7 +658,7 @@ coefficients on the problem's physical description.
 \begin{figure}[bp]
   \centering
   \includegraphics[width=2in]{td_reactor/xsn}
-  \Caption{Time-dependent reactor problem setup.}{
+  \Caption{Time-dependent smooth problem setup.}{
     The source region is the red square in the lower-left; the black
     and white area in the bottom half shows $\sigma$, the colored region above
     shows $\varsigma = 1/\int_{S} f \ud\Omega$, and the ellipses are a
@@ -725,14 +725,14 @@ at late times.
 \begin{figure}[htb]
   \centering\small
   \subfloat[$t=2$]{%
-    \includegraphics[width=3in]{td_reactor/phi-002}}%
+    \includegraphics{td_reactor/phi-002}}%
   \subfloat[$t=5$]{%
-    \includegraphics[width=3in]{td_reactor/phi-005}}
+    \includegraphics{td_reactor/phi-005}}
 
   \subfloat[$t=10$]{%
-    \includegraphics[width=3in]{td_reactor/phi-010}}%
+    \includegraphics{td_reactor/phi-010}}%
   \subfloat[$t=15$]{%
-    \includegraphics[width=3in]{td_reactor/phi-015}}
+    \includegraphics{td_reactor/phi-015}}
 
   \Caption{Contour plots of the scalar intensity at four times.}{
     The black dashed line is the Monte Carlo solution, the blue solid line is
@@ -834,6 +834,33 @@ pulse of particles.
   four times in the blast wave problem.}
   \label{fig:tdBlastwaveAll}
 \end{figure}
+
+The timings for the blast wave problem, as run on a single core of a 2.4 GHz
+Intel Core 2 Duo chip, are presented in Table~\ref{tab:tdBlastwaveTiming}. These
+give a rough idea of the relative performance of the standard diffusion methods,
+the anisotropic diffusion methods, and the transport method. The initial
+calculation of the anisotropic diffusion coefficients is amortized over the
+subsequent time steps, so over longer times, the performance of the AD methods
+asymptotically approaches the performance of the standard diffusion methods.
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{lr}
+\toprule
+    & Wall time (s)
+\\ \midrule
+MC & 790 \\
+\APone & 31 \\
+FLAD & 40 \\
+AD & 38 \\
+\Pone & 23 \\
+FLD & 18 \\
+Diffusion & 18
+\\ \bottomrule
+  \end{tabular}
+  \caption{Timing comparison for the blast wave problem.}
+  \label{tab:tdBlastwaveTiming}
+\end{table}
 
 \subsubsection{Extended problem parameter space}
 To quantitatively verify that the positive results in this problem are not a

@@ -300,7 +300,12 @@
 "creation": 1315799321
 }, 
 "SRJall.bib": {
-"creation": 1264200745
+"creation": 1264200745, 
+"xattrs": {
+"com.apple.FinderInfo": "VEVYVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
+"com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n", 
+"net.sourceforge.bibdesk.BDSKDocumentWindowAttributes": "QlpoNTFBWSZTWVrjYzIAAk//////////////////+/////9L2gkYfagYWHAIvgnwHMIh0ARehVKragAGg1NTU0yaKH6mk2k2pp6j1PUbUyaep6TTR6mTI9E08o9NR6mTEaabSaNPSA2oGTRiaZqaGRkZpMaJ6nqG9TSephPUIqZNTPU1Gnoj1GT1NAGnqAAZBppoAAA00AAAMIYQA0aAAAAAABoCAA0xNGmRhNA0yYJpoaGTBDQaMQYAhoyGTIwQAMgaZMhoYgNGmENANBAAaYmjTIwmgaZME00NDJghoNGIMAQ0ZDJkYIAGQNMmQ0MQGjTCGgGgJJBEyGiaMmmmp6NKb01NJ6npppojQZMnqD1Gho0MgAaMmgANBoAAGgAaABiaGmT7j1Tc2/p0/97PeP3zQKZnmw7igSORQ5CWWyS87cuL9zMwaGz2z2vSfQbKC128O7id7weVpg4d3iYvvyD/L6Kx8vRk6eotq8XZeCBLrNraonQZmFcelvV2PTZ9Rp6s4EhywU0garLxJxj6DeXsMQkolDKpqNH8ftZzrb/X2aKxE21hqh/6L6dfRt1Cy8zNtwjHuNejiKq4lzZZOVI6MvXr5rffXlcT2K7wcbHyE3DhxIk6i2t/HkyC7FEKqfY0cHiFWpioCmzfDx349NvgODHlTrJnKC4jI6VlWZLcskE6lv/885XaDrFjB6pAK/RuTU/UeXeGOD7dhANMQyFMCGxioGugXtxohzRnyAuDs5xof3LzMkz/PSIYGsSXHXBzsx8hcdpRD+yIcmLM4NuOKnxXdSg5uwv5PQ8WRvAxGm+Bm1JVIInKUgZAEQYKsku6+Ww1j5ZZhp7NG5nVaQqW/uM7TnqHPj2ZQbTgNwmWgtIuzWrHO0iNtnQI14UUnJBPKvSeKk5bHhzFGCiSu4CDWTCX8n8ZVY6Wpxr5aoHFpnzSvqSElQVPXy5mrD88T79pwLHn9AjjvcbhkAFJT+jD+kceagN9ygdRlBsLGEeEuPzqzkWajGrgL07RfbXIYdawMLuu/W3DVt0oEOJIhLaHJlKxkbvQzN7vRVF+++do9gfxhNx+LmavOBbP1AjknBnRILNqfVUHV9m9zOOYGMrDmKtSE4S7tIIQjkcy5FM0B/KTWmqjEaEIR1IPpVSAUd8Fe72EfDXX4U7gwr06d6Oon00YYBlYPxOph/rFJso2CEmXuZxgLGWeMwGhiOU9bfzlue0eD0WdexY7KjCeFFkA8h6jhTozFq6xGgLBEQOlwD5hZTouiUix/SFgoOlviBMQSIQgHdu9jNa3RX9unSpW82GfNB7DfW5zBRSchzBQzM1WtjRoFmOW3H7LRsjBrJH2Bq3U8LRDStBopkxGqqi5AqkgmxbWnqHfJf4vW5jjDofIpdMHLKqq0pQ6c05ayoQxOivNcgNYcG4KCUZYCUfLVGeRxyYLDk5zKkMz3M7Z5MHpnMiCZ2hxXjGGJNKXhPfijsA16hFROY5cxfkeZMadIVgqIWxQKNu2KETIfnQrFVYjQZYyeizma6wYRhkMWddBFEsMWmiy21tCoDDkeEWNqs/VrXxpmx1niLlIMpojMNkoxIj1IGtnSlcKe85GsgooYYVINtEyxMio1sxrfBnmlzRik9Ip6+wT+G/Vuq8X1XvFwJ0UIcMQeryrlkxgtGdvEWac4luq1OrZJWS5VwKorxQRRuLmsxrtNEDBmhYH6EnClCLw1oppalq/uxKmQjOKZnYbdvNXPNVJIuczY9dsfKGyRVVwHHLiSGcUgYHFVDxmaQazIFgfdVORgJBpC9Kq8ERTSSFdGGJNUcUyyJshQK2PrSNUVJERUgCOAlVFRrSAkYG2Jl7wMqAgJ8gkRAAyNC7aeG6RFbXu30VHnzHuk3xSt61mVTNY050Tkg4xHw5kM2SPdZE8jRmfv5cqDoU2f2t100Jr2HyNL3701Ko11nw7bh1ebF9KVyYe9znUSf+LuSKcKEgtcbGZAA==\n"
+}
 }, 
 "defense date.numbers": {
 "creation": 1317649853, 
@@ -1204,6 +1209,9 @@
 "figures/trt_easymk/convergence-mattemp/plot.tex": {
 "creation": 1319151550
 }, 
+"figures/trt_easymk/materials.png": {
+"creation": 1320878442
+}, 
 "figures/trt_easymk/mattemp-center3-00/mattemp-center3-00.pdf": {
 "creation": 1319151550
 }, 
@@ -1213,6 +1221,9 @@
 "figures/trt_easymk/mattemp_contour_t3.pdf": {
 "creation": 1319151550
 }, 
+"figures/trt_easymk/mattemp_contour_t6.pdf": {
+"creation": 1320878442
+}, 
 "figures/trt_easymk/radtemp-center3-00/plot.tex": {
 "creation": 1319151550
 }, 
@@ -1221,6 +1232,12 @@
 }, 
 "figures/trt_easymk/radtemp_contour_t3.pdf": {
 "creation": 1319151550
+}, 
+"figures/trt_easymk/radtemp_contour_t6.pdf": {
+"creation": 1320878442
+}, 
+"figures/trt_hardmk/materials.png": {
+"creation": 1320878442
 }, 
 "figures/trt_hardmk/mattemp-diag3-00/mattemp-diag3-00.pdf": {
 "creation": 1319151550
