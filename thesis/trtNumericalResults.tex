@@ -147,6 +147,8 @@ high: the AD coefficients are smaller than the diffusion coefficients
 because of their nonlocal nature, so the radiation behind the wavefront tends to
 be less homogeneous than in the standard FLD solution.
 
+We also note that this problem was 
+
 Overall, in this simple problem, the flux-limited methods match the transport
 solution most closely. (The problem was after all constructed to test the
 relative performance of flux-limited diffusion.) The standard diffusion
@@ -332,8 +334,27 @@ broader range of times.
 Both the diffusion and AD methods initially push energy too quickly into the
 channel, but the more moderate AD coefficients naturally limit the speed after
 that point. Only during the initial $\sim0.5$ units of time are the slopes of the
-FLAD- and AD-calculated wavefront positions different, demonstrating that only
-during the initial transient is the flux limiter used.
+FLAD- and AD-calculated wavefront positions different, demonstrating that
+flux limiting is most important at the initial times and less so thereafter.
+
+Fig.~\ref{fig:crashaltFld}
+\begin{figure}[htb]
+  \centering\small
+  \input{trt_crashpipealt/fld/plot}
+  \caption{Application of flux limiters for anisotropic and standard diffusion
+  in the flatland pipe problem.}
+  \label{fig:crashaltFld}
+\end{figure}
+
+
+We note that this problem was also solved with the AD coefficients calculated on
+a coarse grid, as discussed in \S\ref{sec:coarseGridAdCoeff}. Even though the
+wall time for the calculation was significantly decreased, errors on the order
+of 10\% or more were introduced in the solution. In the steady-state calculation
+of AD coefficients, material boundaries are well-defined, so a coarse grid may
+be easily chosen that shares those boundaries. With nonlinear opacities, the
+boundary between high- and low-opacity materials changes at every time step,
+preventing the na\"ive imposition of a coarse grid.
 
 This test problem has demonstrated the feasibility of the anisotropic diffusion
 approximations to outperform conventional methods in multi-dimensional
@@ -342,10 +363,17 @@ radiation through the channel better than the conventional isotropic diffusion
 coefficient.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Flatland crooked pipe}
+
+The ``tophat'' or ``crooked pipe'' problem \cite{Gen2001} is of practical
+interest in the strategic astrophysics community. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \section{2-D \texorpdfstring{``easy''}{easy} obstacle problem}
 
-One might argue that the previous problem is particularly suited to the
+One might argue that the previous flatland problems are particularly suited to
+the
 anisotropic approximations. How then does the method perform on other problems
 without simple, optically thin channels in a thicker medium? To answer this
 question, we have tested the methods against existing multi-D test problems in
@@ -470,8 +498,8 @@ diffusion in some but not all problems.
 \clearpage
 \section{2-D \texorpdfstring{``hard''}{hard} obstacle problem}
 
-A second problem from \cite{Mou2006} has steeper spatial gradients and very
-large streaming regions: it should therefore be outside the comfort zone of
+A second problem from \cite{Mou2006} has steeper spatial gradients and
+large voided regions: it should therefore be outside the comfort zone of
 both conventional and anisotropic diffusion methods.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -480,7 +508,7 @@ both conventional and anisotropic diffusion methods.
 The ``hard'' obstacle problem has the 2-D domain $0 \le x,y \le 1$ and uses a
 cell width $\Delta_x=\Delta_y=1/64$. The heat capacity is uniform, $c_v=1$, and
 the opacity is $\sigma=T^{-3}$ outside of two square obstacles, which have
-$\sigma=10 T^{-3}$. The obstacles, each with width and height of $1/4$, are
+$\sigma=10 T^{-3}$. The square obstacles, each of which has a width of $1/4$, are
 stationed with lower-left corners at $(3/16, 9/16)$ and $(9/16,3/16)$.
 
 \begin{figure}[htb]
@@ -496,7 +524,7 @@ All energy in the problem comes from the Gaussian initial condition:
 \begin{equation*}
   \phi(x,y,0) = [ a c T(x,y,0)]^{4} = 0.001 + 100 \eexp^{-100 (x^2 + y^2) } \,.
 \end{equation*}
-The unit system uses $a=c=1$.
+In the model's unit system, $a=c=1$.
 
 The problem is run until $t=3$. The time step increases linearly from $\Delta_t=.0001$ at
 $t=0$ to $\Delta_t=.01$ at $t=1$ and is constant thereafter. To calculate the
@@ -504,15 +532,42 @@ anisotropic diffusion coefficients, we use the same Chebyshev--Legendre level
 symmetric quadrature set as in the easy obstacle problem.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Results}
+\subsection{Results and discussion}
 
+The large optically thick region and the sharp discontinuity in temperature at
+the obstacles pose a challenge to all of the approximate methods. As we saw in
+the linear test problem of \S\ref{sec:tdBlastwave}, only a transport method is
+able to accurately capture the hyperbolic nature of the transport equation. In
+Fig.~\ref{fig:hardmkPseudocolor} we have plotted the radiation field at a time
+in the problem where the transport effects are particularly visible.
+%
 \begin{figure}[htb]
   \centering
-  \input{trt_hardmk/wavefront-diag/plot}
-  \caption{Wavefront plot along the diagonal in the hard obstacle problem.}
-  \label{fig:hardmkWavefront}
+  \hspace{-1in}%
+  \includegraphics[width=5in]{trt_hardmk/radtemp_t25}
+  \Caption{Pseudocolor plots of the radiation temperature at $t=2.5$.}{
+  The methods compared are: IMC (upper left), FLAD (upper right), FLD (lower
+  left), AP1 (lower right). The temperature scale is linear and ranges from
+  $0.18$ (white) to $1$ (black).}
+  \label{fig:hardmkPseudocolor}
 \end{figure}
+%
+The optically thick obstacles have impeded the flow of radiation, heating up
+slowly at their exterior, re-radiating from their outer boundary into the
+medium, but preventing radiation from passing through. The radiation streams
+through the gap in the middle, at first almost as a mono-directional beam. As it
+heats up the upper right section of the problem, isotropic black-body emission
+warms the reverse sides of the blocks.
 
+The diffusion methods cannot reproduce the hyperbolic behavior of radiation
+streaming through avoid. In the conventional diffusion methods, radiation
+diffuses isotropically through the problem: it flows unnaturally around the
+obstacles. In Fig.~\ref{fig:hardmkPseudocolor}, this is seen in the FLD method
+(lower left): the more homogeneous radiation field has fully surrounded the
+obstacle.
+
+Fig.~\ref{fig:hardmkDiag} gives a more detailed look at the final state.
+%
 \begin{figure}[htb]
   \centering
   \subfloat[Radiation temperature]{%
@@ -524,24 +579,26 @@ symmetric quadrature set as in the easy obstacle problem.
     \input{trt_hardmk/mattemp-diag3-00/plot}
   }%
   \caption{Solution along the diagonal at $t=3$ in the hard obstacle problem.}
-  \label{fig:hardmkCenterline}
+  \label{fig:hardmkDiag}
 \end{figure}
+%
+With the exception of \Pone, the approximate methods qualitatively
+capture the behavior of the radiation and material temperatures along the
+diagonal of the problem. The initial gradient proved too strong for \Pone, which
+showed unphysical wavelike behavior throughout the problem. The smoother
+coefficients in the \APone\ equation moderate the wavelike behavior, allowing it
+to represent the behavior of the radiation more accurately. Diffusion 
 
-\begin{figure}[htb]
-  \centering
-  \hspace{-1in}%
-  \includegraphics[width=5in]{trt_hardmk/radtemp_t25}
-  \Caption{Pseudocolor plots of the radiation temperature at $t=2.5$.}{
-  The methods compared are, clockwise from upper left: IMC, FLAD, AP1, FLD. The
-temperature scale is linear and ranges from $0.18$ to $1$.}
-  \label{fig:hardmkConvergence}
-\end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Discussion}
+%\begin{figure}[htb]
+%  \centering
+%  \input{trt_hardmk/wavefront-diag/plot}
+%  \caption{Wavefront plot along the diagonal in the hard obstacle problem.}
+%  \label{fig:hardmkWavefront}
+%\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
+%\clearpage
 \section{CRASH-like problem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -597,7 +654,7 @@ Xe (pre-shock) & 0.20 & $6.74\EE{19}$ & $45.4$ & $150$ & $5\EE3$
   \end{tabular}
   \Caption{Physical parameters used in the CRASH-like simulation problem.}{
   The ``stretched'' version of the plastic is used in our simulation; it
-  replaces the original physics.}
+  replaces the original physical plastic.}
   \label{tab:seriousPhysics}
 \end{table}
 
@@ -686,11 +743,23 @@ To understand these results, we must recall that this is a one-group (``gray'')
 transport problem using Rosseland-averaged opacities, which assume a diffusive
 behavior of the radiation \cite{Pom1973,Lar1983a}. These harmonically-averaged
 opacities result in most materials being optically thick and, when the material
-is cold, diffusive. Thus, diffusion in this realistic gray problem is a very
+is cold, diffusive. Thus, in this realistic gray problem, diffusion a very
 accurate approximation. The spatial and temporal gradients are small, and most
 of the problem is highly scattering. Flux-limited diffusion, standard diffusion,
 \Pone, and IMC all give similar answers in most of the problem.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary}
+\section{Conclusions}
+
+The wide variety of problems we chose to test in this section give a full
+picture of the behavior of the anisotropic diffusion methods.
+
+In problems with small optically thin regions, the AD method calculates strongly
+anisotropic coefficients in those regions. The resulting approximation is
+significantly more accurate than conventional diffusion. Applying a flux limiter
+to the AD approximation fixes the unphysical violation of the speed of light
+seen in early time steps.
+
+Other problems are less amenable to solution with the anisotropic diffusion
+methods. 
 
