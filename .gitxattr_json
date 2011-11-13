@@ -483,6 +483,12 @@
 "figures/adbc-reactor/phi-left/plot.tex": {
 "creation": 1319834883
 }, 
+"figures/adbc-reactor/xsn-enhanced": {
+"creation": 1321152571, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
 "figures/adbc-reactor/xsn.png": {
 "creation": 1319834883
 }, 
@@ -1076,6 +1082,12 @@
 "figures/ss_single_channel/qsconv/qsconv.pdf": {
 "creation": 1316800334
 }, 
+"figures/ss_single_channel/xsn-enhanced.pdf": {
+"creation": 1321149868, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
 "figures/ss_single_channel/xsn.png": {
 "creation": 1316800334
 }, 
@@ -1108,6 +1120,15 @@
 }, 
 "figures/td_blastpipe/phi-ortho03-00/plot.tex": {
 "creation": 1319330831
+}, 
+"figures/td_blastpipe/xsn-enhanced.pdf": {
+"creation": 1321155516, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"figures/td_blastpipe/xsn.png": {
+"creation": 1321155253
 }, 
 "figures/td_reactor/lineout-phi-channel-10/lineout-phi-channel-10.pdf": {
 "creation": 1317845921

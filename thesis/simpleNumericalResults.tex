@@ -3,38 +3,42 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Numerical Results: Test Problems}\label{chap:simpleNumericalResults}
 
-When solving the anisotropic diffusion equations numerically, the solution
-is not just a function of the physical problem: it is affected by the choice
+When the anisotropic diffusion equations are solved numerically, the solution
+is not just a function of the physical problem: it is also affected by the
+choice
 of low-order discretization scheme, the transport discretization used in
 calculating the AD coefficients, the transport convergence criteria, and many
-other parameters. Furthermore, the added complexity of time dependence and
+other parameters. Also, the added complexity of time dependence and
 nonlinear opacities may obscure both the benefits and the shortcomings of the
-anisotropic diffusion methods. Additionally, because of the novelty of the
-flatland geometry, which we use extensively, it is necessary to provide numeric
-validation for the flatland boundary conditions derived in
+anisotropic diffusion methods. Moreover, because of the novelty of the
+flatland geometry, which we use extensively, it is necessary to provide
+numerical validation for the flatland boundary conditions derived in
 Chapter~\ref{chap:flatland}.
 
-In this chapter, we systematically investigate certain attributes particular to
+In this chapter, we investigate certain attributes particular to
 anisotropic diffusion (AD), flux-limited anisotropic diffusion (FLAD), and
-anisotropic \Pone\ (\APone) by analyzing their behavior in simple steady-state
+anisotropic \Pone\ (\APone) by analyzing their behavior in relatively simple
+steady-state
 and time-dependent problems. Most of these problems emulate attributes of
 realistic thermal radiative transfer problems, viz.~high scattering ratios and
 optically thin regions surrounded by optically thick regions.
 
-Our numerical simulations are executed with several existing methods as well
+Our numerical simulations are executed with several existing methods
+(discussed more thoroughly in Chapter~\ref{chap:trtBackground}), as well
 as the new anisotropic diffusion methods. All
 are implemented in the \pytrt\ research code \cite{Pytrt}. Unless otherwise
 noted, we use the following solver parameters with each method.
 \begin{description}
-  \item[The Monte Carlo method] functions as our benchmark transport method. Our
+  \item[The Monte Carlo method] functions as the benchmark transport method. Our
     implementation uses stratified sampling of source regions, and weight
     windows that attempt to keep uniform the weight of particles both emitted
     from sources and transported through previous time steps. The solver runs
     $10^7$ particles and uses path length--weighted tallies.
 
   \item[Standard diffusion] in our implementation uses a cell-centered
-    discretization \cite{Dud1976}.  We use ``variational'' rather than the less
-    accurate ``Marshak'' boundary conditions.
+    discretization \cite{Dud1976}.  We use ``variational''
+    [Eq.~\eqref{eq:flatVarBc}] rather than the less
+    accurate ``Marshak'' [Eq.~\eqref{eq:flatMarshak}] boundary conditions.
     As with the following diffusion-like methods, we explicitly
     construct a sparse matrix that is passed to the Trilinos library
     \cite{Her2003}.  In steady-state problems with fewer than 50,000 unknowns,
@@ -42,33 +46,42 @@ noted, we use the following solver parameters with each method.
     of conjugate gradients (CG).
 
   \item[Time-dependent \Pone] uses the standard ``staggered mesh''
-    discretization, where $\phi$ is cell-centered and $\vec{F}$ is
-    face-centered.
+    discretization, in which the unknowns are a cell-centered $\phi$ and
+    a face-centered $\vec{F}$.
 
   \item[Flux-limited diffusion] is implemented with the ``square root'' limiter
     and discretization scheme discussed in \S\ref{sec:bgFld}. The limiter is
     treated semi-implicitly; i.e., the nonlinear flux-limited diffusion
-    coefficient is not converged. The unknowns and diffusion coefficients are
+    coefficient is not converged. (This is common practice; see
+    \S\ref{sec:bgFld}.) The unknowns and diffusion coefficients are
     stored on cell centers.
 
   \item[Anisotropic diffusion] uses
-    coefficients calculated with the diamond difference \SN\ meth\-od, using 100
-    sweep iterations. In flatland, we use a Chebyshev--Gauss quadrature set
+    coefficients calculated with the diamond difference \SN\ meth\-od, using
+    100 sweep iterations\footnote{%
+      As a reminder, only one sweep is needed in the absence of boundaries
+      because the transport problem is purely absorbing. Opposing reflecting
+      boundaries may require many iterations to converge, so we have chosen a
+      very large number of sweeps to ensure the AD coefficients are calculated
+      accurately. A more realistic number of sweeps would be two or three if
+      white boundaries are used and the problem is not minuscule in extent.
+    }
+    In flatland, we use a Chebyshev--Gauss quadrature set
     (see \S\ref{sec:flatlandQuadrature}) with 64 ordinates (S$_{32}$).
     %In 1-D, we use a Gauss--Legendre quadrature set with 16 ordinates
     %(S$_{16}$); 
     As with FLD, the opacities, diffusion coefficients, and unknowns are
     cell-centered. We use the nine-point stencil given in
-    \S\ref{sec:cellAnisoA}. The low-order boundary conditions use the
-    variational extrapolation distance 
+    \S\ref{sec:cellAnisoA}. The low-order boundary conditions
+    [Eq.~\eqref{eq:loBc}] use the variational extrapolation distance .
 
   \item[Flux-limited anisotropic diffusion] is implemented with the
     ``max'' limiter described in \S\ref{sec:flad} using the flux limiter
-    discretization of \S\ref{sec:bgFld}. It is otherwise treated identically to
+    discretization of \S\ref{sec:bgFld}. Otherwise, it is treated identically to
     the above anisotropic diffusion method.
 
   \item[Anisotropic \Pone] uses the same ``staggered mesh'' discretization
-    as \Pone, and in all other aspects it is identical to the other anisotropic
+    as \Pone. In all other aspects, it is identical to the other anisotropic
     methods.
 
 \end{description}
@@ -78,7 +91,8 @@ noted, we use the following solver parameters with each method.
 
 In prior work, the anisotropic diffusion coefficients were calculated using
 analytic solutions of $f$ \cite{Lar2009c}. However, in all but the simplest
-problems, such solutions are impossible, so we use an \SN\ transport solver to
+problems, such solutions are not available, so here we use an \SN\ transport
+solver to
 calculate the coefficients. Because \SN\ is only an approximation to the
 transport equation, discretization in both the spatial and angular variables
 will affect the calculated diffusion coefficients $\Dtens$, which in turn affect
@@ -86,7 +100,7 @@ the anisotropic diffusion solution $\phi$.
 
 To assess the discrepancy in the solution incurred by using discrete transport,
 we compare the solutions of a simple test problem using \SN-calculated
-coefficients and analytically calculated coefficients.  We furthermore compare
+coefficients and analytically calculated coefficients. Furthermore, we compare
 the analytic and discrete solutions to a Monte Carlo reference solution, to see
 if the discrepancy in the diffusion coefficients affects the accuracy of
 the methods.
@@ -94,7 +108,7 @@ the methods.
 By varying the number of ordinates in the quadrature set, the spatial
 refinement in the \SN\ calculation, the \SN\ convergence criteria, and the
 choice of boundary conditions for the calculation of $f$ (reflecting or white),
-we can determine acceptable solver parameters for later, more complex
+we determine acceptable solver parameters for later, more complex
 problems.  A
 voided channel surrounded by a diffusive, optically thick medium is
 representative of many of our later test problems.
@@ -104,7 +118,7 @@ representative of many of our later test problems.
 The prototypical anisotropic diffusion test problem, a flatland VHTR mock-up
 considered by Larsen and Trahan \cite{Lar2009c}, consists of voided vertical channels in a
 diffusive medium. The diffusive region has $\sigma_d=1$, the channel
-$\sigma_c=0.01$. The scattering ratio is uniformly $0.99$.  We will use a small
+$\sigma_c=0.01$. The scattering ratio is uniformly $0.99$.  We use a small
 portion of this problem (Fig.~\ref{fig:ssSingleXsn}), a single channel of unit
 width, with diffusive regions on the left and right each with width 4. The left
 and lower boundaries are reflecting, and the right and upper boundaries are
@@ -115,27 +129,76 @@ vacuum. The source is a Gaussian function,
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=3.5in]{ss_single_channel/xsn.png}
+  \includegraphics{ss_single_channel/xsn-enhanced}
   \Caption{The single channel problem configuration.}{
   The total opacity is plotted in black and white, and the colored region in the
   lower left is the Gaussian source.}
   \label{fig:ssSingleXsn}
 \end{figure}
 
-The analytic solution for $f$ is based on the assumption that the channel is
+The analytic solution of the purely absorbing transport solution for this
+problem is \cite{Lar2009c}:
+\begin{equation}\label{eq:ssSingleAnalytic}
+  f(x,y,\omega)
+  = \frac{1}{2\pi \sigma_d}
+  + \frac{1}{2\pi} \left( \frac{1}{\sigma_c} - \frac{1}{\sigma_d} \right)
+  \times g(x,\omega)\,,
+\end{equation}
+where $\sigma_c$ and $\sigma_d$ are the total opacity in the diffusive
+and voided region, respectively, and $g(x,\omega)$ is given in
+Table~\ref{tab:ssSingleAnalytic}.
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{rll}
+\toprule
+& Voided region & Diffusive region
+\\ \midrule
+  $0 \le \omega < \frac{\pi}{2}$
+&
+  $1 - \eexp^{ - \sigma_c (W + x) / \cos \omega}$
+& 
+  $\eexp^{ - \sigma_d (x - W) / \cos \omega} \times
+  \left( 1 - \eexp^{ - \sigma_c (2W) / \cos \omega} \right)
+  $
+\\
+  $\frac{\pi}{2} < \omega \le \pi$
+&
+  $1 - \eexp^{ - \sigma_c (W - x) / \abs{ \cos \omega} }$
+&
+$0$
+\\ \bottomrule
+  \end{tabular}
+  \Caption{Component $g(x,\omega)$ of the analytic solution of $f$ in the
+  single-channel problem.}{
+      Here, $\sigma_c$ and $\sigma_d$ are the total opacity in the diffusive
+      and voided region, respectively; and $W$ is the half-width of the channel.
+      Because the problem is symmetric, $g(x, \omega) = g(x, 2\pi - \omega)$ for
+      $\omega < \pi \le 2\pi$.
+    }
+  \label{tab:ssSingleAnalytic}
+\end{table}
+
+This solution for $f$ is based on the assumption that the channel is
 infinite in extent along the $y$ axis, and that the diffusive regions are
 infinitely wide. We therefore expect reflecting boundaries on the \SN\ transport
-problem for $f$ to produce answers closer to the analytic values, but since the
-channel is \emph{not} indeed infinite, reflecting boundaries will not
+problem for $f$ to produce answers closer to the analytic values. However, since
+the channel is \emph{not} indeed infinite, reflecting boundaries will not
 necessarily produce more accurate answers compared to the reference transport
-solution. Using the analytic solution for $f$, we calculate exact solutions for
-the anisotropic diffusion coefficient $\Dtens$ from
-Eq.~\eqref{eq:flatDDefinition}
-as well as boundary coefficient given in Eq.~\eqref{eq:flatAdBoundaryIntegral}:
+solution. Using the analytic solution for $f$ given in
+Eq.~\eqref{eq:ssSingleAnalytic}, we calculate exact (to machine precision)
+solutions for the anisotropic diffusion coefficient $\Dtens$
+[from Eq.~\eqref{eq:flatDDefinition}]:
 \begin{equation*}
-  \vec{d}(\vec{x}) = -4\int_{\vec{\Omega}\vd\vec{n} < 0}
+  \Dtens(x,y) \equiv \int_{0}^{2\pi} \vec{\Omega} \vec{\Omega}
+  f(x,y, \vec{\Omega}) \ud\omega \,,
+\end{equation*}
+as well as the boundary coefficient $\vec{d}$
+[from Eq.~\eqref{eq:flatAdBoundaryIntegral}]:
+\begin{equation*}
+  \vec{d}(x,y) = -4\int_{\vec{\Omega}\vd\vec{n} < 0}
   V(\abs{\vec{\Omega}\vd\vec{n}})
-\vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud\Omega\,.
+\vec{\Omega} f(x,y, \vec{\Omega}) \ud\Omega\,.
 \end{equation*}
 
 All of the diffusion solutions, even though they may use analytically-calculated
@@ -152,12 +215,17 @@ Fig.~\ref{fig:ssSingleContour}. The Monte Carlo solution is the reference
 solution.  We have also shown the anisotropic diffusion solutions with
 both analytically calculated coefficients and \SN-calculated coefficients. The
 latter uses reflecting boundaries on the transport calculation for $f$ with
-$10^4$ source iterations. For comparative purposes, we also plot the standard
+$10^4$ source iterations. (Many sweeps are needed to fully converge the
+opposing reflecting boundaries. Our goal is to judge the error introduced by
+the \SN\ discretization, so we wish to reduce the additional error incurred by
+an incomplete \SN\ solution.) For comparative purposes, we also plot the
+standard
 diffusion solution.
 
 Before exploring the parameter space of \SN\ solver options, we first point out
 some features in the solution characteristic of anisotropic diffusion. Unlike
-the Monte Carlo and diffusion solutions, which have discontinuities at the
+the Monte Carlo and diffusion solutions, which have discontinuous first
+derivatives at the
 boundary between channel and medium, the anisotropic diffusion solution is
 smooth. The AD solution is less accurate near the material boundaries, but along
 the centerline of the channel (Fig.~\ref{fig:ssSingleCenterline}) and a few mean
@@ -195,8 +263,10 @@ solution with increasing number of ordinates. The black line shows that refining
 the quadrature brings the solution closer to the analytic value, but the red
 line demonstrates that it does \emph{not} converge to the Monte Carlo transport
 solution. This is expected: anisotropic diffusion contains several
-approximations that are non-negligible in this problem. As with diffusion, we
-run problems far outside its theoretical (asymptotic) range of applicability.
+approximations that are small but not zero in this problem. As with diffusion,
+we run problems far outside their theoretical (asymptotic) range of
+applicability: the true solution is strongly anisotropic and has strong
+gradients at the channel interface.
 Unlike diffusion, anisotropic diffusion yields reasonable answers in the
 presence of voids.
 
@@ -231,26 +301,28 @@ absolute error and standard diffusion has a 19.8\% error.
 The data in Fig.~\ref{fig:ssSingleAbsConv} suggest that with a finite number of
 ordinates, which cannot exactly
 approximate the angular domain, there is little added benefit to using more than
-a few sweeps: the error introduced by the angular approximation overwhelms
+a few sweeps: the error introduced by the angular approximation exceeds that
+caused by 
 the lack of convergence. But Fig.~\ref{fig:ssSingleQsConv} shows that, since
-even the analytic AD solution differs from the exact solution by ~5\%, even a
+the analytic AD solution differs from the exact solution by ~5\%, even a
 coarse quadrature set can provide accuracy within the inherent limits of the
 method.
 %Additionally, the choice of reflecting or white boundary conditions has
 %little effect on the solution of this problem.
 
-This conclusion may not hold for some problems, of course, but it suggests that
-a modest number of ordinates and sweeps are sufficient to yield answers with
+This conclusion may not hold for all problems, of course, but it suggests that
+a modest number of ordinates and sweeps are sufficient to yield solutions with
 close to the accuracy of an analytic anisotropic diffusion solution.
 
 \clearpage
-\subsubsection{Coarse spatial grid calculation of \texorpdfstring{$\Dtens$}{D}}
+\subsection{Coarse spatial grid calculation of \texorpdfstring{$\Dtens$}{D}}
 \label{sec:coarseGridAdCoeff}
 
-In addition to investigating how the AD solution changes with the granularity of
+In addition to investigating the sensitivity of the AD solution to the
+granularity of
 the angular variable in the solution of $f$, we test the discrepancy
 introduced by calculating $f$ on a coarser spatial grid. As discussed in
-\S\ref{sec:adSmoothness}, the solution of $f$ is a smooth function of space, and
+\S\ref{sec:adSmoothness}, the function $f$ is a smooth function of space, and
 $\Dtens$ likewise has no discontinuities. We have implemented the basic
 multigrid operations of prolongation and restriction in the \pytrt\ code
 for cell-centered quantities and quantities on the boundary face \cite{Pytrt}.
@@ -261,7 +333,7 @@ diffusion tensor $\Dtens$ and boundary coefficient $\vec{d}$ back to the fine
 grid, in which $\phi$
 is then solved. With this methodology, the spatial discretization error of the
 diffusion solve is unaffected; the only difference is that the diffusion
-coefficients are a coarser function of space. Figure~\ref{fig:ssSingleMgD} shows
+coefficients are coarser functions of space. Figure~\ref{fig:ssSingleMgD} shows
 the resulting coarse anisotropic diffusion coefficients.
 
 \begin{figure}[htb]
@@ -277,11 +349,7 @@ the resulting coarse anisotropic diffusion coefficients.
 \end{figure}
 
 Figure~\ref{fig:ssSingleMgConv} plots the error in $\phi$ introduced by using
-coarse approximations to the anisotropic diffusion coefficient. (In this
-problem, the grid and refinements were chosen so that in the coarsest case, each
-coarse cell was composed of a single material.) 
-The rightmost data point in the figure has a coarse cell width of
-$\Delta_x=0.5$, half the width of the channel.
+%
 \begin{figure}[htb]
   \centering
   \input{ss_single_channel/mgconv/plot}
@@ -289,7 +357,13 @@ $\Delta_x=0.5$, half the width of the channel.
   coefficients.}
   \label{fig:ssSingleMgConv}
 \end{figure}
-Clearly, in this simple problem with well-defined material boundaries, the
+%
+coarse approximations to the anisotropic diffusion coefficient. (In this
+problem, the grid and refinements were chosen so that in the coarsest case, each
+coarse cell was composed of a single material.) 
+The rightmost data point in the figure has a coarse cell width of
+$\Delta_x=0.5$, half the width of the channel.
+In this simple problem with well-defined material boundaries, the
 solution is relatively insensitive to using less spatially refined diffusion
 coefficients. This is perhaps not surprising, as, for example, the standard
 diffusion coefficient has no spatial variation inside a homogeneous material.
@@ -311,14 +385,15 @@ small error incurred by using a coarse transport solution is justifiable in
 light of the performance gain.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Flatland boundary conditions}
+\section{Flatland boundary conditions}\label{sec:nrFlatlandBcs}
 
 The flatland boundary conditions derived in Chapter~\ref{chap:flatland} must,
 for the sake of completeness, be numerically verified. We compare the novel
 diffusion boundary conditions against a Monte Carlo reference solution in a
 simple, diffusive test problem.
 
-We consider a homogeneous flatland problem with a
+We consider a homogeneous flatland problem (Fig.~\ref{fig:flatlandBcProblem})
+with a
 total cross section $\sigma=1$ and scattering ratio $c=0.99$. The spatial 
 domain is the rectangle $0 \le x \le 2$, $0 \le y \le 10$, with
 reflecting boundaries on the left,
@@ -327,6 +402,13 @@ flux; we consider three different angular
 distributions given in Table~\ref{tab:angularDistributions}.\footnote{These
 distributions were chosen because of their prior use in a 1-D boundary
 matching analysis in Ref.~\cite{Dav2006}.}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=4in]{flatlandbc-problem}
+  \caption{Problem description for the flatland boundary test.}
+  \label{fig:flatlandBcProblem}
+\end{figure}
 
 \begin{table}[htb]
   \centering
@@ -352,7 +434,8 @@ the methods. The diffusion
 approximation cannot reproduce the boundary layer that the true transport
 solution features, but the variational approximation to the flatland
 diffusion boundary condition allows the asymptotic diffusion solution to
-closely match the transport solution. The Marshak boundary does not.
+closely match the transport solution in the interior of the system. The Marshak
+boundary condition does not have this desirable property.
 
 Figure~\ref{fig:flatlandBcRelative} quantitatively compares both ``variational'' and
 ``Marshak'' diffusion boundary conditions against the transport solution
@@ -408,14 +491,12 @@ problem. It features a diffusive medium in flatland on the domain $0
 \le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
 vertically through the middle ($2.5 \le x \le 3.5$). The diffusive region has
 $\sigma=1$ and $\sigma_s=0.99$, and the channel has $\sigma=0.01$ and
-$\sigma_s=0.0099$.
-The problem has reflecting boundaries on the top, left, and
-right sides, and an incident boundary condition on the bottom with unit
-incident radiation flux. We consider the same angular distributions as in
+$\sigma_s=0.0099$. The bottom, left, and right boundaries are reflecting; the
+top is a vacuum boundary.
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=2in]{adbc-reactor/xsn}
+  \includegraphics{adbc-reactor/xsn-enhanced}
 
   \Caption{Steady-state AD boundary condition test problem.}{
     The black region is diffusive ($\sigma=1$, $\sigma_s=0.99$), the white
@@ -424,10 +505,6 @@ incident radiation flux. We consider the same angular distributions as in
   \label{fig:bcReactorProblem}
 \end{figure}
 
-The problem has the same physical description as the previous: two diffusive
-regions surround an optically thin channel.
-The boundary conditions are
-different, however: the bottom is reflecting, and the top is a vacuum. 
 The source is an isotropic Gaussian-shaped radiation source in the lower-left
 corner:
 \begin{equation*}
@@ -439,11 +516,13 @@ We compare a Monte Carlo solution, a diffusion solution, and three instances of
 anisotropic diffusion with different choices for the boundary condition on the
 vacuum boundary. Only two---the white and reflecting
 conditions---satisfy Eq.~\eqref{eq:hoBc}. The ``na\"ive'' boundary condition
-sets the incident values of $f$ to zero.
+sets the incident values of $f$ to zero and uses the Marshak diffusion boundary
+condition from Eq.~\eqref{eq:flatMarshakAdBc}. It serves to demonstrate the
+importance of using theoretically sound boundary conditions.
 
 \subsubsection{Results and discussion}
 
-To begin, we plot $f$ (Fig.~\ref{fig:bcReactorF}) at the top of the problem for
+First, we plot $f$ (Fig.~\ref{fig:bcReactorF}) at the top of the problem for
 the three alternative boundary conditions for the purely absorbing transport
 problem.
 
@@ -466,7 +545,7 @@ problem.
   \label{fig:bcReactorF}
 \end{figure}
 
-The boundary condition's effect on $f$ is straightforward: a reflecting boundary
+The effect of the boundary condition on $f$ is straightforward: a reflecting boundary
 condition mirrors the angular distribution across the $x$ axis, and a white
 boundary condition yields an isotropic distribution for incident angles. The
 na\"ive boundary condition is positive only for exiting angles. For the sake of
@@ -499,10 +578,11 @@ free paths away from the boundary.
 To help understand the accuracy of anisotropic diffusion as compared to standard
 diffusion, we have plotted in Fig.~\ref{fig:bcReactorAngular} the angular
 intensity at several points in the problem as approximated by \SN, AD, and
-standard diffusion. Whereas diffusion approximates the radiation as linear in
-angle, anisotropic diffusion has much more \emph{shape} that results from the
+standard diffusion. Whereas standard diffusion approximates the radiation as linear in
+angle, anisotropic diffusion has much more \emph{shape}, resulting from the
+(generally nonlinear)
 anisotropy in $f$. As we asserted in Chapter~\ref{chap:adDerivation}, this extra
-transport-derived information results in a more accurate answer.
+transport-derived information results in a more accurate approximation.
 
 \begin{figure}[htb]
   \centering\small
@@ -532,22 +612,23 @@ consider three boundary source--driven problems.
 
 \subsubsection{Problem description}
 
-This test problem has opacities identical to the previous: two diffusive
+This test problem has opacities identical to the previous problem: two diffusive
 regions surround an optically thin channel. However, rather than being driven
 by an extraneous source, the problem has an incident radiation flux on the
 bottom face. The top, left, and right sides are reflecting. We consider the same
-angular distributions as in Table~\ref{tab:angularDistributions}: an isotropic
+incident angular distributions as in \S\ref{sec:nrFlatlandBcs}, given in
+Table~\ref{tab:angularDistributions}: an isotropic
 source, a normally-incident source, and a grazing source.
 
 \subsubsection{Results and Discussion}
 
 Figure~\ref{fig:adbcIsotropic} shows a line-out of the scalar flux $\phi(2.5,y)$
 along the center of the channel in the isotropic incident case. Standard
-diffusion fails because $\sigma=0.01$ leads to a very
+diffusion fails because $\sigma=0.01$ leads to a
 large diffusion coefficient, resulting in a nearly constant solution inside the
-channel. Anisotropic diffusion performs exceedingly well, and the
-white boundary condition for $f$ gives a better result than the reflecting
-boundary condition.
+channel. Anisotropic diffusion performs quite well, and the
+white boundary condition for $f$ gives a more accurate result than the
+reflecting boundary condition.
 
 \begin{figure}[htb]
   \centering
@@ -585,7 +666,7 @@ it accurately approximates the angular flux shape driven by scattering from the
 diffusive region (the lobes on the left and right) in the isotropic incident
 case. In the strongly anisotropic (normal incident source) case, where
 uncollided particles from the boundary dominate the scattered particles,
-anisotropic diffusion is unable to accurately approximate the particle
+anisotropic diffusion cannot accurately approximate the particle
 distribution in the channel.
 The linear-in-angle diffusion approximation cannot represent any of these
 features.
@@ -613,8 +694,8 @@ condition: a reflecting boundary produces a peak in $f$
 along the channel, but a white boundary gives a more isotropic shape near that
 range, better matching the incident isotropic boundary condition. This suggests
 that the qualitatively best way to satisfy Eq.~\eqref{eq:hoBc} may be
-to have the incident distribution of $f$ take the shape of the true boundary
-condition.
+to require the incident distribution of $f$ to take the shape of the true
+boundary condition.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
@@ -623,26 +704,28 @@ condition.
 One novel extension to the anisotropic diffusion approximation is the
 formulation for time-dependent transport. Even though our primary application is
 the time-dependent nonlinear thermal radiative transfer, we stress that the
-nonlinearities are completely incidental to the AD approximation. We therefore 
+nonlinearities are incidental to the AD approximation. We therefore 
 test the behavior of the anisotropic diffusion methods in a more simple
-situation: linear, time-dependent problems with no material
-coupling and time-independent opacities.
+situation: linear, time-dependent problems with time-independent opacities.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Smooth linear problem}
 
-We devised a time-dependent problem where the temporal and spatial gradients are
+We devised a time-dependent problem in which the temporal and spatial gradients
+are
 expected to be moderate but significant enough to distinguish diffusion from
 transport.
 
 \subsubsection{Problem description}
 
 This smooth problem features a unit source in the bottom left corner of a
-diffusive medium of width~$2$ with
-$\sigma=1$ and a scattering ratio~$c=.99$. A voided region with width $0.5$,
-$\sigma=0.01$, and $c=.99$ lies along the right edge of the problem. The bottom,
+highly scattering medium of width~$2$ with
+$\sigma=1$ and $\sigma_s=.99$. A voided region with width $0.5$,
+$\sigma=0.01$, and $\sigma_s=.0099$ lies along the right edge of the problem.
+The bottom,
 left, and right boundaries are reflecting; the top of the problem has a vacuum
-boundary. Its initial condition is uniformly zero.
+boundary. The problem's initial condition is uniformly zero, and the particle
+speed is unity ($c=1$).
 
 Because this problem is time-dependent, it is the first test of the anisotropic
 \Pone\ method devised in Chapter~\ref{chap:aponeDerivation}. This method
@@ -689,7 +772,7 @@ The behavior of $\phi$ along the center of the channel (i.e., at the
 right edge of the problem) is plotted in Fig.~\ref{fig:tdReactor}. Anisotropic
 diffusion and conventional diffusion, which both assume a quasi-static problem,
 are significantly less accurate and are not plotted in that figure. Their
-flux-limited counterparts, FLAD and FLD, are shown instead.
+more accurate flux-limited counterparts, FLAD and FLD, are shown instead.
 
 \begin{figure}[htb]
   \centering\small
@@ -711,9 +794,10 @@ flux-limited counterparts, FLAD and FLD, are shown instead.
   \label{fig:tdReactor}
 \end{figure}
 
-None of the low-order methods yields the transport solution. Even with flux
+None of the low-order methods exactly reproduces the transport solution. Even
+with flux
 limiting, FLD and FLAD overestimate the rate of particles flowing into the void.
-As the problem tends toward steady-state, the anisotropic
+However, as the problem tends toward steady-state, the anisotropic
 methods become relatively accurate. (We recall that both FLAD and \APone\ limit
 to the AD method when the solution varies slowly in time.)
 
@@ -751,10 +835,10 @@ solution of the first time step is the same as the standard diffusion
 solution. (In Fig.~\ref{fig:tdReactorWavefrontLeft}, the flux-limited and
 standard diffusion methods share a starting point.) As a result, the
 flux-limited methods carry that artifact of non-flux-limited particles for all
-later time steps. To obviate this error, shorter initial time steps (where
+later time steps. To obviate this error, shorter initial time steps (in which
 the effective time absorption $1/c\Delta_t$ reduces the magnitude of the
-precursor) could be used, or the nonlinear flux-limited diffusion coefficient
-could be converged.
+precursor) could be used. Alternatively, the nonlinear flux-limited diffusion
+coefficient could be converged.
 
 \begin{figure}[htb]
   \centering\small
@@ -780,8 +864,19 @@ approximations to the transport equation.
 
 \subsubsection{Problem description}
 
-The ``blast wave'' test problem features a localized impulse of radiation; the
-magnitude of the coefficients is based on a recurrent test problem in the field
+The ``blast wave'' test problem (Fig.~\ref{fig:tdBlastwaveXsn})
+%
+\begin{figure}[htb]
+  \centering
+  \includegraphics{td_blastpipe/xsn-enhanced}
+  \Caption{Problem description for the blast wave problem.}{
+  The colored region is the isotropic initial condition $\phi_i$.}
+  \label{fig:tdBlastwaveXsn}
+\end{figure}
+%
+features a localized impulse of radiation; the
+magnitude of the coefficients and the initial condition is based on a recurrent
+test problem in the field
 of thermal radiative transfer \cite{Kno1999a,Kno2001,Rau2005,Ols2007}. The
 domain of this problem is $0 \le x \le 3$ and $-1.1 \le y \le 1.1$.
 It features an optically thin channel with $\sigma=1$ and $\sigma_s=0.99$ inside
@@ -793,9 +888,11 @@ The initial condition is a local but smooth Gaussian function:
   \phi(x,y) = 0.001 + 100 \eexp^{-100 (x^2 + y^2) }\,.
 \end{equation*}
 We use a grid spacing of $\Delta_x=\Delta_y=0.02$, and a uniform time step
-$\Delta_t=0.02$.
+$\Delta_t=0.02$. As in the previous problem, the particle speed is $c=1$.
 
 \subsubsection{Results and Discussion}
+
+The isotropic initial condition primarily TODO
 
 The final state ($t=3$) of the problem is plotted in Fig.~\ref{fig:tdBlastwave}.
 Several features characteristic of the methods are apparent. First, only the
@@ -865,8 +962,8 @@ Diffusion & 18
 \end{table}
 
 \subsubsection{Extended problem parameter space}
-To quantitatively verify that the positive results in this problem are not a
-fluke, we parameterized the problem and extensively investigated the parameter
+To quantitatively verify that the positive results in this problem are not
+accidental, we parameterized the problem and extensively investigated the parameter
 space.
 Using Latin Hypercube Sampling \cite{Ima2008}, we sampled 40 instances of
 the above problem with the following parameters and corresponding distributions:
@@ -908,17 +1005,16 @@ accurate.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-We first established and tested some approximations that undergird the rest of
-our results.  Namely, we ensured that non-analytic (discrete
+We have established and tested some approximations that undergird the rest of
+our results.  First, we ensured that non-analytic (discrete
 ordinates--calculated) AD coefficients do not compromise the accuracy of the
-method. The number of iterations required to converge the solution to the limit
-of the exact solution's accuracy is also small enough not to make an AD
-solution intractable.
+method. We also demonstrated that the number of sweeps required to converge a
+transport-calculated $f$ is small enough to make an AD solution competitive.
 
 With the linear numerical experiments in this chapter, we have verified the
 theory developed in the previous chapters. The boundary conditions we proposed
 for anisotropic diffusion in Chapter~\ref{chap:adDerivation} yield accurate
-answers in our test problems where the radiation is not strongly anisotropic
+answers for our test problems in which the radiation is not strongly anisotropic
 throughout the problem. The boundary conditions for flatland diffusion were also
 successfully tested.
 
@@ -927,6 +1023,6 @@ a wide variety of problems with optically thin channels, the anisotropic
 diffusion methods (particularly flux-limited anisotropic diffusion) outperformed
 their conventional counterparts.
 
-With these positive results for linear, time-dependent problems, we continue to
+With these encouraging results for linear, time-dependent problems, we move to
 more difficult non-linear problems in Chapter~\ref{chap:trtNumericalResults}.
 
