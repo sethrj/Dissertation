@@ -337,7 +337,16 @@ that point. Only during the initial $\sim0.5$ units of time are the slopes of th
 FLAD- and AD-calculated wavefront positions different, demonstrating that
 flux limiting is most important at the initial times and less so thereafter.
 
-Fig.~\ref{fig:crashaltFld}
+We more quantitatively test our expectation (\S\ref{sec:flad}) that the more
+moderate AD coefficients would require less limiting than standard diffusion.
+Using this flatland pipe problem, we run both anisotropic diffusion and
+standard diffusion with a ``max'' limiter. (The rest of our problems use the
+``square root'' limiter.) When the cell-average flux exceeds the cell-average
+$\phi$, the limiter not only modifies the diffusion coefficient/tensor but also
+increments a counter. In Fig.~\ref{fig:crashaltFld}, we plot the fraction of
+cells that required limiting as a function of time. As a reminder, the
+relatively thin channel comprises 10\% of the problem, and the problem contains
+$10\,000$ cells total.
 \begin{figure}[htb]
   \centering\small
   \input{trt_crashpipealt/fld/plot}
@@ -365,8 +374,11 @@ coefficient.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flatland crooked pipe}
 
-The ``tophat'' or ``crooked pipe'' problem \cite{Gen2001} is of practical
-interest in the strategic astrophysics community. 
+To add additional complexity, we modified the flatland pipe problem by adding
+two bends in it and adjusting the physical coefficients to more closely resemble
+the ``crooked pipe'' problem seen in Ref.~\cite{Gen2001}.
+
+\subsection{Problem description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
@@ -381,8 +393,8 @@ the literature.
 
 \subsection{Problem description}
 
-The ``easy'' obstacle problem, described in \cite{Mou2006} (and also used in
-\cite{Kno2007}), contains two square obstacles that impede a front of
+The ``easy'' obstacle problem, described in Ref.~\cite{Mou2006} (and also used in
+Ref.~\cite{Kno2007}), contains two square obstacles that impede a front of
 radiation emitted by a boundary source. It is a
 two-dimensional problem on the domain $0 \le x \le 2$, $0 \le y \le 1$ with
 $\Delta_x=\Delta_y=1/32$. The
@@ -405,7 +417,7 @@ isotropic incident radiation source with $T_\text{rad} = 5^{1/4}$, and the right
 side of the problem has a vacuum boundary. The initial condition is $\phi =
 T^{4} = 0.001$.
 
-In \cite{Mou2006} the problem halts at $t=3$; for the sake of completeness we
+In Ref.~\cite{Mou2006}, the problem halts at $t=3$; for the sake of completeness we
 compare the convergence of the solutions until $t=8$ in
 Fig.~\ref{fig:easymkConvergence}. We use a uniform time step $\Delta_t=0.01$.
 
@@ -601,6 +613,8 @@ to represent the behavior of the radiation more accurately. Diffusion
 %\clearpage
 \section{CRASH-like problem}
 
+THIS ISN'T WORKING: I CANNOT EXPLAIN IT.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem description}
 
@@ -646,7 +660,7 @@ Material & Width [cm] & $c_v$ [eV/eV$_T$-cm$^{-3}$] & $\gamma$ [cm$^{-1}$]
 \\ \midrule
 Plastic (original) & 0.0025 & $1.89\EE{23}$ & $14500$ & $80$ & $2.3\EE3$\\
 Plastic (stretched) & 0.01 & $4.73\EE{22}$ & $3620$ & $80$ & $2.3\EE3$\\
-Be & 0.1 & $1.05\EE{21}$ & $154$ & $30$ & $1.0\EE3$\\
+Be & 0.1 & $1.05\EE{21}$ & $634$ & $6$ & $250$\\
 Xe (post-shock) & 0.08 & $2.06\EE{20}$ & $138$ & $150$ & $4.7\EE3$\\
 Xe (shock) & 0.02 & $1.14\EE{21}$ & $729$ & $150$ & $4.5\EE3$\\
 Xe (pre-shock) & 0.20 & $6.74\EE{19}$ & $45.4$ & $150$ & $5\EE3$

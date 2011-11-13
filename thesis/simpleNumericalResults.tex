@@ -37,8 +37,9 @@ noted, we use the following solver parameters with each method.
     accurate ``Marshak'' boundary conditions.
     As with the following diffusion-like methods, we explicitly
     construct a sparse matrix that is passed to the Trilinos library
-    \cite{Her2003}.  In problems with fewer than 50,000 unknowns, we use the KLU
-    direct solver. 
+    \cite{Her2003}.  In steady-state problems with fewer than 50,000 unknowns,
+    we use the KLU direct solver \cite{Her2003}; otherwise, we use the method
+    of conjugate gradients (CG).
 
   \item[Time-dependent \Pone] uses the standard ``staggered mesh''
     discretization, where $\phi$ is cell-centered and $\vec{F}$ is
@@ -325,7 +326,7 @@ right, and top sides. The bottom side has a specified unit incident radiation
 flux; we consider three different angular
 distributions given in Table~\ref{tab:angularDistributions}.\footnote{These
 distributions were chosen because of their prior use in a 1-D boundary
-matching analysis in \cite{Dav2006}.}
+matching analysis in Ref.~\cite{Dav2006}.}
 
 \begin{table}[htb]
   \centering
