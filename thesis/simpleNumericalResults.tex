@@ -741,8 +741,8 @@ coefficients on the problem's physical description.
 
 \begin{figure}[bp]
   \centering
-  \includegraphics[width=2in]{td_reactor/xsn}
-  \Caption{Time-dependent smooth problem setup.}{
+  \includegraphics[width=1.5in]{td_reactor/xsn}
+  \Caption{Time-dependent smooth problem properties.}{
     The source region is the red square in the lower-left; the black
     and white area in the bottom half shows $\sigma$, the colored region above
     shows $\varsigma = 1/\int_{S} f \ud\Omega$, and the ellipses are a
@@ -868,7 +868,7 @@ The ``blast wave'' test problem (Fig.~\ref{fig:tdBlastwaveXsn})
 \begin{figure}[htb]
   \centering
   \includegraphics{td_blastpipe/xsn-enhanced}
-  \Caption{Problem description for the blast wave problem.}{
+  \Caption{Opacities and initial condition for the blast wave problem.}{
   The colored region is the isotropic initial condition $\phi_i$.}
   \label{fig:tdBlastwaveXsn}
 \end{figure}
@@ -891,7 +891,14 @@ $\Delta_t=0.02$. As in the previous problem, the particle speed is $c=1$.
 
 \subsubsection{Results and Discussion}
 
-The isotropic initial condition primarily TODO
+The isotropic initial condition is the only source of particles in this
+problem. Because a majority of them are born in the optically thin channel,
+those with directions close to the $+x$ axis will tend to stream down the
+channel uncollided. This is the ``hyperbolic'' behavior of the transport
+equation: when $\sigma$ and sources are small, it is a wave-like equation.
+Particles that enter the medium diffuse: this is ``parabolic'' behavior. The
+transport solution can be viewed as a combination of the hyperbolic and
+parabolic solutions.
 
 The final state ($t=3$) of the problem is plotted in Fig.~\ref{fig:tdBlastwave}.
 Several features characteristic of the methods are apparent. First, only the
@@ -932,6 +939,14 @@ pulse of particles.
   four times in the blast wave problem.}
   \label{fig:tdBlastwaveAll}
 \end{figure}
+
+Because the diffusion equations are inherently parabolic, they cannot capture
+the behavior of the uncollided particles seen in the Monte Carlo solution.
+However, the hyperbolic (diffusive) behavior is modeled more accurately with
+the AD methods than with conventional diffusion methods. As we have seen in the
+previous test problems, the linear-in-angle approximation of standard diffusion
+is wholly inadequate in the interior of the channel, leading to an inaccurate
+solution.
 
 The timings for the blast wave problem, as run on a single core of a 2.4 GHz
 Intel Core 2 Duo chip, are presented in Table~\ref{tab:tdBlastwaveTiming}. These
