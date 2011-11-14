@@ -2,20 +2,35 @@
 "./figures": {
 "creation": 1315799149
 }, 
+"./figures/1d_trt_blastwave_long": {
+"creation": 1321304738
+}, 
+"./figures/1d_trt_blastwave_long/dcoeff-t3": {
+"creation": 1321304737
+}, 
+"./figures/1d_trt_blastwave_long/mattemp3": {
+"creation": 1321304737
+}, 
+"./figures/1d_trt_blastwave_long/radtemp3": {
+"creation": 1321304737
+}, 
+"./figures/1d_trt_blastwave_long/wavefront": {
+"creation": 1321304737
+}, 
 "./figures/adbc-channel": {
 "creation": 1315799078
 }, 
-"./figures/adbc-channel/angle-isotropic-cmfp": {
-"creation": 1317929065
+"./figures/adbc-channel/angle-delta-center-y1": {
+"creation": 1321304737
 }, 
-"./figures/adbc-channel/delta-phi": {
-"creation": 1317929065
+"./figures/adbc-channel/angle-isotropic-center-y1": {
+"creation": 1321304737
 }, 
-"./figures/adbc-channel/grazing-phi": {
-"creation": 1317929065
+"./figures/adbc-channel/isotropic-phi-channel": {
+"creation": 1321304737
 }, 
-"./figures/adbc-channel/isotropic-phi": {
-"creation": 1317929065
+"./figures/adbc-channel/relative-errors": {
+"creation": 1321304737
 }, 
 "./figures/adbc-checkers": {
 "creation": 1315799078
@@ -29,17 +44,62 @@
 "./figures/adbc-checkers/isotropic-phi": {
 "creation": 1317929065
 }, 
+"./figures/adbc-presentation": {
+"creation": 1321304738
+}, 
+"./figures/adbc-presentation/adf-center-ymax": {
+"creation": 1321304738
+}, 
+"./figures/adbc-presentation/adf-insideleftedge-ymax": {
+"creation": 1321304738
+}, 
+"./figures/adbc-presentation/center-y0": {
+"creation": 1321304738
+}, 
+"./figures/adbc-presentation/center-y5": {
+"creation": 1321304738
+}, 
+"./figures/adbc-presentation/center-ymax": {
+"creation": 1321304738
+}, 
+"./figures/adbc-presentation/insideleftedge-y5": {
+"creation": 1321304738
+}, 
+"./figures/adbc-presentation/phi-channel": {
+"creation": 1321304738
+}, 
+"./figures/adbc-presentation/phi-left": {
+"creation": 1321304738
+}, 
 "./figures/adbc-reactor": {
 "creation": 1317929065
+}, 
+"./figures/adbc-reactor/adf-center-ymax": {
+"creation": 1321304738
+}, 
+"./figures/adbc-reactor/adf-insideleftedge-ymax": {
+"creation": 1321304738
 }, 
 "./figures/adbc-reactor/angle-center-y0": {
 "creation": 1317929065
 }, 
+"./figures/adbc-reactor/angle-center-y5": {
+"creation": 1321304738
+}, 
 "./figures/adbc-reactor/angle-center-ymax": {
 "creation": 1317929065
 }, 
+"./figures/adbc-reactor/angle-insideleftedge-y5": {
+"creation": 1321304738
+}, 
 "./figures/adbc-reactor/angle-insideleftedge-ymax": {
 "creation": 1317929065
+}, 
+"./figures/adbc-reactor/phi-channel": {
+"creation": 1321304738
+}, 
+"./figures/adbc-reactor/phi-left": {
+"creation": 1321304738
 }, 
 "./figures/crashpipe-OBSOLETE": {
 "creation": 1315845521
@@ -161,6 +221,21 @@
 "./figures/flatlandbc-channel/relative-errors": {
 "creation": 1317929065
 }, 
+"./figures/flatlandbc-presentation": {
+"creation": 1321304740
+}, 
+"./figures/flatlandbc-presentation/delta-phi": {
+"creation": 1321304739
+}, 
+"./figures/flatlandbc-presentation/grazing-phi": {
+"creation": 1321304739
+}, 
+"./figures/flatlandbc-presentation/isotropic-phi": {
+"creation": 1321304739
+}, 
+"./figures/flatlandbc-presentation/relative-errors": {
+"creation": 1321304739
+}, 
 "./figures/manufactured": {
 "creation": 1315799078
 }, 
@@ -188,6 +263,24 @@
 "./figures/ss_single_channel/qsconv": {
 "creation": 1317929065
 }, 
+"./figures/td_blastpipe": {
+"creation": 1321304740
+}, 
+"./figures/td_blastpipe/errors-phi-center-t3": {
+"creation": 1321304740
+}, 
+"./figures/td_blastpipe/errors-phi-ortho-t3": {
+"creation": 1321304740
+}, 
+"./figures/td_blastpipe/phi-all": {
+"creation": 1321304740
+}, 
+"./figures/td_blastpipe/phi-center03-00": {
+"creation": 1321304740
+}, 
+"./figures/td_blastpipe/phi-ortho03-00": {
+"creation": 1321304740
+}, 
 "./figures/td_reactor": {
 "creation": 1317929065
 }, 
@@ -209,14 +302,116 @@
 "./figures/td_reactor/wavefront-phi-left": {
 "creation": 1317929065
 }, 
+"./figures/trt_crashpipealt": {
+"creation": 1321307481
+}, 
+"./figures/trt_crashpipealt/dcoeff-center-t3": {
+"creation": 1321304741
+}, 
+"./figures/trt_crashpipealt/dcoeff-ortho-t3": {
+"creation": 1321304741
+}, 
+"./figures/trt_crashpipealt/fld": {
+"creation": 1321304741
+}, 
+"./figures/trt_crashpipealt/mattemp-center3": {
+"creation": 1321304741
+}, 
+"./figures/trt_crashpipealt/mattemp-ortho3": {
+"creation": 1321304741
+}, 
+"./figures/trt_crashpipealt/wavefront-center": {
+"creation": 1321304741
+}, 
+"./figures/trt_dogleg": {
+"creation": 1321304742
+}, 
+"./figures/trt_dogleg/dcoeff-leg1": {
+"creation": 1321304741
+}, 
+"./figures/trt_dogleg/dcoeff-leg2": {
+"creation": 1321304741
+}, 
+"./figures/trt_dogleg/dcoeff-leg3": {
+"creation": 1321304741
+}, 
+"./figures/trt_dogleg/fiducial-radtemp-all": {
+"creation": 1321304741
+}, 
+"./figures/trt_dogleg/fiducial-radtemp-leg2": {
+"creation": 1321304741
+}, 
+"./figures/trt_dogleg/fiducial-radtemp-leg3": {
+"creation": 1321304741
+}, 
+"./figures/trt_dogleg/radtemp-leg1-t050": {
+"creation": 1321304741
+}, 
+"./figures/trt_dogleg/radtemp-leg2-t200": {
+"creation": 1321304742
+}, 
+"./figures/trt_easymk": {
+"creation": 1321308967
+}, 
+"./figures/trt_easymk/convergence-mattemp": {
+"creation": 1321304742
+}, 
+"./figures/trt_easymk/mattemp-center3-00": {
+"creation": 1321304742
+}, 
+"./figures/trt_easymk/radtemp-center3-00": {
+"creation": 1321304742
+}, 
+"./figures/trt_hardmk": {
+"creation": 1321309241
+}, 
+"./figures/trt_hardmk/mattemp-diag3-00": {
+"creation": 1321304742
+}, 
+"./figures/trt_hardmk/radtemp-diag3-00": {
+"creation": 1321304742
+}, 
+"./figures/trt_hardmk/wavefront-diag": {
+"creation": 1321304742
+}, 
+"./figures/trt_serious": {
+"creation": 1321304743
+}, 
+"./figures/trt_serious/absorption-plastedge0-20": {
+"creation": 1321304743
+}, 
+"./figures/trt_serious/mattemp-center0-20": {
+"creation": 1321304743
+}, 
+"./figures/trt_serious/mattemp-plastedge0-20": {
+"creation": 1321304743
+}, 
+"./figures/trt_serious/mattemp-prea0-20": {
+"creation": 1321304743
+}, 
+"./figures/trt_serious/physical-opacity": {
+"creation": 1321304743
+}, 
+"./figures/trt_serious/radtemp-center0-20": {
+"creation": 1321304743
+}, 
 "./presentations": {
 "creation": 1315799152
 }, 
-"./presentations/ans_november": {
-"creation": 1315799142
+"./presentations/ans-adbc": {
+"creation": 1320516540, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
 }, 
-"./presentations/ans_november/_individual": {
-"creation": 1307467894
+"./presentations/ans-flatland": {
+"creation": 1320516452, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"./presentations/defense": {
+"creation": 1320376426
 }, 
 "./presentations/kapl": {
 "creation": 1309445365
@@ -303,7 +498,7 @@
 "creation": 1264200745, 
 "xattrs": {
 "com.apple.TextEncoding": "dXRmLTg7MTM0MjE3OTg0\n", 
-"net.sourceforge.bibdesk.BDSKDocumentWindowAttributes": "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\n"
+"net.sourceforge.bibdesk.BDSKDocumentWindowAttributes": "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\n"
 }
 }, 
 "defense date.numbers": {
@@ -1205,6 +1400,12 @@
 "figures/trt_crashpipealt/fld/plot.tex": {
 "creation": 1321021489
 }, 
+"figures/trt_crashpipealt/materials-enhanced.pdf": {
+"creation": 1321307481, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
 "figures/trt_crashpipealt/materials.png": {
 "creation": 1319214921
 }, 
@@ -1301,6 +1502,12 @@
 "figures/trt_easymk/convergence-mattemp/plot.tex": {
 "creation": 1319151550
 }, 
+"figures/trt_easymk/materials-enhanced.pdf": {
+"creation": 1321308967, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
 "figures/trt_easymk/materials.png": {
 "creation": 1320878442
 }, 
@@ -1327,6 +1534,12 @@
 }, 
 "figures/trt_easymk/radtemp_contour_t6.pdf": {
 "creation": 1320878442
+}, 
+"figures/trt_hardmk/materials-enhanced.pdf": {
+"creation": 1321309241, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
 }, 
 "figures/trt_hardmk/materials.png": {
 "creation": 1320878442
