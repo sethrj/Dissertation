@@ -70,7 +70,7 @@ unknown---%
 in this case, $\phi$---is constant over a single cell, represented in
 Fig.~\ref{fig:cellDiagram}. 
 %
-\begin{figure}[tb]
+\begin{figure}[htb]
   \centering
   \includegraphics{cell-diagram}
   \caption{Diagram of cell $i,j$.}
@@ -93,18 +93,19 @@ The unknown face-averaged radiation flux $F$---also known as the
 \emph{leakage}---and the
 unknown cell-averaged scalar intensity are diagrammed in
 Fig.~\ref{fig:cellUnknowns}.
-In all discretizations of the conservation equation, it is
-essential that
-$\vec{F}$ be continuous at cell interfaces: e.g., $F_T^y$ in cell~$i,j$ must
-be equal to $-F_B^y$ in cell~$i,{j+1}$. Otherwise, the difference scheme is not
-conservative.
-
+%
 \begin{figure}[htb]
   \centering
   \includegraphics{cell-unknowns}
   \caption{Unknowns in cell $i,j$.}
   \label{fig:cellUnknowns}
 \end{figure}
+
+In all discretizations of the conservation equation, it is
+essential that
+$\vec{F}$ be continuous at cell interfaces: e.g., $F_T^y$ in cell~$i,j$ must
+be equal to $-F_B^y$ in cell~$i,{j+1}$. Otherwise, the difference scheme is not
+conservative.
 
 \subsection{Anisotropic closure equations}
 

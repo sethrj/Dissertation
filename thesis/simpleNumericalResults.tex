@@ -315,7 +315,6 @@ This conclusion may not hold for all problems, of course, but it suggests that
 a modest number of ordinates and sweeps are sufficient to yield solutions with
 close to the accuracy of an analytic anisotropic diffusion solution.
 
-\clearpage
 \subsection{Coarse spatial grid calculation of \texorpdfstring{$\Dtens$}{D}}
 \label{sec:coarseGridAdCoeff}
 
@@ -603,7 +602,6 @@ transport-derived information results in a more accurate approximation.
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \subsection{Boundary source}
 
 The problems with an incident particle flux on the boundary potentially have
@@ -699,8 +697,7 @@ to require the incident distribution of $f$ to take the shape of the true
 boundary condition.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
-\section{Linear time-dependent behavior}
+\section{Smooth time-dependent problem}
 
 One novel extension to the anisotropic diffusion approximation is the
 formulation for time-dependent transport. Even though our primary application is
@@ -709,15 +706,11 @@ nonlinearities are incidental to the AD approximation. We therefore
 test the behavior of the anisotropic diffusion methods in a more simple
 situation: linear, time-dependent problems with time-independent opacities.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Smooth linear problem}
-
-We devised a time-dependent problem in which the temporal and spatial gradients
-are
-expected to be moderate but significant enough to distinguish diffusion from
+In this first time-dependent problem, we expect the temporal and spatial
+gradients to be moderate but significant enough to distinguish diffusion from
 transport.
 
-\subsubsection{Problem description}
+\subsection{Problem description}
 
 This smooth problem features a unit source in the bottom left corner of a
 highly scattering medium of width~$2$ with
@@ -741,9 +734,9 @@ opacity $\varsigma$, as formulated in \eqref{eq:ap1FicksLawFinal}:
 Figure~\ref{fig:tdReactorProblem} overlays these transport-calculated
 coefficients on the problem's physical description.
 
-\begin{figure}[bp]
+\begin{figure}[htb]
   \centering
-  \includegraphics[width=1.5in]{td_reactor/xsn}
+  \includegraphics[width=1.25in]{td_reactor/xsn}
   \Caption{Time-dependent smooth problem properties.}{
     The source region is the red square in the lower-left; the black
     and white area in the bottom half shows $\sigma$, the colored region above
@@ -762,7 +755,7 @@ proportional to the identity tensor, and its two eigenvalues are equal: thus, in
 the interior, the anisotropic diffusion coefficients appear as circles whose
 sizes are proportional to $1/\sigma$.
 
-\subsubsection{Results and Discussion}
+\subsection{Results and Discussion}
 
 The large phase space of time-dependent transport forces us to carefully choose
 representative metrics. We use contour plots to compare select methods at
@@ -810,16 +803,17 @@ fails in these problems, so it is unsurprising that \APone\ outperforms \Pone\
 at late times.
 
 \begin{figure}[htb]
-  \centering\small
+  \centering%\small
+
   \subfloat[$t=2$]{%
-    \includegraphics{td_reactor/phi-002}}%
+    \hspace{.75in}\includegraphics{td_reactor/phi-002}\hspace{.75in}}%
   \subfloat[$t=5$]{%
-    \includegraphics{td_reactor/phi-005}}
+    \hspace{.75in}\includegraphics{td_reactor/phi-005}\hspace{.75in}}
 
   \subfloat[$t=10$]{%
-    \includegraphics{td_reactor/phi-010}}%
+    \hspace{.75in}\includegraphics{td_reactor/phi-010}\hspace{.75in}}%
   \subfloat[$t=15$]{%
-    \includegraphics{td_reactor/phi-015}}
+    \hspace{.75in}\includegraphics{td_reactor/phi-015}\hspace{.75in}}
 
   \Caption{Contour plots of the scalar intensity at four times.}{
     The black dashed line is the Monte Carlo solution, the blue solid line is
@@ -857,13 +851,13 @@ coefficient could be converged.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-\subsection{Blast wave}\label{sec:tdBlastwave}
+\section{Time-dependent blast wave}\label{sec:tdBlastwave}
 
 Thermal radiative transfer problems often contain strong spatial and temporal
 gradients. We consider a more stressful test of the different anisotropic
 approximations to the transport equation.
 
-\subsubsection{Problem description}
+\subsection{Problem description}
 
 The ``blast wave'' test problem (Fig.~\ref{fig:tdBlastwaveXsn})
 %
@@ -891,7 +885,7 @@ The initial condition is a local but smooth Gaussian function:
 We use a grid spacing of $\Delta_x=\Delta_y=0.02$, and a uniform time step
 $\Delta_t=0.02$. As in the previous problem, the particle speed is $c=1$.
 
-\subsubsection{Results and Discussion}
+\subsection{Results and Discussion}
 
 The isotropic initial condition is the only source of particles in this
 problem. Because a majority of them are born in the optically thin channel,
@@ -977,7 +971,7 @@ Diffusion & 18
   \label{tab:tdBlastwaveTiming}
 \end{table}
 
-\subsubsection{Extended problem parameter space}
+\subsection{Extended problem parameter space}
 To quantitatively verify that the positive results in this problem are not
 accidental, we parameterized the problem and extensively investigated the parameter
 space.
@@ -999,12 +993,7 @@ problem at $x=0.3$ at the final problem time. (Other metrics yielded similar
 results.)
 
 The error distributions are plotted in Fig.~\ref{fig:tdBlastwaveParameterized}.
-Distributions more peaked toward the left of the plot are more accurate, and
-wider distributions indicate a method inconsistent in its accuracy. As one might
-expect from the detailed discussion of one instance of the blast wave problem,
-flux-limited anisotropic diffusion is the most accurate, and \Pone\ is the least
-accurate.
-
+%
 \begin{figure}[htb]
   \centering\small
   \subfloat[Along center]{%
@@ -1017,6 +1006,12 @@ accurate.
   \caption{Distributions of errors in the parameterized blast wave problem.}
   \label{fig:tdBlastwaveParameterized}
 \end{figure}
+%
+Distributions more peaked toward the left of the plot are more accurate, and
+wider distributions indicate a method inconsistent in its accuracy. As one might
+expect from the detailed discussion of one instance of the blast wave problem,
+flux-limited anisotropic diffusion is the most accurate, and \Pone\ is the least
+accurate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
