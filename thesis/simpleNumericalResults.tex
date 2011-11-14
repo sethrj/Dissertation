@@ -120,13 +120,7 @@ considered by Larsen and Trahan \cite{Lar2009c}, consists of voided vertical cha
 diffusive medium. The diffusive region has $\sigma_d=1$, the channel
 $\sigma_c=0.01$. The scattering ratio is uniformly $0.99$.  We use a small
 portion of this problem (Fig.~\ref{fig:ssSingleXsn}), a single channel of unit
-width, with diffusive regions on the left and right each with width 4. The left
-and lower boundaries are reflecting, and the right and upper boundaries are
-vacuum. The source is a Gaussian function,
-\begin{equation*}
-  q(x,y) = 2 \eexp^{-2 (x^2 + y^2)}\,.
-\end{equation*}
-
+%
 \begin{figure}[htb]
   \centering
   \includegraphics{ss_single_channel/xsn-enhanced}
@@ -135,6 +129,13 @@ vacuum. The source is a Gaussian function,
   lower left is the Gaussian source.}
   \label{fig:ssSingleXsn}
 \end{figure}
+%
+width, with diffusive regions on the left and right each with width 4. The left
+and lower boundaries are reflecting, and the right and upper boundaries are
+vacuum. The source is a Gaussian function,
+\begin{equation*}
+  q(x,y) = 2 \eexp^{-2 (x^2 + y^2)}\,.
+\end{equation*}
 
 The analytic solution of the purely absorbing transport solution for this
 problem is \cite{Lar2009c}:
@@ -486,14 +487,7 @@ of boundary conditions.
 \subsubsection{Problem description}
 
 The test problem (Fig.~\ref{fig:bcReactorProblem}) is similar to the above
-flatland boundary condition test
-problem. It features a diffusive medium in flatland on the domain $0
-\le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
-vertically through the middle ($2.5 \le x \le 3.5$). The diffusive region has
-$\sigma=1$ and $\sigma_s=0.99$, and the channel has $\sigma=0.01$ and
-$\sigma_s=0.0099$. The bottom, left, and right boundaries are reflecting; the
-top is a vacuum boundary.
-
+%
 \begin{figure}[htb]
   \centering
   \includegraphics{adbc-reactor/xsn-enhanced}
@@ -503,6 +497,14 @@ top is a vacuum boundary.
     region in the lower-left is the Gaussian source.}
   \label{fig:bcReactorProblem}
 \end{figure}
+%
+flatland boundary condition test
+problem. It features a diffusive medium in flatland on the domain $0
+\le x \le 5$ and $0 \le y \le 10$, with a channel of unit width running
+vertically through the middle ($2.5 \le x \le 3.5$). The diffusive region has
+$\sigma=1$ and $\sigma_s=0.99$, and the channel has $\sigma=0.01$ and
+$\sigma_s=0.0099$. The bottom, left, and right boundaries are reflecting; the
+top is a vacuum boundary.
 
 The source is an isotropic Gaussian-shaped radiation source in the lower-left
 corner:

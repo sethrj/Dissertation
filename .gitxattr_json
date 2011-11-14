@@ -1229,6 +1229,72 @@
 "figures/trt_crashpipealt/wavefront-center/wavefront-center.pdf": {
 "creation": 1319061280
 }, 
+"figures/trt_dogleg/ad_coeff.png": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/anisotropy.png": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/dcoeff-leg1/dcoeff-leg1-t-1.pdf": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/dcoeff-leg1/plot.tex": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/dcoeff-leg2/dcoeff-leg2-t-1.pdf": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/dcoeff-leg2/plot.tex": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/dcoeff-leg3/dcoeff-leg3-t-1.pdf": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/dcoeff-leg3/plot.tex": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/fiducial-radtemp-all/fiducial-radtemp-all.pdf": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/fiducial-radtemp-all/plot.tex": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/fiducial-radtemp-leg2/fiducial-fiducial-radtemp-leg2-0-01.pdf": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/fiducial-radtemp-leg2/plot.tex": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/fiducial-radtemp-leg3/fiducial-fiducial-radtemp-leg3-0-01.pdf": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/fiducial-radtemp-leg3/plot.tex": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/materials-enhanced.pdf": {
+"creation": 1321232843, 
+"xattrs": {
+"com.apple.FinderInfo": "UERGIENBUk8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"figures/trt_dogleg/materials.png": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/radtemp-leg1-t050/plot.tex": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/radtemp-leg1-t050/radtemp-leg1-0-50.pdf": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/radtemp-leg2-t200/plot.tex": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/radtemp-leg2-t200/radtemp-leg2-2-98.pdf": {
+"creation": 1321243732
+}, 
+"figures/trt_dogleg/radtemp-t10.png": {
+"creation": 1321243732
+}, 
 "figures/trt_easymk/convergence-mattemp/convergence-mattemp.pdf": {
 "creation": 1319151550
 }, 
