@@ -227,7 +227,7 @@ nonlocal, unknown scalar intensity:
 \begin{equation}\label{eq:tdVolApprox1a}
   \Iv(\vec{x},\vec{\Omega},t) = \frac{1}{4\pi} \phi(\vec{x},t) - 
      \int_{0}^{\infty}
-    \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega}, \vec{\Omega}, t)
+    \frac{1}{4\pi} \vec{\Omega}\vd \grad \phi(\vec{x} - s \vec{\Omega}, t)
     \eexp^{ -\tau(\vec{x}, \vec{x} - s \vec{\Omega})}
     \ud s \,.
 \end{equation}
@@ -775,8 +775,8 @@ interior intensity from Eq.~\eqref{eq:tdVolApproxFinal}:
 \emph{The above equation is not generally satisfied}. It does hold true when
 $f$ is an ``even'' function of $\vec{\Omega}$, e.g.\ in an optically thick,
 homogeneous material, where $f$ is isotropic. At material
-boundaries, $f$ can be strongly anisotropic, and the above relation is not
-satisfied. By requiring $\int_{4\pi} \Iv \ud\Omega = \phi$ at exterior
+boundaries, $f$ can be strongly anisotropic, and the above relation does not
+hold. By requiring $\int_{4\pi} \Iv \ud\Omega = \phi$ at exterior
 boundaries, we
 obtain a relationship between the ``known'' outgoing values of $f$ and the
 unknown incoming:
@@ -786,7 +786,7 @@ unknown incoming:
  + \int_{\vec{\Omega}\vd\vec{n} < 0} \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud
  \Omega\,.
 \end{equation*}
-If the opacity varies slowly along the boundary (which is a precondition for the
+If the opacity varies slowly along the boundary (which is a prerequisite for the
 analogous standard diffusion boundary condition), then to leading order, $f$
 is azimuthally symmetric about the outward normal at the boundary. The above
 relation is then equivalent to the following:
@@ -848,7 +848,7 @@ that $W(\mu)\approx 2\mu$. Equation~\eqref{eq:loBc} becomes
   ( 2\abs{\vec{\Omega} \vd \vec{n}} ) I^b(\vec{\Omega}) \ud\Omega
   &= \phi
   + 2\vec{d} \vd \grad \phi \,,
-  \\ \intertext{or}
+  \\ \intertext{or:}
   4 F^-
   &= \phi
   + 2\vec{d} \vd \grad \phi \,.
@@ -904,7 +904,7 @@ Eq.~\eqref{eq:adFicks}, into the conservation equation~\eqref{eq:loVol}:
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
   - \grad \vd \Dtens(\vec{x}) \vd \grad \phi(\vec{x},t)
   + \sigma(\vec{x}) \phi(\vec{x}, t)
-  = Q(\vec{x}, t) \,,
+  = q(\vec{x}, t) \,,
   \quad \vec{x} \in V,\ t > 0 \,.
 \end{equation*}
 From the initial layer analysis, the initial condition is to leading order:
@@ -951,8 +951,8 @@ satisfy the relation given in Eq.~\eqref{eq:hoBc}:
   \int_{\vec{\Omega}\vd\vec{n} < 0} \abs{\vec{\Omega}\vd \vec{n}}
   f(\vec{x}, \vec{\Omega}) \ud\Omega \,.
 \end{equation*}
-The corresponding transport-matched low-order boundary condition from
-Eq.~\eqref{eq:loBc} is:
+The corresponding (and more accurate) transport-matched low-order boundary
+condition from Eq.~\eqref{eq:loBc} is:
 \begin{equation*}
 2\int_{\vec{\Omega}\vd\vec{n} < 0} W(\abs{\vec{\Omega}\vd\vec{n}})
 I^b(\vec{x},\vec{\Omega},t) \ud\Omega
@@ -1046,7 +1046,7 @@ opacity $\sigma$ via the transport equation for $f$:
   + \sigma(\vec{x},T[\vec{x},t]) f(\vec{x}, \vec{\Omega}, t)
   = \frac{1}{4\pi}\,.
 \end{equation*}
-In this transport problem for $f$, the time $t$ is a parameter, not a variable:
+In this transport problem for $f$, the time $t$ is merely a parameter:
 the time dependence of $f$ is due entirely to the time-dependence of $\sigma$.
 When the semi-implicit approximation is made that freezes $\sigma$ at the
 beginning of the time step, there is no feedback between $\phi$ and $f$ during a
@@ -1064,7 +1064,7 @@ being simulated. This is a steady-state transport problem, although a
 time-dependent $\sigma$ necessitates a recalculation of $f$ at each time step.
 
 In an infinite medium problem, a discrete ordinates (\SN)
-solution for $f$ would take only one transport sweep to complete, because there
+solution for $f$ takes only one transport sweep to complete, because there
 is no scattering source to converge. However, for a finite problem, because the boundary conditions
 rely on exiting values of $f$, in practice more than one iteration will be
 required. The
@@ -1077,7 +1077,8 @@ iterations to converge, especially if a very fine angular quadrature set is used
 reflecting boundaries are used in the calculation of $f$, the solution of
 $f(\vec{x},\vec{\Omega})$, where $\vec{x}$ is inside a voided channel and
 $\vec{\Omega}$ is parallel to the channel's walls, will be nearly singular.
-Source iteration will take a correspondingly large number of iterations.
+Source iteration will require a correspondingly large number of transport
+sweeps.
 
 The convergence problem can be obviated somewhat by taking advantage of the
 flexibility in Eq.~\eqref{eq:hoBc}, which allows for other angular shapes on the
@@ -1137,7 +1138,8 @@ then as $\epsilon\to 0$,
   f(\vec{x}, \vec{\Omega}) \to \frac{1}{4\pi \sigma(\vec{x})} \lra
   \Dtens(\vec{x}) \to \frac{1}{3 \sigma(\vec{x})} \Identitytens\,,
 \end{equation*}
-which is the standard diffusion coefficient. The value $\epsilon=1$ yields the
+which is the standard diffusion coefficient. The selection $\epsilon=1$ yields
+the
 anisotropic diffusion tensor.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1184,7 +1186,7 @@ particle flow in a direction \emph{other than the direction of the gradient}. In
 \end{equation*}
 
 If we calculate the ``leakage'' $\vec{n} \vd \vec{F}$ averaged over a planar
-surface normal to $\vec{n}$, standard diffusion will only consider the gradient
+surface normal to $\vec{n}$, standard diffusion only depends on the gradient
 \emph{normal} to the surface. For example, on a surface normal to the $x$ axis,
 standard diffusion gives the leakage term
 \begin{equation*}
@@ -1197,9 +1199,10 @@ However, anisotropic diffusion has the following leakage term:
 \end{equation*}
 We refer to the leakage normal to the face, $- D^{xx} \pder{\phi}{x}$, as
 ``normal'' leakage; the leakage along the face, $- D^{yx}
-\pder{\phi}{y}$, we use the term ``transverse'' leakage.\footnote{%
+\pder{\phi}{y}$, we use the term ``transverse'' leakage.%
+\footnote{%
 These terms are compatible with the form of anisotropic diffusion used in
-geology and fluid flow. In the field of magneto-hydrodynamics, terms
+geology and fluid flow. In the field of magneto-hydrodynamics, the terms
 ``perpendicular'' and ``parallel'' replace ``normal'' and ``transverse,''
 respectively.
 }
@@ -1216,7 +1219,7 @@ transport, a particularly egregious failure occurs near voided regions, where
 the true solution has strong spatial and temporal gradients (see
 \S\ref{sec:bgFld}). Standard diffusion fails in regions where $\sigma=0$,
 particularly for problems with long voided channels along which the true $\phi$
-can significantly vary.
+can vary significantly.
 In contrast, anisotropic diffusion gracefully yields a qualitatively realistic
 approximation to the behavior of particles in a void.
 
@@ -1226,15 +1229,10 @@ The standard diffusion coefficient is defined as
 \end{equation*}
 As $\sigma\to0$ locally, $D\to \infty$. An infinite diffusion coefficient in a
 region gives a spatially constant $\phi$, which is almost always an
-unphysical result.\footnote{%
+unphysical result.%
+\footnote{%
 One exception is that in a 1-D slab configuration, a voided region truly does
-have a constant solution in the void.}
-%Many numerical solvers also have
-%difficulty converging when the problem contains a voided region
-% Small values of $\sigma$ can also cause numerical
-% difficulties in computer implementations, as well: the larger diffusion
-% coefficients will tend to reduce the diagonal dominance of the discretized
-% diffusion matrix, leading to slower convergence with iterative solution methods.
+have a constant solution.}
 
 In contrast to standard diffusion, the anisotropic diffusion approximation has
 a \emph{nonlocal} dependence on $\sigma$ through $f(\vec{x}, \vec{\Omega})$.
@@ -1245,7 +1243,7 @@ the anisotropic diffusion tensor $\Dtens$ that the standard diffusion's
 isotropic tensor $D$ lacks. Because $f(\vec{x},\vec{\Omega})$ is larger for
 directions $\vec{\Omega}$ parallel to a voided channel than perpendicular to it,
 the second angular moment $\Dtens$ has a stronger action along that direction.
-In other words, particles in a channel will tend to travel along a voided
+In other words, particles in a channel prefer to travel along a voided
 channel than across it.
 
 \subsubsection{Linear algebraic properties}\label{sec:adLinalg}
@@ -1271,12 +1269,12 @@ This is in contrast to quasidiffusion methods, which
 require a more computationally expensive solver such as GMRES \cite{War2003}.
 
 Additionally, the principle eigenvector of the diffusion tensor (the direction
-on which $\Dtens$ has the greatest action) can be sometimes be deduced by
+on which $\Dtens$ has the greatest action) can sometimes be deduced by
 the physics of the problem. We first note that $\Dtens$ depends only on the
 transport solution $f$, and $f$ depends only on the total opacity $\sigma$.
 Therefore, if at point $\vec{x}$ the opacity $\sigma$ is invariant about some
 unit direction $\vec{n}$, then the solution $f$ will be rotationally invariant
-about that axis. As discussed in Ref.~\cite{Lev1984}, the action of $\Dtens$ upon
+about $\vec{n}$. As discussed in Ref.~\cite{Lev1984}, the action of $\Dtens$ upon
 $\vec{n}$ must therefore be invariant under the rotational transformation, and
 is therefore an eigenvector of $\Dtens$:
 \begin{equation*}
@@ -1295,7 +1293,7 @@ Chapter~\ref{chap:implementation}, it is numerically advantageous to have only
 normal leakage.
 
 To exemplify the usefulness of knowing the eigenvectors, we consider the 2-D
-VHTR problem in Ref.~\cite{Lar2009c}, which featured a total cross section that
+VHTR problem in Ref.~\cite{Lar2009c}, which features a total cross section that
 varied only in the $x$ direction. From the discussion above, we know
 \emph{a priori} that, even though the physical problem is two-dimensional,
 the diffusion tensor has principle
@@ -1318,10 +1316,9 @@ which we consider in 1-D for simplicity:
   F(x) = - D(x) \pder{\phi}{x}(x)\,.
 \end{equation*}
 Particle conservation demands that $F$ be continuous: a discontinuity in $D$
-causes a discontinuity in $\tpder\phi x$.
+must necessarily be balanced by a discontinuity in $\tpder\phi x$.
 Likewise, if $D(x)$ is continuous, as is the case for anisotropic diffusion, the
 first derivative of $\phi$ must necessarily be continuous.
-
 The smooth transition of the anisotropic diffusion tensor $\Dtens$ at a material
 discontinuity produces a boundary layer between the materials. Standard
 diffusion has no boundary layer.
@@ -1343,7 +1340,7 @@ diffusion solve, this could result in a significant speedup for AD calculations.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flux-limited anisotropic diffusion}\label{sec:flad}
 
-Like standard diffusion, the time-dependent anisotropic diffusion approximation
+Like standard diffusion, the time-dependent anisotropic diffusion equation
 is parabolic \cite{Pom1982,Ols2000}, allowing radiation energy to unphysically
 propagate faster than the speed of light.  This undesirable property results
 from the assumption that the time derivative of the intensity varied slowly in
@@ -1371,7 +1368,7 @@ Eq.~\eqref{eq:adFicks}, can violate Eq.~\eqref{eq:fluxLimit_3}:
   \norm{- \Dtens \vd \grad \phi} \stackrel{?}{\le} \phi \,.
 \end{equation*}
 The left hand side can exceed the right if either $\Dtens$ or $\grad \phi$ is
-``large'', which often occurs in optically thin regions or in a radiation shock
+``large'', which may occur in optically thin regions or in a radiation shock
 wave.
 Flux-limited anisotropic diffusion (FLAD) modifies the
 transport-calculated anisotropic diffusion tensor to preserve
@@ -1380,8 +1377,9 @@ Eq.~\eqref{eq:fluxLimit_3} in the presence of large gradients.
 Constructing a flux limiter for anisotropic diffusion is less straightforward
 than for standard diffusion. The scalar diffusion coefficient $D$ may
 simply be moved outside the magnitude operator $\norm{\cdot}$, but the
-\emph{tensor} with anisotropic diffusion cannot be treated that way.
-However, a ``max'' limiter for anisotropic diffusion can be easily formulated.
+anisotropic diffusion
+\emph{tensor} $\Dtens$ cannot be treated that way.
+However, a ``max'' limiter for anisotropic diffusion is easily formulated.
 A semi-implicit implementation of this limiter is
 \begin{equation}\label{eq:flad}
   \Dtens^{n+1/2} = \Dtens^{n} \times 
@@ -1398,7 +1396,7 @@ anisotropic diffusion break down. However, because the magnitude of the
 anisotropic diffusion tensor is always smaller than the corresponding standard
 diffusion coefficient in an optically thin region (see \S\ref{sec:adVoids}), the
 flux limiting relationship of Eq.~\eqref{eq:fluxLimit_3} will not be violated as
-often. The anisotropic diffusion flux limiter will therefore be used less often.
+often. We expect that anisotropic diffusion flux limiter will therefore be used less often.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
@@ -1416,7 +1414,7 @@ low-order equations for $\phi$ that use $\Dtens$ to approximate the flow of
 radiation inside a time step. 
 
 These equations limit to the standard diffusion approximation in a homogeneous
-medium, but they do not require the diffusion approximation that the radiation
+medium, but they do not make the diffusion approximation that the radiation
 intensity be linear in
 angle. We therefore expect the AD method to yield more accurate solutions
 for problems in which the intensity is a complex function of angle.
