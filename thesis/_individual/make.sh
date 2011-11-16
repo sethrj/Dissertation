@@ -6,10 +6,10 @@ for f in ${TEXFILES}; do
 	echo "Compiling $f"
 	pdflatex -draftmode -interaction=batchmode $f
 	bibtex -terse $f
-	#pdflatex -interaction=batchmode $f
+	pdflatex -synctex=1 -interaction=batchmode $f
 	grep 'Rerun to get cross-references right' $f.log
 	if [ $? -eq 0 ]; then
-		pdflatex -interaction=batchmode $f
+		pdflatex -synctex=1 -interaction=batchmode $f
 	fi
 done
 chflags hidden *.aux *.blg *.bbl

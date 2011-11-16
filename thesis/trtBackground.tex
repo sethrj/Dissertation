@@ -111,7 +111,9 @@ wave equation with a wave speed of $c$. However, because the photons move
 through a material, there is a chance they will collide with its electrons,
 hence the \emph{collision} term $\sigma I$. The first term on the right-hand
 side represents particles emitted via the isotropic temperature-dependent
-process of \emph{black body emission}. The additional term $q_r$ is an extraneous
+process of \emph{black body emission}. (The quantity $\frac{a c T^4}{4\pi}$ is
+the frequency-integrated Planck function $B(\nu,T)$.)
+The additional term $q_r$ is an extraneous
 isotropic radiation source that emits with an energy density (energy per
 volume per time) of $q_r$.
 
@@ -189,6 +191,17 @@ radiation energy density (compare, for example, Ref.~\cite{Den2007} to
 Ref.~\cite{Kno1999a}). In fact, since our numerical modelexperiments use the
 scaled system of variables $c=a=1$, our later results can use ``scalar
 intensity'' and ``radiation energy density'' interchangeably.
+
+The radiation temperature, defined as
+\begin{equation}\label{eq:radTemp}
+  T_\text{rad} = \left( \frac{\phi}{ac} \right)^{1/4} \,,
+\end{equation}
+is often used in lieu of the radiation energy density (or scalar intensity) in
+TRT problem analysis, as it can be more closely compared against the material
+temperature $T$. At thermal equilibrium (where the time rate of change,
+streaming, and extraneous source terms in Eqs.~\eqref{eqs:explanTRT} are set to
+zero), the frequency-dependent intensity is equal to the Planckian function,
+$I=B$, and the radiation temperature satisfies $T_\text{rad} = T$.
 
 The first angular moment of the intensity also has physical significance. The
 \emph{radiation flux} is defined as

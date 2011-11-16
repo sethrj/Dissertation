@@ -15,6 +15,9 @@ clean:
 	rm -f *.aux thesis.blg thesis.log thesis.out thesis.bbl thesis.lof \
 		     thesis.lot thesis.pdf thesis.toc
 
+finalAbstract.pdf: finalAbstract.tex
+	pdflatex -synctex=1 -interaction=batchmode finalAbstract
+
 individual:
 	cd _individual && ./make.sh
 
