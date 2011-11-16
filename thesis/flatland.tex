@@ -506,6 +506,43 @@ the correct value. Thus, for example, visualizing the \SN\
 solution by plotting $f_m$ as a function of $\omega_m$ requires multiplying by a
 factor of two.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Thermal radiative transfer}\label{sec:trtBoundaryTemp}
+
+To describe incident boundary conditions in thermal radiative transfer
+problems, the typical approach is to specify the \emph{radiation temperature}
+[see Eq.~\eqref{eq:radTemp}] on the boundary rather than the incident
+radiation flux. The boundary radiation temperature is equivalent to having an
+infinite homogeneous medium just outside the boundary with the black-body scalar
+intensity $\phi=ac T_\text{rad}^4$. (A problem with these boundary conditions
+will be at thermal equilibrium when it has \textsl{(i)} a homogeneous material
+temperature $T$, \textsl{(ii)} a homogeneous radiation temperature
+$T_\text{rad}=T$, \textsl{(iii)} a boundary radiation temperature $T_\text{rad}
+= T$, and \textsl{(iv)} no extraneous sources. The amount of energy exiting the
+boundary is equal to the amount emitted into the problem by the radiation
+boundary.)
+
+The equilibrium intensity is, using the notation of
+Table~\ref{tab:angularMoments},
+\begin{equation*}
+  I(\vec{x},\vec{\Omega}, t) = \frac{a c T_\text{rad}^4}{\gamma_0}\,.
+\end{equation*}
+The incident black-body radiation flux is then
+\begin{equation}\label{eq:bndyTrad}
+  F^- = \int_{\vec{\Omega}\vd\vec{n} < 0} (\vec{\Omega}\vd \vec{n})
+  \left[ \frac{a c T_\text{rad}^4}{\gamma_0} \right] \ud\Omega
+  = \frac{\gamma_1}{2} \frac{a c T_\text{rad}^4}{\gamma_0} \,.
+\end{equation}
+In 1-D, 2-D, and 3-D, this gives the physical incident rate of energy from a
+black body boundary source:
+\begin{equation}\label{eq:bndyTrad3D}
+  F^- = \frac{1}{4} a c T_\text{rad}^4 \,.
+\end{equation}
+In flatland, Eq.~\eqref{eq:bndyTrad} evaluates to a different incident rate:
+\begin{equation}\label{eq:bndyTradFlatland}
+  F^- = \frac{1}{\pi} a c T_\text{rad}^4 \,.
+\end{equation}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diffusion}
 
