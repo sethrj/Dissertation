@@ -7,7 +7,8 @@
 The anisotropic diffusion method was derived under the assumptions that the
 intensity has weak spatial gradients, mild anisotropy, and very slow time
 dependence. By reducing the asymptotic smallness of the time derivative, we
-derive a new ``anisotropic'' method, which we name anisotropic \Pone\ (\APone).
+derive a new ``anisotropic'' method, which we name \emph{anisotropic \Pone}
+(\APone).
 In the steady-state case, it reduces to the anisotropic diffusion approximation;
 in
 the homogeneous-medium case, it reduces to the standard \Pone\ (spherical
@@ -133,7 +134,7 @@ its anisotropy are:
   \pder{I}{t} &= O(\epsilon) \,.
 \end{align}
 
-The stronger magnitude of the time derivative requires that the time derivative
+The stronger assumed magnitude of $\tpder I t$ requires that the time derivative
 in Eq.~\eqref{eq:capPsiVol_4} must be retained to preserving $O(\epsilon^2)$
 accuracy. (This differs from anisotropic diffusion, in which the term was
 discarded.) The only asymptotically
@@ -236,7 +237,7 @@ left-hand side to yield the following equation:
 \begin{equation}\label{eq:ap1FicksLaw1}
   \left( \frac{1}{\sigma(\vec{x})} \frac{1}{c}\pder{}{t} + 1 \right)
   \vec{F}(\vec{x},t) 
-  = - \int_{4\pi} f(\vec{x},\vec{\Omega}) \vec{\Omega} \ud\Omega
+  = - \int_{4\pi} \vec{\Omega} f(\vec{x},\vec{\Omega}) \vec{\Omega} \ud\Omega
   \vd \grad \phi(\vec{x}, t) \,.
 \end{equation}
 Multiplying through by $\sigma$ and rearranging, we get:
@@ -577,7 +578,7 @@ The low-order conservation equation~\eqref{eq:loVol_4} is:
 \frac{1}{c} \pder{\phi}{t} (\vec{x}, t)
 + \grad \vd \vec{F}(\vec{x},t)
 + \sigma(\vec{x}) \phi(\vec{x}, t)
-  = Q(\vec{x}, t) \,,
+  = q(\vec{x}, t) \,,
   \quad \vec{x} \in V,\ t > 0 \,.
 \end{equation*}
 This is coupled with Eq.~\eqref{eq:ap1FicksLawFinal}, which acts as a
@@ -645,7 +646,10 @@ Because the transport equation for $f$ in anisotropic \Pone\ is the same as in
 anisotropic diffusion, the diffusion tensor $\Dtens$ is also the same, and much
 of the discussion there also applies here.
 The transport calculation for $f$ has no scattering source to converge; the
-anisotropic diffusion tensor $\Dtens$ is therefore computationally inexpensive.
+anisotropic diffusion tensor $\Dtens$ is therefore computationally inexpensive
+to compute. The diffusion tensor $\Dtens$ and the nonlocal opacity $\varsigma$
+are both angular moments of $f$, so no extra transport calculation is needed in
+\APone\ as compared to AD.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Steady-state limit}
@@ -667,22 +671,13 @@ Dividing through by $\varsigma$, which is strictly positive, we obtain the
 anisotropic Fick's law of Eq.~\eqref{eq:adFicks}:
 \begin{equation*}
  \vec{F}(\vec{x},t)
-  = -\varsigma(\vec{x}) \Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,. 
+  = -\Dtens(\vec{x}) \vd \grad \phi(\vec{x}, t) \,. 
 \end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Homogeneous medium limit}
 In a homogeneous medium, the \APone\ equation~\eqref{eq:ap1FicksLawFinal} limits
 to the \Pone\ equation.
-
-The time-dependent \Pone\ equation is
-\begin{equation*}
-  \frac{1}{c}\pder{\vec{F}}{t}(\vec{x},t)
-  + \frac{1}{3} \grad \phi(\vec{x}, t)
-  + \sigma(\vec{x})\vec{F}(\vec{x},t) 
-  = 0 \,.
-\end{equation*}
-
 When $\sigma$ is constant, the purely absorbing transport problem for $f$ has the
 constant solution $f=1/(4\pi\sigma)$. The nonlocal opacity, $\varsigma$ from
 Eq.~\eqref{eq:varSigma}, becomes
@@ -734,5 +729,5 @@ The anisotropic \Pone\ approximation was derived using the same procedure as
 time-dependent anisotropic diffusion. The assumption of a stronger time
 dependence of the radiative intensity led to a larger unknown space---now the
 zeroth \emph{and} first moments of $I$---and we therefore expect this method to
-be more accurate in problems with rapid transient behavior.
+be more accurate than AD in problems with rapid transient behavior.
 
