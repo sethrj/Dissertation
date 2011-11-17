@@ -445,13 +445,25 @@ $(0.9, 0.3)$, and $(1.7, 0.3)$.
 \subsection{Results and discussion}
 
 With the semi-implicit linearization, the problem is highly scattering and
-thus expensive for MC solvers. In the
-final time step, the Fleck factor [see Eq.~\eqref{eq:fleckFactor}] is about
-$0.09$ in the channel and $0.06$ in in the diffusive medium: the effective
-scattering ratio $\sigma_\text{es}/\sigma$ is above $0.9$ throughout the
-problem. (Our particular choice of $\sigma \propto T^{-3}$ and $c_v \propto 1$
-means that the linearization coefficient $\beta$ [see Eq.~\eqref{eq:beta}] is
-temperature-independent inside each material.)
+thus expensive for MC solvers. In fact, our particular choice of $\sigma
+\propto T^{-3}$ and $c_v \propto 1$ means that the denominator of the Fleck
+factor, $\beta \sigma$ [see Eq.~\eqref{eq:beta}], is
+temperature-independent inside each material, and we can calculate \emph{a
+priori} the effective scattering ratio $\sigma_\text{es}/\sigma$:
+\begin{align*}
+  \text{effective scattering} &= 1 - f
+  \\
+  &= 1 - \left[ 1 + \beta c \Delta_t \sigma \right]\inv
+  \\
+  &= 1 -  \left[ 1 +\left(  \frac{4 a T^3}{ c_v } \right) c \Delta_t (\alpha T^{-3}) \right]\inv
+  \\
+  &= 1 - \left[ 1 + 4 \Delta_t \frac{\alpha}{c_v} \right]\inv\,,
+\end{align*}
+where $\frac{\alpha}{c_v} = 25$ in the channel and $\frac{\alpha}{c_v} = 40$ in
+the medium. In the final time step with $\Delta_t=0.1$, the Fleck factor [see
+Eq.~\eqref{eq:fleckFactor}] is about $0.09$ in the channel and $0.06$ in in the
+diffusive medium: the effective scattering ratio is above $0.9$ throughout the
+problem.
 
 Figure~\ref{fig:doglegRadtempFinal} plots the radiation temperature at the final
 %
