@@ -9,13 +9,15 @@ nonlinear radiative transfer. Ancillary to the numerical testing, we
 investigated flatland geometry and new discretization schemes suitable for the
 anisotropic diffusion methods. We conclude by reviewing the new developments and
 results, then discussing future refinements and improvements to the methods.
+We conclude by reviewing the new developments and results of each new method,
+and discussing future potential refinements to these methods.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion}
 
 The anisotropic diffusion (AD) approximation, initially formulated in prior work, has been extended to finite and time-dependent problems
 (Chapter~\ref{chap:adDerivation}). Using an asymptotic
-derivation that appeals to the strength of aspects of the physical problem, we
+derivation that appeals to physical scaling of the problem, we
 obtained a new, arbitrarily anisotropic (as opposed to linearly anisotropic in
 the case of standard diffusion) approximation to the angular intensity.
 Boundary and initial layer analyses gave transport-matched boundary and initial
@@ -29,38 +31,39 @@ the anisotropic diffusion coefficients for all time steps. (In finite medium
 problems, an additional few sweeps may be needed to converge the opposing
 reflecting/white boundary conditions.) Furthermore, unlike time-dependent
 transport methods, the time-dependent AD methods do not require the storage of
-the full angle-dependent intensity.
+the full angle-dependent intensity. Anisotropic diffusion is faster and less
+memory-intensive than transport methods.
 
 One complication present in the anisotropic diffusion methods is
 that, in most problems, the diffusion tensor has nonzero off-diagonal terms.
 These terms cause a gradient in one direction to induce particle flow in an
 orthogonal direction. To account for this ``transverse'' leakage, we generalized
 an existing cell-centered difference scheme (Chapter~\ref{chap:implementation}).
-
-Because the anisotropic diffusion equations are parabolic, they have the
-shortcoming that, in time-dependent problems, radiation may travel faster than
-the speed of light $c$. We addressed this issue by proposing a modification to
-the AD approximation (flux limiting) and by developing a second ``anisotropic''
-approximation (anisotropic \Pone).
+It reduces to a conventional 5-point finite difference method when the diffusion
+tensors are isotropic, and it does not increase the number of unknowns compared
+to cell-centered finite difference diffusion. With the penalty of a slightly
+less sparse matrix structure, these new difference schemes account for the
+transverse leakage in anisotropic diffusion
 
 Our numerical results (Chapter~\ref{chap:simpleNumericalResults}) began by
 testing the fidelity of \SN-calculated AD coefficients. We obtained accurate
-answers even with a coarse quadrature set (16 ordinates per quadrant), few
+answers with a coarse quadrature set (16 ordinates per quadrant), few
 transport sweeps (about two), and a coarse grid (so long as material boundaries
 were preserved).
 
 Comparing plots of the intensity as a function of angle, we confirmed our
 supposition that the arbitrary anisotropy inherent to the AD approximation
 allows it to better represent the shape of the true intensity. We found
-the linear-in-angle representation of conventional diffusion to be insufficient
-in problems with strong anisotropy.
+the linear-in-angle representation of conventional diffusion to be inadequate
+in problems with strong anisotropy in the solution.
 
 We also tested the newly derived boundary conditions. In most cases, they
 accurately preserved the transport solution away from the boundaries, even in
-the presence of voids. The exceptions that performed poorly were when a strongly
-anisotropic boundary condition was incident on a void. (Because the AD boundary
+the presence of voids. The exceptions that performed poorly were in cases of
+strongly anisotropic specified boundaries incident on a void. (Because the AD
+boundary
 conditions reduce to the diffusion boundary conditions in a homogeneous medium,
-these same boundary conditions in a problem without a void should perform well.)
+these same boundary conditions in a problem without a void perform well.)
 
 In time-dependent problems, the anisotropic diffusion approximation produced
 more accurate answers than standard diffusion, but in voids, it allowed energy
@@ -68,18 +71,26 @@ to travel too quickly. The same behavior was seen in thermal radiative transfer
 problems, but it was less pronounced because even the streaming areas are
 relatively opaque at their initial cold temperatures.
 
+The anisotropic diffusion method shows great promise in steady-state problems.
+Yet because the anisotropic diffusion equations are parabolic, they have the
+shortcoming that, in time-dependent problems, radiation may travel faster than
+$c$,~the speed of light. We addressed this issue by proposing a modification to
+the AD approximation (flux limiting) and by developing a second ``anisotropic''
+approximation (anisotropic \Pone).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flux-limited anisotropic diffusion}
 
-By adding a flux limiter to the anisotropic diffusion approximation
-(\S\ref{sec:flad}), we artificially reduced the diffusion tensor's magnitude in
+Adding a flux limiter to the anisotropic diffusion approximation
+(\S\ref{sec:flad}) artificially reduced the diffusion tensor's magnitude in
 the presence of strong gradients, inhibiting the spread of energy at a wavefront
 to restore the qualitative feature of transport that transfer is limited to the
-speed of light. Flux-limited anisotropic diffusion (FLAD) yielded results
+speed of light. Flux-limited anisotropic diffusion (FLAD) yields results
 similar to AD in problems with weak time derivatives and large opacities, but
-it did improve the answer during the initial transients of a Marshak wave.
-It is important to note that testing showed the ``max'' limiter with AD to be
-needed far less frequently than with standard diffusion: the \emph{ad hoc}
+our results show that it improves the accuracy of the solution during the
+initial transients of a Marshak wave.
+Testing showed the ``max'' limiter with AD is used less frequently than with
+standard diffusion: the \emph{ad hoc}
 fix-up is less necessary for the anisotropic diffusion approximation.
 
 We found that FLAD produced very accurate solutions in a wide
@@ -91,50 +102,51 @@ flux-limited diffusion could not approximate well.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic \texorpdfstring{\Pone}{P1}}
 
-When we derived the anisotropic diffusion approximation, we assumed a very small
-$O(\epsilon^2)$ temporal gradient (a very slowly changing solution). Revisiting
-that assumption and weakening it to allow an $O(\epsilon)$ time derivative, we
+When we derived the anisotropic diffusion approximation, we assumed a very
+slowly changing solution. Revisiting that assumption and allowing a stronger
+$O(\epsilon)$ time derivative, we
 derived a set of \Pone-like equations that contained the anisotropic diffusion
 tensor $\Dtens$ (Chapter~\ref{chap:aponeDerivation}). 
 
-However, these equations
+These equations
 had a shortcoming which was corrected by the \emph{ad hoc} replacement of the
-opacity $\sigma$ with a nonlocal transport-calculated $\varsigma$ that could be
-calculated in the same transport sweep as $\Dtens$. The resulting anisotropic
+opacity $\sigma$ with a nonlocal $\varsigma$ that could be
+calculated in the same transport sweep as $\Dtens$. The resulting Anisotropic
 \Pone\ (\APone) approximation behaves well in voids, reduces to the AD
 approximation at steady state, and becomes the \Pone\ approximation in a
 homogeneous medium.
-
 Using a boundary layer analysis, we also obtained boundary conditions for this
 new method.
 
 The low-order unknowns for \APone\ comprise both $\phi$ and $\vec{F}$, compared
-to just $\phi$ needed with the AD method.  We formulated a staggered-grid
-discretization scheme for \APone\ based on an extant \Pone\ discretization.
+to just $\phi$ needed with the AD method.  As a result, a different spatial
+discretization is also needed. We formulated a staggered-mesh
+scheme for \APone\ based on an extant \Pone\ discretization.
 
 We found that \APone-calculated solutions behaved like standard \Pone\ in some
 problems (with large voided regions) and like anisotropic diffusion in others
 (with smaller voided regions). In the case of large voids, \APone\ showed less
 unphysically oscillatory behavior than \Pone.
 
-There were no problems that demonstrated \APone\ to be superior to FLAD,
-yet the equations of \APone\ are more complex than those of FLAD. (They are not
-SPD, and they have a larger unknown space and therefore require more storage.)
+There were no problems in which \APone\ was superior to FLAD,
+despite that the equations of \APone\ are more complex than those of FLAD. (They
+are not
+self-adjoint, and they have a larger unknown space and therefore require more
+computer memory.)
 As a result, we cannot recommend the new anisotropic \Pone\ approximation over
-the flux-limited anisotropic diffusion approximation that we derived.
+flux-limited anisotropic diffusion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flatland geometry}
 
 Many of our test problems used the ``flatland'' geometry
 (Chapter~\ref{chap:flatland}), which has a smaller angular phase space than 2-D
-geometry and qualitatively simulates channels more realistically. (In, 2-D
+geometry and qualitatively simulates channels more realistically. (In 2-D
 geometry, what looks like a channel is the projection of two infinite walls.)
 Flatland geometry is not as straightforward as it seemed at first glance,
-however. The diffusion coefficients, Marshak boundary conditions, and
-transport-matched boundary conditions all are different from 2-D diffusion.
-Monte Carlo sampling routines and \SN\ quadrature sets are also different from
-their 2-D equivalents.
+however. The diffusion coefficients, Marshak boundary conditions,
+transport-matched boundary conditions, and black-body radiation boundary
+conditions all are different from their standard 2-D formulations.
 
 In addition to prescribing sampling routines for flatland Monte Carlo
 calculations and presenting \SN\ quadrature sets that preserve the flatland
@@ -157,10 +169,10 @@ accuracy may be improved in a number of ways, which we now discuss.
 In the derivation of the anisotropic diffusion method, we discarded
 terms of $O(\epsilon^2)$ using a particular asymptotic scaling. Retaining more
 terms---making fewer approximations---should result in a more accurate
-approximation to the intensity.
+approximation to the radiative intensity.
 
 By retaining the $\frac{1}{4\pi} \grad \vd \vec{F}$ term in
-Eq.~\eqref{eq:capPsiVol}, we arrive at a new approximation that takes the place
+Eq.~\eqref{eq:capPsiVol}, we can derive at a new approximation that takes the place
 of Fick's law:
 \begin{equation*}
   \vec{F} = - \Dtens \vd \grad \phi + \vec{E} (\grad \vd\vec{F})\,,
@@ -171,19 +183,21 @@ where
 \end{equation*}
 
 Away from material discontinuities, $\vec{E}$ is exponentially small; but
-near a discontinuity, $\vec{E}$ is non-negligible. This additional term may
+near a discontinuity, $\vec{E}$ is non-negligible. This additional advection
+term may
 improve the accuracy of the anisotropic diffusion approximation in an
 asymptotic order-of-accuracy sense, and it will re-introduce a qualitative
 property that our anisotropic
-diffusion approximation lacks: a ``kink'' in the solution $\phi$. Because
+diffusion approximation lacks: a ``kink'' in the solution $\phi$. (Because
 $\vec{E}$ is discontinuous at a material boundary, it will induce a
-discontinuity in $\grad \phi$. This new method will then have at a material
+discontinuity in $\grad \phi$.) This new method will then have at a material
 interface both a boundary layer (which transport and AD have but standard
 diffusion does not) and a discontinuous first derivative (which transport and
 standard diffusion have but AD does not).
 
 The difficulty with this extra term is that advection-diffusion equations
-require troublesome discretization schemes. Advection-diffusion is also non-SPD,
+require troublesome discretization schemes. Additionally, advection-diffusion is
+not self-adjoint,
 so the fast and simple conjugate gradient (CG) method could no longer be used to
 solve the resulting matrix: more costly methods (such as GMRES) would be
 required.
@@ -193,14 +207,17 @@ required.
 
 In \S\ref{sec:flad}, we proposed a flux-limited modification to anisotropic
 diffusion theory. For ease of understanding and implementation, we chose a
-``max'' limiter that multiplied the tensor by a scalar that preserved the
+``max'' limiter that multiplies the tensor by a scalar that preserves the
 physical property $\vec{F} \le \phi$. However, other flux limiting
 methods---some of which may be more well behaved numerically---are possible.
 These flux limiters would be more complicated than the standard scalar diffusion
-coefficients: the extra degrees of freedom in being anisotropic tensors rather
-than isotropic scalars would allow a more options in formulating the tensor.
-An additional complication is that for a ``square root''-type limiter, as an
-example, a ``matrix square root'' would have to be calculated.
+coefficients: the extra degrees of freedom in being anisotropic
+\emph{tensors} rather than isotropic \emph{scalars} would allow more options in
+formulating the tensor.
+They may also be more computationally expensive. For a ``square root''-type
+limiter, as an
+example, a ``matrix square root'' would have to be calculated in each cell at
+each time step.
 
 %The
 %two properties a flux-limited diffusion tensor $\tilde\Dtens$ must retain are
@@ -224,16 +241,18 @@ fidelity of the simulation. Because of the strong variation of opacity with
 frequency, parts of the problem optically thick in one group may be optically
 thin in another. The AD approximation will likely provide a better treatment of
 these groups than standard FLD. One disadvantage of multigroup solutions is that
-each group will require its own transport-calculated $\Dtens$, which could be
-costly enough to reduce its competitiveness.
+each group will require its own transport-calculated $\Dtens$, which might be
+too costly a requirement for it to remain competitive against IMC and other
+transport methods.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Three-dimensional problems}
 
 Time-dependent anisotropic diffusion has been formulated for general
 3-D geometry (see Chapter~\ref{chap:adDerivation}), but it has not
-been implemented or tested in 3-D. The primary changes for 3-D are that the
-diffusion tensor is now a $3\times 3$ matrix, the diffusion matrix is more
+been implemented or tested in 3-D. The major differences between our work
+and 3-D are that the
+diffusion tensor is a $3\times 3$ matrix, the diffusion matrix is more
 complex, and the cost of the transport sweep increases.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -242,17 +261,18 @@ complex, and the cost of the transport sweep increases.
 The cell-centered discretization schemes of Chapter~\ref{chap:implementation}
 are only a first attempt at developing an accurate, cheap discretization for
 anisotropic diffusion. The Support Operators Method
-\cite{Mor1998,Run2006}, even though it has a larger number of unknowns than
-cell-centered diffusion, may compensate by being more accurate. Finite element
+\cite{Mor1998,Run2006}, even though it uses more unknowns than
+cell-centered diffusion, may compensate for this added expense by being more accurate. Finite element
 methods might also be applied effectively to the anisotropic diffusion methods.
 Because the cell-centered scheme we derived is only applicable to ``brick''
 geometry (regular Cartesian mesh), other discretization schemes will undoubtedly
-be needed for more complex geometries.
+be needed (and equally undoubtedly already exist in other fields) for more
+complex geometries.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Preconditioners}
 
-Finally, the performance of the anisotropic diffusion method could be improved
+As with standard diffusion methods, the performance of the anisotropic diffusion method could be improved
 by using Krylov solvers with well-chosen preconditioners. Multigrid
 preconditioning has already been applied to nonlinear diffusion \cite{Rid1999};
 the extension to anisotropic diffusion should be straightforward.
@@ -262,7 +282,8 @@ the extension to anisotropic diffusion should be straightforward.
 
 The anisotropic diffusion methods that we derived and tested incorporate an
 arbitrary amount of anisotropy into their approximation of the angular
-intensity. Of these, flux-limited anisotropic diffusion is the most accurate.
+intensity, producing results superior to diffusion in a number of problems. Of
+these new methods, flux-limited anisotropic diffusion is the most accurate.
 Even though the calculation of the anisotropic diffusion tensor
 requires the moderate cost of a transport sweep, the FLAD solution in many
 problems is commensurately more accurate compared to conventional FLD. Our
