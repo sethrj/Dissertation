@@ -417,7 +417,7 @@
         \end{tabular}}
 
 
-%\gdef\@gradyear{\number\year}
+\gdef\@gradyear{\number\year}
 \newcommand\degree[1]{\gdef\@degree{#1}}
 \newcommand\program[1]{\gdef\@program{#1}}
 \newcommand\gradyear[1]{\gdef\@gradyear{#1}}
