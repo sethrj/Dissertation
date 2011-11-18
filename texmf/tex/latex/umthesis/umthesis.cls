@@ -10,8 +10,9 @@
 %% and title as much as possible, but several new commands were also necessary
 %% COMMANDS
 %% \makecopyright
-%% \degree{doctor of philosophy or whater}
+%% \degree{doctor of philosophy or whatever}
 %% \program{name of program}
+%% \gradyear{year of degree conferral (check with Rackham)}
 %% \committeemember{one for each normal committee member}
 %% \chaircommitteemember{for your chair}
 %% \cochaircommitteemember{use two of these if you have co-chairs}
@@ -416,8 +417,10 @@
         \end{tabular}}
 
 
+%\gdef\@gradyear{\number\year}
 \newcommand\degree[1]{\gdef\@degree{#1}}
 \newcommand\program[1]{\gdef\@program{#1}}
+\newcommand\gradyear[1]{\gdef\@gradyear{#1}}
 
 
 \renewcommand\tableofcontents{%
@@ -458,7 +461,7 @@
       \@degree\@centercr
       (\@program)\@centercr
     in The University of Michigan\@centercr
-        \number\year\@centercr
+        \@gradyear\@centercr
  \end{center}
  \vfill
  \committee
@@ -480,7 +483,7 @@
    \hrule
    \vspace*{.5em}
    All Rights Reserved\@centercr
-   \number\year\\%
+   \@gradyear\\%
   \end{center}
   \end{minipage}
   \end{center}
@@ -670,22 +673,15 @@
                  {\list{}{\labelwidth\z@ \itemindent-\leftmargin
                           \let\makelabel\descriptionlabel\descripthook}}
                  {\endlist}
-\renewcommand{\itemhook}{\setstretch{1}
+
+\renewcommand{\itemhook}{\par\setstretch{1}%
   \setlength{\topsep}{0pt}%
   \setlength{\parskip}{0pt}%
   \setlength{\partopsep}{.5\baselineskip}%
   \setlength{\parsep}{0pt}%
   \setlength{\itemsep}{0pt}%
 }
-
-% enumerate environment lengths
-\renewcommand{\enumhook}{\setstretch{1}
-  \setlength{\topsep}{0pt}%
-  \setlength{\parskip}{0pt}%
-  \setlength{\partopsep}{0pt}%
-  \setlength{\parsep}{0pt}%
-  \setlength{\itemsep}{0pt}%
-}
+\renewcommand{\enumhook}{\itemhook}
 
 %%%%% hyperref must be loaded last, because it redefines lots of internals. 
 %% So far there do not seem to be any conflicts though

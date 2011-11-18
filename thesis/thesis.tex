@@ -38,23 +38,13 @@
 % compatibility with ``single-chapter'' compile
 %\newcommand{\tagref}[1]{\tag{\ref{#1}}}
 
-
 % float setup
 \renewcommand\floatpagefraction{.70}
 \renewcommand\topfraction{.95}
 \renewcommand\bottomfraction{.95}
 \renewcommand\textfraction{.1}
 
-% Improve list and enum spacing
-\renewcommand{\itemhook}{\par\setstretch{1}%
-  \setlength{\topsep}{0pt}%
-  \setlength{\parskip}{0pt}%
-  \setlength{\partopsep}{.5\baselineskip}%
-  \setlength{\parsep}{0pt}%
-  \setlength{\itemsep}{0pt}%
-}
-\renewcommand{\enumhook}{\itemhook}
-
+% improve spacing at section starts
 \makeatletter
 \renewcommand\section{\@startsection {section}{1}{\z@}%
                                      {-2.5ex  \@minus -.2ex}%
@@ -72,12 +62,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \author{Seth R.~Johnson}
 \title{Anisotropic Diffusion Approximations for Time-dependent Particle
-Transport\texorpdfstring{\\%
+Transport%
+\texorpdfstring{\\%
   \emph{DRAFT: \today}}{}
 }
 
 \program{Nuclear Engineering and Radiological Sciences}
 \degree{Doctor of Philosophy}
+%\gradyear{2012}
 \chaircommitteemember{Edward W.~Larsen}{Professor}
 \committeemember{Thomas J.~Downar}{Professor}
 \committeemember{James P.~Holloway}{Professor}
