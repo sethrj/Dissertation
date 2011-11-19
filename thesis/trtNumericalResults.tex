@@ -101,7 +101,7 @@ Gauss--Legendre $S_{16}$ quadrature set and the step characteristics method.
 
 The wavefront position (Fig.~\ref{fig:1dblastWavefront}) provides an effective
 %
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering\small
   \input{1d_trt_blastwave_long/wavefront/plot}
   \caption{Wavefront position of $\phi$ in 1-D blast wave problem.}
@@ -127,7 +127,7 @@ equations, but they have the incorrect wave speed of $c/\sqrt{3}$.
 A detailed view of the radiation and material temperatures
 (Fig.~\ref{fig:1dblastTemp}) at $t=3$ gives further insight into the differences
 %
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering\small
   \centering
   \subfloat[Radiation temperature]{%
@@ -201,17 +201,8 @@ on the problem of interest to the Center for Radiative Shock Hydrodynamics
 optically thick walls. We use the same unit system as in the 1-D test problem, $c=a=1$.
 
 As represented in Fig.~\ref{fig:crashaltMaterials}, this flatland problem
-consists of:
-\begin{itemize}
-  \item a radiation source region with an energy emission rate density $q_r=25$, 
-    a constant opacity $\sigma=0.5$, and a constant heat capacity $c_v=0.5$;
-  \item a small channel region with $\sigma = T^{-3}$ and $c_v=1.0$; and
-  \item a diffusive region with $\sigma = 25 T^{-3}$ and $c_v=2.5$.
-\end{itemize}
-The physical properties of the channel are the same as those in the 1-D test
-problem.
-
-\begin{figure}[htb!]
+%
+\begin{figure}[htb]
   \centering
   \includegraphics{trt_crashpipealt/materials-enhanced}
   \Caption{Materials, geometry, and grid spacing in the flatland pipe problem.}{
@@ -220,6 +211,18 @@ problem.
  the channel, and the gray zone is the diffusive region.}
   \label{fig:crashaltMaterials}
 \end{figure}
+%
+consists of:
+\begin{itemize}
+  \item a radiation source region (red) with an energy emission rate density
+    $q_r=25$, 
+    a constant opacity $\sigma=0.5$, and a constant heat capacity $c_v=0.5$;
+  \item a small channel region (white) with $\sigma = T^{-3}$ and $c_v=1.0$; and
+  \item a diffusive region (gray) with $\sigma = 25 T^{-3}$ and $c_v=2.5$.
+\end{itemize}
+The physical properties of the channel are the same as those in the 1-D test
+problem.
+
 
 The time step is piecewise linear: it increases from $\Delta_t=0.002$ at $t=0$
 to $\Delta_t=0.02$ at $t=0.1$, and stays constant thereafter. (Keeping the
@@ -359,7 +362,7 @@ that point. Only during the initial $\sim0.5$ units of time are the slopes of th
 FLAD- and AD-calculated wavefront positions different, demonstrating that
 flux limiting is most important at the initial times and less so thereafter.
 
-We more quantitatively test our expectation (\S\ref{sec:flad}) that the more
+We more quantitatively test our expectation (see \S\ref{sec:flad}) that the more
 moderate AD coefficients require less flux-limiting than standard diffusion.
 Using this flatland pipe problem, we compare anisotropic diffusion to
 standard diffusion, with a ``max'' limiter modifying the coefficients of both.
@@ -399,7 +402,7 @@ radiation through the channel more accurately than the conventional isotropic
 diffusion coefficient.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
+\nonthesisclearpage
 \section{Crooked pipe}
 
 To add additional complexity, we modified the flatland pipe problem by adding
@@ -438,7 +441,15 @@ an incident radiation flux of $5/\pi$; see Eq.~\eqref{eq:bndyTradFlatland}.)
 The top boundary is reflecting, and all other boundaries are vacuum.
 
 The problem runs until $t=10$, with varying time steps
-(Fig.~\ref{fig:doglegTimestep}) that range from $\Delta_t=0.0125$ to
+(Fig.~\ref{fig:doglegTimestep}) that range from $\Delta_t=0.00125$ to
+%
+\begin{figure}[htb]
+  \centering
+  \input{trt_dogleg/timestep/plot}
+  \caption{Time steps used in the crooked pipe problem.}
+  \label{fig:doglegTimestep}
+\end{figure}
+%
 $\Delta_t=0.1$ to account for the stronger temporal gradients
 at the beginning of the problem. (Small time steps are needed
 to prevent IMC, and other methods to a lesser extent, from violating the maximum
@@ -451,18 +462,12 @@ error for the diffusion methods was higher than the other problems
 we ran because of the very optically thick region, so we refined the mesh for
 those methods.)
 
-\begin{figure}[htb]
-  \centering
-  \input{trt_dogleg/timestep/plot}
-  \caption{Time steps used in the crooked pipe problem.}
-  \label{fig:doglegTimestep}
-\end{figure}
 
 The analysis will primarily consider segments along the centerline of the legs
 (dashed lines
 in Fig.~\ref{fig:doglegMaterials}) and certain fiducial points in the channel
 that are representative of the radiation behavior over time. These points,
-circled in Fig.~\ref{fig:easymkMaterials}, have the $(x,y)$ coordinates: $(0.1,
+circled in Fig.~\ref{fig:doglegMaterials}, have the $(x,y)$ coordinates: $(0.1,
 1.0)$, $(0.9, 1.0)$, $(0.9, 0.3)$, and $(1.7, 0.3)$.
 
 \subsection{Results and discussion}
@@ -491,6 +496,7 @@ Figure~\ref{fig:doglegRadtempFinal} plots the radiation temperature at the final
 %
 \begin{figure}[htb]
   \centering
+  \hspace{-.5in}%
   \includegraphics[width=3in]{trt_dogleg/radtemp-t10}
   \Caption{Radiation temperature at $t=10$ in the crooked pipe problem.}{
   From top to bottom, the methods compared are IMC, FLAD, and FLD.}
@@ -512,7 +518,7 @@ the material in the channel more quickly.
 
 The choice of a boundary source rather than an interior source further
 differentiates the anisotropic diffusion methods from the conventional diffusion
-methods (see Fig.~\ref{fig:doglegRadtemp1}). Because the conventional and
+methods (see Fig.~\ref{fig:doglegRadtemp}). Because the conventional and
 %
 \begin{figure}[htb]
   \centering\small
@@ -556,6 +562,8 @@ diffusion methods (due to the very large $D$) strongly affects the rate at which
 radiation penetrates the problem: even with a flux limiter, diffusion
 overestimates the amount of radiation that moves through the channel.
 
+\thesisclearpage
+
 An additional complication is the strongly multi-dimensional layout of this
 problem. The true transport solution (IMC) shows highly collimated radiation
 streaming through the channel, impacting the obstacle at $x=1$, and heating it
@@ -564,9 +572,30 @@ diffusion do not take this into
 account at all: radiation flows isotropically through the bends with nary a care
 for the obstacle. Flux-limited anisotropic diffusion captures some of the
 strong anisotropy of the intensity, thereby driving energy into the obstacle and
-heating it up. The smaller magnitude of the AD coefficients in the channel
-cause the surrounding
-diffusive regions to heat up more than with FLD. However, only the transport
+heating it up.
+We have plotted the flux-limited anisotropic diffusion tensors (as well as
+the opacity, which determines those coefficients) at the final state in
+Fig.~\ref{fig:doglegAdcoeffFinal}. 
+%
+\begin{figure}[tbh]
+  \centering
+  \hspace{-.5in}%
+  \includegraphics[width=4in]{trt_dogleg/ad_coeff.png}
+  \Caption{Opacity and flux-limited anisotropic diffusion tensors at $t=10$ in
+  the crooked pipe problem.}{
+  The logarithm of the opacity is shown in white, blue, and black, and a subset
+  of the anisotropic diffusion tensors are shown in red. The size of each
+  ellipse is proportional to the magnitude of the AD tensor at that point, the
+  eccentricity is proportional to the anisotropy, and the principal direction
+  indicates the strongest action of the tensor.}
+  \label{fig:doglegAdcoeffFinal}
+\end{figure}
+%
+The smaller magnitude of the AD coefficients in the channel, compared to
+standard diffusion and FLD, allow the surrounding diffusive regions to
+absorb more energy than the conventional diffusion methods.
+
+Yet only the transport
 method (IMC) is able to capture the full multi-dimensional aspects of the
 solution. In Fig.~\ref{fig:doglegRadtemp2}, for example, there is a sudden
 drop-off in the IMC solution at $y=0.8$ along the centerline of leg 2: this is
@@ -579,6 +608,8 @@ that
 its emission term $\sigma a c T^4$ is also small.) Diffusion and anisotropic
 diffusion only approximate this effect by allowing particles to diffuse around
 corners.
+
+\nonthesisclearpage
 
 To better compare the time-dependent behavior of the methods, we turn to
 the radiation temperature as a function of time at the first and second fiducial
@@ -672,7 +703,6 @@ methods. (We suspect that a well-chosen preconditioner for each method will
 equalize the computational effort spent in the diffusion solve, so the AD
 methods will require slightly more time overall.)
 
-
 In this test problem, the anisotropic diffusion methods consistently produce
 more accurate solutions than the standard diffusion methods without
 an increase in computing time. The flux limiter
@@ -687,7 +717,6 @@ than conventional diffusion methods.
 %methods exactly reproduces the transport solution.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \section{2-D \texorpdfstring{``easy''}{easy} obstacle problem}
 
 One might argue that the previous flatland problems are particularly suited to
@@ -793,19 +822,12 @@ A more detailed comparison of the methods at the intermediate time $t=3$
 with the conventional FLD more closely inside the obstacle, but FLAD gives a
 better result in the channel.
 
+\thesisclearpage
+
 To provide a quantitative comparison of the
 methods, we have compared the difference in the temperature (volume-weighted
 relative 2-norm) between each method and the reference solution as a function of
 time (Fig.~\ref{fig:easymkConvergence}).
-%
-\begin{figure}[htb]
-  \centering
-  \input{trt_easymk/convergence-mattemp/plot}
-  \caption{Relative difference of the material temperature in the easy obstacle
-  problem, compared against IMC.}
-  \label{fig:easymkConvergence}
-\end{figure}
-%
 This metric,
 \begin{equation*}
   \text{reported difference} =
@@ -813,6 +835,15 @@ This metric,
   \frac{T_i}{T_{i,\text{reference}}} - 1 \right)^2 (V_i)^2\right]^{1/2} \,,
 \end{equation*}
 is similar to Eq.~\eqref{eq:rel2norm} used in the previous chapter.
+
+\begin{figure}[htb]
+  \centering
+  \input{trt_easymk/convergence-mattemp/plot}
+  \caption{Relative difference of the material temperature in the easy obstacle
+  problem, compared against IMC.}
+  \label{fig:easymkConvergence}
+\end{figure}
+
 From the plotted relative differences, it appears that the most accurate method
 overall is flux-limited anisotropic diffusion. Diffusion is the least accurate,
 and the \APone\ and \Pone\ methods perform similarly.
@@ -823,6 +854,7 @@ earlier 1-D numerical test. Anisotropic diffusion can be an
 improvement over standard diffusion in some but not all problems.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\nonthesisclearpage
 \section{2-D \texorpdfstring{``hard''}{hard} obstacle problem}
 
 A second problem from Ref.~\cite{Mou2006} has steeper spatial gradients and
