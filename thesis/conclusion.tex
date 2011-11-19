@@ -9,15 +9,13 @@ nonlinear radiative transfer. Ancillary to the numerical testing, we
 investigated flatland geometry and new discretization schemes suitable for the
 anisotropic diffusion methods. We conclude by reviewing the new developments and
 results, then discussing future refinements and improvements to the methods.
-We conclude by reviewing the new developments and results of each new method,
-and discussing future potential refinements to these methods.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic diffusion}
 
 The anisotropic diffusion (AD) approximation, initially formulated in prior work, has been extended to finite and time-dependent problems
 (Chapter~\ref{chap:adDerivation}). Using an asymptotic
-derivation that appeals to physical scaling of the problem, we
+derivation that appeals to the physical scaling of the problem, we
 obtained a new, arbitrarily anisotropic (as opposed to linearly anisotropic in
 the case of standard diffusion) approximation to the angular intensity.
 Boundary and initial layer analyses gave transport-matched boundary and initial
@@ -51,8 +49,8 @@ answers with a coarse quadrature set (16 ordinates per quadrant), few
 transport sweeps (about two), and a coarse grid (so long as material boundaries
 were preserved).
 
-Comparing plots of the intensity as a function of angle, we confirmed our
-supposition that the arbitrary anisotropy inherent to the AD approximation
+Comparing plots of the intensity as a function of angle, we confirmed the
+hypothesis that the arbitrary anisotropy inherent to the AD approximation
 allows it to better represent the shape of the true intensity. We found
 the linear-in-angle representation of conventional diffusion to be inadequate
 in problems with strong anisotropy in the solution.
@@ -68,12 +66,12 @@ these same boundary conditions in a problem without a void perform well.)
 In time-dependent problems, the anisotropic diffusion approximation produced
 more accurate answers than standard diffusion, but in voids, it allowed energy
 to travel too quickly. The same behavior was seen in thermal radiative transfer
-problems, but it was less pronounced because even the streaming areas are
+problems but was less pronounced: even the streaming areas are
 relatively opaque at their initial cold temperatures.
 
 The anisotropic diffusion method shows great promise in steady-state problems.
 Yet because the anisotropic diffusion equations are parabolic, they have the
-shortcoming that, in time-dependent problems, radiation may travel faster than
+shortcoming that in time-dependent problems, radiation may travel faster than
 $c$,~the speed of light. We addressed this issue by proposing a modification to
 the AD approximation (flux limiting) and by developing a second ``anisotropic''
 approximation (anisotropic \Pone).
@@ -90,11 +88,11 @@ similar to AD in problems with weak time derivatives and large opacities, but
 our results show that it improves the accuracy of the solution during the
 initial transients of a Marshak wave.
 Testing showed the ``max'' limiter with AD is used less frequently than with
-standard diffusion: the \emph{ad hoc}
+standard diffusion: as expected, the \emph{ad hoc}
 fix-up is less necessary for the anisotropic diffusion approximation.
 
 We found that FLAD produced very accurate solutions in a wide
-variety of problems with small voided regions. The anisotropic diffusion
+variety of problems with voided channel-like regions. The anisotropic diffusion
 approximation, when modified by the flux limiter, was especially efficacious in
 pipe-like problems with strong multi-dimensional behavior, which conventional
 flux-limited diffusion could not approximate well.
@@ -102,7 +100,7 @@ flux-limited diffusion could not approximate well.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic \texorpdfstring{\Pone}{P1}}
 
-When we derived the anisotropic diffusion approximation, we assumed a very
+In the derivation of the anisotropic diffusion approximation, we assumed a very
 slowly changing solution. Revisiting that assumption and allowing a stronger
 $O(\epsilon)$ time derivative, we
 derived a set of \Pone-like equations that contained the anisotropic diffusion
@@ -113,8 +111,8 @@ had a shortcoming which was corrected by the \emph{ad hoc} replacement of the
 opacity $\sigma$ with a nonlocal $\varsigma$ that could be
 calculated in the same transport sweep as $\Dtens$. The resulting Anisotropic
 \Pone\ (\APone) approximation behaves well in voids, reduces to the AD
-approximation at steady state, and becomes the \Pone\ approximation in a
-homogeneous medium.
+approximation at steady state, and becomes the standard \Pone\ approximation in
+a homogeneous medium.
 Using a boundary layer analysis, we also obtained boundary conditions for this
 new method.
 
@@ -196,7 +194,7 @@ diffusion does not) and a discontinuous first derivative (which transport and
 standard diffusion have but AD does not).
 
 The difficulty with this extra term is that advection-diffusion equations
-require troublesome discretization schemes. Additionally, advection-diffusion is
+require troublesome discretization schemes. Also, advection-diffusion is
 not self-adjoint,
 so the fast and simple conjugate gradient (CG) method could no longer be used to
 solve the resulting matrix: more costly methods (such as GMRES) would be
@@ -235,13 +233,13 @@ each time step.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Multigroup}
 
-Flux-limited diffusion is sometimes used with multiple energy groups (frequency
-groups), as opposed to the gray (monoenergetic) approximation, to improve the
+Flux-limited diffusion is often used with multiple energy groups (frequency
+groups) to improve the
 fidelity of the simulation. Because of the strong variation of opacity with
-frequency, parts of the problem optically thick in one group may be optically
+frequency, parts of the problem that are optically thick in one group may be optically
 thin in another. The AD approximation will likely provide a better treatment of
-these groups than standard FLD. One disadvantage of multigroup solutions is that
-each group will require its own transport-calculated $\Dtens$, which might be
+these groups than standard FLD. However, a disadvantage of multigroup solutions is that
+each group will require its own transport-calculated $\Dtens$, This might be
 too costly a requirement for it to remain competitive against IMC and other
 transport methods.
 

@@ -1092,6 +1092,13 @@
 "figures/crashpipe2b/wavefront-channel/wavefront-channel.pdf": {
 "creation": 1315801508
 }, 
+"figures/dali.jpg": {
+"creation": 1321677877, 
+"xattrs": {
+"com.apple.metadata:kMDItemWhereFroms": "YnBsaXN0MDChAV8QHGh0dHA6Ly9pLmltZ3VyLmNvbS9OUkhYWi5qcGcICgAAAAAAAAEBAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAp\n", 
+"com.apple.quarantine": "MDAwMDs0ZWM3MzQzNTtXZWJQcm9jZXNzO3xjb20uYXBwbGUuV2ViUHJvY2Vzcw==\n"
+}
+}, 
 "figures/diaganiso-leakage-terms.pdf": {
 "creation": 1297712560, 
 "xattrs": {

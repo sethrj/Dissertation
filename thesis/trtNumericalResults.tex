@@ -13,7 +13,8 @@ The problem's physical properties are therefore time-dependent, which
 imposes the extra requirement that the anisotropic diffusion coefficients be
 recalculated at every time step.
 
-We test a wide range of TRT problems, beginning with diffusive 1-D problems that
+In this chapter we test a wide range of TRT problems, beginning with diffusive
+1-D problems that
 contain temperature-dependent opacities. In addition to testing multi-D problems
 with optically thin channels, we compare the performance of the anisotropic
 methods against conventional methods using standard 2-D TRT benchmark problems.
@@ -43,19 +44,38 @@ sweep is sufficient to converge the diffusion coefficients in the interior.)
 
   \item[\Pone-like methods] A known shortcoming of \Pone\ is that, in
     multidimensional geometry with steep gradients, the radiation can have a
-    negative solution. To prevent unphysical negative temperatures, we
+    negative solution \cite{McC2008a}. To prevent unphysical negative
+    temperatures, we
     ``fix'' non-positive values for the radiation by setting them
     to $10^{-16}$, violating conservation by adding energy to the problem.
 
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{1-D Marshak wave}\label{sec:trtOned}
+\section{1-D blast wave}\label{sec:trtOned}
 We begin by testing a simple one-dimensional slab geometry problem on a refined
 spatial and temporal grid. The anisotropic diffusion approximation is less
 meaningful in 1-D: the rank-2 tensor becomes a scalar. Nevertheless, the AD
 coefficient is still nonlocal and distinct from the standard diffusion
 coefficient.
+
+The classic Marshak wave \cite{Mar1958} is a feature of radiative transfer at
+the boundaries between hot and cold materials. Because the cold material tends
+to be optically opaque, radiation emitted from the hot material penetrates only
+a short distance into the cold, rapidly heating it. As that layer of cold
+material heats up, it begins to emit into the adjacent cold layer: the result
+is a distinct radiation shock that looks like a wave. (Because the radiation
+behavior is more diffusive than freely streaming, this wave speed does not
+travel at the speed of light.)
+
+This test problem is not a ``classic'' Marshak wave: rather than a constant
+incident radiation boundary, it contains a large pulse of energy as an initial
+condition. Yet it does possess the same qualitative behavior as a Marshak wave,
+as the pulse penetrates the colder material.
+
+Higher-dimensional geometries also have Marshak wave--like behavior, so the
+features observed in this one-dimensional problem serves as a useful
+introduction to the behavior of the different methods tested.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem description}
@@ -79,19 +99,6 @@ Gauss--Legendre $S_{16}$ quadrature set and the step characteristics method.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results and discussion}
 
-The Marshak wave \cite{Mar1958} is a classical feature of radiative transfer at
-the boundaries between hot and cold materials. Because the cold material tends
-to be optically opaque, radiation emitted from the hot material penetrates only
-a short distance into the cold, rapidly heating it. As that layer of cold
-material heats up, it begins to emit into the adjacent cold layer: the result
-is a distinct radiation shock that looks like a wave. (Because the radiation
-behavior is more diffusive than freely streaming, this wave speed does not
-travel at the speed of light.)
-
-Higher-dimensional geometries also have Marshak wave--like behavior, so the
-features observed in this one-dimensional problem serves as a useful
-introduction to the behavior of the different methods tested.
-
 The wavefront position (Fig.~\ref{fig:1dblastWavefront}) provides an effective
 %
 \begin{figure}[htb]
@@ -110,15 +117,15 @@ is twice the initial temperature of the problem.
 We note how Fig.~\ref{fig:1dblastWavefront}
 shows that, during the streaming-dominated early times, both standard diffusion
 and anisotropic diffusion display an unphysical wave speed. For these methods,
-the slope of the wavefront position near $t=0$ exceeds $c=1$: energy is being
-transferred through the system faster than the speed of light. It is this
-shortcoming that motivated the development of both flux-limited diffusion
+the slope of the wavefront position near $t=0$ exceeds $c=1$: energy is
+transferred through the system faster than the speed of light. This
+shortcoming motivated the development of both flux-limited diffusion
 (\S\ref{sec:bgFld}) and our flux-limited anisotropic diffusion
 (\S\ref{sec:flad}). Both the standard \Pone\ and anisotropic \Pone\ are wave
 equations, but they have the incorrect wave speed of $c/\sqrt{3}$.
 
 A detailed view of the radiation and material temperatures
-(Fig.~\ref{fig:1dblastTemp}) at $t=3$ give further insight into the differences
+(Fig.~\ref{fig:1dblastTemp}) at $t=3$ gives further insight into the differences
 %
 \begin{figure}[htb]
   \centering\small
@@ -164,14 +171,14 @@ Overall, in this simple problem, the flux-limited methods match the transport
 solution most closely. (The problem was after all constructed to test the
 relative performance of flux-limited diffusion.) The standard diffusion
 and AD methods allow radiation to travel too quickly through the problem,
-resulting in wavefront positions unrealistically far into the problem. The
+resulting in wavefront positions unrealistically deep into the problem. The
 \Pone\ methods fail to match even the qualitative shape of the solution.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Flatland pipe}
 %\section{Ceci est pas une pipe}
 
-For most transport approximations, the extension from one to multiple
+For most transport approximations, the extension from one to multiple spatial
 dimensions is nontrivial. In the case of anisotropic diffusion, as we saw, the
 diffusion coefficient becomes a diffusion tensor, necessitating new
 discretization schemes. At the same time, the added complexity inherent
@@ -181,7 +188,7 @@ diffusion gives it an advantage relative to standard diffusion.
 The practical extension of flux-limited diffusion to multi-D is straightforward,
 but the theory is less sound: most flux limiters are derived under
 the assumption of 1-D radiation behavior. In multiple dimensions, the
-anisotropic diffusion methods may gain additional traction relative to FLD
+anisotropic diffusion methods may become more advantageous relative to FLD
 because their smaller diffusion coefficients reduce the necessity for flux
 limiting.
 
@@ -228,12 +235,12 @@ the problem is run until time $t=3$. All problem boundaries are reflecting.
 The constant radiation source at the left end of the channel
 drives the problem. At the beginning, the entire domain is optically thick
 (even the channel has the initial opacity $\sigma=0.001^{-4/3}$), but it quickly
-heats up as it absorbs the radiation from the source. As the material's
-temperature rises, it becomes
+heats up as it absorbs radiation from the source. As the material's
+temperature rises, the material becomes optically
 thinner: the lower heat capacity and optical thinness of the channel cause it to
-become transparent more quickly than the surrounding region. Energy flows
-from the radiation source through the channel, and from the channel into the
-diffusive region.
+become transparent more quickly than the surrounding region. Energy readily
+flows from the radiation source through the channel, and less readily from the
+channel into the diffusive region.
 
 Two lineouts of the material temperatures at the final state are plotted in
 Fig.~\ref{fig:crashaltMattemp}.
@@ -255,8 +262,8 @@ Fig.~\ref{fig:crashaltMattemp}.
 \end{figure}
 %
 The standard diffusion approximation performs
-poorly: like in the 1-D problem, it allows energy to move too quickly. Yet
-unlike in the 1-D problem, standard flux-limited diffusion also
+poorly: like the previous 1-D problem, it allows energy to move too quickly.
+Yet, unlike in the 1-D problem, standard flux-limited diffusion also
 performs poorly. As seen by comparing the centerline
 (Fig.~\ref{fig:crashaltMattempCenter}) and orthogonal
 (Fig.~\ref{fig:crashaltMattempOrtho}) views, flux-limited diffusion artificially
@@ -270,7 +277,7 @@ radiation is limited.
 
 Compared to the conventional methods, the new anisotropic methods perform quite
 well. The similarity between the AD and FLAD answers suggest that, as
-anticipated, the flux limiter used less in the case of anisotropic diffusion.
+anticipated, the flux limiter is used less for anisotropic diffusion.
 
 The behavior of the anisotropic methods relative to conventional
 diffusion can be better understood by viewing the magnitude of the
@@ -353,7 +360,7 @@ FLAD- and AD-calculated wavefront positions different, demonstrating that
 flux limiting is most important at the initial times and less so thereafter.
 
 We more quantitatively test our expectation (\S\ref{sec:flad}) that the more
-moderate AD coefficients require less limiting than standard diffusion.
+moderate AD coefficients require less flux-limiting than standard diffusion.
 Using this flatland pipe problem, we compare anisotropic diffusion to
 standard diffusion, with a ``max'' limiter modifying the coefficients of both.
 (The rest of our FLD problems use the ``square root'' limiter.)
@@ -374,7 +381,7 @@ As a reminder, the relatively thin channel comprises 10\% of the problem, and
 the problem contains $10\,000$ cells total. Both methods require the same
 amount of limiting during the initial transient, but flux limiting is active in
 far fewer cells at later times. Because flux limiting is an \emph{ad hoc}
-fix-up, it is desirable for a method to do without it.
+fix-up, it is desirable for a method to use it as little as possible.
 
 We note that this problem was also solved with the AD coefficients calculated on
 a coarse grid, as discussed in \S\ref{sec:coarseGridAdCoeff}. Even though the
@@ -388,8 +395,8 @@ preventing the na\"ive imposition of a coarse grid.
 This test problem has demonstrated the feasibility of the anisotropic diffusion
 approximations to outperform conventional methods in multi-dimensional
 TRT problems. The strongly anisotropic diffusion tensor approximates the flow of
-radiation through the channel better than the conventional isotropic diffusion
-coefficient.
+radiation through the channel more accurately than the conventional isotropic
+diffusion coefficient.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
@@ -440,7 +447,7 @@ See Ref.~\cite{Lar1987} for a discussion of the maximum principle.
 })
 The chosen grid width is $\Delta_x = 0.025$ for IMC and $\Delta_x = 0.0125$
 for the deterministic methods. (In this problem, the spatial discretization
-error for the diffusion methods was much higher than the other problems
+error for the diffusion methods was higher than the other problems
 we ran because of the very optically thick region, so we refined the mesh for
 those methods.)
 
@@ -490,8 +497,8 @@ Figure~\ref{fig:doglegRadtempFinal} plots the radiation temperature at the final
   \label{fig:doglegRadtempFinal}
 \end{figure}
 %
-state $t=10$ for the reference solution (IMC), the flux-limited diffusion
-solution (FLD), and the flux-limited anisotropic solution (FLAD). Clearly, the
+state $t=10$ for the reference solution (IMC), the flux-limited anisotropic
+solution (FLAD), and the flux-limited diffusion solution (FLD). Clearly, the
 complicated features in this problem lead to very different approximate
 answers, unlike the self-similar results seen in in the simple 1-D case of
 \S\ref{sec:trtOned}.
@@ -565,9 +572,10 @@ solution. In Fig.~\ref{fig:doglegRadtemp2}, for example, there is a sudden
 drop-off in the IMC solution at $y=0.8$ along the centerline of leg 2: this is
 at the bottom edge of the first leg, where the relatively opaque diffusive
 region obstructs radiation emitted by the boundary source. Only transport can
-truly
+accurately
 model that the primary source of particles into the second leg is by radiative
-emission from the heated wall. (The channel has a very small $\sigma$, meaning
+emission from the heated wall. (The channel has a very small $\sigma$, implying
+that  
 its emission term $\sigma a c T^4$ is also small.) Diffusion and anisotropic
 diffusion only approximate this effect by allowing particles to diffuse around
 corners.
@@ -575,7 +583,6 @@ corners.
 To better compare the time-dependent behavior of the methods, we turn to
 the radiation temperature as a function of time at the first and second fiducial
 points (Fig.~\ref{fig:doglegFiducial}). As we have already discussed, the
-diffusion and
 %
 \begin{figure}[htb]
   \centering\small
@@ -592,12 +599,14 @@ diffusion and
   \label{fig:doglegFiducial}
 \end{figure}
 %
-AD solutions allow radiation to travel unphysically fast: the radiation
-temperature for these methods rises sooner than the other methods. The rate of
-the temperature rise in all three anisotropic methods is much closer to that of
-the transport solution. Even though anisotropic diffusion allows too much
-radiation into the second leg, it provides a much closer approximation to the
-transport solution.
+diffusion and AD solutions allow radiation to exceed the speed of light in the
+channel. (The result is that the radiation temperature for these methods rises
+\emph{sooner} than the other methods.) However, the \emph{rate} of
+the temperature rise is different between the conventional and the anisotropic
+methods. Diffusion, flux-limited diffusion, and \Pone\ all allow too much energy
+into the channel, heating it to an unphysically high temperature. The
+anisotropic methods show a more gradual rise in the radiation, closer to the
+reference solution.
 
 In Fig.~\ref{fig:doglegFiducialAll} we have overlaid the reference solution
 %
@@ -617,7 +626,7 @@ four representative points. The leading tail in FLD and FLAD is an artifact of
 the temporal discretization error. The IMC and FLAD show good agreement at the
 first two points for nearly all times, but after the first bend in the problem,
 the accuracy of FLAD suffers. The FLD approximation allows energy to travel
-through the problem far too rapidly: its calculated solution in the pipe is
+through the problem too rapidly: its calculated solution in the pipe is
 nearly constant by $t=2$, whereas the transport solution does not show radiation
 heating the final point until $t=5$.
 
@@ -671,7 +680,7 @@ an increase in computing time. The flux limiter
 radiation wave. As seen in the previous flatland pipe problem, the \APone\
 approximation yields solutions similar to those of FLAD. None of the approximate
 methods can exactly reproduce the transport solution, but by all metrics the new
-anisotropic diffusion methods approximate the transport solution far better
+anisotropic diffusion methods approximate the transport solution much better
 than conventional diffusion methods.
 
 %None of the anisotropic
@@ -703,7 +712,10 @@ The ``easy'' obstacle problem (Fig.~\ref{fig:easymkMaterials}),
 \end{figure}
 %
 described in Ref.~\cite{Mou2006} (and also used in
-Ref.~\cite{Kno2007}), contains two square obstacles that impede a front of
+Ref.~\cite{Kno2007}), is a simple radiation transport designed to have
+relatively weak gradients and constant dynamic timescales.
+
+The problem contains two square obstacles that impede a front of
 radiation emitted by a boundary source. It is a
 two-dimensional problem on the domain $0 \le x \le 2$, $0 \le y \le 1$ with
 $\Delta_x=\Delta_y=1/32$. The
@@ -721,6 +733,9 @@ initial condition is $\phi = T^{4} = 0.001$.
 In Ref.~\cite{Mou2006}, the problem halts at $t=3$; for the sake of completeness we
 compare the convergence of the solutions until $t=8$ in
 Fig.~\ref{fig:easymkConvergence}. We use a uniform time step $\Delta_t=0.01$.
+The original problem also contains a material energy diffusion term (i.e.,
+Eq.~\eqref{eq:explanMaterial} has an additional term $-\grad D_m \grad T$) which
+we omit.
 
 We use a ``level-symmetric'' Chebyshev--Legendre S$_{16}$ quadrature set for
 calculating the AD coefficients. (This quadrature set uses a Gauss--Legendre
@@ -730,7 +745,9 @@ level.)
 
 \subsection{Results and discussion}
 
-The radiation source on the left 
+This problem is a slight variation on a one-dimensional
+Marshak wave problem. The presence of the moderately optically thick obstacles
+introduces some mild non-uniformity into the solution along the $y$ axis.
 
 Qualitatively, flux-limited diffusion and flux-limited anisotropic diffusion
 perform equally well (Fig.~\ref{fig:easymkContour}).
@@ -801,14 +818,15 @@ overall is flux-limited anisotropic diffusion. Diffusion is the least accurate,
 and the \APone\ and \Pone\ methods perform similarly.
 
 In this problem, our new anisotropic methods do not notably outperform the
-conventional diffusion-based methods. Anisotropic diffusion can be an
+conventional diffusion-based methods, just as it was not advantageous in the
+earlier 1-D numerical test. Anisotropic diffusion can be an
 improvement over standard diffusion in some but not all problems.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{2-D \texorpdfstring{``hard''}{hard} obstacle problem}
 
 A second problem from Ref.~\cite{Mou2006} has steeper spatial gradients and
-large voided regions: it should therefore be outside the comfort zone of
+large voided regions: it should therefore lieoutside the comfort zone of
 both conventional and anisotropic diffusion methods.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -818,7 +836,8 @@ The ``hard'' obstacle problem has the 2-D domain $0 \le x,y \le 1$ and uses a
 cell width $\Delta_x=\Delta_y=1/64$. The heat capacity is uniform, $c_v=1$, and
 the opacity is $\sigma=T^{-3}$ outside of two square obstacles, which have
 $\sigma=10 T^{-3}$. The square obstacles, each of which has a width of $1/4$, are
-stationed with lower-left corners at $(3/16, 9/16)$ and $(9/16,3/16)$.
+stationed with lower-left corners at $(3/16, 9/16)$ and $(9/16,3/16)$. As with
+the previous problem, we omit material conduction.
 
 \begin{figure}[htb]
   \centering
@@ -829,7 +848,8 @@ stationed with lower-left corners at $(3/16, 9/16)$ and $(9/16,3/16)$.
   \label{fig:hardmkMaterials}
 \end{figure}
 
-All energy in the problem comes from the Gaussian initial condition:
+All energy in the problem comes from the Gaussian initial condition peaked near
+$x=y=0$:
 \begin{equation*}
   \phi(x,y,0) = [ a c T(x,y,0)]^{4} = 0.001 + 100 \eexp^{-100 (x^2 + y^2) } \,.
 \end{equation*}
@@ -839,7 +859,7 @@ The problem is run until $t=3$. The time step increases linearly from
 $\Delta_t=0.0001$ at
 $t=0$ to $\Delta_t=0.01$ at $t=1$ and is constant thereafter. To calculate the
 anisotropic diffusion coefficients, we use the same Chebyshev--Legendre level
-symmetric quadrature set as in the easy obstacle problem.
+symmetric quadrature set as in the ``easy'' obstacle problem.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results and discussion}
@@ -870,7 +890,7 @@ heats up the upper right section of the problem, isotropic black-body emission
 warms the reverse sides of the blocks.
 
 The diffusion methods cannot reproduce the hyperbolic behavior of radiation
-streaming through avoid. In the conventional diffusion methods, radiation
+streaming through a void. In the conventional diffusion methods, radiation
 diffuses isotropically through the problem: it flows unnaturally around the
 obstacles. In Fig.~\ref{fig:hardmkPseudocolor}, this is seen in the FLD solution
 (lower left): the more homogeneous radiation field has fully surrounded the
@@ -899,8 +919,15 @@ showed unphysical wavelike behavior throughout the problem. The smoother
 coefficients in the \APone\ equation moderate the wavelike behavior, allowing it
 to represent the behavior of the radiation more accurately.
 
+Because the primary symmetry in this problem is along the diagonal (as opposed
+to the $x$ or $y$ axis), the $D^{xy}$ component of the diffusion coefficients
+are larger than in any of the other problems we tested. The
+discretizations we use (from Chapter~\ref{chap:implementation}) are not designed
+for strong off-diagonal anisotropy, so the negative result for anisotropic
+diffusion in this problem is somewhat clouded.
+
 This problem demonstrates again that anisotropic diffusion is not a ``silver
-bullet.'' It is unable to model the hyperbolic behavior of the transport equation,
+bullet.'' It cannot model the hyperbolic behavior of the transport equation,
 but at the same time it performs no less poorly than conventional flux-limited
 diffusion.
 
@@ -1071,12 +1098,12 @@ diffusion approximations in 1-D geometry or problems with large voids, FLAD and
 through small voided regions.
 
 In small regions of optically thin materials, the AD method calculates strongly
-anisotropic coefficients in those regions that provide better
+anisotropic coefficients in those regions, providing better
 answers than conventional diffusion. Using a flux limiter with the AD
 approximation (FLAD) fixes the unphysical violation of the speed of light
 seen in early time steps.
 
 We conclude that in many realistic, multi-dimension problems of interest,
-flux-limited anisotropic diffusion is a better solution method than
+flux-limited anisotropic diffusion is a more accurate solution method than
 conventional flux-limited diffusion. The small amount of computational effort
 needed to calculate the AD coefficients is repaid by superior results.
