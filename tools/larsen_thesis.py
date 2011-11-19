@@ -27,9 +27,9 @@ Heath Hanshaw 2005 188 -
 Allan Wollaber 2008 273 *
 Troy Becker 2009 247 *
 Gregory Davidson 2010 319 *
-Emily Wolters 2011 218 *
-Jinan Yang 2011 238 -
-Seth Johnson? 2011 206 -
+Emily Wolters 2011.1 218 *
+Jinan Yang 2011.3 238 -
+Seth Johnson 2011.95 206 -
 """[1:-1].split('\n')
 #Radiation therapy-type stuff:
 # Philip Tchou 2007 160 *
@@ -47,7 +47,7 @@ onehalfed = []
 
 for (first, last, year, page, double) in data:
     names.append( last )
-    years.append( int(year) )
+    years.append( float(year) )
 
     onehalf = (double == "*")
     onehalfed.append( onehalf)
