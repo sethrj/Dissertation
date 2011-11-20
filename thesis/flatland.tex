@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Flatland geometry}\label{chap:flatland}
 
-``Flatland'' is a fictional two-dimensional universe in which particles are
+``Flatland'' is a fictional two-dimensional universe where particles are
 constrained to exist and
 travel in a 2-D plane \cite{Asa2008}. Because the flatland phase space is
 $(x,y,\omega)$ with \emph{one} angular variable (the azimuthal~$\omega$),
@@ -24,7 +24,7 @@ anisotropic diffusion, against
 diffusion solutions. Thus, in this chapter we derive ``Marshak''
 and ``variational'' boundary conditions for the flatland diffusion equation.
 We also present Monte Carlo sampling algorithms tailored to flatland
-geometry, as well as a quick description of how 2-D \SN\ transport can easily be
+geometry, as well as a description of how 2-D \SN\ transport can be easily
 adapted to flatland.
 
 These methods are implemented in flatland primarily for the purpose of
@@ -182,7 +182,8 @@ The Monte Carlo method approximates the transport equation by tracking the
 random histories of statistically large numbers of particles as they traverse a
 problem. The behavior during their lifetime depends on probability distribution
 functions (PDFs) that describe how they are born, how far they travel without a
-collision, how they behave when they collide, et cetera \cite{Lew1984,Bro2004a}.
+collision, how they behave when they collide, and others
+\cite{Lew1984,Bro2004a}.
 
 In this section, we form and discuss the probability distributions particular to
 flatland geometry. We briefly derive those PDFs,
@@ -202,14 +203,14 @@ represents this process is
   f(\vec{\Omega}) \ud\Omega = \alpha \ud\Omega \,,
   \quad \vec{\Omega} \in S \,,
 \end{equation*}
-where $\Omega$ is the angular domain of the
+where $S$ is the angular domain of the
 geometry (see Table~\ref{tab:angularDomain}), and $\alpha$ is a normalization
 constant.
 Requiring the PDF to integrate to unity over its domain gives the
 following value for $\alpha$ in any geometry:
 \begin{align*}
-  1 = \int_{\Omega} f(\vec{\Omega}) \ud\Omega
-  = \alpha \int_{\Omega} \ud\Omega = \alpha \gamma_0
+  1 = \int_{S} f(\vec{\Omega}) \ud\Omega
+  = \alpha \int_{S} \ud\Omega = \alpha \gamma_0
   \lra
   \alpha = \frac{1}{\gamma_0}\,.
 \end{align*}
@@ -287,7 +288,7 @@ the angular domain and substituting the angular moments from Table~\ref{tab:angu
   1 &= \int_{\vec{\Omega}\vd \vec{n} < 0} \left[ \alpha \abs{\vec{\Omega}\vd
   \vec{n}} \right] \ud\Omega
   \\
-  1 &=\frac{\alpha}{2} \int_{\Omega} \abs{\vec{\Omega}\vd \vec{n}} \ud\Omega
+  1 &=\frac{\alpha}{2} \int_{S} \abs{\vec{\Omega}\vd \vec{n}} \ud\Omega
   \\
   \alpha &= \frac{2}{\gamma_1}\,.
 \end{align*}
@@ -331,7 +332,7 @@ in flatland:
 \end{equation*}
 Finally, we insert this sampled angle into the flatland
 direction vector $\vec{\Omega}$ and use the identity
-$\cos^2 \omega + \sin^2 \omega = 1$ to reduce the number of transcendental
+$\cos^2 \omega + \sin^2 \omega = 1$ to obviate the trigonometric
 functions. Thus the sampled direction of a particle from an isotropic surface
 source is:
 \begin{align*}
@@ -356,7 +357,8 @@ Table~\ref{tab:angularMoments}:
 \begin{equation*}
   \gamma_n
   = \sum_{m=1}^{M} \abs{ \vec{\Omega}_m \vd \vec{i}}^n w_m
-  = \int_S \abs{ \vec{\Omega}\vd\vec{i} }^n \ud\Omega \,,\ n\ \text{even}.
+  = \int_S \abs{ \vec{\Omega}\vd\vec{i} }^n \ud\Omega \,,
+  \quad n\ \text{even}.
 \end{equation*}
 Most quadrature sets do not exactly integrate partial odd moments.
 
@@ -369,22 +371,23 @@ polar angle $\mu=0$. Using a Chebyshev--Gauss quadrature of the first kind
 \begin{equation*}
   \gamma_n
   = \sum_{m=1}^{M} \sin^n \theta_m w_m
-  = \int_{2\pi} \sin^n \theta \ud\theta\,,\ n\ \text{even} \,.
+  = \int_{2\pi} \sin^n \theta \ud\theta\,,
+  \quad n\ \text{even} \,.
 \end{equation*}
 A quadrature set with $2M$ total ordinates (i.e., $M$ per two octants, the
 standard nomenclature for discrete ordinates quadratures) will exactly integrate
-the first $2M-1$ polynomials of $x=\sin \theta$. The procedure to calculate
+the first $2M-1$ polynomials of $\sin \theta$. The procedure to calculate
 a Chebyshev quadrature set for the first quadrant is:
 \begin{enumerate}
-  \item Solve for the roots of an $2M$-order Chebyshev polynomial of the first
+  \item Solve for the roots of an $M$-order Chebyshev polynomial of the first
     kind on $[-1,1]$. Discard the negative roots.
-  \item Take the inverse sine of the positive roots. These $M$ roots are the
+  \item Take the inverse sine of the positive roots. These $M/2$ roots are the
     ordinate directions $\theta_m$ in the first quadrant.
   \item Assign the uniform weight $w_m = \frac{\pi}{M}$.
 \end{enumerate}
 For ease of implementation, we normalized the quadrature weights so that they sum
 to $4\pi$ instead of $2\pi$. This allows flatland quadrature sets to be used in
-an existing 2-D discrete ordinates code in which the scattering kernel expects the
+an existing 2\-D discrete ordinates code in which the scattering kernel expects the
 quadrature set to be normalized to $4\pi$. Table~\ref{tab:chebyQs} gives several
 orders of the Chebyshev quadrature set with sixteen digits of precision; a more
 extensive and computer-readable set of ordinates is available online at
@@ -396,17 +399,17 @@ extensive and computer-readable set of ordinates is available online at
 \null% needed to align tops
 \hspace{\stretch{1}}
 \begin{tabular}{l@{}l} \toprule
-\multicolumn{2}{c}{$N=2$, $w=\pi$ } \\ \midrule
+\multicolumn{2}{c}{$M=2$, $w=\pi$ } \\ \midrule
 $\omega_{0}$ & ${}=0.7853981633974483$ \\ \toprule
-\multicolumn{2}{c}{$N=4$, $w=\pi / 2$ } \\ \midrule
+\multicolumn{2}{c}{$M=4$, $w=\pi / 2$ } \\ \midrule
 $\omega_{0}$ & ${}=0.3926990816987241$ \\
 $\omega_{1}$ & ${}=1.1780972450961724$ \\ \toprule
-\multicolumn{2}{c}{$N=8$, $w=\pi / 4$ } \\ \midrule
+\multicolumn{2}{c}{$M=8$, $w=\pi / 4$ } \\ \midrule
 $\omega_{0}$ & ${}=0.1963495408493621$ \\
 $\omega_{1}$ & ${}=0.5890486225480862$ \\
 $\omega_{2}$ & ${}=0.9817477042468103$ \\
 $\omega_{3}$ & ${}=1.3744467859455345$ \\ \toprule
-\multicolumn{2}{c}{$N=16$, $w=\pi / 8$ } \\ \midrule
+\multicolumn{2}{c}{$M=16$, $w=\pi / 8$ } \\ \midrule
 $\omega_{0}$ & ${}=0.0981747704246810$ \\
 $\omega_{1}$ & ${}=0.2945243112740431$ \\
 $\omega_{2}$ & ${}=0.4908738521234052$ \\
@@ -415,7 +418,7 @@ $\omega_{4}$ & ${}=0.8835729338221293$ \\
 $\omega_{5}$ & ${}=1.0799224746714915$ \\
 $\omega_{6}$ & ${}=1.2762720155208536$ \\
 $\omega_{7}$ & ${}=1.4726215563702156$ \\ \toprule
-\multicolumn{2}{c}{$N=32$, $w=\pi / 16$ } \\ \midrule
+\multicolumn{2}{c}{$M=32$, $w=\pi / 16$ } \\ \midrule
 $\omega_{0}$ & ${}=0.0490873852123405$ \\
 $\omega_{1}$ & ${}=0.1472621556370216$ \\
 $\omega_{2}$ & ${}=0.2454369260617026$ \\
@@ -441,7 +444,7 @@ $\omega_{15}$ & ${}=1.5217089415825562$ \\
 \null% needed to align tops
 \hspace{\stretch{1}}
 \begin{tabular}{l@{}l} \toprule
-\multicolumn{2}{c}{$N=64$, $w=\pi / 32$ } \\ \midrule
+\multicolumn{2}{c}{$M=64$, $w=\pi / 32$ } \\ \midrule
 $\omega_{0}$ & ${}=0.0245436926061703$ \\
 $\omega_{1}$ & ${}=0.0736310778185108$ \\
 $\omega_{2}$ & ${}=0.1227184630308513$ \\
@@ -848,7 +851,7 @@ At the boundary $y=0$, $I=I^b$ for incident angles $0 \le \omega < \pi$.
 The variational analysis in Ref.~\cite{Mal1991} reveals that certain trial functions
 allow an exiting angular distribution that is isotropic to second order accuracy,
 so we make the ``variational'' approximation that $I(0,\omega)=I^\text{out}$.
-The previous equation then yields
+The previous equation then becomes
 \begin{equation*}
  \int_{0}^{\pi} (\alpha \sin\omega + \sin^2\omega)
  I^b(\omega) \ud\omega
@@ -864,7 +867,6 @@ magnitude of the angular flux as $y\to\infty$:
  \,.
 \end{equation}
 
-\thesisclearpage
 We wish our boundary condition to preserve the value of
 $\varphi$ when the diffusion method is used, so we substitute the diffusion
 approximation, Eq.~\eqref{eq:flatlandDiffusion}:
@@ -911,7 +913,7 @@ I^b(\vec{x}, \vec{\Omega}) \ud\Omega
 Compared to the flatland Marshak boundary condition,
 Eq.~\eqref{eq:flatMarshak}, the variational boundary condition not only yields a
 different extrapolation distance $\frac{\pi}{8} + \frac{4}{3\pi} \approx
-0.8171$ but also uses a different moment of the incident boundary flux.
+0.8171$ but also uses a different angular moment of the incident boundary flux.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Generalization}\label{sec:flatlandV}
@@ -989,7 +991,7 @@ after normalization, is:
   V_1(\mu) \equiv \frac{1}{2} \mu \,,
   \quad 0 < \mu \le 1 \,,
 \end{equation}
-giving the flatland extrapolation distance
+giving the flatland Marshak extrapolation distance
 \begin{equation*}
  z_0 = \int_{0}^{\pi} V_1(\sin\omega) \sin\omega \ud\omega
   = \frac{\pi}{4} \approx 0.7854 \,.
@@ -1000,7 +1002,7 @@ The variational analysis yielded the following two-term approximation to $V$:
   V_2(\mu) \equiv \frac{1}{2} \mu + \frac{1}{\pi}\mu^2 \,,
   \quad 0 < \mu \le 1 \,.
 \end{equation}
-The resulting variational flatland extrapolation distance is:
+The resulting flatland variational extrapolation distance is:
 \begin{equation*}
  z_0 = \int_{0}^{\pi} V_2(\sin\omega) \sin\omega \ud\omega
   = \frac{\pi}{8} + \frac{4}{3\pi} \approx 0.8171\,.
@@ -1028,7 +1030,7 @@ form,
   + \sigma(\vec{x}) I(\vec{x},\vec{\Omega},t)
   \\ = \frac{\sigma_s(\vec{x})}{\gamma_0}
   \int_{S} I(\vec{x},\vec{\Omega}',t) \ud \Omega'
-  + \frac{q(\vec{x},t)}{2\pi}
+  + \frac{q(\vec{x},t)}{\gamma_0}
   \,, \quad \vec{x}\in V,\ \vec{\Omega}\in S,\ t \ge 0,
 \end{multline}
 with specified incident boundary conditions
@@ -1097,7 +1099,7 @@ gradients in space, very weak gradients in time, and only mild anisotropy:
 \begin{align} \label{eq:ansatz_6}
   \sigma &= O(1), &
   I &= O(1), &
-  \int_{4\pi} \vec{\Omega} I \ud\Omega &= O(\epsilon), &
+  \int_{S} \vec{\Omega} I \ud\Omega &= O(\epsilon), &
   \grad I &= O(\epsilon), &
   \pder{I}{t} &= O(\epsilon^2) \,.
 \end{align}
@@ -1147,7 +1149,9 @@ to the gradient of $\phi$, the same anisotropic Fick's law as in
 \end{equation}
 Here, $\Dtens$ is a
 second-order tensor, the second moment of the transport solution $f$. In
-flatland, it is a $2\times 2$ matrix. In 3-D
+flatland, it is a $2\times 2$ matrix.
+
+In 3-D
 geometry, in a homogeneous medium, $f=1/(4\pi\sigma)$ so $\Dtens = 1/(3\sigma)$.
 In flatland, $f = 1/(2\pi\sigma)$, and its second moment is
 \begin{equation*}
@@ -1180,7 +1184,7 @@ I^b(\vec{x}, \vec{\Omega},t) \ud\Omega
 I_\text{approx}(\vec{x}, \vec{\Omega},t) \ud\Omega \,.
 \end{equation}
 
-Substituting the flatland anisotropic diffusion,
+Substituting the flatland anisotropic diffusion approximation,
 Eq.~\eqref{eq:fadVolApproxFinal}, and evaluating, we obtain:
 \begin{align*}
 \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
@@ -1306,7 +1310,7 @@ Eq.~\eqref{eq:flatMarshak}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Review}
 
-Anisotropic diffusion in flatland is very similar to flatland in 3-D. The
+Anisotropic diffusion in flatland is very similar to anisotropic diffusion in 3-D. The
 difference lies in the value of $\Dtens$, its underlying transport formulation,
 and the boundary conditions.
 
@@ -1360,7 +1364,7 @@ The incident boundary condition for $f$ satisfies Eq.~\eqref{eq:hoBc},
 \end{equation*}
 
 A more accurate low-order boundary condition (compared to the Marshak
-boundary condition given above), given in Eq.~\eqref{eq:flatAdBc}, uses
+boundary condition above), given in Eq.~\eqref{eq:flatAdBc}, uses
 transport-calculated coefficients on the exiting boundary of the problem:
 \begin{equation*}
 2\pi \int_{\vec{\Omega}\vd\vec{n} < 0} V( \abs{\vec{\Omega}\vd\vec{n}})
@@ -1411,6 +1415,6 @@ flatland and 2-D are in the angular variable of the transport problem and the
 coefficients in the boundary condition.
 
 With the flatland versions of anisotropic diffusion and the benchmark methods in
-hand, we will evaluate the performance of the AD approximation with numerical
+hand, we will evaluate the performance of the AD approximations with numerical
 experiments.
 

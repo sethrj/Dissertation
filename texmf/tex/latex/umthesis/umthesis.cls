@@ -473,7 +473,7 @@
 }
 
 \newcommand{\makecopyright}{
-\begin{titlepage}
+  \thispagestyle{empty}%
   \vspace*{\fill}
   \begin{center}
   \begin{minipage}{.4\textwidth}
@@ -488,11 +488,11 @@
   \end{minipage}
   \end{center}
   \vspace*{\fill}
-\end{titlepage}
 }
 
 \newenvironment{frontispiece}{%
   \begin{titlepage}%
+  \setcounter{page}{-1}% keep it on the right side, make the next page blank
   \vspace*{\fill}
   %\hspace*{\fill}
   \begin{minipage}{.7\textwidth}
@@ -533,7 +533,9 @@
 \newenvironment{dedication}{%
    \@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn\else\newpage\fi%
    \thispagestyle{plain}
-   \setcounter{page}{2}%
+   \if@twoside\else
+   \setcounter{page}{2}% Rackham says dedication is page 2 (in 1-sided format)
+   \fi
    \addcontentsline{toc}{chapter}{\textbf{\dedicationname}}%
    \vspace*{\fill}
    \begin{center}
