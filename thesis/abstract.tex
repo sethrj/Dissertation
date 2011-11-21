@@ -1,0 +1,40 @@
+% !TEX root = _individual/finalAbstract.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this thesis, we develop and numerically test new approximations to
+time-dependent radiation transport with the goal of obtaining more accurate
+answers than diffusion can generate, yet requiring less computational effort
+than transport.
+The first method is the nascent anisotropic diffusion (AD)
+approximation, which we extend to time-dependent, finite problems; the
+second is a novel anisotropic \Pone-like (\APone) approximation. These methods
+are ``anisotropic'' in that, rather than operating under the assumption of
+linearly anisotropic radiation, they incorporate an arbitrary amount of
+anisotropy via a transport-calculated diffusion coefficient. This anisotropic
+diffusion tensor is the second angular moment of a simple, purely
+absorbing transport problem.
+
+In this thesis, much of the computational testing of the new methods is performed in
+``flatland'' geometry, a fictional two-dimensional universe that provides a
+realistic but computationally inexpensive testbed. As work ancillary to
+anisotropic
+diffusion and the numerical experiments, a complete description
+of flatland diffusion, including boundary conditions, is developed. Also,
+implementation details for both Monte Carlo and \SN\ transport in
+flatland are provided.
+
+The two new anisotropic methods, along with a ``flux limited'' modification to
+anisotropic diffusion, are tested in a variety of problems. Some aspects of the
+theory, including the newly formulated boundary conditions, are tested first with
+diffusive, steady-state problems. The new methods are compared against
+existing ones in linear, time-dependent radiation transport problems. Finally,
+the efficacy and performance of the anisotropic methods are investigated in
+several thermal radiative transfer (TRT) computational experiments.
+
+Our results demonstrate that for many multi-dimensional problems, the new
+anisotropic methods perform much better than their conventional counterparts.
+In every time-dependent test, flux-limited anisotropic diffusion produced the
+most accurate answers of the new methods.
+Based on our numerical testing, we believe this method to be a strong contender
+for accurate, inexpensive simulations of time-dependent transport and
+thermal radiative transfer problems.

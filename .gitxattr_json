@@ -1944,6 +1944,12 @@
 "com.apple.FinderInfo": "AAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
+"thesis/_individual/finalAbstract.tex": {
+"creation": 1321902078, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
 "thesis/_individual/flatland.tex": {
 "creation": 1303788395, 
 "xattrs": {
@@ -1981,6 +1987,12 @@
 "creation": 1303788395, 
 "xattrs": {
 "com.apple.FinderInfo": "AAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
+}
+}, 
+"thesis/abstract.tex": {
+"creation": 1321884074, 
+"xattrs": {
+"com.apple.FinderInfo": "AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
 "thesis/adDerivation.tex": {
