@@ -124,7 +124,7 @@ diffusive medium. The diffusive region has $\sigma_d=1$, the channel
 $\sigma_c=0.01$. The scattering ratio is uniformly $0.99$.  We use a small
 portion of this problem (Fig.~\ref{fig:ssSingleXsn}), a single channel of unit
 %
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering
   \includegraphics{ss_single_channel/xsn-enhanced}
   \Caption{The single channel problem configuration.}{
@@ -645,7 +645,7 @@ white boundary condition for $f$ gives a more accurate result than the
 reflecting boundary condition. (The na\"ive boundary condition, as discussed in
 the previous test problem, is inaccurate.)
 
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering
   \centering\small
   \hspace{-.25in}%
@@ -661,7 +661,7 @@ $\vec{F} = O(\epsilon)$ is violated in swaths of the problem, so the solutions
 for the normal and grazing boundary conditions have large errors
 (Fig.~\ref{fig:adbcRelErr}).
 
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering
   \centering\small
   \hspace{-.25in}%
@@ -761,7 +761,7 @@ sizes are proportional to $1/\sigma$. In the channel, where $f$ is strongly
 anisotropic, the ellipses show that the primary action of the diffusion
 tensor is along the channel.
 
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering
   \includegraphics[width=1.5in]{td_reactor/xsn}
   \Caption{Time-dependent smooth problem properties.}{
@@ -786,7 +786,7 @@ diffusion and conventional diffusion, which both assume a quasi-static problem,
 are significantly less accurate and are not plotted in that figure. Their
 more accurate flux-limited counterparts, FLAD and FLD, are shown instead.
 
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering\small
   \subfloat[$t=2$]{%
     \hspace{-.25in}%
@@ -812,6 +812,34 @@ limiting, FLD and FLAD overestimate the rate of particles flowing into the void.
 However, as the problem tends toward steady-state, the anisotropic
 methods become relatively accurate. (We recall that both FLAD and \APone\ limit
 to the AD method when the solution varies slowly in time.)
+
+As one diagnostic, we plot the ``wavefront'' positions---determined by the
+location at which $\phi=0.001$ after applying a small amount of smoothing---for
+all of the methods in Fig.~\ref{fig:tdReactorWavefront}. These plots again show
+how FLAD and AD both overestimate the scalar flux at early times, and they also
+point to an explanation. Because the flux limiters are not iterated upon, the
+solution of the first time step is the same as the standard diffusion
+solution. (In Fig.~\ref{fig:tdReactorWavefrontLeft}, the flux-limited and
+standard diffusion methods share a starting point.) As a result, the
+flux-limited methods carry that artifact of non-flux-limited particles for all
+later time steps. To obviate this error, shorter initial time steps (in which
+the effective time absorption $1/c\Delta_t$ reduces the magnitude of the
+precursor) could be used. Alternatively, the nonlinear flux-limited diffusion
+coefficient could be converged.
+
+\begin{figure}[htb]
+  \centering\small
+  \hspace{.25in}%
+  \subfloat[Channel, $x=2.5$]{%
+    \hspace{-.25in}%
+    \input{td_reactor/wavefront-phi-channel/plot}}
+  \subfloat[Medium, $x=0$]{%
+    \label{fig:tdReactorWavefrontLeft}%
+    \hspace{-.25in}%
+    \input{td_reactor/wavefront-phi-left/plot}}
+  \caption{Wavefront position along the $y$ axis.}
+  \label{fig:tdReactorWavefront}
+\end{figure}
 
 A contour plot showing the difference between \Pone\ and \APone\ is given in
 Fig.~\ref{fig:tdReactorContour}. The \APone\ solution is generally more accurate
@@ -840,36 +868,6 @@ channel problems analyzed earlier: diffusion (the steady-state limit of \Pone)
 fails in these problems, so it is unsurprising that \APone\ outperforms \Pone\
 at late times.
 
-\thesisclearpage
-
-As a final diagnostic, we plot the ``wavefront'' positions---determined by the
-location at which $\phi=0.001$ after applying a small amount of smoothing---for
-all of the methods in Fig.~\ref{fig:tdReactorWavefront}. These plots again show
-how FLAD and AD both overestimate the scalar flux at early times, and they also
-point to an explanation. Because the flux limiters are not iterated upon, the
-solution of the first time step is the same as the standard diffusion
-solution. (In Fig.~\ref{fig:tdReactorWavefrontLeft}, the flux-limited and
-standard diffusion methods share a starting point.) As a result, the
-flux-limited methods carry that artifact of non-flux-limited particles for all
-later time steps. To obviate this error, shorter initial time steps (in which
-the effective time absorption $1/c\Delta_t$ reduces the magnitude of the
-precursor) could be used. Alternatively, the nonlinear flux-limited diffusion
-coefficient could be converged.
-
-\begin{figure}[htb]
-  \centering\small
-  \hspace{.25in}%
-  \subfloat[Channel, $x=2.5$]{%
-    \hspace{-.25in}%
-    \input{td_reactor/wavefront-phi-channel/plot}}
-  \subfloat[Medium, $x=0$]{%
-    \label{fig:tdReactorWavefrontLeft}%
-    \hspace{-.25in}%
-    \input{td_reactor/wavefront-phi-left/plot}}
-  \caption{Wavefront position along the $y$ axis.}
-  \label{fig:tdReactorWavefront}
-\end{figure}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \thesisclearpage
 
@@ -883,7 +881,7 @@ approximations to the transport equation.
 
 The ``blast wave'' test problem (Fig.~\ref{fig:tdBlastwaveXsn})
 %
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering
   \hspace{-.5in}
   \includegraphics{td_blastpipe/xsn-enhanced}
@@ -932,7 +930,7 @@ and temporal gradients. Interestingly, the \APone\ solution is markedly better.
 The smoothness of $\Dtens$ and $\varsigma$ as compared to $1/3\sigma$ and
 $\sigma$ presumably obviate the strain on the wavelike behavior of the problem.
 
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering\small
   \subfloat[Along center]{%
     \hspace{-.25in}%

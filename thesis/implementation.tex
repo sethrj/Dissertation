@@ -70,7 +70,7 @@ unknown---%
 in this case, $\phi$---is constant over a single cell, represented in
 Fig.~\ref{fig:cellDiagram}. 
 %
-\begin{figure}[htb]
+\begin{figure}[tb]
   \centering
   \includegraphics{cell-diagram}
   \caption{Diagram of cell $i,j$.}
@@ -656,14 +656,6 @@ Integrating the anisotropic Fick's law, Eq.~\eqref{eq:adFicks2d}, over the right
 half of cell $i,j$, as represented in Fig.~\ref{fig:goldinRight}, gives an
 approximate expression for the flux exiting the right face $F_R^x =
 \vec{F}\vd\vec{n}_R$:
-%
-\begin{figure}[tb]
-  \centering
-  \includegraphics{goldin-righthalf}
-  \caption{The right half of cell $i,j$.}
-  \label{fig:goldinRight}
-\end{figure}
-%
 \begin{align*}
 \int_{y_{j-1/2}}^{y_{j+1/2}} \int_{x_{i}}^{x_{i+1/2}}
 \vec{n}_R \vd \vec{F}
@@ -706,6 +698,14 @@ F_R^x
 - D_{i,j}^{xx} \frac{\phi_R - \phi_{i,j}}{ \Delta_{x,i} / 2}
 - D_{i,j}^{yx} \frac{\phi_T - \phi_B}{ \Delta_{y,j} }\ \,.
 \end{align*}
+%
+\begin{figure}[htb]
+  \centering
+  \includegraphics{goldin-righthalf}
+  \caption{The right half of cell $i,j$.}
+  \label{fig:goldinRight}
+\end{figure}
+%
 Performing the same procedure for the left side, we obtain
 \begin{align*}
 \int_{y_{j-1/2}}^{y_{j+1/2}} \int_{x_{i-1/2}}^{x_{i}}

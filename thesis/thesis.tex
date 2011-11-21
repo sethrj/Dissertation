@@ -28,6 +28,7 @@
 % note: rotating must go AFTER graphicx
 \usepackage{subfig} % figure 1a, 1b
 \usepackage{rotating} % sideways tables
+\usepackage{flafter} % figures go *after* they're placed in the document
 % note: this file is in $(git rev-parse --show-toplevel)/texmf/etc
 \input{SRJinclude.tex}
 \setSRJthesisfigurepaths
@@ -89,6 +90,7 @@ simpleNumericalResults,%
 trtNumericalResults,%
 conclusion,%
 }
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 

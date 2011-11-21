@@ -34,14 +34,15 @@ memory-intensive than transport methods.
 
 One complication present in the anisotropic diffusion methods is
 that, in most problems, the diffusion tensor has nonzero off-diagonal terms.
-These terms cause a gradient in one direction to induce particle flow in an
-orthogonal direction. To account for this ``transverse'' leakage, we generalized
+These terms cause a gradient in one direction to induce particle flow in a
+perpendicular direction. To account for this ``transverse'' leakage, we
+generalized
 an existing cell-centered difference scheme (Chapter~\ref{chap:implementation}).
 It reduces to a conventional 5-point finite difference method when the diffusion
 tensors are isotropic, and it does not increase the number of unknowns compared
 to cell-centered finite difference diffusion. With the penalty of a slightly
 less sparse matrix structure, these new difference schemes account for the
-transverse leakage in anisotropic diffusion
+transverse leakage in anisotropic diffusion.
 
 Our numerical results (Chapter~\ref{chap:simpleNumericalResults}) began by
 testing the fidelity of \SN-calculated AD coefficients. We obtained accurate
@@ -61,7 +62,7 @@ the presence of voids. The exceptions that performed poorly were in cases of
 strongly anisotropic specified boundaries incident on a void. (Because the AD
 boundary
 conditions reduce to the diffusion boundary conditions in a homogeneous medium,
-these same boundary conditions in a problem without a void perform well.)
+these same boundary conditions perform well in problems without voids.)
 
 In time-dependent problems, the anisotropic diffusion approximation produced
 more accurate answers than standard diffusion, but in voids, it allowed energy
@@ -97,6 +98,7 @@ approximation, when modified by the flux limiter, was especially efficacious in
 pipe-like problems with strong multi-dimensional behavior, which conventional
 flux-limited diffusion could not approximate well.
 
+\vspace{-9pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Anisotropic \texorpdfstring{\Pone}{P1}}
 
@@ -159,7 +161,7 @@ Chapter~\ref{chap:simpleNumericalResults}.
 \section{Future work}
 
 The anisotropic diffusion approximations are still in their infancy. Their
-accuracy may be improved in a number of ways, which we now discuss.
+accuracy may be improved in a number of ways, which we here discuss.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Improved discontinuity treatment}
@@ -169,7 +171,7 @@ terms of $O(\epsilon^2)$ using a particular asymptotic scaling. Retaining more
 terms---making fewer approximations---should result in a more accurate
 approximation to the radiative intensity.
 
-By retaining the $\frac{1}{4\pi} \grad \vd \vec{F}$ term in
+By keeping the $\frac{1}{4\pi} \grad \vd \vec{F}$ term in
 Eq.~\eqref{eq:capPsiVol}, we can derive at a new approximation that takes the place
 of Fick's law:
 \begin{equation*}
@@ -234,12 +236,12 @@ each time step.
 \subsection{Multigroup}
 
 Flux-limited diffusion is often used with multiple energy groups (frequency
-groups) to improve the
-fidelity of the simulation. Because of the strong variation of opacity with
+groups) to improve the simulation's fidelity.
+Because of the strong variation of opacity with
 frequency, parts of the problem that are optically thick in one group may be optically
 thin in another. The AD approximation will likely provide a better treatment of
-these groups than standard FLD. However, a disadvantage of multigroup solutions is that
-each group will require its own transport-calculated $\Dtens$, This might be
+the thin groups than standard FLD. However, a disadvantage of multigroup solutions is that
+each group will require its own transport-calculated $\Dtens$. This might be
 too costly a requirement for it to remain competitive against IMC and other
 transport methods.
 

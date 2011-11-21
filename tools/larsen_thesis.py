@@ -29,7 +29,7 @@ Troy Becker 2009 247 *
 Gregory Davidson 2010 319 *
 Emily Wolters 2011.1 218 *
 Jinan Yang 2011.3 238 -
-Seth Johnson 2011.95 206 -
+Seth Johnson 2011.95 208 -
 """[1:-1].split('\n')
 #Radiation therapy-type stuff:
 # Philip Tchou 2007 160 *
@@ -56,7 +56,7 @@ for (first, last, year, page, double) in data:
     if onehalf:
         # convert one-and-a-half spaced to double spaced equivalent
         # based on my dissertation
-        page = int( page * float(206) / 172 )
+        page = int( page * float(208) / 170 )
     pages.append( page )
 
 fig = plt.figure(figsize=(8,6), dpi=150)
