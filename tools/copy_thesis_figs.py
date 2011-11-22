@@ -29,7 +29,7 @@ class ResearchCopier( object):
             if os.path.islink( os.path.join(root, filename) ):
                 try:
                     self.handle_symlink( root, filename, isdir=isdir)
-                except IOError, e:
+                except (OSError, IOError), e:
                     print e
             #elif not isdir:
             #    print root, filename

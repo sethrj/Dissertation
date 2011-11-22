@@ -979,15 +979,8 @@ diffusion.
 %\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{comment}
 %\clearpage
 \section{CRASH-like problem}
-
-THIS ISN'T WORKING: I CANNOT EXPLAIN IT. Perhaps, given the quantity and quality
-of the other test problems, we should omit this one? I'm meeting with Eric Myra
-on 11/21 to discuss my problem and why even the 1-D versions I've created do not
-even qualitatively match their numerical results.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem description}
 
@@ -1006,14 +999,13 @@ table of Rosseland-averaged opacities given as $\sigma(\log \rho, \log T)$,
   \label{fig:seriousOpacity}
 \end{figure}
 %
-and a crude temperature model approximates the more realistic model:
+and a piecewise power approximates the more realistic model:
 \begin{equation*}
-  \sigma(T;\gamma,T_1,T_2) =
+  \sigma(T;\gamma,T_1,T_2, n_0, n_1, n_2) =
   \begin{cases}
-    \gamma   & T < T_1\,, \\
-    \gamma \left( \frac{T}{T_1} \right)^{-3}   & T_1 \le T < T_2\,, \\
-    \gamma \left( \frac{T_2}{T_1} \right)^{-3}
-    \left( \frac{T}{T_2} \right)^{-1/2}   & T_2 \le T \,.
+   \gamma T^{n_0}  & T \le T_1\,, \\
+   \sigma(T_1) \left( \frac{T}{T_1} \right)^{n_1}   & T_1 < T \le T_2\,, \\
+   \sigma(T_2) \left( \frac{T}{T_2} \right)^{n_2}   & T_2 < T \,.
   \end{cases}
 \end{equation*}
 
@@ -1026,23 +1018,41 @@ $1\units{K} = 8.6173324\EE{-5} \units{eV$_T$}$. The unit of length is centimeter
 
 \begin{table}[htb]
   \centering
-  \begin{tabular}{llllll}
+  \begin{tabular}{lll}
 \toprule
-Material & Width [cm] & $c_v$ [eV/eV$_T$-cm$^{-3}$] & $\gamma$ [cm$^{-1}$]
-& $T_1$ [eV$_T$] & $T_2$ [eV$_T$]
+Material & Width [cm] & $c_v$ [eV/eV$_T$-cm$^{-3}$]
 \\ \midrule
-Plastic (original) & 0.0025 & $1.89\EE{23}$ & $14500$ & $80$ & $2.3\EE3$\\
-Plastic (stretched) & 0.01 & $4.73\EE{22}$ & $3620$ & $80$ & $2.3\EE3$\\
-Be & 0.1 & $1.05\EE{21}$ & $634$ & $6$ & $250$\\
-Xe (post-shock) & 0.08 & $2.06\EE{20}$ & $138$ & $150$ & $4.7\EE3$\\
-Xe (shock) & 0.02 & $1.14\EE{21}$ & $729$ & $150$ & $4.5\EE3$\\
-Xe (pre-shock) & 0.20 & $6.74\EE{19}$ & $45.4$ & $150$ & $5\EE3$
-\\ \bottomrule
+Plastic (stretched) & 0.01   & $4.73\EE{22}$ \\
+Plastic (original)  & 0.0025 & $1.89\EE{23}$ \\
+Be                  & 0.1    & $1.05\EE{21}$ \\
+Xe (post-shock)     & 0.08   & $2.06\EE{20}$ \\
+Xe (shock)          & 0.02   & $1.14\EE{21}$ \\
+Xe (pre-shock)      & 0.20   & $6.74\EE{19}$ \\
+\bottomrule
   \end{tabular}
   \Caption{Physical parameters used in the CRASH-like simulation problem.}{
   The ``stretched'' version of the plastic is used in our simulation; it
   replaces the original physical plastic.}
   \label{tab:seriousPhysics}
+\end{table}
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{llrrrrr}
+\toprule
+Material & $\gamma$ [cm$^{-1}$] & $T_1$ [eV$_T$] & $T_2$ [eV$_T$] & $n_0$ & $n_1$ & $n_2$
+\\ \midrule
+Plastic (original)  & $1.452\EE4$ & $80$ & $2300$ & $0$ & $-3$ & $-0.5$\\
+Be                  & $6976$ & $3.5$ & $40$ & $-3$ & $0$ & $-4$\phantom{.0}\\
+Xe (post-shock)     & $8.239$ & $7.5$ & $5000$ & $2$ & $-2$ & $-0.5$\\
+Xe (shock)          & $25.21$ & $7.5$ & $4700$ & $2$ & $-2$ & $-0.5$\\
+Xe (pre-shock)      & $141.3$ & $7.5$ & $4500$ & $2$ & $-2$ & $-0.5$\\
+\bottomrule
+  \end{tabular}
+  \Caption{Piecewise opacities used in the CRASH-like simulation problem.}{
+  The ``stretched'' version of the plastic is used in our simulation; it
+  replaces the original physical plastic.}
+  \label{tab:seriousOpacity}
 \end{table}
 
 \begin{figure}[htb]
@@ -1055,6 +1065,7 @@ Xe (pre-shock) & 0.20 & $6.74\EE{19}$ & $45.4$ & $150$ & $5\EE3$
   \label{fig:seriousMaterials}
 \end{figure}
 
+\begin{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results}
 
@@ -1122,11 +1133,11 @@ radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
   \label{fig:seriousAnisotropy}
 \end{figure}
 
+\end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Discussion}
 
-\end{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
