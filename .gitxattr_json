@@ -1685,12 +1685,6 @@
 "com.apple.FinderInfo": "AAAAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
 }
 }, 
-"presentations/defense/defense.key": {
-"creation": 1320269021, 
-"xattrs": {
-"com.apple.FinderInfo": "AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n"
-}
-}, 
 "presentations/kapl/abstract.txt": {
 "creation": 1307025414
 }, 
@@ -2049,6 +2043,15 @@
 "com.apple.FinderInfo": "VEVYVAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n", 
 "com.apple.TextEncoding": "VVRGLTg7MTM0MjE3OTg0\n"
 }
+}, 
+"thesis/thesis-committee.pdf": {
+"creation": 1321885234, 
+"xattrs": {
+"com.apple.Preview.UIstate.v1": "YnBsaXN0MDDRAQJfECBVSV9BZGRpdGlvbnNfV2luZG93ZWRfUHJvcGVydGllc9YDBAUGBwgJCgsMDQ5ccGFnZVZpZXdNb2RlWnpvb21DZW50ZXJcZWxlbWVudEluZGV4W2F1dG9SZXNpemVzXHVpWm9vbUZhY3Rvcl8QFHByZXNlbnRhdGlvblZpZXdNb2RlEABfEDB7OS4yMjMzNzIwMzY4NTQ3NzU4ZSsxOCwgOS4yMjMzNzIwMzY4NTQ3NzU4ZSsxOH0QZwkjP+bs8quInZ8QAQgLLjtIU2BseZCSxcfI0QAAAAAAAAEBAAAAAAAAAA8AAAAAAAAAAAAAAAAAAADT\n"
+}
+}, 
+"thesis/thesis-oneside.pdf": {
+"creation": 1321901569
 }, 
 "thesis/thesis.tex": {
 "creation": 1280516600, 

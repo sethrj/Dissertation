@@ -440,7 +440,7 @@ Grazing & $I(\mu) = \delta(\mu-0.1)$ & $I(\omega) = \delta(\omega-\sin\inv.1)$
 \end{table}
 
 Figure~\ref{fig:flatlandBcDelta},
- a line-out of the scalar flux $\phi_0$ along
+ a line-out of the scalar intensity $\phi_0$ along
 $x=1$ for the normally incident boundary, illustrates the differences between
 the methods. The diffusion
 approximation cannot reproduce the boundary layer that the true transport
@@ -453,7 +453,7 @@ Figure~\ref{fig:flatlandBcRelative} quantitatively compares both ``variational''
 ``Marshak'' diffusion boundary conditions against the transport solution
 for all three incident distributions.  
 As with the variational boundary condition for 3-D geometry, the flatland
-variational boundary condition gives an interior scalar flux accurate to within
+variational boundary condition gives an interior scalar intensity accurate to within
 a few percent. The Marshak condition fails to limit to the transport solution except in
 the case of an isotropic boundary source, in which case only the extrapolation
 distance differs from the variational boundary condition.
@@ -462,7 +462,7 @@ distance differs from the variational boundary condition.
   \centering\small
   \hspace{-.25in}%
   \input{flatlandbc-channel/delta-phi/plot}
-  \caption{Scalar flux with a normally incident boundary condition in a
+  \caption{Scalar intensity with a normally incident boundary condition in a
   homogeneous flatland problem.}
   \label{fig:flatlandBcDelta}
 \end{figure}
@@ -577,7 +577,7 @@ reference solution and the diffusion solution.
   \centering
   \hspace{-.25in}%
   \input{adbc-reactor/phi-channel/plot}
-  \caption{Scalar flux in the steady-state interior source problem.}
+  \caption{Scalar intensity in the steady-state interior source problem.}
   \label{fig:bcReactorFlux}
 \end{figure}
 
@@ -601,22 +601,23 @@ transport-derived information results in a more accurate approximation.
 
 \begin{figure}[htb]
   \centering\small
-  \subfloat[$\psi(2.5,0,\omega)$]{%
+  \subfloat[$I(2.5,0,\omega)$]{%
     \hspace{-.25in}%
     \input{adbc-reactor/angle-center-y0/plot}}
 
-  \subfloat[$\psi(2.5,10,\omega)$]{%
+  \subfloat[$I(2.5,10,\omega)$]{%
     \hspace{-.25in}%
     \input{adbc-reactor/angle-center-ymax/plot}}%
-  \subfloat[$\psi(1.55,5,\omega)$]{%
+  \subfloat[$I(1.55,5,\omega)$]{%
     \hspace{-.25in}%
     \input{adbc-reactor/angle-insideleftedge-y5/plot}}%
-  \caption{Angular flux in the channel at (a) the bottom center, (b) the top
-  center, and (c) the middle left edge.}
+  \caption{Angular intensity in the channel at (a) the bottom center, (b) the
+    top center, and (c) the middle left edge.}
   \label{fig:bcReactorAngular}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\nonthesisclearpage
 \subsection{Boundary source}
 
 The problems with an incident particle flux on the boundary potentially have
@@ -636,7 +637,8 @@ source, a normally-incident source, and a grazing source.
 
 \subsubsection{Results and Discussion}
 
-Figure~\ref{fig:adbcIsotropic} shows a line-out of the scalar flux $\phi(2.5,y)$
+Figure~\ref{fig:adbcIsotropic} shows a line-out of the scalar intensity
+$\phi(2.5,y)$
 along the center of the channel in the isotropic incident case. Standard
 diffusion fails because $\sigma=0.01$ leads to a
 large diffusion coefficient, resulting in a nearly constant solution inside the
@@ -650,7 +652,8 @@ the previous test problem, is inaccurate.)
   \centering\small
   \hspace{-.25in}%
   \input{adbc-channel/isotropic-phi-channel/plot}
-  \caption{Scalar flux along the centerline of the channel with an isotropic
+  \caption{Scalar intensity along the centerline of the channel with an
+    isotropic
   boundary condition at $y=0$.}
   \label{fig:adbcIsotropic}
 \end{figure}
@@ -671,13 +674,13 @@ for the normal and grazing boundary conditions have large errors
   \label{fig:adbcRelErr}
 \end{figure}
 
-A visualization of the angular flux for each method (replacing Monte Carlo with
+A visualization of the angular intensity for each method (replacing Monte Carlo with
 an \SN\ solution), Fig.~\ref{fig:bcChannelIsotropicAngular}, helps explain the
 accuracy
 of the AD method and the difference between the reflecting and white boundary
 treatments. Even though AD cannot exactly model the peak of freely streaming
-photons in the channel (which the \SN\ angular flux shows at $\omega=3\pi/2$),
-it accurately approximates the angular flux shape driven by scattering from the
+photons in the channel (which the \SN\ angular intensity shows at $\omega=3\pi/2$),
+it accurately approximates the shape driven by scattering from the
 diffusive region (the lobes on the left and right) in the isotropic incident
 case. In the strongly anisotropic (normal incident source) case, where
 uncollided particles from the boundary dominate the scattered particles,
@@ -698,7 +701,7 @@ features.
   \input{adbc-channel/angle-delta-center-y1/plot}%
   \vspace{-.25in}%
   }%
-  \Caption{Angular flux $\psi(2.5, 1, \omega)$ in the incident boundary source
+  \Caption{Angular intensity $I(2.5, 1, \omega)$ in the incident boundary source
   problem.}{
   The isotropic (a) and normal (b) incident cases are plotted in the centerline
   of the channel, one unit from the boundary.}
@@ -816,7 +819,7 @@ to the AD method when the solution varies slowly in time.)
 As one diagnostic, we plot the ``wavefront'' positions---determined by the
 location at which $\phi=0.001$ after applying a small amount of smoothing---for
 all of the methods in Fig.~\ref{fig:tdReactorWavefront}. These plots again show
-how FLAD and AD both overestimate the scalar flux at early times, and they also
+how FLAD and AD both overestimate the scalar intensity at early times, and they also
 point to an explanation. Because the flux limiters are not iterated upon, the
 solution of the first time step is the same as the standard diffusion
 solution. (In Fig.~\ref{fig:tdReactorWavefrontLeft}, the flux-limited and
