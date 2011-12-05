@@ -234,7 +234,8 @@ time step small at the beginning is a technique used to improve the
 performance of the flux limiters and reduce the linearization error during the
 initial strong temperature gradients.) The mesh size used
 is $\Delta_x=\Delta_y=0.02$. The initial condition is uniformly $\phi = T^4 = 0.001$, and
-the problem is run until time $t=3$. All problem boundaries are reflecting.
+the problem is run until time $t=3$. The left problem boundary is reflecting,
+and the others are vacuum.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results and discussion}
@@ -264,7 +265,7 @@ Fig.~\ref{fig:crashaltMattemp}.
     \hspace{-.25in}%
     \input{trt_crashpipealt/mattemp-ortho3/plot}
   }%
-  \caption{Material temperature at $t=3$ in the flatland source problem.}
+  \caption{Material temperature at $t=3$ in the flatland pipe problem.}
   \label{fig:crashaltMattemp}
 \end{figure}
 %
@@ -321,6 +322,7 @@ This metric is defined by:
   \text{anisotropy} = \frac{\abs{\lambda_1 - \lambda_2} }{ \sqrt{
   \lambda_1^2 + \lambda_2^2} }\,,
 \end{equation}
+%abs(eigenvalues[0] - eigenvalues[1])/ sqrt( * (eigenvalues[0]^2 +eigenvalues[1]^2) )
 where $\lambda$ are the eigenvalues of the diffusion tensor $\Dtens$.
 %
 \begin{figure}[htb]
@@ -337,7 +339,6 @@ eigenvalues are equal, giving an anisotropy of zero. A tensor that only allows
 diffusion along one axis (i.e., $\lambda_2 = 0$) would have an anisotropy of
 unity. In this problem, the AD method produces strongly anisotropic coefficients
 in the channel.
-%abs(eigenvalues[0] - eigenvalues[1])/ sqrt( * (eigenvalues[0]^2 +eigenvalues[1]^2) )
 
 Because the problem is driven by a constant spatial source rather than a pulsed
 initial condition, the gradients are smoother than in the 1-D Marshak wave
@@ -479,7 +480,8 @@ coordinates: $(0.1, 1.0)$, $(0.9, 1.0)$, $(0.9, 0.3)$, and $(1.7, 0.3)$.
 
 With the semi-implicit linearization, the problem is highly scattering and
 thus expensive for MC solvers. In fact, our particular choice of $\sigma
-\propto T^{-3}$ and $c_v \propto 1$ means that the denominator of the Fleck
+\propto T^{-3}$ and $c_v \propto 1$ means that the material-related component
+of the Fleck
 factor, $\beta \sigma$ [see Eq.~\eqref{eq:beta}], is
 temperature-independent inside each material, and we can calculate \emph{a
 priori} the effective scattering ratio $\sigma_\text{es}/\sigma$:
@@ -980,6 +982,7 @@ diffusion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\clearpage
+\begin{comment}
 \section{CRASH-like problem}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problem description}
@@ -1065,7 +1068,6 @@ Xe (pre-shock)      & $141.3$ & $7.5$ & $4500$ & $2$ & $-2$ & $-0.5$\\
   \label{fig:seriousMaterials}
 \end{figure}
 
-\begin{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results}
 
@@ -1133,10 +1135,11 @@ radiation hydrodynamics problem relevant to the CRASH program \cite{HolCom2011}.
   \label{fig:seriousAnisotropy}
 \end{figure}
 
-\end{comment}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Discussion}
+
+\end{comment}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
