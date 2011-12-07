@@ -537,7 +537,7 @@ importance of using theoretically sound boundary conditions.
 
 First, we plot $f$ (Fig.~\ref{fig:bcReactorF}) at the top of the problem for
 the three alternative boundary conditions for the purely absorbing transport
-problem.
+problem. (The polar plots of $f$ are described in Fig.~\ref{fig:polarPlot}.)
 %
 \begin{figure}[tb]
   \centering
@@ -550,12 +550,24 @@ problem.
     \hspace{-.25in}%
     \input{adbc-reactor/adf-insideleftedge-ymax/plot}
   }%
-  \Caption{Plots of the purely absorbing transport solution at two points in
-  at the end of the channel.}{
-  The center of the channel (a) shows the highly anisotropic behavior $f$ can
-  take; further from material discontinuities (b), $f$ tends toward isotropy.
+  \Caption{Polar plots of the purely absorbing transport solution at two points
+    in at the end of the channel.}{
+  The solution as a function of azimuthal angle $\omega$ is plotted (a) at the
+  center of the channel (where $f$ is the strongly anisotropic) and (b) further
+  from material discontinuities (where $f$ tends toward isotropy).
   }
   \label{fig:bcReactorF}
+\end{figure}
+%
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3.25in]{polar-plot}
+  \Caption{Cartoon describing the polar plots of $f$.}{
+  The gray bars depict the location of the diffusive regions
+  relative to the centerline of the channel. Directions near $\omega=\pi/2$ at
+  $y=10$ are exiting the problem; directions in $\pi \le \omega < 2\pi$ are
+  incident and therefore depend on the boundary conditions for $f$.}
+  \label{fig:polarPlot}
 \end{figure}
 %
 The effect of the boundary condition on $f$ is straightforward: a reflecting boundary
@@ -567,6 +579,9 @@ comparison, the diffusion approximation $f(\vec{x},\vec{\Omega}) =
 Fig.~\ref{fig:bcReactorFchan}, it would be out of range of the plot.) Both the
 anisotropic diffusion tensor $\Dtens$ and the boundary coefficient
 $\vec{d}$ change as a result of the boundary conditions.
+
+
+\thesisclearpage
 
 The different diffusion and boundary coefficients naturally cause the
 anisotropic diffusion solutions $\phi$ to differ. Figure~\ref{fig:bcReactorFlux}
@@ -581,14 +596,13 @@ reference solution and the diffusion solution.
   \label{fig:bcReactorFlux}
 \end{figure}
 
-Clearly, anisotropic diffusion is superior to conventional diffusion: it differs
+Clearly, the anisotropic diffusion for this problem is superior to conventional
+diffusion: it differs
 from the reference solution by only a few percent globally. The two choices of
 boundary conditions for $f$ consistent with Eq.~\eqref{eq:hoBc}, reflecting and
 white, produce very similar answers. In contrast, the inconsistent choice of a
 vacuum boundary for $f$ introduces a significant global error, even many mean
 free paths away from the boundary.
-
-\thesisclearpage
 
 To help understand the accuracy of anisotropic diffusion as compared to standard
 diffusion, we have plotted in Fig.~\ref{fig:bcReactorAngular} the angular
@@ -611,13 +625,14 @@ transport-derived information results in a more accurate approximation.
   \subfloat[$I(1.55,5,\omega)$]{%
     \hspace{-.25in}%
     \input{adbc-reactor/angle-insideleftedge-y5/plot}}%
-  \caption{Angular intensity in the channel at (a) the bottom center, (b) the
-    top center, and (c) the middle left edge.}
+    \Caption{Polar plots of the angular intensity in the channel.}{
+     The intensity as a function of azimuthal angle $\omega$ is shown at (a)
+   the bottom center, (b) the top center, and (c) the middle left edge.}
   \label{fig:bcReactorAngular}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\nonthesisclearpage
+\clearpage
 \subsection{Boundary source}
 
 The problems with an incident particle flux on the boundary potentially have
