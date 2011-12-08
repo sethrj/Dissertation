@@ -78,6 +78,7 @@ the AD approximation (flux limiting) and by developing a second ``anisotropic''
 approximation (anisotropic \Pone).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thesisclearpage
 \section{Flux-limited anisotropic diffusion}
 
 Adding a flux limiter to the anisotropic diffusion approximation
@@ -128,12 +129,12 @@ problems (with large voided regions) and like anisotropic diffusion in others
 (with smaller voided regions). In the case of large voids, \APone\ showed less
 unphysically oscillatory behavior than \Pone.
 
-There were no problems in which \APone\ was superior to FLAD,
+In none of our test problems was \APone\ superior to FLAD,
 despite that the equations of \APone\ are more complex than those of FLAD. (They
 are not
 self-adjoint, and they have a larger unknown space and therefore require more
 computer memory.)
-As a result, we cannot recommend the new anisotropic \Pone\ approximation over
+We therefore cannot recommend the new anisotropic \Pone\ approximation over
 flux-limited anisotropic diffusion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -142,7 +143,7 @@ flux-limited anisotropic diffusion.
 Many of our test problems used the ``flatland'' geometry
 (Chapter~\ref{chap:flatland}), which has a smaller angular phase space than 2-D
 geometry and qualitatively simulates channels more realistically. (In 2-D
-geometry, what looks like a channel is the projection of two infinite walls.)
+geometry, what appears as a channel is a slice through two infinite walls.)
 Flatland geometry is not as straightforward as it seemed at first glance,
 however. The diffusion coefficients, Marshak boundary conditions,
 transport-matched boundary conditions, and black-body radiation boundary
