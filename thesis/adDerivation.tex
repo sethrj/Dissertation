@@ -1,7 +1,7 @@
 % !TEX root = _individual/adDerivation.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Anisotropic diffusion}\label{chap:adDerivation}
+\chapter{Anisotropic Diffusion}\label{chap:adDerivation}
 
 The common radiation transport methods presented
 in the last chapter approximate the angular dependence of the intensity each
@@ -111,7 +111,7 @@ boundary and initial layer:
 \end{equation}
 Here, we have defined
 \begin{equation} \label{eq:tdPhi}
-  \phi(\vec{x}) \equiv \int_{4\pi} \Iv(\vec{x}, \vec{\Omega},t) \ud \Omega\,,
+  \phi(\vec{x}, t) \equiv \int_{4\pi} \Iv(\vec{x}, \vec{\Omega},t) \ud \Omega\,,
 \end{equation}
 which is the \emph{interior} scalar intensity. We write Eq.~\eqref{eq:tdVol} as
 \begin{equation*}
@@ -659,7 +659,7 @@ Eq.~\eqref{eq:tdSuperposition}:
 (Here we have used $\Iil=0$ because the initial layer solution has decayed
 away, as the boundary layer is defined away from $t=0$.)
 We demand that the boundary layer solution rapidly tend to zero with increasing
-distance $s$ from the boundary along the direction $-\vec{\Omega}$:
+distance $s$ from the boundary along the direction~$-\vec{\Omega}$:
 \begin{equation} \label{eq:tdBndyLimit}
   \lim_{s \to\infty} \Ibl(\vec{x},\vec{\Omega},t)
   = 0 \,.
@@ -782,8 +782,8 @@ homogeneous material, where $f$ is isotropic. At material
 boundaries, $f$ can be strongly anisotropic, and the above relation does not
 hold. By requiring $\int_{4\pi} \Iv \ud\Omega = \phi$ at exterior
 boundaries, we
-obtain a relationship between the ``known'' outgoing values of $f$ and the
-unknown incoming:
+obtain a relationship between the known outgoing values of $f$ and the
+unknown incoming values:
 \begin{equation*}
   0 =
   \int_{\vec{\Omega}\vd\vec{n} > 0} \vec{\Omega} f(\vec{x}, \vec{\Omega}) \ud \Omega
@@ -935,7 +935,7 @@ equation described by Eq.~\eqref{eq:fVol}:
 \begin{subequations} \label{eqs:fFull}
 \begin{equation}\label{eq:fFullVol}
   \vec{\Omega}\vd \grad f(\vec{x}, \vec{\Omega})
-  + \sigma f (\vec{x}, \vec{\Omega})
+  + \sigma(\vec{x}) f (\vec{x}, \vec{\Omega})
   = \frac{1}{4\pi} \,, \quad x \in V,\ \vec{\Omega} \in 4\pi\,.
 \end{equation}
 In conjunction with the Marshak boundary condition, $f$ should be reflecting on
@@ -1004,7 +1004,7 @@ the transport equation for $f$ in Eq.~\eqref{eq:fFullVol}:
   + \sigma(\vec{x},t) f(\vec{x}, \vec{\Omega}, t)
   = \frac{1}{4\pi}\,.
 \end{equation*}
-Here, we have assumed a time-dependent opacity and, resultantly, $f$ depends on
+Here, we have assumed a time-dependent opacity; resultantly, $f$ depends on
 time as a parameter (not a variable). Solving for $f$ as a series expansion in
 $\epsilon$, we find:
 \begin{align*}
@@ -1070,8 +1070,8 @@ time-dependent $\sigma$ necessitates a recalculation of $f$ at each time step.
 In an infinite medium problem, a discrete ordinates (\SN)
 solution for $f$ takes only one transport sweep to complete, because there
 is no scattering source to converge. However, for a finite problem, because the boundary conditions
-rely on exiting values of $f$, in practice more than one iteration will be
-required. The
+rely on exiting values of $f$, in practice more than one source iteration
+(SI) will be required. The
 larger the optical thickness between boundaries, the faster the convergence will
 be. Conversely, if
 two opposing boundaries are separated by only a fraction of a mean free path
