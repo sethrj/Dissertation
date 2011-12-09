@@ -23,3 +23,9 @@ Finally, add the bibliography and style files in the `texmf` folder to your
 Now go to the thesis directory, type `make` (if you're on a Mac), and hopefully
 it will work! (It actually probably won't, because you don't have
 [Skim](http://skim-app.sourceforge.net/) installed.)
+
+License
+-------
+
+The original content (parts not derived from the umich class) of the thesis is
+available under the [Creative Commons BY-CC](http://creativecommons.org/licenses/by-nc/3.0/).

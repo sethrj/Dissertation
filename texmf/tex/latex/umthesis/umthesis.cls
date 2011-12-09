@@ -112,13 +112,14 @@
 %\setlength{\oddsidemargin}{\@lmarwidth}
 %\setlength{\evensidemargin}{\@smarwidth}
 \pagestyle{plain}
-\setlength{\textwidth}{6in}
-\setlength{\textheight}{9in}
-% Other margins. T.G.: all other margins must be at least 1 inch.
-\setlength{\topmargin}{0in}
-\setlength{\headheight}{0in}
-\setlength{\headsep}{0in}
-\setlength{\footskip}{.5in}
+\usepackage[letterpaper,inner=1.5in,outer=1in,top=1in,bottom=1in]{geometry}
+%\setlength{\textwidth}{6in}
+%\setlength{\textheight}{9in}
+%% Other margins. T.G.: all other margins must be at least 1 inch.
+%\setlength{\topmargin}{0in}
+%\setlength{\headheight}{0in}
+%\setlength{\headsep}{0in}
+%\setlength{\footskip}{.5in}
 \onehalfspacing
 
 % -------------------------------------------------------------------------------
